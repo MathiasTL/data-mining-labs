@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Entorno y sistema
+.env
+.DS_Store
+
+# Cache de tooling local, ajeno a las tareas.
+.atl/

@@ -1,0 +1,13 @@
+# Datos crudos descargados de la API del Banco Mundial: se regeneran con
+# src/01_descarga.py y no deben versionarse.
+data/raw/
+
+# Panel derivado: lo produce src/02_preparacion.py.
+data/processed/
+
+# Figuras y documento: salidas del pipeline, regenerables.
+figures/
+informe/
+
+# Cifras acumuladas por los scripts de analisis.
+results.json
