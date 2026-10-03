@@ -4,15 +4,16 @@ Esta carpeta contiene la guía operativa del proyecto. Cada archivo corresponde 
 
 ## Orden de trabajo
 
-| Orden | Guía | Resultado que habilita |
-|---:|---|---|
-| 1 | [Entendimiento empresarial](01-entendimiento-empresarial.md) | Problema, objetivos, métricas, alcance y plan confirmados. |
-| 2 | [Comprensión de datos](02-comprension-datos.md) | Inventario, EDA, calidad y mapa de granularidades. |
-| 3 | [Preparación de datos](03-preparacion-datos.md) | Tabla maestra y pipeline reproducible sin fuga de información. |
-| 4 | [Modelado](04-modelado.md) | Modelos comparados con validación fuera de tiempo. |
-| 5 | [Evaluación](05-evaluacion.md) | Modelo seleccionado por desempeño y estabilidad temporal. |
-| 6 | [Implementación](06-implementacion.md) | Predicciones, prototipo demostrativo y propuesta de monitoreo. |
-| 7 | [Informe y cierre](07-informe-y-cierre.md) | Informe final y evidencias de reproducibilidad listos para entrega. |
+| Orden | Guía                                                         | Resultado que habilita                                                      |
+| ----: | ------------------------------------------------------------ | --------------------------------------------------------------------------- |
+|     1 | [Entendimiento empresarial](01-entendimiento-empresarial.md) | Problema, objetivos, métricas, alcance y plan confirmados.                  |
+|     2 | [Etapa A: tabla base](02a-etapa-inicial-tabla-base.md)       | Primer flujo mínimo: perfil, columnas, validación OOT y baseline preparado. |
+|     3 | [Comprensión de datos](02-comprension-datos.md)              | Inventario, EDA, calidad y mapa de granularidades de todas las fuentes.     |
+|     4 | [Preparación de datos](03-preparacion-datos.md)              | Tabla maestra y pipeline reproducible sin fuga de información.              |
+|     5 | [Modelado](04-modelado.md)                                   | Modelos comparados con validación fuera de tiempo.                          |
+|     6 | [Evaluación](05-evaluacion.md)                               | Modelo seleccionado por desempeño y estabilidad temporal.                   |
+|     7 | [Implementación](06-implementacion.md)                       | Predicciones, prototipo demostrativo y propuesta de monitoreo.              |
+|     8 | [Informe y cierre](07-informe-y-cierre.md)                   | Informe final y evidencias de reproducibilidad listos para entrega.         |
 
 ## Reglas transversales
 
@@ -25,11 +26,11 @@ Esta carpeta contiene la guía operativa del proyecto. Cada archivo corresponde 
 
 ## Hitos
 
-| Fase | Fecha límite |
-|---|---:|
-| Entendimiento empresarial | 03/10/2026 |
-| Comprensión de datos | 24/10/2026 |
-| Preparación de datos | 14/11/2026 |
-| Modelado | 28/11/2026 |
-| Evaluación | 05/12/2026 |
-| Implementación, informe y presentación | 19/12/2026 |
+| Fase                                   | Fecha límite |
+| -------------------------------------- | -----------: |
+| Entendimiento empresarial              |   03/10/2026 |
+| Comprensión de datos                   |   24/10/2026 |
+| Preparación de datos                   |   14/11/2026 |
+| Modelado                               |   28/11/2026 |
+| Evaluación                             |   05/12/2026 |
+| Implementación, informe y presentación |   19/12/2026 |
