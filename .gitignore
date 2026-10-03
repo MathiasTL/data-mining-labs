@@ -9,3 +9,4 @@ __pycache__/
 
 # Cache de tooling local, ajeno a las tareas.
 .atl/
+data/
