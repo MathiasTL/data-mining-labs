@@ -26,6 +26,34 @@ La fase de **Comprensión del negocio** corresponde a [`context/01-entendimiento
 | `data/feature_definitions.csv` | Diccionario de variables.                |
 | `data/sample_submission.csv`   | Formato de referencia para predicciones. |
 
+## Entorno y herramientas
+
+Requiere Python 3.11+. Los datos viven fuera de git (`data/` está ignorado); colócalos en `data/` o apunta `DM_DATA_DIR` a tu copia local.
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"      # polars, pyarrow, numpy, scikit-learn, pytest
+pytest                       # verifica el entorno
+```
+
+| Comando | Qué hace |
+| --- | --- |
+| `python -m dm_credit.profiling [archivo.parquet] --out results/profile_x` | Perfilador común: filas/columnas, tipos, nulos, únicos, duplicados, estadísticos numéricos y categorías principales. Sin argumento perfila `train_base`. |
+| `python -m dm_credit.baseline --cutoff-week N --model prevalence\|logistic` | Baseline sobre `train_base`: valida el contrato, parte en OOT por `WEEK_NUM`, calcula Gini, Gini Stability y Gini semanal, y registra el experimento en `results/experiments.jsonl`. |
+
+En código, **toda** lectura pasa por `dm_credit.io` (`load_base("train")`, `load_parquet(ruta)`, `load_feature_definitions()`); no se implementan lectores propios en notebooks.
+
+### Contrato del baseline
+
+```text
+case_id      clave única, una fila por caso
+WEEK_NUM     eje temporal para el corte OOT (nunca predictor)
+target       0/1, solo en entrenamiento
+predictores  el resto, salvo reservadas: case_id, WEEK_NUM, target, date_decision, MONTH
+```
+
+Partición OOT: entrenamiento `WEEK_NUM < corte`, validación `WEEK_NUM >= corte`. Las transformaciones se ajustan solo con entrenamiento. El corte es un parámetro obligatorio: lo define el protocolo de validación (paso 4 de la etapa A).
+
 ## Alcance
 
 El proyecto integrará las fuentes del dataset, construirá y comparará modelos de clasificación binaria, aplicará validación fuera de tiempo con `WEEK_NUM`, analizará estabilidad temporal y generará un informe final, código reproducible y un prototipo demostrativo viable. No incluye un despliegue productivo ni decisiones crediticias reales.
