@@ -10,3 +10,6 @@ __pycache__/
 # Cache de tooling local, ajeno a las tareas.
 .atl/
 data/
+.venv/
+*.egg-info/
+.pytest_cache/
