@@ -1,0 +1,6 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,1526659
+date_decision,String,0,0.0,644
+MONTH,Int64,0,0.0,22
+WEEK_NUM,Int64,0,0.0,92
+target,Int64,0,0.0,2

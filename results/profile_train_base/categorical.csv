@@ -1,0 +1,2 @@
+column,n_unique,top_value,top_count,pct_dominant,top_values
+date_decision,644,2019-11-29,8812,0.5772,2019-11-29=8812; 2019-11-30=8756; 2019-12-28=6900; 2019-12-29=6537; 2019-11-17=6340
