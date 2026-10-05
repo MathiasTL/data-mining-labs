@@ -1,7 +1,7 @@
-"""Single entry point for reading project data.
+"""Punto único de lectura de los datos del proyecto.
 
-Every notebook/script must load data through this module so that paths and
-reading behaviour stay identical across the team.
+Todo notebook o script debe cargar los datos a través de este módulo para que
+las rutas y la forma de lectura sean idénticas en todo el equipo.
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ SPLITS = ("train", "test")
 
 
 def data_dir() -> Path:
-    """Data root: ``$DM_DATA_DIR`` if set, otherwise ``<repo>/data``."""
+    """Raíz de datos: ``$DM_DATA_DIR`` si está definida; si no, ``<repo>/data``."""
     override = os.environ.get(DATA_DIR_ENV)
     if override:
         return Path(override)
@@ -30,7 +30,7 @@ def base_path(split: str) -> Path:
 
 
 def load_parquet(path: str | Path, columns: list[str] | None = None) -> pl.DataFrame:
-    """Read a Parquet file eagerly. Raises an actionable error if it is missing."""
+    """Lee un Parquet de forma inmediata. Si falta el archivo, lanza un error con instrucciones."""
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(

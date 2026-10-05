@@ -1,6 +1,6 @@
-"""Generic DataFrame profiler used by every team member.
+"""Perfilador genérico de DataFrames, de uso común para todo el equipo.
 
-Usage:
+Uso:
     python -m dm_credit.profiling                       # train_base
     python -m dm_credit.profiling path/to/file.parquet --out results/profile_x
 """

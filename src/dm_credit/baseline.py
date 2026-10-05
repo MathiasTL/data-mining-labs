@@ -1,12 +1,12 @@
-"""Baseline skeleton: contract validation, OOT split, metrics, experiment record.
+"""Esqueleto del baseline: validación del contrato, corte OOT, métricas y registro del experimento.
 
-Contract (stage A):
-    case_id      unique key, one row per case
-    WEEK_NUM     time axis, used for the out-of-time (OOT) split, never as predictor
-    target       0/1 label, training data only
-    predictors   everything else except the reserved technical/temporal columns
+Contrato (etapa A):
+    case_id      clave única, una fila por caso
+    WEEK_NUM     eje temporal para el corte fuera de tiempo (OOT); nunca es predictor
+    target       etiqueta 0/1, solo en entrenamiento
+    predictors   el resto, salvo las columnas técnicas/temporales reservadas
 
-Usage:
+Uso:
     python -m dm_credit.baseline --cutoff-week 80 --model prevalence
 """
 
@@ -30,15 +30,15 @@ from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardSc
 from dm_credit import io
 
 KEY, WEEK, TARGET = "case_id", "WEEK_NUM", "target"
-# Technical / temporal columns that are never predictors in the baseline.
+# Columnas técnicas/temporales que nunca son predictores en el baseline.
 RESERVED = (KEY, WEEK, TARGET, "date_decision", "MONTH")
 MISSING = "__missing__"
-STABILITY_FALLING_RATE_PENALTY = 88.0  # Kaggle metric constant (to be confirmed, see doc)
+STABILITY_FALLING_RATE_PENALTY = 88.0  # constante de la métrica de Kaggle (por confirmar, ver documentación)
 
 
-# ---------------------------------------------------------------- metrics
+# ---------------------------------------------------------------- métricas
 def gini(y_true, y_score) -> float:
-    """Gini = 2*AUC - 1. NaN if only one class is present."""
+    """Gini = 2*AUC - 1. Devuelve NaN si solo hay una clase."""
     y_true = np.asarray(y_true)
     if len(np.unique(y_true)) < 2:
         return float("nan")
@@ -46,7 +46,7 @@ def gini(y_true, y_score) -> float:
 
 
 def gini_stability(weekly_gini, weeks) -> float:
-    """Competition-style stability: mean + 88*min(0, slope) - 0.5*std(residuals)."""
+    """Estabilidad al estilo de la competición: media + 88*min(0, pendiente) - 0.5*std(residuos)."""
     g = np.asarray(weekly_gini, dtype=float)
     w = np.asarray(weeks, dtype=float)
     mask = np.isfinite(g)
@@ -60,7 +60,7 @@ def gini_stability(weekly_gini, weeks) -> float:
     return float(g.mean() + STABILITY_FALLING_RATE_PENALTY * min(0.0, slope) - 0.5 * residuals.std())
 
 
-# --------------------------------------------------------------- contract
+# --------------------------------------------------------------- contrato
 def validate_contract(df: pl.DataFrame, require_target: bool = True) -> None:
     required = [KEY, WEEK] + ([TARGET] if require_target else [])
     missing = [c for c in required if c not in df.columns]
@@ -81,7 +81,7 @@ def default_feature_columns(df: pl.DataFrame) -> list[str]:
 
 
 def oot_split(df: pl.DataFrame, cutoff_week: int) -> tuple[pl.DataFrame, pl.DataFrame]:
-    """Train: WEEK_NUM < cutoff. Validation (OOT): WEEK_NUM >= cutoff."""
+    """Entrenamiento: WEEK_NUM < corte. Validación (OOT): WEEK_NUM >= corte."""
     train = df.filter(pl.col(WEEK) < cutoff_week)
     val = df.filter(pl.col(WEEK) >= cutoff_week)
     if train.is_empty() or val.is_empty():
@@ -92,7 +92,7 @@ def oot_split(df: pl.DataFrame, cutoff_week: int) -> tuple[pl.DataFrame, pl.Data
     return train, val
 
 
-# ------------------------------------------------------------------ model
+# ------------------------------------------------------------------ modelo
 def _to_float(a):
     return a.astype(float)
 
@@ -151,7 +151,7 @@ def _build_logistic(num: list[str], cat: list[str], seed: int, params: dict) -> 
 
 @dataclass
 class BaselineResult:
-    scores: pl.DataFrame  # case_id, WEEK_NUM, target, score  (validation partition)
+    scores: pl.DataFrame  # case_id, WEEK_NUM, target, score  (partición de validación)
     weekly: pl.DataFrame  # WEEK_NUM, n, n_pos, gini
     metrics: dict
     record: dict
@@ -185,7 +185,7 @@ def run_baseline(
         params = {"max_iter": 1000, "C": 1.0}
         num, cat = _split_features(train, features)
         pipe = _build_logistic(num, cat, seed, params)
-        pipe.fit(_matrix(train, num, cat), y_train)  # fitted on train only: no OOT leakage
+        pipe.fit(_matrix(train, num, cat), y_train)  # se ajusta solo con entrenamiento: sin fuga desde OOT
         score = pipe.predict_proba(_matrix(val, num, cat))[:, 1]
         used_features, model_name = features, "logistic"
 

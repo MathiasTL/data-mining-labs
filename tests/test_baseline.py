@@ -20,7 +20,7 @@ def test_gini_single_class_is_nan():
 
 
 def test_gini_stability_constant_weekly_gini_equals_that_gini():
-    # slope 0 and no residual noise -> stability == mean gini
+    # pendiente 0 y sin ruido residual -> estabilidad == Gini medio
     assert baseline.gini_stability([0.5] * 6, [1, 2, 3, 4, 5, 6]) == pytest.approx(0.5)
 
 
@@ -28,7 +28,7 @@ def test_gini_stability_penalises_degradation():
     flat = baseline.gini_stability([0.5, 0.5, 0.5, 0.5], [1, 2, 3, 4])
     falling = baseline.gini_stability([0.6, 0.5, 0.4, 0.3], [1, 2, 3, 4])
     assert falling < flat
-    # improving trend is not rewarded: only min(0, slope) is used
+    # una tendencia creciente no se premia: solo se usa min(0, pendiente)
     rising = baseline.gini_stability([0.3, 0.4, 0.5, 0.6], [1, 2, 3, 4])
     assert rising == pytest.approx(np.mean([0.3, 0.4, 0.5, 0.6]))
 

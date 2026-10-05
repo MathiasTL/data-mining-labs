@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture
 def base_df() -> pl.DataFrame:
-    """Synthetic table with the base-table contract: case_id, WEEK_NUM, target."""
+    """Tabla sintética con el contrato de la tabla base: case_id, WEEK_NUM, target."""
     rng = np.random.default_rng(0)
     n = 400
     weeks = np.repeat(np.arange(0, 20), n // 20)

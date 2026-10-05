@@ -1,1 +1,1 @@
-"""Shared tooling for the credit risk stability project (stage A: base table)."""
+"""Herramientas compartidas del proyecto de estabilidad de riesgo crediticio (etapa A: tabla base)."""

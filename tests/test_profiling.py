@@ -23,7 +23,7 @@ def test_summary_counts():
 
 def test_duplicates_counted():
     df = pl.concat([make(), make().head(1)])
-    assert profile_dataframe(df).n_duplicate_rows == 2  # both copies of the repeated row
+    assert profile_dataframe(df).n_duplicate_rows == 2  # ambas copias de la fila repetida
 
 
 def test_columns_table():
@@ -31,7 +31,7 @@ def test_columns_table():
     by_name = {c["column"]: c for c in cols}
     assert by_name["num"]["nulls"] == 1
     assert by_name["num"]["pct_null"] == 25.0
-    assert by_name["cat"]["n_unique"] == 2  # nulls excluded
+    assert by_name["cat"]["n_unique"] == 2  # sin contar nulos
     assert by_name["const"]["n_unique"] == 1
 
 
