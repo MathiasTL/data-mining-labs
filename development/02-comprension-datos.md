@@ -6,22 +6,40 @@
 
 Los datos proceden de la competición Home Credit – Credit Risk Model Stability y se almacenan localmente en formato Parquet.
 
-| Recurso | Ubicación | Uso |
-|---|---|---|
-| Definiciones de variables | `data/feature_definitions.csv` | Interpretación de campos. |
-| Formato de predicción | `data/sample_submission.csv` | Validación de la salida final. |
-| Entrenamiento | `data/parquet_files/train/` | Preparación y modelado. |
-| Prueba | `data/parquet_files/test/` | Predicciones finales. |
+| Recurso                   | Ubicación                      | Uso                            |
+| ------------------------- | ------------------------------ | ------------------------------ |
+| Definiciones de variables | `data/feature_definitions.csv` | Interpretación de campos.      |
+| Formato de predicción     | `data/sample_submission.csv`   | Validación de la salida final. |
+| Entrenamiento             | `data/parquet_files/train/`    | Preparación y modelado.        |
+| Prueba                    | `data/parquet_files/test/`     | Predicciones finales.          |
 
 ### Entorno y herramientas comunes (Etapa A, paso 1)
 
 Entorno Python 3.11 con `polars`, `pyarrow`, `numpy` y `scikit-learn`; instalación y comandos en el [README](../README.md#entorno-y-herramientas). Lectura única mediante `src/dm_credit/io.py`; perfilador en `src/dm_credit/profiling.py`; esqueleto del baseline en `src/dm_credit/baseline.py`. Verificación: 29 pruebas automáticas (`pytest`).
 
-Observaciones verificadas al ejecutar el perfilador sobre `train_base.parquet` (`results/profile_train_base/`):
+Observaciones verificadas con los reportes del perfilador (`results/profile_train_base/` y `results/profile_test_base/`):
 
-- 1 526 659 filas y 5 columnas: `case_id`, `date_decision`, `MONTH`, `WEEK_NUM`, `target`; 61 MB en memoria.
-- **La tabla base no contiene predictores propios**: solo clave, fechas/semana y objetivo. Un baseline entrenado únicamente con ella es la referencia trivial (prevalencia, Gini 0 por construcción); la señal predictiva llegará al integrar las demás fuentes.
-- `test_base.parquet` local tiene solo 10 filas (`WEEK_NUM` 100) y no incluye `target`; sirve para comprobar esquema, no para evaluar.
+- `train_base.parquet` contiene 1 526 659 filas y 5 columnas: `case_id`, `date_decision`, `MONTH`, `WEEK_NUM` y `target`. El tamaño estimado en memoria es 61,1 MB.
+- **La tabla base no contiene predictores propios**: solo clave del caso, campos temporales y objetivo. La señal predictiva deberá provenir de las demás fuentes cuando se integren en etapas posteriores.
+- `test_base.parquet` disponible contiene solo 10 filas y 4 columnas; no incluye `target`. Su perfil sirve para revisar el esquema de ese archivo, no para evaluar rendimiento ni representar la distribución completa del test.
+
+#### Perfil descriptivo y compatibilidad train/test (Etapa A, paso 5)
+
+Los CSV de `results/profile_train_base/` y `results/profile_test_base/` muestran lo siguiente:
+
+| Control  | Entrenamiento (`train_base`)                                                 | Prueba (`test_base`)                                               |
+| -------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Filas    | 1 526 659                                                                    | 10                                                                 |
+| Columnas | 5                                                                            | 4                                                                  |
+| Nulos    | 0 en todas las columnas                                                      | 0 en todas las columnas                                            |
+| Columnas | `case_id`, `date_decision`, `MONTH`, `WEEK_NUM`, `target`                    | `case_id`, `date_decision`, `MONTH`, `WEEK_NUM`                    |
+| Tipos    | `case_id`, `MONTH`, `WEEK_NUM`, `target`: `Int64`; `date_decision`: `String` | `case_id`, `MONTH`, `WEEK_NUM`: `Int64`; `date_decision`: `String` |
+
+En entrenamiento, `case_id` tiene 1 526 659 valores únicos para 1 526 659 filas y no presenta nulos, consistente con una fila por caso. El perfil reporta cero filas exactamente duplicadas; este control no sustituye la comprobación específica de claves repetidas, aunque la cardinalidad observada de `case_id` sí coincide con el número de filas. `target` contiene las clases 0 y 1: 47 994 positivos (3,14 %) y 1 478 665 negativos (96,86 %), por lo que existe un desbalance marcado. `WEEK_NUM` va de 0 a 91 y `MONTH` de 201901 a 202010. `date_decision` es texto y presenta 644 valores distintos; se recomienda tratarla como fecha si un análisis posterior requiere operaciones temporales.
+
+La comparación de esquema indica que las cuatro columnas de `test_base` existen en entrenamiento con tipos compatibles; `target` está únicamente en entrenamiento, como se espera. En las 10 filas disponibles de test, `WEEK_NUM` es 100 y `MONTH` es 202201; por el tamaño reducido de ese archivo, estos valores no deben interpretarse como una distribución representativa del conjunto de prueba.
+
+El perfilador no detecta nulos ni filas idénticas. En las variables numéricas no objetivo, `WEEK_NUM` contiene 16 735 ceros y `case_id` un cero; se registran como observaciones descriptivas, no como errores. No hay predictores en esta tabla base cuya cardinalidad o distribución requiera interpretación funcional por sí sola.
 
 Contrato técnico del baseline: ver README. Este contrato no fija el corte OOT; se completa con el protocolo del paso 4.
 
@@ -59,9 +77,9 @@ Contrato técnico del baseline: ver README. Este contrato no fija el corte OOT; 
 
 ## 2.4 Verificar la calidad de los datos
 
-| Hallazgo | Fuente/variable | Impacto potencial | Tratamiento propuesto |
-|---|---|---|---|
-| <!-- Completar --> |  |  |  |
+| Hallazgo           | Fuente/variable | Impacto potencial | Tratamiento propuesto |
+| ------------------ | --------------- | ----------------- | --------------------- |
+| <!-- Completar --> |                 |                   |                       |
 
 ### Riesgos de integración y fuga de información
 
