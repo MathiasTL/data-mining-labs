@@ -53,6 +53,14 @@ Contrato técnico del baseline: ver README. Este contrato no fija el corte OOT; 
 
 <!-- Confirmar: tabla base, clave del caso, variable objetivo, número de casos y definición de una observación. -->
 
+Integridad estructural de `train_base.parquet` (Etapa A, paso 2). Fuente: `src/dm_credit/integrity.py`, resultados en `results/integrity_train_base/`, ejecución del 2026-10-10.
+
+- **Tamaño y estructura:** 1 526 659 filas y 5 columnas (61,15 MB en memoria). Esquema: `case_id` Int64, `date_decision` String, `MONTH` Int64, `WEEK_NUM` Int64, `target` Int64. Están presentes la clave (`case_id`), el objetivo (`target`) y la semana (`WEEK_NUM`).
+- **Clave `case_id`:** 0 claves nulas, 0 claves repetidas (0 filas afectadas) y 0 filas duplicadas exactas. `case_id` identifica de forma única cada fila, por lo que una observación es un caso de crédito.
+- **Consistencia temporal:** `date_decision` se almacena como String pero el 100 % de sus valores se interpreta con el formato `%Y-%m-%d` (rango 2019-01-01 a 2020-10-05). `MONTH` difiere de `yyyymm(date_decision)` en 0 filas y `WEEK_NUM` difiere de `floor((date_decision − mín(date_decision)) / 7 días)` en 0 filas.
+- **Objetivo:** `target` solo toma valores en {0, 1} (0 valores fuera de ese conjunto).
+- **Veredicto:** ningún hallazgo bloquea el baseline.
+
 ### Variable objetivo
 
 <!-- Insertar: conteo y porcentaje de cada clase, distribución por WEEK_NUM y comentario sobre desbalance. -->
@@ -80,6 +88,7 @@ Contrato técnico del baseline: ver README. Este contrato no fija el corte OOT; 
 | Hallazgo           | Fuente/variable | Impacto potencial | Tratamiento propuesto |
 | ------------------ | --------------- | ----------------- | --------------------- |
 | <!-- Completar --> |                 |                   |                       |
+| `date_decision` almacenada como String en lugar de fecha (observación no bloqueante; 1 columna con incompatibilidad tipo/contenido) | `train_base.parquet` / `date_decision` | Las comparaciones y los cortes por fecha requieren conversión explícita; sin ella se ordenan como texto. | Convertir a `Date` con `%Y-%m-%d` al preparar los datos. Fuente: `src/dm_credit/integrity.py`, `results/integrity_train_base/` (2026-10-10). |
 
 ### Riesgos de integración y fuga de información
 

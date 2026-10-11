@@ -1,0 +1,6 @@
+column,dtype,apparent_kind,role,type_issue
+case_id,Int64,numeric,key,""
+date_decision,String,temporal,"",date stored as String
+MONTH,Int64,numeric,"",""
+WEEK_NUM,Int64,numeric,week,""
+target,Int64,numeric,target,""

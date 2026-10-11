@@ -1,0 +1,5 @@
+metric,value
+duplicate_rows,0
+null_keys,0
+repeated_keys,0
+rows_in_repeated_keys,0

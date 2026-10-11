@@ -1,0 +1,13 @@
+check,status,count,detail
+missing_column:case_id,ok,0,required column case_id is absent
+missing_column:target,ok,0,required column target is absent
+missing_column:WEEK_NUM,ok,0,required column WEEK_NUM is absent
+duplicate_rows,ok,0,rows that are exact copies of another row
+null_keys,ok,0,nulls in case_id
+repeated_keys,ok,0,0 rows share a case_id with another row
+empty_columns,ok,0,""
+column_name_issues,ok,0,""
+dtype_content_mismatch,observation,1,date_decision: date stored as String
+month_mismatch,ok,0,MONTH != yyyymm(date_decision)
+week_num_mismatch,ok,0,WEEK_NUM != floor((date_decision - min(date_decision)) / 7 days)
+target_outside_0_1,ok,0,"target values not in {0, 1}"

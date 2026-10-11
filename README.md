@@ -39,6 +39,7 @@ pytest                       # verifica el entorno
 | Comando | Qué hace |
 | --- | --- |
 | `python -m dm_credit.profiling [archivo.parquet] --out results/profile_x` | Perfilador común: filas/columnas, tipos, nulos, únicos, duplicados, estadísticos numéricos y categorías principales. Sin argumento perfila `train_base`. |
+| `python -m dm_credit.integrity [archivo.parquet] --out results/integrity_x` | Integridad estructural de la tabla base: tamaño y estructura, clave (`case_id` nula, repetida, filas duplicadas), tipos incompatibles con el contenido, columnas vacías, coherencia `MONTH`/`WEEK_NUM` con `date_decision` y valores de `target`. Sin argumento revisa `train_base` e indica si algún hallazgo bloquea el baseline. |
 | `python -m dm_credit.baseline --cutoff-week N --model prevalence\|logistic` | Baseline sobre `train_base`: valida el contrato, parte en OOT por `WEEK_NUM`, calcula Gini, Gini Stability y Gini semanal, y registra el experimento en `results/experiments.jsonl`. |
 
 En código, **toda** lectura pasa por `dm_credit.io` (`load_base("train")`, `load_parquet(ruta)`, `load_feature_definitions()`); no se implementan lectores propios en notebooks.
