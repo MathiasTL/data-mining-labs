@@ -8,6 +8,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,8 +23,11 @@ TARGET, WEEK = "target", "WEEK_NUM"
 class TargetAnalysisReport:
     summary: pl.DataFrame  # metric, value
     target_distribution: pl.DataFrame  # target, cases, pct
-    weekly: pl.DataFrame  # WEEK_NUM, cases, positives, target_missing, target_unexpected, default_rate_pct
+    weekly: (
+        pl.DataFrame
+    )  # weekly class counts, rates, low-support flags, and rolling rate
     cutoffs: pl.DataFrame  # candidate cutoff and train/validation sizes and event rates
+    recommendation: pl.DataFrame  # reproducible 80%-of-weeks OOT proposal
 
 
 def analyze_target_timing(df: pl.DataFrame) -> TargetAnalysisReport:
@@ -64,20 +68,33 @@ def analyze_target_timing(df: pl.DataFrame) -> TargetAnalysisReport:
             .alias("target_unexpected"),
         )
         .with_columns(
-            (pl.col("positives") * 100.0 / pl.col("cases")).round(4).alias("default_rate_pct")
+            (pl.col("cases") - pl.col("positives")).alias("negatives"),
+            (pl.col("positives") * 100.0 / pl.col("cases"))
+            .round(4)
+            .alias("positive_pct"),
+        )
+        .with_columns(
+            (100.0 - pl.col("positive_pct")).round(4).alias("negative_pct"),
+            pl.col("positive_pct").alias("default_rate_pct"),
+            (pl.col("cases") < 5_000).alias("low_case_support"),
+            (pl.col("positives") < 100).alias("low_positive_support"),
         )
         .sort(WEEK, nulls_last=True)
+        .with_columns(
+            (
+                100.0
+                * pl.col("positives").rolling_sum(window_size=4, min_samples=1)
+                / pl.col("cases").rolling_sum(window_size=4, min_samples=1)
+            )
+            .round(4)
+            .alias("rolling_4week_rate_pct"),
+            pl.col("positive_pct").diff().round(4).alias("rate_change_pp"),
+        )
     )
 
     # Cada semana observada (salvo la primera) puede ser un corte:
     # semanas anteriores entrenan; desde el corte inclusive se valida.
-    week_values = (
-        df[WEEK]
-        .drop_nulls()
-        .unique()
-        .sort()
-        .to_list()
-    )
+    week_values = df[WEEK].drop_nulls().unique().sort().to_list()
     cutoff_values = week_values[1:]
     # Para comparar cortes, resumimos tamaño y cantidad de positivos en ambas
     # particiones. La tabla aporta evidencia; no escoge el corte por el equipo.
@@ -101,17 +118,21 @@ def analyze_target_timing(df: pl.DataFrame) -> TargetAnalysisReport:
                 "validation_weeks": validation[WEEK].n_unique(),
             }
         )
-    cutoffs = pl.DataFrame(cutoff_rows) if cutoff_rows else pl.DataFrame(
-        schema={
-            "cutoff_week": df.schema[WEEK],
-            "train_cases": pl.Int64,
-            "train_positives": pl.Int64,
-            "train_rate_pct": pl.Float64,
-            "validation_cases": pl.Int64,
-            "validation_positives": pl.Int64,
-            "validation_rate_pct": pl.Float64,
-            "validation_weeks": pl.UInt32,
-        }
+    cutoffs = (
+        pl.DataFrame(cutoff_rows)
+        if cutoff_rows
+        else pl.DataFrame(
+            schema={
+                "cutoff_week": df.schema[WEEK],
+                "train_cases": pl.Int64,
+                "train_positives": pl.Int64,
+                "train_rate_pct": pl.Float64,
+                "validation_cases": pl.Int64,
+                "validation_positives": pl.Int64,
+                "validation_rate_pct": pl.Float64,
+                "validation_weeks": pl.UInt32,
+            }
+        )
     )
 
     # Controles generales para detectar rápidamente faltantes, valores de
@@ -138,7 +159,28 @@ def analyze_target_timing(df: pl.DataFrame) -> TargetAnalysisReport:
             ],
         }
     )
-    return TargetAnalysisReport(summary, target_distribution, weekly, cutoffs)
+    if len(week_values) >= 2:
+        recommended_index = min(len(week_values) - 1, math.ceil(0.8 * len(week_values)))
+        recommended_cutoff = week_values[recommended_index]
+        recommendation = cutoffs.filter(
+            pl.col("cutoff_week") == recommended_cutoff
+        ).with_columns(
+            pl.lit("last_20pct_observed_weeks").alias("rule"),
+            (100.0 * pl.col("validation_weeks") / len(week_values))
+            .round(4)
+            .alias("validation_week_pct"),
+            (100.0 * pl.col("validation_cases") / n)
+            .round(4)
+            .alias("validation_case_pct"),
+            (100.0 * pl.col("validation_positives") / int(df[TARGET].eq(1).sum()))
+            .round(4)
+            .alias("validation_positive_pct"),
+        )
+    else:
+        recommendation = pl.DataFrame()
+    return TargetAnalysisReport(
+        summary, target_distribution, weekly, cutoffs, recommendation
+    )
 
 
 def save_report(report: TargetAnalysisReport, out_dir: Path) -> None:
@@ -148,10 +190,13 @@ def save_report(report: TargetAnalysisReport, out_dir: Path) -> None:
     report.target_distribution.write_csv(out_dir / "target_distribution.csv")
     report.weekly.write_csv(out_dir / "weekly.csv")
     report.cutoffs.write_csv(out_dir / "cutoff_candidates.csv")
+    report.recommendation.write_csv(out_dir / "oot_recommendation.csv")
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("path", nargs="?", help="Parquet file (default: train_base)")
     ap.add_argument("--out", type=Path, default=Path("results/target_analysis"))
     args = ap.parse_args()
