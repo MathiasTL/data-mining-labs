@@ -223,46 +223,144 @@ El equipo puede construir una lista explícita de columnas candidatas para el ba
 
 Calcular distribución de `target`:
 
-| Clase |              Casos | Porcentaje |
-| ----: | -----------------: | ---------: |
-|     0 | <!-- completar --> |            |
-|     1 | <!-- completar --> |            |
+| Clase (`target`) | Casos     | Porcentaje |
+| ---------------: | --------: | ---------: |
+|                0 | 1 478 665 | 96,8563 %  |
+|                1 |    47 994 | 3,1437 %   |
 
-Identificar si existe desbalance y si hay valores faltantes o inesperados en la etiqueta.
+Existe un desbalance marcado: la clase positiva representa 3,1437 % de los casos, frente a 96,8563 % de la clase 0 (aproximadamente 1 positivo por cada 30,8 negativos). No hay etiquetas faltantes ni valores distintos de 0/1.
 
 #### 4.2 Analizar `WEEK_NUM`
 
 Crear una tabla por semana:
 
-|         `WEEK_NUM` | Casos | Casos positivos | Tasa de incumplimiento |
-| -----------------: | ----: | --------------: | ---------------------: |
-| <!-- completar --> |       |                 |                        |
+| `WEEK_NUM` | Casos | Positivos | Tasa de incumplimiento |
+| ---------: | ----: | --------: | ---------------------: |
+| 0 | 16 735 | 400 | 2,3902 % |
+| 1 | 18 841 | 472 | 2,5052 % |
+| 2 | 17 476 | 465 | 2,6608 % |
+| 3 | 16 108 | 419 | 2,6012 % |
+| 4 | 14 309 | 404 | 2,8234 % |
+| 5 | 15 335 | 407 | 2,6541 % |
+| 6 | 16 385 | 445 | 2,7159 % |
+| 7 | 17 238 | 462 | 2,6801 % |
+| 8 | 13 076 | 424 | 3,2426 % |
+| 9 | 14 716 | 390 | 2,6502 % |
+| 10 | 16 650 | 471 | 2,8288 % |
+| 11 | 16 101 | 367 | 2,2794 % |
+| 12 | 17 105 | 479 | 2,8004 % |
+| 13 | 15 791 | 410 | 2,5964 % |
+| 14 | 17 534 | 525 | 2,9942 % |
+| 15 | 17 713 | 502 | 2,8341 % |
+| 16 | 16 598 | 535 | 3,2233 % |
+| 17 | 12 146 | 440 | 3,6226 % |
+| 18 | 11 729 | 420 | 3,5809 % |
+| 19 | 17 194 | 529 | 3,0767 % |
+| 20 | 16 366 | 501 | 3,0612 % |
+| 21 | 16 962 | 543 | 3,2013 % |
+| 22 | 23 261 | 559 | 2,4032 % |
+| 23 | 26 734 | 633 | 2,3678 % |
+| 24 | 19 503 | 535 | 2,7432 % |
+| 25 | 20 744 | 588 | 2,8346 % |
+| 26 | 20 621 | 572 | 2,7739 % |
+| 27 | 22 450 | 630 | 2,8062 % |
+| 28 | 22 013 | 591 | 2,6848 % |
+| 29 | 22 841 | 613 | 2,6838 % |
+| 30 | 20 688 | 602 | 2,9099 % |
+| 31 | 21 275 | 544 | 2,5570 % |
+| 32 | 23 889 | 572 | 2,3944 % |
+| 33 | 21 525 | 632 | 2,9361 % |
+| 34 | 23 477 | 638 | 2,7176 % |
+| 35 | 24 137 | 677 | 2,8048 % |
+| 36 | 23 812 | 810 | 3,4016 % |
+| 37 | 22 255 | 834 | 3,7475 % |
+| 38 | 22 424 | 861 | 3,8396 % |
+| 39 | 21 039 | 820 | 3,8975 % |
+| 40 | 23 907 | 833 | 3,4843 % |
+| 41 | 21 125 | 843 | 3,9905 % |
+| 42 | 20 643 | 801 | 3,8802 % |
+| 43 | 21 029 | 841 | 3,9992 % |
+| 44 | 25 887 | 938 | 3,6234 % |
+| 45 | 28 947 | 1 001 | 3,4580 % |
+| 46 | 22 299 | 915 | 4,1033 % |
+| 47 | 31 888 | 936 | 2,9353 % |
+| 48 | 22 298 | 890 | 3,9914 % |
+| 49 | 30 938 | 1 014 | 3,2775 % |
+| 50 | 26 244 | 1 060 | 4,0390 % |
+| 51 | 35 920 | 1 136 | 3,1626 % |
+| 52 | 22 915 | 689 | 3,0068 % |
+| 53 | 22 194 | 823 | 3,7082 % |
+| 54 | 18 740 | 869 | 4,6371 % |
+| 55 | 18 538 | 789 | 4,2561 % |
+| 56 | 17 072 | 811 | 4,7505 % |
+| 57 | 18 221 | 838 | 4,5991 % |
+| 58 | 17 819 | 867 | 4,8656 % |
+| 59 | 17 729 | 889 | 5,0144 % |
+| 60 | 15 864 | 729 | 4,5953 % |
+| 61 | 15 568 | 807 | 5,1837 % |
+| 62 | 17 164 | 895 | 5,2144 % |
+| 63 | 14 337 | 589 | 4,1083 % |
+| 64 | 10 268 | 322 | 3,1360 % |
+| 65 | 4 258 | 96 | 2,2546 % |
+| 66 | 2 278 | 52 | 2,2827 % |
+| 67 | 1 434 | 30 | 2,0921 % |
+| 68 | 825 | 21 | 2,5455 % |
+| 69 | 1 582 | 35 | 2,2124 % |
+| 70 | 3 808 | 82 | 2,1534 % |
+| 71 | 7 921 | 176 | 2,2219 % |
+| 72 | 8 858 | 207 | 2,3369 % |
+| 73 | 8 687 | 189 | 2,1757 % |
+| 74 | 11 280 | 303 | 2,6862 % |
+| 75 | 13 656 | 290 | 2,1236 % |
+| 76 | 10 261 | 255 | 2,4851 % |
+| 77 | 7 754 | 197 | 2,5406 % |
+| 78 | 8 755 | 195 | 2,2273 % |
+| 79 | 5 158 | 112 | 2,1714 % |
+| 80 | 6 246 | 120 | 1,9212 % |
+| 81 | 6 743 | 188 | 2,7881 % |
+| 82 | 5 423 | 122 | 2,2497 % |
+| 83 | 7 295 | 156 | 2,1385 % |
+| 84 | 9 721 | 216 | 2,2220 % |
+| 85 | 16 239 | 308 | 1,8967 % |
+| 86 | 15 630 | 277 | 1,7722 % |
+| 87 | 17 886 | 329 | 1,8394 % |
+| 88 | 14 234 | 265 | 1,8617 % |
+| 89 | 13 600 | 309 | 2,2721 % |
+| 90 | 12 103 | 330 | 2,7266 % |
+| 91 | 12 674 | 288 | 2,2724 % |
 
 Determinar:
 
-- rango de semanas disponible;
-- semanas con volumen insuficiente;
-- cambios en tasa de incumplimiento;
-- posibles periodos para entrenamiento y validación.
+- **Rango:** `WEEK_NUM` va de 0 a 91 (92 semanas); no hay semanas faltantes en la columna.
+- **Volumen:** la mediana semanal es 17 088,5 casos. El volumen cae especialmente en las semanas 65–70; la menor es la 68, con 825 casos y 21 positivos. Las semanas 67 y 69 también tienen menos de 1 600 casos. Sus tasas semanales son más variables por el menor tamaño.
+- **Variación de la tasa:** en todo el periodo la tasa semanal va de 1,7722 % (semana 86) a 5,2144 % (semana 62). En las semanas 0–35 suele estar alrededor de 2,4–3,2 %; entre las semanas 36–63 predominan tasas más altas (aproximadamente 3,0–5,2 %); luego baja y en las semanas 72–91 se sitúa entre 1,7722 % y 2,7881 %. Esto evidencia variación temporal de la prevalencia, que deberá considerarse al evaluar estabilidad.
+- **Uso de semanas de bajo volumen:** no se eliminan del conjunto solo por tener pocos casos; son parte del orden temporal. Se señalan porque sus tasas tienen mayor incertidumbre y el informe posterior debe considerar el soporte semanal.
 
 #### 4.3 Proponer la validación temporal
 
-Proponer y justificar una primera división OOT:
+Se propone como primera división OOT el **corte `WEEK_NUM = 72`**:
 
 ```text
-Entrenamiento: semanas antiguas
-Validación OOT: semanas posteriores
+Entrenamiento: WEEK_NUM < 72  (semanas 0–71)
+Validación OOT: WEEK_NUM >= 72 (semanas 72–91)
 ```
 
-El corte debe sustentarse en el volumen de datos y representación de la clase positiva, no en una elección arbitraria.
+Con este corte, entrenamiento contiene 1 314 456 casos y 43 338 positivos (tasa 3,2970 %); validación contiene 212 203 casos y 4 656 positivos (tasa 2,1941 %) distribuidos en 20 semanas. En la validación, cada semana tiene al menos 5 158 casos y 112 positivos. Se elige este corte para conservar un periodo OOT suficientemente largo y con positivos semanales, evitando que las semanas de menor volumen 65–70 sean parte de la ventana de evaluación.
 
 #### 4.4 Confirmar métricas
 
-Confirmar en la documentación oficial de Kaggle la definición de la métrica de la competición y documentar:
+La competición usa la **Gini Stability Metric** (ver [Evaluation de Home Credit - Credit Risk Model Stability en Kaggle](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/overview/evaluation)). Para cada semana se calcula:
 
-- fórmula o criterio de Gini Stability;
-- métricas internas de apoyo;
-- reporte temporal que se usará para comparar modelos.
+```text
+Gini semanal = 2 × ROC-AUC semanal − 1
+Gini Stability = media(Gini semanal)
+                 + 88 × min(0, pendiente)
+                 − 0,5 × desviación estándar(residuos)
+```
+
+La pendiente se obtiene de una regresión lineal del Gini semanal respecto de `WEEK_NUM`; los residuos son la diferencia entre cada Gini semanal y el valor ajustado por esa regresión. La penalización de pendiente solo se aplica cuando la tendencia es decreciente.
+
+Como métricas internas de apoyo se reportarán ROC-AUC y Gini globales en el periodo OOT, PR-AUC por el desbalance de clases, y Gini por semana. Para comparar modelos se conservará el mismo corte `WEEK_NUM = 72` y se presentará una tabla temporal con semana, cantidad de casos y positivos, tasa de incumplimiento, ROC-AUC/Gini semanal; se resumirán además Gini Stability, media y mínimo de Gini semanal. Si una semana no contiene ambas clases, su ROC-AUC/Gini no se define y se marcará como no disponible, no como cero.
 
 ### Entregable
 
