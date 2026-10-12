@@ -1,0 +1,2 @@
+source_file,rows_in_source,columns
+train_credit_bureau_a_2_10.parquet,4386062,19

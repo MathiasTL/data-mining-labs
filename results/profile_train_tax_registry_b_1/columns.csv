@@ -1,0 +1,6 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,150732
+amount_4917619A,Float64,0,0.0,191635
+deductiondate_4917603D,String,0,0.0,260
+name_4917606M,String,0,0.0,55857
+num_group1,Int64,0,0.0,101

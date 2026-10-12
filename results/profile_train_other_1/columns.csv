@@ -1,0 +1,8 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,51109
+amtdebitincoming_4809443A,Float64,0,0.0,9704
+amtdebitoutgoing_4809440A,Float64,0,0.0,9700
+amtdepositbalance_4809441A,Float64,0,0.0,8915
+amtdepositincoming_4809444A,Float64,0,0.0,2625
+amtdepositoutgoing_4809442A,Float64,0,0.0,5561
+num_group1,Int64,0,0.0,1

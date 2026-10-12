@@ -1,0 +1,3 @@
+source_file,rows_in_source,columns
+train_applprev_1_0.parquet,3887684,41
+train_applprev_1_1.parquet,2638295,41

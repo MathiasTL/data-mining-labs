@@ -1,0 +1,7 @@
+column,dtype,nulls,pct_null,n_unique_approx
+case_id,Int64,0,0.0,1212667
+cacccardblochreas_147M,String,109249,0.7762,10
+conts_type_509L,String,2394056,17.0087,10
+credacc_cards_status_52L,String,13733404,97.5697,7
+num_group1,Int64,0,0.0,20
+num_group2,Int64,0,0.0,12

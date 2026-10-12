@@ -1,0 +1,3 @@
+source_file,rows_in_source,columns
+train_static_0_0.parquet,1003757,168
+train_static_0_1.parquet,522902,168

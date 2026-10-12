@@ -1,0 +1,5 @@
+source_file,rows_in_source,columns
+train_credit_bureau_a_1_0.parquet,4108212,79
+train_credit_bureau_a_1_1.parquet,6009192,79
+train_credit_bureau_a_1_2.parquet,3743810,79
+train_credit_bureau_a_1_3.parquet,2079323,79

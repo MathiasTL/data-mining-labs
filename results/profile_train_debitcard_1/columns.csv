@@ -1,0 +1,7 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,111772
+last180dayaveragebalance_704A,Float64,145086,92.234,2495
+last180dayturnover_1134A,Float64,146221,92.9556,2581
+last30dayturnover_651A,Float64,146221,92.9556,482
+num_group1,Int64,0,0.0,66
+openingdate_857D,String,12711,8.0806,1578

@@ -1,0 +1,6 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,482265
+employername_160M,String,0,0.0,152835
+num_group1,Int64,0,0.0,121
+pmtamount_36A,Float64,0,0.0,572321
+processingdate_168D,String,0,0.0,325

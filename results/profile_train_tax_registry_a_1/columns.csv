@@ -1,0 +1,6 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,457934
+amount_4527230A,Float64,0,0.0,92743
+name_4527232M,String,0,0.0,147037
+num_group1,Int64,0,0.0,99
+recorddate_4527225D,String,0,0.0,397

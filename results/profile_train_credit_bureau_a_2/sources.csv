@@ -1,0 +1,12 @@
+source_file,rows_in_source,columns
+train_credit_bureau_a_2_0.parquet,5296031,19
+train_credit_bureau_a_2_1.parquet,7861809,19
+train_credit_bureau_a_2_10.parquet,4386062,19
+train_credit_bureau_a_2_2.parquet,17893536,19
+train_credit_bureau_a_2_3.parquet,26563901,19
+train_credit_bureau_a_2_4.parquet,27025737,19
+train_credit_bureau_a_2_5.parquet,33053760,19
+train_credit_bureau_a_2_6.parquet,25511332,19
+train_credit_bureau_a_2_7.parquet,8055986,19
+train_credit_bureau_a_2_8.parquet,13927071,19
+train_credit_bureau_a_2_9.parquet,18723227,19

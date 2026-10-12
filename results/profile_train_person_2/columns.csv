@@ -1,0 +1,12 @@
+column,dtype,nulls,pct_null,n_unique_approx
+case_id,Int64,0,0.0,1368746
+addres_district_368M,String,0,0.0,509
+addres_role_871L,String,1575736,95.8821,9
+addres_zip_823M,String,0,0.0,2040
+conts_role_79M,String,0,0.0,11
+empls_economicalst_849M,String,0,0.0,10
+empls_employedfrom_796D,String,1637653,99.6497,793
+empls_employer_name_740M,String,0,0.0,7326
+num_group1,Int64,0,0.0,5
+num_group2,Int64,0,0.0,31
+relatedpersons_role_762T,String,1614684,98.252,11

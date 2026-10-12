@@ -1,0 +1,7 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,36447
+num_group1,Int64,0,0.0,21
+num_group2,Int64,0,0.0,37
+pmts_date_1107D,String,0,0.0,58
+pmts_dpdvalue_108P,Float64,5361,0.4166,62861
+pmts_pmtsoverdue_635A,Float64,5361,0.4166,4163

@@ -1,0 +1,2 @@
+family,rows,candidate_key,duplicate_key_groups,duplicate_key_rows,method
+credit_bureau_a_2,188298452,case_id+num_group1+num_group2,0,0,duckdb_external_group_by_1gb

@@ -1,0 +1,2 @@
+rows,key_columns,key_null_rows,ordering_violations,adjacent_duplicate_rows,candidate_key_unique,distinct_case_id,method
+188298452,case_id,0,10,186913164,False,,ordered_batch_scan

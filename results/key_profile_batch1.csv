@@ -1,0 +1,9 @@
+file,rows,case_id_nulls,distinct_case_id,repeated_case_rows,candidate_key,candidate_unique,candidate_duplicate_rows
+train_credit_bureau_b_1.parquet,85791,0,36500,49291,case_id+num_group1,85791,0
+train_credit_bureau_b_2.parquet,1286755,0,36447,1250308,case_id+num_group1+num_group2,1286755,0
+train_debitcard_1.parquet,157302,0,111772,45530,case_id+num_group1,157302,0
+train_deposit_1.parquet,145086,0,105111,39975,case_id+num_group1,145086,0
+train_other_1.parquet,51109,0,51109,0,case_id+num_group1,51109,0
+train_tax_registry_a_1.parquet,3275770,0,457934,2817836,case_id+num_group1,3275770,0
+train_tax_registry_b_1.parquet,1107933,0,150732,957201,case_id+num_group1,1107933,0
+train_tax_registry_c_1.parquet,3343800,0,482265,2861535,case_id+num_group1,3343800,0

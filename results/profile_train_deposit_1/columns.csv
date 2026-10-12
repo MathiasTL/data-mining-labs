@@ -1,0 +1,6 @@
+column,dtype,nulls,pct_null,n_unique
+case_id,Int64,0,0.0,105111
+amount_416A,Float64,0,0.0,40724
+contractenddate_991D,String,79682,54.9205,1524
+num_group1,Int64,0,0.0,65
+openingdate_313D,String,0,0.0,1579
