@@ -17,16 +17,22 @@ Reglas temporales (A4 §2, ventana ``all`` de A7):
 
 from __future__ import annotations
 
+import hashlib
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Mapping
 
 import polars as pl
 
+from dm_credit import io
+from dm_credit.preparation import contracts
 from dm_credit.preparation.coercion import coerce_to_logical
 
 KEY = "case_id"
 WINDOW = "all"
+RULES_VERSION = "A4-v1"
+CREATION = "creationdate_885D"
 AGGREGATIONS = ("count", "min", "max", "mean", "sum", "std")
 NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,4}$")  # gramática de G1: hasta 4 segmentos tras la fuente
 
@@ -172,6 +178,17 @@ def _share_exprs(family: str, shares: Mapping[str, tuple[str, ...]]) -> list[pl.
     return out
 
 
+def _applications_columns(cfg: "ApplicationsConfig") -> tuple[list[str], list[str]]:
+    a1 = [KEY, "num_group1", CREATION, *cfg.numeric, *cfg.categorical_distinct, *cfg.category_shares, *cfg.bool_cols, *cfg.date_cols]
+    return list(dict.fromkeys(a1)), [KEY, "num_group1", "num_group2", *cfg.children_category_shares]
+
+
+def _people_columns(cfg: "PeopleConfig") -> tuple[list[str], list[str]]:
+    dates = [c for c in (cfg.birth_col, cfg.employment_col) if c]
+    p1 = [KEY, "num_group1", *cfg.main_numeric, *cfg.main_categorical, *dates, *cfg.contact_category_shares]
+    return list(dict.fromkeys(p1)), [KEY, "num_group1", "num_group2", *cfg.child_category_shares]
+
+
 def _decision(base: pl.DataFrame) -> pl.DataFrame:
     _require(base, [KEY, "date_decision"], "base")
     _check_unique(base, [KEY], "base")
@@ -209,9 +226,7 @@ def aggregate_applications_with_exclusions(
     create = "creationdate_885D"
     _validate_applications_config(cfg, create)
 
-    a1_cols = [KEY, "num_group1", create, *cfg.numeric, *cfg.categorical_distinct, *cfg.category_shares, *cfg.bool_cols, *cfg.date_cols]
-    a1_cols = list(dict.fromkeys(a1_cols))
-    a2_cols = [KEY, "num_group1", "num_group2", *cfg.children_category_shares]
+    a1_cols, a2_cols = _applications_columns(cfg)
     _require(applprev_1, a1_cols, f1)
     _require(applprev_2, a2_cols, f2)
     _check_unique(applprev_1, [KEY, "num_group1"], f1)
@@ -296,8 +311,7 @@ def aggregate_people_with_exclusions(
     _validate_people_config(cfg)
     dates = [c for c in (cfg.birth_col, cfg.employment_col) if c]
 
-    p1_cols = list(dict.fromkeys([KEY, "num_group1", *cfg.main_numeric, *cfg.main_categorical, *dates, *cfg.contact_category_shares]))
-    p2_cols = [KEY, "num_group1", "num_group2", *cfg.child_category_shares]
+    p1_cols, p2_cols = _people_columns(cfg)
     _require(person_1, p1_cols, f1)
     _require(person_2, p2_cols, f2)
     _check_unique(person_1, [KEY, "num_group1"], f1)
@@ -360,3 +374,92 @@ def aggregate_people_with_exclusions(
 
 def aggregate_people(base, person_1, person_2, config: PeopleConfig | None = None) -> pl.DataFrame:
     return aggregate_people_with_exclusions(base, person_1, person_2, config).features
+
+
+# ----------------------------------------------------------------- adaptadores de familia
+def _base_fingerprint(base: pl.DataFrame) -> str:
+    """Huella de la base de referencia: cambiar casos, semanas, fechas o partición invalida la caché."""
+    ordered = base.select(KEY, "WEEK_NUM", "date_decision").sort(KEY)
+    return hashlib.sha256(ordered.write_csv().encode()).hexdigest()
+
+
+def _shard_fingerprint(file_split: str, sources: list[str]) -> str:
+    return ";".join(sorted(f"{p.name}:{p.stat().st_size}:{p.stat().st_mtime_ns}" for s in sources for p in io.shard_paths(file_split, s)))
+
+
+def _read(file_split: str, source: str, columns: list[str], cases: pl.LazyFrame) -> pl.DataFrame:
+    """Lee una fuente con proyección y solo los casos de la base (semi-join: no multiplica filas)."""
+    return io.scan_parquet_shards(file_split, source, columns=columns).join(cases, on=KEY, how="semi").collect()
+
+
+def _publish(family, base, split, cutoff_week, output_dir, result, sources, file_split, columns, temporal_rule):
+    definitions = contracts.describe_features(
+        result.features,
+        temporal_rule=temporal_rule,
+        source_columns={c.lower(): c for c in columns},
+    )
+    return contracts.write_family_features(
+        result.features,
+        definitions,
+        family=family,
+        split=split,
+        output_dir=output_dir,
+        exclusions=result.exclusions,
+        rules_version=RULES_VERSION,
+        inputs={
+            "cutoff_week": str(cutoff_week),
+            "base_sha256": _base_fingerprint(base),
+            "shards": _shard_fingerprint(file_split, sources),
+        },
+    )
+
+
+def build_applprev_features(
+    base: pl.DataFrame,
+    split: str,
+    *,
+    cutoff_week: int = 74,
+    output_dir: Path,
+    config: ApplicationsConfig | None = None,
+) -> contracts.FamilyFeatureArtifact:
+    """Familia ``applprev`` (``applprev_1`` + ``applprev_2``) -> una fila por ``case_id`` con cobertura."""
+    contracts.validate_base(base, split, cutoff_week)
+    cfg = config or ApplicationsConfig()
+    _validate_applications_config(cfg, CREATION)
+    file_split = "test" if split == "test" else "train"
+    cols1, cols2 = _applications_columns(cfg)
+    cases = base.lazy().select(KEY)
+    a1 = _read(file_split, "applprev_1", cols1, cases)
+    a2 = _read(file_split, "applprev_2", cols2, cases)
+    result = aggregate_applications_with_exclusions(base, a1, a2, cfg)
+    return _publish(
+        "applprev", base, split, cutoff_week, output_dir, result, ["applprev_1", "applprev_2"], file_split,
+        [*cols1, *cols2], f"{CREATION} <= date_decision; hijos solo con padre válido",
+    )
+
+
+def build_person_features(
+    base: pl.DataFrame,
+    split: str,
+    *,
+    cutoff_week: int = 74,
+    output_dir: Path,
+    config: PeopleConfig | None = None,
+) -> contracts.FamilyFeatureArtifact:
+    """Familia ``person`` (``person_1`` + ``person_2``): atributos de la solicitud actual, persona principal ``num_group1 = 0``."""
+    contracts.validate_base(base, split, cutoff_week)
+    cfg = config or PeopleConfig()
+    _validate_people_config(cfg)
+    file_split = "test" if split == "test" else "train"
+    cols1, cols2 = _people_columns(cfg)
+    cases = base.lazy().select(KEY)
+    p1 = _read(file_split, "person_1", cols1, cases)
+    p2 = _read(file_split, "person_2", cols2, cases)
+    result = aggregate_people_with_exclusions(base, p1, p2, cfg)
+    return _publish(
+        "person", base, split, cutoff_week, output_dir, result, ["person_1", "person_2"], file_split,
+        [*cols1, *cols2], "atributos de la solicitud actual; fechas internas <= date_decision",
+    )
+
+
+BUILDERS = {"applprev": build_applprev_features, "person": build_person_features}
