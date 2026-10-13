@@ -17,7 +17,7 @@ import os
 import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Literal, Mapping
+from typing import Literal, Mapping, Sequence
 
 import polars as pl
 
@@ -345,3 +345,36 @@ def load_family_artifact(manifest_path: Path) -> FamilyFeatureArtifact:
         raise ValueError(
             f"manifest {manifest_path} is missing or malformed: {exc}"
         ) from exc
+
+
+CATALOG_SCHEMA = {
+    "name": pl.String,
+    "role": pl.String,
+    "logical_type": pl.String,
+    "source_table": pl.String,
+    "source_columns": pl.String,
+    "aggregation": pl.String,
+    "window": pl.String,
+    "temporal_rule": pl.String,
+    "description": pl.String,
+}
+
+
+def feature_catalog(artifacts: "Sequence[FamilyFeatureArtifact]") -> pl.DataFrame:
+    """Catálogo C8: una fila por característica, sin repetir nombres entre splits y ordenado por nombre."""
+    rows = {}
+    for artifact in artifacts:
+        for f in artifact.feature_schema:
+            rows.setdefault(f.name, {**asdict(f), "source_columns": ";".join(f.source_columns)})
+    return pl.DataFrame([rows[k] for k in sorted(rows)], schema=CATALOG_SCHEMA)
+
+
+def write_feature_catalog(artifacts: "Sequence[FamilyFeatureArtifact]", path: Path) -> Path:
+    """Escribe el catálogo de una o varias familias; un catálogo vacío es un error."""
+    catalog = feature_catalog(artifacts)
+    if catalog.is_empty():
+        raise ValueError("cannot write an empty feature catalog")
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    catalog.write_csv(path)
+    return path
