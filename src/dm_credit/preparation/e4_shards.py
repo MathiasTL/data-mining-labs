@@ -112,6 +112,9 @@ def run_audit(*, root: Path = ROOT, checkpoint_dir: Path | None = None) -> dict:
             if (f, s) == (family, split):
                 check_equal( seen[identity], 1, f"checkpoint vigente requerido {identity}" )
         manifest = artifacts / family / split / f"{family}__{split}.manifest.json"
+        replacement = artifacts.parent / "E4-v1" / family / split / manifest.name
+        if replacement.exists():  # igual que el auditor E4: el reemplazo vigente tiene prioridad
+            manifest = replacement
         m = json.loads(manifest.read_text())
         for name, value in dict( family=family, split=split, rules_version=bureau.RULES_VERSION ).items():
             check_equal(m[name], value, name)

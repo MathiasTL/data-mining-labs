@@ -37,7 +37,7 @@ CONTROLS = ("case_id", "WEEK_NUM", "date_decision", "MONTH", "target")
 # Cifras documentadas del capítulo 02 y del backlog (§9): casos y positivos con el corte 74.
 EXPECTED_REAL = {"train": (1_332_001, 43_734), "oot": (194_658, 4_260)}
 RESULTS = Path(__file__).resolve().parents[3] / "results" / "preparation"
-ARTIFACT_SETS = ("C1-v1", "C2-C3-v1", "C4-C5-v2", "C6-v1")
+ARTIFACT_SETS = ("E4-v1",)  # piezas oficiales de la ejecución real E4
 
 
 def _row(check: str, split: str, ok: bool, detail: str) -> dict:
