@@ -16,3 +16,5 @@ parquet_files/
 
 # E5: la tabla maestra de train (~93 MiB) se regenera con uv run -m dm_credit.preparation.e5
 data/artifacts/preparation/E5-v1/feature_matrix__train.parquet
+# E6: las vistas de train (132 y 103 MiB) se regeneran con uv run -m dm_credit.preparation.e6
+data/artifacts/preparation/E6-v1/*__train.parquet
