@@ -1,6 +1,6 @@
 {
   "audit": "E4",
-  "started_at_utc": "2026-10-13T22:19:17.147761+00:00",
+  "started_at_utc": "2026-10-13T22:54:58.827923+00:00",
   "cutoff_week": 74,
   "expected_rows": {
     "train": 1332001,
@@ -9,7 +9,7 @@
   },
   "limitations": [
     "Los manifiestos no capturan commit ni hash de configuración del build; los hashes E4 son actuales, no históricos.",
-    "No hay tiempos ni recursos históricos de build verificables: se informan null, sin inferirlos de mtimes.",
+    "No hay tiempos ni recursos históricos de build verificables para artefactos reutilizados: se informan null.",
     "ru_maxrss es el máximo acumulado del proceso auditor (KiB en Linux), no memoria por familia ni del build.",
     "La conciliación usa family_cardinality histórico; no recalcula filtros temporales ni demuestra equivalencia de valores con un rebuild.",
     "Las exclusiones de valores y columnas no se suman como filas; A2 no se lee ni se incluyen sus shards en fingerprints.",
@@ -17,65 +17,66 @@
   ],
   "hashes_scope": "current_at_audit_not_historical_build",
   "current_sha256": {
-    "/home/daminin/Documents/Repositorios/data-mining-labs/pyproject.toml": "9e4ea38fd69a64f1f89b4aeca61e0c3c439f19e266e272f144b1f06b7a7e8a05",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/integration_analysis/family_cardinality.csv": "c563a399c5e42fc395e0d4b970a0f93962854280333236e28e0794fabb4c3b7f",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B3_depth0_columns.csv": "4346797da96056f55054333599fac990fa381f0b158658e291e5b9b5478dc713",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B4_applications_people_columns.csv": "cbcfaf1f4884cb2fdd30463e1fddac2153d80965d8674c252f51b748c8660d45",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B5_bureau_columns.csv": "dfb744263404a796df3ac53882e6d8b4b5003974a8772378d98b03e891816e15",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B6_products_registry_columns.csv": "09b85619a2a33bc72098c6d3f2b8d6d6c096f3f3e325f9dc1a9e13da374f3512",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/C1_depth0_run.csv": "ef15d12ad399ca05dfd0135316c9ef10f534ebbc4a1f71ce5cfc32b925b636c0",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/C2_C3_applications_people_run.csv": "a08a7b2e1752832b99b799e7aae6686acd8a4ddd2f991eb7a96c8711fcd42bfa",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/C6_products_run.csv": "bd58a80a7f4688cb1476a8db4baeea3a8e53078d4f7d886af55f5777867fd81d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/C8_feature_catalog.csv": "2a31a39e2addf623d191aa5ec0849612ebcec42652a55719f57b8b4e5e85074b",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/C8_feature_catalog_partial.csv": "371dce3e3604ab4549913289f9288ab4e36a31e96e1338b51e1086db1a7d576d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/F7_applications_people_exclusions.csv": "100761ea197763170b7dac491c977cb1953360d45ec4f3eadb00c94a777bf334",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_applications_people_columns.csv": "2a2f1b920636cc4a9099ba70136d8f36abac1300ab15d20f022bec4369a3e023",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_applications_people_screen.csv": "6b416844422d3f66bb633249262051f3da2ae1bade15730c2689f05d4b9caa3d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_applications_people_vocabulary.csv": "4e64216af35edf1c21c6536734dcb3d9c6cd8c59e9708acf9d5ba35c60cee549",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_bureau_columns.csv": "cc1d9a6f1baaf8272455720450ed85fc6afaa03e130a7b79cc0641d8303805b6",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_depth0_columns.csv": "79d21a8594deda5a0d03e7982bb96d4a5de951f2f26135f62fd61c11eb490102",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_depth0_screen.csv": "34bff41a66b30c6eb659c56d3dadb6c0ef5f74b0c58e7ea78c76797d11507a18",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_products_registry_columns.csv": "0dd4c23c4131bf8ba08ca7d0685df497259fe66b49eda10ba4d2ef7532efe97f",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/applications_people_feature_catalog.csv": "7d69c33b4a19a5e1eb1f5fb94c605fb7849ef572c56b2e14696df9ba30c63b18",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/bureau_feature_catalog.csv": "f35a42ff38e749081d52e7646f6eca0e3d517df124dde368a054bd59c1984615",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/depth0_feature_catalog.csv": "0500db1b3fd5ef97a4189456974b4bdc8c863d1022e63c34274327d112021270",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/products_feature_catalog.csv": "6af20c39746d8e85c7b9b7c3d7cdc509abe7f5e86338926a8fd4fd28f7c9dd1d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/baseline.py": "ba6ac2a695bc81a422f240e2e005ae4921cad1119371dc1932893d925d160b18",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/io.py": "4c8cef2ec84b2050b1caff4e20a9e629034b451eac0f1962efa0498ba37724b7",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/__init__.py": "be191047660714cd6700535232c3cef0cc7d35e2e47e4b8c34a9a68b1533cb11",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/applications_people_evidence.py": "a6099e56b7d3cb3106266395f5539d5272fe50899a8daf022a67be018c0101e1",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/applications_people_selection.py": "688c367422ab1a0e48c2ddc770398dfd9514a022625676acc6a89899d432413a",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/assembly.py": "947a6487875317668f41680dae0eb8966ca3f952a673e6e126d99afe4d5c263d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/build.py": "ba1265b6da40801567e5a35c8c2cf954b2299cd234184c332314b692a0cb25e0",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/bureau_selection.py": "d08db29e65f6b5960b4351d66c4c45d6ee62334b5e7f1dabf3e321ac91012a7d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/c8_catalog.py": "09f6817bd51e5e65695400d1992347c1404aec6bf6af3b179e874f28097efbe4",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/coercion.py": "dd40b4c0d22b9fa52a2e5fc7a66ea867ee79b3d78c3a50a1ac6fa872dd57593f",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/columns.py": "edcdd2accb7860c10063b392e3a72e1e3ae092c81ac70f312ae335f1d66c1eec",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/contracts.py": "aaebf1dac0c53f090c470cfb0569658250b874e2b980d5baba923ff123af86a6",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/depth0_selection.py": "98c845134156a5b9b07f74a1e355d4507e651ca81bf21f15e7b6f4e4fa86d82c",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/e4.py": "e69097eab0447df5a339a7565e4c56eca7eee18eb06d010ed3095410b2623da8",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/e4_rebuild.py": "4aeb14eb245775460ecd8209b5b045a4097cc21f2322a2b46f1ae8d60205be3e",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/e4_shards.py": "376125c47d0554cc1739fd77d1370f2af0002fbcb642effd1c3dd01b67833824",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/__init__.py": "e58c4bb36f5df330a28420cc0f16cf822f4988357f452ccfa13bed71c91e871e",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/applications_people.py": "ec7eac54f4cb58da09c28c465412a72461675ca65313700dd3ca091584ff3ed7",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/applications_people_g2.py": "4b4d1363fb394e4169edf56ef1028944f638ef2cb83dc756759f35be139583b6",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/applications_people_run.py": "767257c640543879a395add6124ce1cfd3bd5d930fe2882a27eae9157adae33d",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/bureau.py": "8ae858268bd7dc33aa6e652006b6ce9ae3b782ccfa883be1ca0963f02cc18acd",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/bureau_run.py": "c9cc1402029aee97194fe0f217bf6cc1f35516ec63738dd8a574a16f9f9f8ce7",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/depth0.py": "a10550361f4b7edd82719a6dffda4a644602b49c0f39704837bd0071752538f6",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/families/products_registry.py": "fe0034d7fa09c4518c6e5dd1c668e55718d1eccc4e14b0eab7b3dc6029032959",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/leakage_screen.py": "735e0c3a1c82c9368f6a01139a0015e8b1760ba642a0a4a58b9399a43b853294",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/outliers.py": "103e216eeae94b4348ad0581d2bf54379901557e6c3f3603ba05b43faafa3df7",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/preprocessing.py": "7036044371c3306a630960926a18941054efa65354e2e6ea9ed466f17f8b8855",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/products_registry_selection.py": "e839709e6bb5ea0dec436a2c7ff309bfc3c18f5ff30939067a00ddf712e6007e",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/schema.py": "546ea4005c852cfbbf1b32ff788aff257bb1af0b3a04d50d986591c7ea250966",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/split.py": "f55a05f3081bd7822fd6f5eca83b0b98977a8d105543caa3abaf5f2b1b81e879",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/src/dm_credit/preparation/views.py": "0f31aa4e49cc2811e2b23934e9abbf9d0df51c420f79647383a1be02598ba23b",
-    "/home/daminin/Documents/Repositorios/data-mining-labs/uv.lock": "a122eabf34fcee4f05397db70c096e6bffee10110a570764bbf6e041c4552107"
+    "/Users/andre/Projects/Universidad/data-mining-labs/pyproject.toml": "9e4ea38fd69a64f1f89b4aeca61e0c3c439f19e266e272f144b1f06b7a7e8a05",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/integration_analysis/family_cardinality.csv": "c563a399c5e42fc395e0d4b970a0f93962854280333236e28e0794fabb4c3b7f",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B3_depth0_columns.csv": "4346797da96056f55054333599fac990fa381f0b158658e291e5b9b5478dc713",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B4_applications_people_columns.csv": "cbcfaf1f4884cb2fdd30463e1fddac2153d80965d8674c252f51b748c8660d45",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B5_bureau_columns.csv": "dfb744263404a796df3ac53882e6d8b4b5003974a8772378d98b03e891816e15",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B6_products_registry_columns.csv": "09b85619a2a33bc72098c6d3f2b8d6d6c096f3f3e325f9dc1a9e13da374f3512",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C1_depth0_run.csv": "ef15d12ad399ca05dfd0135316c9ef10f534ebbc4a1f71ce5cfc32b925b636c0",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C2_C3_applications_people_run.csv": "a08a7b2e1752832b99b799e7aae6686acd8a4ddd2f991eb7a96c8711fcd42bfa",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C6_products_run.csv": "bd58a80a7f4688cb1476a8db4baeea3a8e53078d4f7d886af55f5777867fd81d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C8_feature_catalog.csv": "2a31a39e2addf623d191aa5ec0849612ebcec42652a55719f57b8b4e5e85074b",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C8_feature_catalog_partial.csv": "371dce3e3604ab4549913289f9288ab4e36a31e96e1338b51e1086db1a7d576d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/F7_applications_people_exclusions.csv": "100761ea197763170b7dac491c977cb1953360d45ec4f3eadb00c94a777bf334",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_applications_people_columns.csv": "2a2f1b920636cc4a9099ba70136d8f36abac1300ab15d20f022bec4369a3e023",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_applications_people_screen.csv": "6b416844422d3f66bb633249262051f3da2ae1bade15730c2689f05d4b9caa3d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_applications_people_vocabulary.csv": "4e64216af35edf1c21c6536734dcb3d9c6cd8c59e9708acf9d5ba35c60cee549",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_bureau_columns.csv": "cc1d9a6f1baaf8272455720450ed85fc6afaa03e130a7b79cc0641d8303805b6",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_depth0_columns.csv": "79d21a8594deda5a0d03e7982bb96d4a5de951f2f26135f62fd61c11eb490102",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_depth0_screen.csv": "34bff41a66b30c6eb659c56d3dadb6c0ef5f74b0c58e7ea78c76797d11507a18",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_products_registry_columns.csv": "0dd4c23c4131bf8ba08ca7d0685df497259fe66b49eda10ba4d2ef7532efe97f",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/applications_people_feature_catalog.csv": "7d69c33b4a19a5e1eb1f5fb94c605fb7849ef572c56b2e14696df9ba30c63b18",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/bureau_feature_catalog.csv": "f35a42ff38e749081d52e7646f6eca0e3d517df124dde368a054bd59c1984615",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/depth0_feature_catalog.csv": "0500db1b3fd5ef97a4189456974b4bdc8c863d1022e63c34274327d112021270",
+    "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/products_feature_catalog.csv": "6af20c39746d8e85c7b9b7c3d7cdc509abe7f5e86338926a8fd4fd28f7c9dd1d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/baseline.py": "ba6ac2a695bc81a422f240e2e005ae4921cad1119371dc1932893d925d160b18",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/io.py": "007c98166a2bddaac7b4e86708d3ebe36e375d62a8f2fbeb94123128c442f32b",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/__init__.py": "be191047660714cd6700535232c3cef0cc7d35e2e47e4b8c34a9a68b1533cb11",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/applications_people_evidence.py": "a6099e56b7d3cb3106266395f5539d5272fe50899a8daf022a67be018c0101e1",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/applications_people_selection.py": "688c367422ab1a0e48c2ddc770398dfd9514a022625676acc6a89899d432413a",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/assembly.py": "947a6487875317668f41680dae0eb8966ca3f952a673e6e126d99afe4d5c263d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/build.py": "ba1265b6da40801567e5a35c8c2cf954b2299cd234184c332314b692a0cb25e0",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/bureau_selection.py": "d08db29e65f6b5960b4351d66c4c45d6ee62334b5e7f1dabf3e321ac91012a7d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/c8_catalog.py": "09f6817bd51e5e65695400d1992347c1404aec6bf6af3b179e874f28097efbe4",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/coercion.py": "dd40b4c0d22b9fa52a2e5fc7a66ea867ee79b3d78c3a50a1ac6fa872dd57593f",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/columns.py": "edcdd2accb7860c10063b392e3a72e1e3ae092c81ac70f312ae335f1d66c1eec",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/contracts.py": "aaebf1dac0c53f090c470cfb0569658250b874e2b980d5baba923ff123af86a6",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/depth0_selection.py": "98c845134156a5b9b07f74a1e355d4507e651ca81bf21f15e7b6f4e4fa86d82c",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/e4.py": "66d6037b04ab2a9af1bf6c14def2dfae5ad04245eaea9ce00bb81948a55e5e6e",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/e4_rebuild.py": "d1a2def513114b129912e61367f65b14c7be2a1695c4c1bb4e33be1427d50169",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/e4_shards.py": "8cfec48da2b766470ba8526728e2e3190ede854ced5a0f0a1ce348d36d3262a6",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/__init__.py": "e58c4bb36f5df330a28420cc0f16cf822f4988357f452ccfa13bed71c91e871e",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/applications_people.py": "d40c509e0c35877d989afdc7149c6791f75b5b174f61eed729be2f898577f3c1",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/applications_people_g2.py": "4b4d1363fb394e4169edf56ef1028944f638ef2cb83dc756759f35be139583b6",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/applications_people_run.py": "767257c640543879a395add6124ce1cfd3bd5d930fe2882a27eae9157adae33d",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/bureau.py": "95e80b513107f78191f6a2d47b13d633f8c03c5dad018b9dc7f35bb39cd3922c",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/bureau_run.py": "c9cc1402029aee97194fe0f217bf6cc1f35516ec63738dd8a574a16f9f9f8ce7",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/depth0.py": "afa5a1de545a3a4a48d87612843778d42d63c1a75cb9db3ccc557d8204f6aebb",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/families/products_registry.py": "c586cc53b8611beaadeb4e34fa938fbfe8e8702652c952e4ab6900c4f747e6cd",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/leakage_screen.py": "735e0c3a1c82c9368f6a01139a0015e8b1760ba642a0a4a58b9399a43b853294",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/outliers.py": "103e216eeae94b4348ad0581d2bf54379901557e6c3f3603ba05b43faafa3df7",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/preprocessing.py": "7036044371c3306a630960926a18941054efa65354e2e6ea9ed466f17f8b8855",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/products_registry_selection.py": "e839709e6bb5ea0dec436a2c7ff309bfc3c18f5ff30939067a00ddf712e6007e",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/schema.py": "546ea4005c852cfbbf1b32ff788aff257bb1af0b3a04d50d986591c7ea250966",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/split.py": "f55a05f3081bd7822fd6f5eca83b0b98977a8d105543caa3abaf5f2b1b81e879",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/validation.py": "156f5eacf4baa0cbe66b8126f47bc1a0c1394a11cafa732a350c0cfc21d0d404",
+    "/Users/andre/Projects/Universidad/data-mining-labs/src/dm_credit/preparation/views.py": "0f31aa4e49cc2811e2b23934e9abbf9d0df51c420f79647383a1be02598ba23b",
+    "/Users/andre/Projects/Universidad/data-mining-labs/uv.lock": "a122eabf34fcee4f05397db70c096e6bffee10110a570764bbf6e041c4552107"
   },
-  "artifact_root": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation",
-  "data_root": "/home/daminin/Documents/Repositorios/data-mining-labs/data",
-  "polars_version": "2.0.0",
+  "artifact_root": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation",
+  "data_root": "/Users/andre/Projects/Universidad/data-mining-labs/data",
+  "polars_version": "1.44.2",
   "checks": [
     {
       "scope": "global",
@@ -409,6 +410,12 @@
     },
     {
       "scope": "global",
+      "check": "current_hash:validation.py",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "global",
       "check": "current_hash:views.py",
       "status": "ok",
       "error": null
@@ -445,6 +452,12 @@
     },
     {
       "scope": "static_0/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "static_0/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -505,6 +518,12 @@
     },
     {
       "scope": "static_0/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "static_0/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -560,6 +579,12 @@
     {
       "scope": "static_0/oot",
       "check": "coverage:static_0",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "static_0/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -631,6 +656,12 @@
     },
     {
       "scope": "static_cb_0/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "static_cb_0/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -691,6 +722,12 @@
     },
     {
       "scope": "static_cb_0/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "static_cb_0/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -746,6 +783,12 @@
     {
       "scope": "static_cb_0/oot",
       "check": "coverage:static_cb_0",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "static_cb_0/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -823,6 +866,12 @@
     },
     {
       "scope": "applprev/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "applprev/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -842,8 +891,8 @@
     {
       "scope": "applprev/train",
       "check": "metadata_current_inputs",
-      "status": "invalid",
-      "error": "ValueError: shards actuales: actual='train_applprev_1_0.parquet:106951598:1791162508873763611;train_applprev_1_1.parquet:72860971:1791162508936671678;train_applprev_2.parquet:28484608:1791162508958244262'; esperado='train_applprev_1_0.parquet:106951598:1790997776665063009;train_applprev_1_1.parquet:72860971:1790997776698062960;train_applprev_2.parquet:28484608:1790997776882062683'"
+      "status": "ok",
+      "error": null
     },
     {
       "scope": "applprev/train",
@@ -2425,6 +2474,12 @@
     },
     {
       "scope": "credit_bureau_a/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "credit_bureau_a/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -2485,6 +2540,12 @@
     },
     {
       "scope": "credit_bureau_a/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "credit_bureau_a/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -2540,6 +2601,12 @@
     {
       "scope": "credit_bureau_a/oot",
       "check": "coverage:credit_bureau_a_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "credit_bureau_a/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -2617,6 +2684,12 @@
     },
     {
       "scope": "credit_bureau_b/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "credit_bureau_b/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -2683,6 +2756,12 @@
     },
     {
       "scope": "credit_bureau_b/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "credit_bureau_b/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -2744,6 +2823,12 @@
     {
       "scope": "credit_bureau_b/oot",
       "check": "coverage:credit_bureau_b_2",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "credit_bureau_b/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -2821,6 +2906,12 @@
     },
     {
       "scope": "debitcard_1/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "debitcard_1/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -2881,6 +2972,12 @@
     },
     {
       "scope": "debitcard_1/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "debitcard_1/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -2936,6 +3033,12 @@
     {
       "scope": "debitcard_1/oot",
       "check": "coverage:debitcard_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "debitcard_1/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -3007,6 +3110,12 @@
     },
     {
       "scope": "deposit_1/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "deposit_1/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3067,6 +3176,12 @@
     },
     {
       "scope": "deposit_1/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "deposit_1/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3122,6 +3237,12 @@
     {
       "scope": "deposit_1/oot",
       "check": "coverage:deposit_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "deposit_1/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -3193,6 +3314,12 @@
     },
     {
       "scope": "other_1/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "other_1/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3253,6 +3380,12 @@
     },
     {
       "scope": "other_1/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "other_1/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3308,6 +3441,12 @@
     {
       "scope": "other_1/oot",
       "check": "coverage:other_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "other_1/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -3379,6 +3518,12 @@
     },
     {
       "scope": "tax_registry_a_1/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_a_1/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3439,6 +3584,12 @@
     },
     {
       "scope": "tax_registry_a_1/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_a_1/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3494,6 +3645,12 @@
     {
       "scope": "tax_registry_a_1/oot",
       "check": "coverage:tax_registry_a_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_a_1/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -3565,6 +3722,12 @@
     },
     {
       "scope": "tax_registry_b_1/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_b_1/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3625,6 +3788,12 @@
     },
     {
       "scope": "tax_registry_b_1/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_b_1/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3680,6 +3849,12 @@
     {
       "scope": "tax_registry_b_1/oot",
       "check": "coverage:tax_registry_b_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_b_1/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -3751,6 +3926,12 @@
     },
     {
       "scope": "tax_registry_c_1/train",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_c_1/train",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3811,6 +3992,12 @@
     },
     {
       "scope": "tax_registry_c_1/oot",
+      "check": "E4_build_manifest_hash",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_c_1/oot",
       "check": "manifest_json",
       "status": "ok",
       "error": null
@@ -3866,6 +4053,12 @@
     {
       "scope": "tax_registry_c_1/oot",
       "check": "coverage:tax_registry_c_1",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "scope": "tax_registry_c_1/test",
+      "check": "E4_build_manifest_hash",
       "status": "ok",
       "error": null
     },
@@ -4489,155 +4682,155 @@
       "tax_registry_c_1__source_present": "Boolean"
     }
   },
-  "ok": false,
+  "ok": true,
   "runs": [
     {
       "family": "static_0",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C1-v1/static_0/train/static_0__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_0/train/static_0__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.28,
+      "build_ru_maxrss_kib": 424160,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "dd47bfc109e0ef923cee50295db17dd219bdbbae2398967df56577b0f5a4f4f0",
-      "data_sha256": "db36f1daa48ac792923f69b8ab6f6180762c7a7d16a83c270aafd507b27dba8b",
-      "audit_seconds": 0.05947770900093019,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "d2ee055128282c134cbb0210c69f235ae128918da27ee0f081eb9816006a70fa",
+      "data_sha256": "aa2332758f2355fba9624d27cfd307cd28e54a63c2714f5a03782a882e1a02c9",
+      "audit_seconds": 0.09404191700014053,
+      "audit_process_ru_maxrss_kib": 391086080,
       "errors": null
     },
     {
       "family": "static_0",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C1-v1/static_0/oot/static_0__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_0/oot/static_0__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.03,
+      "build_ru_maxrss_kib": 366224,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "3d932580c7fbdf5777439a739c61fda7cc03b73a5d6b28265f1842efff8c8f23",
-      "data_sha256": "754bfefcffeeca989b940e680cf526d9676bea18eb34494b2400c16ed2e5dfd0",
-      "audit_seconds": 0.0129674689960666,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "a6e495c9cb686c63df91091e7172b01e01ccf9e402708d61383df826b7ead15a",
+      "data_sha256": "04be1ae0ce24a27ab97b38b51d6222f741972e507ba7500d9cd9f9008a691f99",
+      "audit_seconds": 0.06954091599982348,
+      "audit_process_ru_maxrss_kib": 391086080,
       "errors": null
     },
     {
       "family": "static_0",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C1-v1/static_0/test/static_0__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_0/test/static_0__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.99,
+      "build_ru_maxrss_kib": 366160,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "4306f602006391b4aaf2a3f7a7cc9cfeeab6c9f2c84e45aaca22b9eb51e6d2d1",
-      "data_sha256": "a2a65736bc17eb8186c36fb3d233c4b1813826e8f5ceeb6ddd4b497106552967",
-      "audit_seconds": 0.005260390993498731,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "160bab568383fac15d3261c35d9573771c350c2f43ff56bef2501bf62333972a",
+      "data_sha256": "96a12a0fa57fbc9ea1144c0fdc59dab3e79319808ded4ee5b1998c1497aed65f",
+      "audit_seconds": 0.0031946659983077552,
+      "audit_process_ru_maxrss_kib": 391086080,
       "errors": null
     },
     {
       "family": "static_cb_0",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C1-v1/static_cb_0/train/static_cb_0__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_cb_0/train/static_cb_0__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.24,
+      "build_ru_maxrss_kib": 441472,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "c85a6af33649bc6e3baa9c5fa033e4bd763e4a4e882bfcfb71517cd26bbaf8c2",
-      "data_sha256": "c58e2094b445bc02468a753a90595e0acfddab4bd11f6cc4c74024ee6ba1ac33",
-      "audit_seconds": 0.05763822299923049,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "5982c830f710c78b4d8acdbbf7b2ff31087ba6e6c8956a2d60ac01d2f7bf2ee8",
+      "data_sha256": "09b1d224782fbd7c190c462cd55d64c3ccb335e85d37e43542730f726e1eb65d",
+      "audit_seconds": 0.029512167002394563,
+      "audit_process_ru_maxrss_kib": 391086080,
       "errors": null
     },
     {
       "family": "static_cb_0",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C1-v1/static_cb_0/oot/static_cb_0__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_cb_0/oot/static_cb_0__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.93,
+      "build_ru_maxrss_kib": 366288,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "63f04f4244991ba557c1538b1e17cb988921f5567cb2994bcf8ac20f4b326ab6",
-      "data_sha256": "45b8e2cb032224b79226dc41a8f16cafd8020d44eebe892b4dcefa141484d10b",
-      "audit_seconds": 0.012601080998138059,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "2dbf4e3cfd3d41559436fc67e5c42926a840396bcbcfa41d7d77efa4331c1c59",
+      "data_sha256": "d3ad122caeb222e226a5620f263c38432029f9d3dd3571ed542a2d08ef70095b",
+      "audit_seconds": 0.015087416002643295,
+      "audit_process_ru_maxrss_kib": 391086080,
       "errors": null
     },
     {
       "family": "static_cb_0",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C1-v1/static_cb_0/test/static_cb_0__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_cb_0/test/static_cb_0__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.87,
+      "build_ru_maxrss_kib": 366096,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "6b43c66102adaa004dde8e238f0371fe926910135f7108c8a77908feeff8bd6c",
-      "data_sha256": "ee50deff14a6bafa66d3b96cd173f31ad894608b9b5ba76236b4804cf535d36f",
-      "audit_seconds": 0.0052742199986823834,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "99dbb9421c55333ce004466609fc2094b1cf27d1a631c3d9a0afc44322a6435a",
+      "data_sha256": "4d65b61694a410e926920663620d71d5cc9db0bbf1b4ac958841be0468881bbf",
+      "audit_seconds": 0.0012187920001451857,
+      "audit_process_ru_maxrss_kib": 391086080,
       "errors": null
     },
     {
       "family": "applprev",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C2-C3-v1/applprev/train/applprev__train.manifest.json",
-      "status": "invalid",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
-      "build_blocker": "ValueError: Presupuesto RSS excedido",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/applprev/train/applprev__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 11.83,
+      "build_ru_maxrss_kib": 2154592,
+      "origin": "generated_E4",
+      "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 66,
       "predictors": 61,
       "coverage_features": 4,
-      "manifest_sha256": "532abb63a62ed6b2609d056c867b7a03fafc8af29a29f0a932a996df693bf49a",
+      "manifest_sha256": "62538062d2b0a0f687c56a5ff9b7fe49b8be57e55f5e8ac9b1a423f26bc3b612",
       "data_sha256": "7961d70d25aa06c513aee43cd32432d5f53fa91e64170e6e15e454351f78bbb0",
-      "audit_seconds": 1.08156686899747,
-      "audit_process_ru_maxrss_kib": 494416,
-      "errors": "[{\"scope\": \"applprev/train\", \"check\": \"metadata_current_inputs\", \"status\": \"invalid\", \"error\": \"ValueError: shards actuales: actual='train_applprev_1_0.parquet:106951598:1791162508873763611;train_applprev_1_1.parquet:72860971:1791162508936671678;train_applprev_2.parquet:28484608:1791162508958244262'; esperado='train_applprev_1_0.parquet:106951598:1790997776665063009;train_applprev_1_1.parquet:72860971:1790997776698062960;train_applprev_2.parquet:28484608:1790997776882062683'\"}]"
+      "audit_seconds": 0.4553736670022772,
+      "audit_process_ru_maxrss_kib": 391528448,
+      "errors": null
     },
     {
       "family": "applprev",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/E4-v1/applprev/oot/applprev__oot.manifest.json",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/applprev/oot/applprev__oot.manifest.json",
       "status": "generated_validated",
-      "build_seconds": 8.82,
-      "build_ru_maxrss_kib": 2009500,
+      "build_seconds": 4.08,
+      "build_ru_maxrss_kib": 1948592,
       "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
@@ -4645,19 +4838,19 @@
       "columns": 66,
       "predictors": 61,
       "coverage_features": 4,
-      "manifest_sha256": "415e23685d44d5e4696d6a1294a0e8ea3bc3728cb1b5457ec048b16223ebf801",
-      "data_sha256": "d5f59611433c70ff3a1a20bb46d3d1799ee467282fcb5d8bc33e29ff7336b24b",
-      "audit_seconds": 0.1816157330031274,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "c1b53e73e3a4215fe5b976c365353c4de2da3789e75692eb171f4df238927075",
+      "data_sha256": "eb2494f9bfb08bb8a50c5ef9068b5bab5107bcffc8190e5bcc309dfc39c7710d",
+      "audit_seconds": 0.1399431249992631,
+      "audit_process_ru_maxrss_kib": 391528448,
       "errors": null
     },
     {
       "family": "applprev",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/E4-v1/applprev/test/applprev__test.manifest.json",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/applprev/test/applprev__test.manifest.json",
       "status": "generated_validated",
-      "build_seconds": 3.12,
-      "build_ru_maxrss_kib": 398316,
+      "build_seconds": 0.91,
+      "build_ru_maxrss_kib": 366336,
       "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
@@ -4665,19 +4858,19 @@
       "columns": 66,
       "predictors": 61,
       "coverage_features": 4,
-      "manifest_sha256": "542f7fb69e127b8ad874a80b19e3f555a9447ebc4b33ee081162694da30b90f0",
-      "data_sha256": "8b25594283c32efeda7057402139fc2ea4a2b7b1ef1b532583fea1d71e2d1acc",
-      "audit_seconds": 0.05123927700333297,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "4a9315f125735d11b9faf9c7467190cc83857342897cfb69a2fbffc8d85f2745",
+      "data_sha256": "b634a33063610d08c90f8d37619430b8b15ca4a68d504072c59b50ddd61a3a2e",
+      "audit_seconds": 0.011958041999605484,
+      "audit_process_ru_maxrss_kib": 391528448,
       "errors": null
     },
     {
       "family": "person",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/E4-v1/person/train/person__train.manifest.json",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/person/train/person__train.manifest.json",
       "status": "generated_validated",
-      "build_seconds": 11.89,
-      "build_ru_maxrss_kib": 2711960,
+      "build_seconds": 3.81,
+      "build_ru_maxrss_kib": 1710048,
       "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
@@ -4685,19 +4878,19 @@
       "columns": 38,
       "predictors": 33,
       "coverage_features": 4,
-      "manifest_sha256": "344bcc69160d6242bd15bf7b87e3bc97d6e644455a3ff6321e0a79f5ae1c5916",
-      "data_sha256": "f4ae7020f53d372d205c8805ad47a3dcd4954e2f35dad90b35f00ff789d20bf6",
-      "audit_seconds": 0.2790677240045625,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "85ae0eaa5bc9c6bb225d679df8e58eb3ea4e9e24a4b704df646d21681625b14a",
+      "data_sha256": "a0d54f33022924290c4ac6017dd3cf13dd13fa6a639b65804dcee13c3a59eb4e",
+      "audit_seconds": 0.1319370000019262,
+      "audit_process_ru_maxrss_kib": 391528448,
       "errors": null
     },
     {
       "family": "person",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/E4-v1/person/oot/person__oot.manifest.json",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/person/oot/person__oot.manifest.json",
       "status": "generated_validated",
-      "build_seconds": 3.35,
-      "build_ru_maxrss_kib": 1139224,
+      "build_seconds": 1.87,
+      "build_ru_maxrss_kib": 1097600,
       "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
@@ -4705,19 +4898,19 @@
       "columns": 38,
       "predictors": 33,
       "coverage_features": 4,
-      "manifest_sha256": "e8bfa65a1702f504bd95274bfa3178ec0faca3219d8bb031155ace5eefa258d5",
-      "data_sha256": "927ef3c8378880681105c7ba1bfc90dac2a4fa7a0b7fe73bdd89492c74fbe988",
-      "audit_seconds": 0.05177370400633663,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "0a984913c993bf5101a22871074d7b2c00689bfb71a66c2f62413e28cdbcd019",
+      "data_sha256": "68d30781ab2017efe145536cb624ec2d8c81586a05c4503ebfc8bba6fed0c46b",
+      "audit_seconds": 0.03768816699812305,
+      "audit_process_ru_maxrss_kib": 391528448,
       "errors": null
     },
     {
       "family": "person",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/E4-v1/person/test/person__test.manifest.json",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/person/test/person__test.manifest.json",
       "status": "generated_validated",
-      "build_seconds": 2.16,
-      "build_ru_maxrss_kib": 403076,
+      "build_seconds": 0.88,
+      "build_ru_maxrss_kib": 366208,
       "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
@@ -4725,490 +4918,490 @@
       "columns": 38,
       "predictors": 33,
       "coverage_features": 4,
-      "manifest_sha256": "28c0e20e288941362440b4328dc8cc81f35783a14496e5644d00d4b199056219",
-      "data_sha256": "266899da5356c790be5b6b9dfb66b6183ff8aa21ed0e6881c4f15c816b98960b",
-      "audit_seconds": 0.02275847699638689,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "ccfbe3f5428aa031193f69137b73c220e8dc51b614137a0dc5d0a26571a31a67",
+      "data_sha256": "3f45d6372da94bac8d92f9c62982721b5566a3cd3e0b21e89f52634123545745",
+      "audit_seconds": 0.006403624996892177,
+      "audit_process_ru_maxrss_kib": 391528448,
       "errors": null
     },
     {
       "family": "credit_bureau_a",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/credit_bureau_a/train/credit_bureau_a__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_a/train/credit_bureau_a__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 2.72,
+      "build_ru_maxrss_kib": 657856,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "32a56bc3c766050ba7e0138e19a051044204b29dc6c71a49ad38cb05e86699c6",
-      "data_sha256": "77b77f02f02a88a0ad52e3c521c05280601b615ac32b84ab96926f838e3969c6",
-      "audit_seconds": 0.049324782004987355,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "f0e8f70e9860b9946387ccd157474c5492d7e6bfc490ea55547d59bf8a183a99",
+      "data_sha256": "3e8b7f2e210d2e41cbdce824feb38e7a8ce39b7d390c8ef0ded786234cdb2ed5",
+      "audit_seconds": 0.16999029200087534,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "credit_bureau_a",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/credit_bureau_a/oot/credit_bureau_a__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_a/oot/credit_bureau_a__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 2.01,
+      "build_ru_maxrss_kib": 520688,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "9305ae78f6bad213a6a9629e00367ccbef735a1a81c6c81ea68c75d191bd86d8",
-      "data_sha256": "99619076b71bf1ca648d9363c686ae57ffcaf8aaa25bb8341ff0369f4e78bda6",
-      "audit_seconds": 0.010073516998090781,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "00f301fc168e9bd325e9fce5d19f134d221dcf6df99e906eaef1f21841672931",
+      "data_sha256": "e88695f5aa0ec9a2c493991ef7ee5d2fe10bc97804cc73cf4ed1ff10c88e8609",
+      "audit_seconds": 0.1580469999971683,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "credit_bureau_a",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/credit_bureau_a/test/credit_bureau_a__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_a/test/credit_bureau_a__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.87,
+      "build_ru_maxrss_kib": 366368,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "ffb1937decf82175899be1ca02322897425abe9cae641f16d81e0dafddd24b47",
-      "data_sha256": "bf6620289aca0727f2410fdefac291d672596dffa43f9d50fe98aa19ac18b6af",
-      "audit_seconds": 0.003393667000636924,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "a732bd8e7a7400200ec35f64883da67f292ecd0cfec1786e4344932f9f4ab2ec",
+      "data_sha256": "7412edba9f2aa4d14fab06fdc4ffce0f8f6bdf925a1cdc2c9cea2fb45fd201db",
+      "audit_seconds": 0.003451291999226669,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "credit_bureau_b",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/credit_bureau_b/train/credit_bureau_b__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_b/train/credit_bureau_b__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.16,
+      "build_ru_maxrss_kib": 513824,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 5,
       "predictors": 0,
       "coverage_features": 4,
-      "manifest_sha256": "78f201bfbaff7892d7fd66a22d1a4455f58def8b6f23097cfc3b01573de7f109",
-      "data_sha256": "790844baa7261820f9fa9c7abefaf98c82436e9cf890a9859bacebe6c2446817",
-      "audit_seconds": 0.05217096200067317,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "ccc02711c51a3ca3961a9e554a601665bd935bf50e601d7348cee742d2390203",
+      "data_sha256": "70341ca46c8ee23c4a72752a11718959bcc976feb08ae6ea17ae515e77fd13e3",
+      "audit_seconds": 0.0176381669989496,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "credit_bureau_b",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/credit_bureau_b/oot/credit_bureau_b__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_b/oot/credit_bureau_b__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.94,
+      "build_ru_maxrss_kib": 393040,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 5,
       "predictors": 0,
       "coverage_features": 4,
-      "manifest_sha256": "6a1c6baf2d9720a4b3ad1734e55e134e815f42abd5d01e361dd86da3d0caac3c",
-      "data_sha256": "d966181f6ec9be5b3a02067533808a3989c3173bb27ab02cb2c9227304e402db",
-      "audit_seconds": 0.011061425000661984,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "8362eb8199f98330a9397fcc54698e0096adae58e29b9ead04bed58b278b93f8",
+      "data_sha256": "5ca0b1dd4ebd6dce923a13d82f925ca42a0a6f429d482274192d969b5b1bdaa2",
+      "audit_seconds": 0.006062417000066489,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "credit_bureau_b",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/credit_bureau_b/test/credit_bureau_b__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_b/test/credit_bureau_b__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.89,
+      "build_ru_maxrss_kib": 366240,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 5,
       "predictors": 0,
       "coverage_features": 4,
-      "manifest_sha256": "ed01739f9a4082ea3a7eb0d38a516428f2335b34bcf5a49a3e0baa1a53391f6f",
-      "data_sha256": "d8952d2d1c444d5b92d049e5c3445117e2729b333779291d5f1e855689c917d0",
-      "audit_seconds": 0.004476840003917459,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "83432ec78005d4fcc77f199a9954019b029846ea45d36194d3fa6db15528a33c",
+      "data_sha256": "4c3085dce768bf3ccc9b3692ffadb0266e7a125f79309e906428de0b03512048",
+      "audit_seconds": 0.002122834001056617,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "debitcard_1",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/debitcard_1/train/debitcard_1__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/debitcard_1/train/debitcard_1__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.04,
+      "build_ru_maxrss_kib": 416896,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "7f0a20ca2580d7eabdee698650e532e44a25ab86a55dd4aec36685f0e86a69d9",
-      "data_sha256": "e123b87f94f939c051bf9cd05f6bcc2aa6512a63aefbe9a1f59387b248d25c71",
-      "audit_seconds": 0.03979819399683038,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "af109a789732c65774ffa7248f478344081b3e66e9c5c112beb6983144407756",
+      "data_sha256": "fab1767ce80f67166dcd88ff0841ffe3402dde4622d3e8c2c01ad45e1ee41a41",
+      "audit_seconds": 0.018125291000615107,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "debitcard_1",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/debitcard_1/oot/debitcard_1__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/debitcard_1/oot/debitcard_1__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.88,
+      "build_ru_maxrss_kib": 366352,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "10c0dabbe42e70deddc5f601bd6ce45a1643e25b004013eb4ad414ec438bfa47",
-      "data_sha256": "7cd960cd5dc654b0c96488bb134fda31b44066dbec807284a3650601bcef4da4",
-      "audit_seconds": 0.009174727005301975,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "151bafe511d38373d1664cf5ef3eeaa8117c69de8a9d44bc054602e55dfabc2c",
+      "data_sha256": "79eca8b667f23da27ea8ea206f1a34f64fe8997cd462a867902c30eee7aba0ae",
+      "audit_seconds": 0.0034703749988693744,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "debitcard_1",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/debitcard_1/test/debitcard_1__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/debitcard_1/test/debitcard_1__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.86,
+      "build_ru_maxrss_kib": 366176,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "36c89cf07e8a095d795e85e07314d7744b267b0261aecb725a2cc91916bf7bcc",
-      "data_sha256": "4543b970db6efb35c9190e603e1124c67afffbd104c38f617b50b98987c79f60",
-      "audit_seconds": 0.0032545440044486895,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "dcb0fba845708c25472984ff9aa5682e528b15f6563fec21a26e2fb943493052",
+      "data_sha256": "4f023a3c6ec1451b6157b5fa324f5b6c2a3f7ebeeeebc947dfe947663c022f67",
+      "audit_seconds": 0.0012435829994501546,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "deposit_1",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/deposit_1/train/deposit_1__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/deposit_1/train/deposit_1__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.04,
+      "build_ru_maxrss_kib": 415904,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "cdfebc09f35ea3ae9bf0fdc49cd76ca3ebb258b73150e4c6aa8f141f988f2165",
-      "data_sha256": "8e8c23dcbd0b1d60c80c4ae9b49b28016932fe07e9d1a5c54205ba5ff8b0e658",
-      "audit_seconds": 0.04084071699617198,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "87e162e6d659e874118baed114c4155e68bc0ed94a43a9c4e917d5026178a68c",
+      "data_sha256": "a09e1f5b70e9ea4168538680a9bee113a1d8f104ac3a0232e246236639450a70",
+      "audit_seconds": 0.017564958001457853,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "deposit_1",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/deposit_1/oot/deposit_1__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/deposit_1/oot/deposit_1__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.87,
+      "build_ru_maxrss_kib": 366320,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "bcdfdaac80662ffbac335fced91a68c140265d92bcf6f482ae1b1327f6940ab6",
-      "data_sha256": "2281531ba9dfec49531afc10206688c59491e78c5e1a0bb7a834e078a80f83f7",
-      "audit_seconds": 0.008333625999512151,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "3d5b2dae9fb036ac0e937fd65bb5ac4c06fe7f209a158763011b953868dd11d0",
+      "data_sha256": "4e95fc4aebd0b997e7a15fe4ee9bfc680d850faf67c7f4ebfe4341c4faeb99ff",
+      "audit_seconds": 0.004504125001403736,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "deposit_1",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/deposit_1/test/deposit_1__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/deposit_1/test/deposit_1__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.87,
+      "build_ru_maxrss_kib": 366304,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "73d1751a54dafaf6296d08bd200a38733b31671316ecccc38378ef09b5e5ee16",
-      "data_sha256": "48090e41290aa3ba7a748660d9559d16dfe31314829a300a7a62a6db405cea6a",
-      "audit_seconds": 0.0028021100006299093,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "7368c8c5ac0294086e9caa74ce16c001c24de0e978aa0b2f18b76d50ed9a4ccc",
+      "data_sha256": "68ee0664d7ced18576f9ddf34f98906b7094ed5e9301ae61e897b73995cbf39a",
+      "audit_seconds": 0.000951375001022825,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "other_1",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/other_1/train/other_1__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/other_1/train/other_1__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.05,
+      "build_ru_maxrss_kib": 408512,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "e3da6067804d390510bac88e7876690aa177c1e366324e74258354d581b11709",
-      "data_sha256": "0dd722e5cf87b1619a1dd16d7a21f214e983dde2fd7c90725a1bb64ec1bedd88",
-      "audit_seconds": 0.04155764100141823,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "80261a71df7089c7dfefcd5eda4b2ff9bc9ef384101e73dfa20d846c18ab094b",
+      "data_sha256": "06eb9db2ab6cc9cd4eb509015e61ac7be437850d85596af05eecb5a8abe1dbb5",
+      "audit_seconds": 0.01567024999894784,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "other_1",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/other_1/oot/other_1__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/other_1/oot/other_1__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.88,
+      "build_ru_maxrss_kib": 366128,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "5ac1aa966b24a73ae5bfd15338c58a500f76deb42b7f88577c66f8431160e7fc",
-      "data_sha256": "6e879a39161256482925771a5910ba453b0af447ce78d9c24df5ad77d9256e3c",
-      "audit_seconds": 0.008293327002320439,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "5c8c3b7f77ba1e3c81d1ec90ee1916fa2a54582605c101b14a59a962988a50a6",
+      "data_sha256": "b6b8797acd52dcd58433fc3f30964ced374685fc67b4da3bcfdcfe87643c267c",
+      "audit_seconds": 0.0031482920021517202,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "other_1",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/other_1/test/other_1__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/other_1/test/other_1__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.87,
+      "build_ru_maxrss_kib": 366176,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "b345abcc592b02564ea7fb81a31a29e3435c1701e024a626b4ae3af4e558af53",
-      "data_sha256": "3935032f613eef7856463f67657ee005fe58b75a7a194d5ea362db9700bbfcaa",
-      "audit_seconds": 0.002821386995492503,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "bda986263075fd9f8138a7c04b00f61fed5ec4d9dd4770c441292fe204e63271",
+      "data_sha256": "8561ce35c06567575ddc9d19626210f6a453b1fc83fd1a26d541fcfe27dc4570",
+      "audit_seconds": 0.000944208000873914,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_a_1",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_a_1/train/tax_registry_a_1__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_a_1/train/tax_registry_a_1__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.26,
+      "build_ru_maxrss_kib": 698448,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "771a36d16119926d351959e5543336377b1c5ae860ad923d0f1d604e193e3b6f",
-      "data_sha256": "f8f97bfd76c9fdec08d581828eecfd3909ece3281d7971f2b8d496134bc92075",
-      "audit_seconds": 0.037801077000040095,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "0d592384ae76755cd753c9ca87d451e67f511b04984d24a177150f5d1eb13c77",
+      "data_sha256": "19d4d981d3dbe16c3c91d29810e1363dd757544a1578bfcbdf465de143cf4e6f",
+      "audit_seconds": 0.0218669999994745,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_a_1",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_a_1/oot/tax_registry_a_1__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_a_1/oot/tax_registry_a_1__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.9,
+      "build_ru_maxrss_kib": 366176,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "dedf60c693412564193cee892572476160848cc5c83745b0ea51e83ef5c73941",
-      "data_sha256": "145a798170fb86c3f63f11f75c97e40f8445e1c8a89c1de33031554ac16af7b5",
-      "audit_seconds": 0.008309461001772434,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "f4f1588da77d2ce0da1365fa1704e11f48dc708f8bf30ad5f7eb4ebae0f6ac0a",
+      "data_sha256": "6f12a3169dbe8fa983e22c262310dda4b33a39a9cf3bc3138cc27d85b5a7708d",
+      "audit_seconds": 0.0106057500015595,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_a_1",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_a_1/test/tax_registry_a_1__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_a_1/test/tax_registry_a_1__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.88,
+      "build_ru_maxrss_kib": 366304,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "9977c50e6b679d9e5f734921761ddec3c1b2b929595fe19f71f447679730a897",
-      "data_sha256": "aef2165cc9b8507d9b07d188c3c64850d03ef0c0113f10a7089ba350adeb5c39",
-      "audit_seconds": 0.0028171260055387393,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "96fbbc3823f9aa32216ac78d7f7fbfaf4303650290ef67de73c37fd3f387adcc",
+      "data_sha256": "e4be3b5a35505985c549bd164d9f8c89be610b7785b28058900ae8f3303ea7cd",
+      "audit_seconds": 0.0015935409974190407,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_b_1",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_b_1/train/tax_registry_b_1__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_b_1/train/tax_registry_b_1__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.02,
+      "build_ru_maxrss_kib": 420112,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "0cd489a97601695cca55a649db228071a19aaae7ed20c44f7b46984e2e525d52",
-      "data_sha256": "e512640f35352d2a61688945ec009c725744b96e7d8dea27e784dad9c9fa11ea",
-      "audit_seconds": 0.04000422600074671,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "af8a0fd26645d63eb0b97423c7af6a7fac684948b1049bd236f19ab35a534cfc",
+      "data_sha256": "df5de77bbadb3d1419471eec8f354ff8eac912da5356affafcd7d53aed284ca4",
+      "audit_seconds": 0.016996041998936562,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_b_1",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_b_1/oot/tax_registry_b_1__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_b_1/oot/tax_registry_b_1__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.93,
+      "build_ru_maxrss_kib": 442384,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "6f203e57a0b2f3995c1659aca8f0fd2e12e434ba3baf26e70289774eafc31e5e",
-      "data_sha256": "6f6a7dd10075c559c088591c051f5481df064a03eac67a26cfe5b0604a2f0511",
-      "audit_seconds": 0.008741151003050618,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "9cfb66ec09df4fc12c7d3898bfd0cd631245a0cd331fac286fc0ef3708899982",
+      "data_sha256": "ec84fdf0d06523c351a1ab223d7c01cea9533ef0ad82a47717dcb3fc0d95babb",
+      "audit_seconds": 0.00623158400048851,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_b_1",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_b_1/test/tax_registry_b_1__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_b_1/test/tax_registry_b_1__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.89,
+      "build_ru_maxrss_kib": 366272,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "10d63dc3bfd01c6f8f3d5aa604b8f3499815333e6e9ab9d44f28ca32f568c531",
-      "data_sha256": "ca4e13896711a7b0804e52cb0dac567b4a50801ffed4be49b78e8968d3ad9d1f",
-      "audit_seconds": 0.003655922999314498,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "37d9beba948e3b974356aeac2476d4a44af567fdd4d7b62c61219ee1bb09323f",
+      "data_sha256": "50aee079331206cc79b4e6aeaab4a330aedce13369e28a3dc9e2010345975321",
+      "audit_seconds": 0.0015346250002039596,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_c_1",
       "split": "train",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_c_1/train/tax_registry_c_1__train.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_c_1/train/tax_registry_c_1__train.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 1.28,
+      "build_ru_maxrss_kib": 704976,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 1332001,
       "cases": 1332001,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "65d61911c3807bcb44da4d630f0a0b286511aa29b52020314f891378c624bb61",
-      "data_sha256": "ca129972ac6b70a031c62e82b5083ef8debbf0290a4f59570f354b9300943152",
-      "audit_seconds": 0.037128572999790777,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "fe6bf121e45b7100d4aec2c575b1b74d09e774c8aab3f3658f77c353309ca73a",
+      "data_sha256": "4b774d34436cc63c8094c104699847bba30d48838efaa4c1a1cf35dfbda1d363",
+      "audit_seconds": 0.024835291002091253,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_c_1",
       "split": "oot",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_c_1/oot/tax_registry_c_1__oot.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_c_1/oot/tax_registry_c_1__oot.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.9,
+      "build_ru_maxrss_kib": 366048,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 194658,
       "cases": 194658,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "2e70c6963b785d45ec027f118d3473f43351ce9c9477276262262e03aecce9a5",
-      "data_sha256": "f2aa86c46ac7ebb1ae941d103b12f45171bcf8e3bd8cd8c63f10a644c612a0e5",
-      "audit_seconds": 0.011052903995732777,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "8589d8301246bf64ee21839304c6d33789cff5a70501ec33684629c9485efd61",
+      "data_sha256": "b080e53d3ba8c86fe76bc3bdf131b8b7d31a0062bf033847d107eec0e34ce18c",
+      "audit_seconds": 0.013025583000853658,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     },
     {
       "family": "tax_registry_c_1",
       "split": "test",
-      "manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C6-v1/tax_registry_c_1/test/tax_registry_c_1__test.manifest.json",
-      "status": "reused",
-      "build_seconds": null,
-      "build_ru_maxrss_kib": null,
-      "origin": "prior_artifact",
+      "manifest": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_c_1/test/tax_registry_c_1__test.manifest.json",
+      "status": "generated_validated",
+      "build_seconds": 0.86,
+      "build_ru_maxrss_kib": 366240,
+      "origin": "generated_E4",
       "build_blocker": null,
       "rows": 10,
       "cases": 10,
       "columns": 3,
       "predictors": 0,
       "coverage_features": 2,
-      "manifest_sha256": "d401a245b629241d8a2a4dbcbc11848fc21da0a92a67251d38046bf093e8ec67",
-      "data_sha256": "f0fca3f998690257820ea52ed3e5a1a8bd2109b4c3f4522d8dc524ef772fbbbb",
-      "audit_seconds": 0.0027616020015557297,
-      "audit_process_ru_maxrss_kib": 494416,
+      "manifest_sha256": "723b7a392931ce83d0dc2bd405707305ae4281d59810d24519f55bc4e58a58d6",
+      "data_sha256": "892ba7110f1e6e8b6e1c1c351a1a90762857f9742eb3eaf1bd549f0532b18b95",
+      "audit_seconds": 0.0012305830023251474,
+      "audit_process_ru_maxrss_kib": 396804096,
       "errors": null
     }
   ],
@@ -5223,7 +5416,7 @@
       "base_cases": 1332001,
       "cases_without_source": 0,
       "coverage_pct": 100.0,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5236,7 +5429,7 @@
       "base_cases": 194658,
       "cases_without_source": 0,
       "coverage_pct": 100.0,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5249,7 +5442,7 @@
       "base_cases": 10,
       "cases_without_source": 0,
       "coverage_pct": 100.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5262,7 +5455,7 @@
       "base_cases": 1332001,
       "cases_without_source": 25895,
       "coverage_pct": 98.05593239044114,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5275,7 +5468,7 @@
       "base_cases": 194658,
       "cases_without_source": 288,
       "coverage_pct": 99.85204820762569,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5288,7 +5481,7 @@
       "base_cases": 10,
       "cases_without_source": 0,
       "coverage_pct": 100.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5301,8 +5494,8 @@
       "base_cases": 1332001,
       "cases_without_source": 289862,
       "coverage_pct": 78.23860492597228,
-      "artifact_provenance": "train:invalid",
-      "current_inputs_valid": false
+      "artifact_provenance": "train:generated_validated",
+      "current_inputs_valid": true
     },
     {
       "family": "applprev",
@@ -5314,8 +5507,8 @@
       "base_cases": 1332001,
       "cases_without_source": 289862,
       "coverage_pct": 78.23860492597228,
-      "artifact_provenance": "train:invalid",
-      "current_inputs_valid": false
+      "artifact_provenance": "train:generated_validated",
+      "current_inputs_valid": true
     },
     {
       "family": "applprev",
@@ -5457,7 +5650,7 @@
       "base_cases": 1332001,
       "cases_without_source": 385844,
       "coverage_pct": 71.03275447991406,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5470,7 +5663,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1332001,
       "coverage_pct": 0.0,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5483,7 +5676,7 @@
       "base_cases": 194658,
       "cases_without_source": 24048,
       "coverage_pct": 87.64602533674444,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5496,7 +5689,7 @@
       "base_cases": 194658,
       "cases_without_source": 194658,
       "coverage_pct": 0.0,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5509,7 +5702,7 @@
       "base_cases": 10,
       "cases_without_source": 6,
       "coverage_pct": 40.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5522,7 +5715,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5535,7 +5728,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1326350,
       "coverage_pct": 0.424248930744046,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5548,7 +5741,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1326353,
       "coverage_pct": 0.42402370568790865,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5561,7 +5754,7 @@
       "base_cases": 194658,
       "cases_without_source": 192925,
       "coverage_pct": 0.8902793617524067,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5574,7 +5767,7 @@
       "base_cases": 194658,
       "cases_without_source": 192927,
       "coverage_pct": 0.8892519187498074,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5587,7 +5780,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5600,7 +5793,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5613,7 +5806,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1237002,
       "coverage_pct": 7.132051702663887,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5626,7 +5819,7 @@
       "base_cases": 194658,
       "cases_without_source": 177885,
       "coverage_pct": 8.616650741300127,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5639,7 +5832,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5652,7 +5845,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1242662,
       "coverage_pct": 6.707127096751429,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5665,7 +5858,7 @@
       "base_cases": 194658,
       "cases_without_source": 178886,
       "coverage_pct": 8.102415518499111,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5678,7 +5871,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5691,7 +5884,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1306142,
       "coverage_pct": 1.9413649088852036,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5704,7 +5897,7 @@
       "base_cases": 194658,
       "cases_without_source": 169408,
       "coverage_pct": 12.971467907817814,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5717,7 +5910,7 @@
       "base_cases": 10,
       "cases_without_source": 8,
       "coverage_pct": 20.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5730,7 +5923,7 @@
       "base_cases": 1332001,
       "cases_without_source": 876305,
       "coverage_pct": 34.211385727187896,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5743,7 +5936,7 @@
       "base_cases": 194658,
       "cases_without_source": 192420,
       "coverage_pct": 1.149708719908763,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5756,7 +5949,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5769,7 +5962,7 @@
       "base_cases": 1332001,
       "cases_without_source": 1307577,
       "coverage_pct": 1.83363225703284,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5782,7 +5975,7 @@
       "base_cases": 194658,
       "cases_without_source": 68350,
       "coverage_pct": 64.88713538616446,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5795,7 +5988,7 @@
       "base_cases": 10,
       "cases_without_source": 8,
       "coverage_pct": 20.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5808,7 +6001,7 @@
       "base_cases": 1332001,
       "cases_without_source": 849736,
       "coverage_pct": 36.206053899358935,
-      "artifact_provenance": "train:reused",
+      "artifact_provenance": "train:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5821,7 +6014,7 @@
       "base_cases": 194658,
       "cases_without_source": 194658,
       "coverage_pct": 0.0,
-      "artifact_provenance": "oot:reused",
+      "artifact_provenance": "oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5834,7 +6027,7 @@
       "base_cases": 10,
       "cases_without_source": 10,
       "coverage_pct": 0.0,
-      "artifact_provenance": "test:reused",
+      "artifact_provenance": "test:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5852,8 +6045,8 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 318620,
-      "artifact_provenance": "train:invalid;oot:generated_validated",
-      "current_inputs_valid": false
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
+      "current_inputs_valid": true
     },
     {
       "table": "applprev_2",
@@ -5870,8 +6063,8 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 318620,
-      "artifact_provenance": "train:invalid;oot:generated_validated",
-      "current_inputs_valid": false
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
+      "current_inputs_valid": true
     },
     {
       "table": "credit_bureau_a_1",
@@ -5888,7 +6081,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 409892,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5906,7 +6099,7 @@
       "base_cases": 1526659,
       "cases_without_source": 1526659,
       "coverage_pct": 0.0,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5924,7 +6117,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1519275,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5942,7 +6135,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1519280,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5960,7 +6153,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1414887,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5978,7 +6171,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1421548,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -5996,7 +6189,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1475550,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -6050,7 +6243,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 0,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -6068,7 +6261,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 26183,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -6086,7 +6279,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1068725,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -6104,7 +6297,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1375927,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     },
     {
@@ -6122,7 +6315,7 @@
       "split": "train+oot",
       "base_cases": 1526659,
       "cases_without_source": 1044394,
-      "artifact_provenance": "train:reused;oot:reused",
+      "artifact_provenance": "train:generated_validated;oot:generated_validated",
       "current_inputs_valid": true
     }
   ],
@@ -7580,7 +7773,7 @@
       "row_exclusions_disjoint": 140106,
       "lost_cases": 13483,
       "coverage_pct": 79.12958951540587,
-      "current_inputs_valid": false
+      "current_inputs_valid": true
     },
     {
       "table": "applprev_2",
@@ -7593,7 +7786,7 @@
       "row_exclusions_disjoint": 213212,
       "lost_cases": 13483,
       "coverage_pct": 79.12958951540587,
-      "current_inputs_valid": false
+      "current_inputs_valid": true
     },
     {
       "table": "credit_bureau_a_1",
@@ -7777,7 +7970,7 @@
       "current_inputs_valid": true
     }
   ],
-  "audit_seconds": 3.2632134220039006,
-  "audit_process_ru_maxrss_kib": 494416,
+  "audit_seconds": 1.7206539999970119,
+  "audit_process_ru_maxrss_kib": 396804096,
   "resource_scope": "cumulative auditor process high-water mark, Linux KiB; not build resources"
 }
