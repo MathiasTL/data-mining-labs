@@ -379,6 +379,28 @@ def aggregate_people(base, person_1, person_2, config: PeopleConfig | None = Non
 
 # ----------------------------------------------------------------- adaptadores de familia
 TABLES = {"applprev": ("applprev_1", "applprev_2"), "person": ("person_1", "person_2")}  # (tabla padre, tabla hija)
+# Bloques de casos por defecto: cada bloque lee y agrega solo sus casos, lo que acota la memoria.
+# Como toda agregación es por caso, el resultado es idéntico al de un solo bloque.
+DEFAULT_CASE_CHUNKS = 4
+
+
+def _case_chunks(base: pl.DataFrame, chunks: int) -> list[pl.Series]:
+    if chunks < 1:
+        raise ValueError(f"case_chunks must be >= 1, got {chunks}")
+    ids = base[KEY].sort()
+    size = max(1, -(-ids.len() // chunks))
+    return [ids.slice(i, size) for i in range(0, ids.len(), size)] or [ids]
+
+
+def _aggregate_in_chunks(base: pl.DataFrame, chunks: int, aggregate) -> FamilyAggregate:
+    """Aplica ``aggregate(base_del_bloque, casos_del_bloque)`` por bloque y une resultados y exclusiones."""
+    features, exclusions = [], {}
+    for ids in _case_chunks(base, chunks):
+        part = aggregate(base.filter(pl.col(KEY).is_in(ids.implode())), ids)
+        features.append(part.features)
+        for key, value in part.exclusions.items():
+            exclusions[key] = exclusions.get(key, 0) + value
+    return FamilyAggregate(pl.concat(features, how="vertical_relaxed").sort(KEY), exclusions)
 
 
 def _complete_coverage(features: pl.DataFrame, base: pl.DataFrame, family: str) -> pl.DataFrame:
@@ -436,6 +458,7 @@ def build_applprev_features(
     cutoff_week: int = 74,
     output_dir: Path,
     config: ApplicationsConfig | None = None,
+    case_chunks: int = DEFAULT_CASE_CHUNKS,
 ) -> contracts.FamilyFeatureArtifact:
     """Familia ``applprev`` (``applprev_1`` + ``applprev_2``) -> una fila por ``case_id`` con cobertura."""
     contracts.validate_base(base, split, cutoff_week)
@@ -443,10 +466,14 @@ def build_applprev_features(
     _validate_applications_config(cfg, CREATION)
     file_split = "test" if split == "test" else "train"
     cols1, cols2 = _applications_columns(cfg)
-    cases = base.lazy().select(KEY)
-    a1 = _read(file_split, "applprev_1", cols1, cases)
-    a2 = _read(file_split, "applprev_2", cols2, cases)
-    result = aggregate_applications_with_exclusions(base, a1, a2, cfg)
+
+    def aggregate(chunk_base: pl.DataFrame, ids: pl.Series) -> FamilyAggregate:
+        cases = ids.to_frame().lazy()
+        a1 = _read(file_split, "applprev_1", cols1, cases)
+        a2 = _read(file_split, "applprev_2", cols2, cases)
+        return aggregate_applications_with_exclusions(chunk_base, a1, a2, cfg)
+
+    result = _aggregate_in_chunks(base, case_chunks, aggregate)
     result = FamilyAggregate(_complete_coverage(result.features, base, "applprev"), result.exclusions)
     return _publish(
         "applprev", base, split, cutoff_week, output_dir, result, ["applprev_1", "applprev_2"], file_split,
@@ -461,6 +488,7 @@ def build_person_features(
     cutoff_week: int = 74,
     output_dir: Path,
     config: PeopleConfig | None = None,
+    case_chunks: int = DEFAULT_CASE_CHUNKS,
 ) -> contracts.FamilyFeatureArtifact:
     """Familia ``person`` (``person_1`` + ``person_2``): atributos de la solicitud actual, persona principal ``num_group1 = 0``."""
     contracts.validate_base(base, split, cutoff_week)
@@ -468,10 +496,14 @@ def build_person_features(
     _validate_people_config(cfg)
     file_split = "test" if split == "test" else "train"
     cols1, cols2 = _people_columns(cfg)
-    cases = base.lazy().select(KEY)
-    p1 = _read(file_split, "person_1", cols1, cases)
-    p2 = _read(file_split, "person_2", cols2, cases)
-    result = aggregate_people_with_exclusions(base, p1, p2, cfg)
+
+    def aggregate(chunk_base: pl.DataFrame, ids: pl.Series) -> FamilyAggregate:
+        cases = ids.to_frame().lazy()
+        p1 = _read(file_split, "person_1", cols1, cases)
+        p2 = _read(file_split, "person_2", cols2, cases)
+        return aggregate_people_with_exclusions(chunk_base, p1, p2, cfg)
+
+    result = _aggregate_in_chunks(base, case_chunks, aggregate)
     result = FamilyAggregate(_complete_coverage(result.features, base, "person"), result.exclusions)
     return _publish(
         "person", base, split, cutoff_week, output_dir, result, ["person_1", "person_2"], file_split,

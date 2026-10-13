@@ -195,3 +195,21 @@ def test_assembled_matrix_has_no_null_coverage_for_applprev_and_person(data, tmp
     coverage = [c for c in m.columns if c.endswith(("__n_records", "__source_present"))]
     assert len(coverage) == 8
     assert all(m[c].null_count() == 0 for c in coverage)
+
+
+# ---------------------------------------------------------------- memoria acotada por bloques de casos
+@pytest.mark.parametrize("family", ["applprev", "person"])
+@pytest.mark.parametrize("chunks", [2, 3, 50])
+def test_case_chunks_give_exactly_the_same_artifact(data, tmp_path, family, chunks):
+    build = ap.build_applprev_features if family == "applprev" else ap.build_person_features
+    cfg = SMALL_APP if family == "applprev" else SMALL_PEOPLE
+    one = build(base_for("train", 74), "train", output_dir=tmp_path / "one", config=cfg, case_chunks=1)
+    many = build(base_for("train", 74), "train", output_dir=tmp_path / "many", config=cfg, case_chunks=chunks)
+    assert pl.read_parquet(one.data_path).equals(pl.read_parquet(many.data_path))
+    assert json.loads(one.manifest_path.read_text())["exclusions"] == json.loads(many.manifest_path.read_text())["exclusions"]
+    assert one.feature_schema == many.feature_schema
+
+
+def test_case_chunks_must_be_positive(data, tmp_path):
+    with pytest.raises(ValueError, match="case_chunks"):
+        ap.build_applprev_features(base_for("train", 74), "train", output_dir=tmp_path / "o", config=SMALL_APP, case_chunks=0)
