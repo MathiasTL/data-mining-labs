@@ -123,7 +123,7 @@ def plan_steps(cfg: dict, *, from_scratch: bool) -> list[Step]:
         Step("e4_checkpoint_audit", "dm_credit.preparation.e4_shards", ["--checkpoint-dir", str(d["e4"] / "checkpoints")], env),
         Step("e5", "dm_credit.preparation.e5", ["--artifacts", str(d["e4"]), "--output-dir", str(d["e5"])], env),
         Step("e6", "dm_credit.preparation.e6", ["--masters", str(d["e5"]), "--output-dir", str(d["e6"])], env),
-        Step("validation", "dm_credit.preparation.validation", ["--artifacts", str(d["e4"])], env),
+        Step("validation", "dm_credit.preparation.validation", ["--artifacts", str(d["e4"]), "--matrix-dir", str(d["e5"])], env),
     ]
     return steps
 

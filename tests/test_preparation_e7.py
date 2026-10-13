@@ -33,6 +33,8 @@ def test_steps_reuse_e4_by_default_and_rebuild_from_scratch():
     scratch = [s.name for s in build.plan_steps(cfg, from_scratch=True)]
     assert reuse == ["e4_audit", "e4_checkpoint_audit", "e5", "e6", "validation"]
     assert scratch == ["e4_rebuild", "e4_checkpoints", "e4_audit", "e4_checkpoint_audit", "e5", "e6", "validation"]
+    validation = build.plan_steps(cfg, from_scratch=False)[-1]
+    assert validation.args == ["--artifacts", str(build._dirs(cfg)["e4"]), "--matrix-dir", str(build._dirs(cfg)["e5"])]
 
 
 def test_module_steps_run_serially_with_one_thread_and_stop_on_failure(tmp_path):
