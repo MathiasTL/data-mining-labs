@@ -1,0 +1,7 @@
+view,split,rows,columns,predictors,predictor_nulls,range_warnings,seconds,data_sha256,data_path
+linear,train,1332001,308,303,0,0,3.86,e503b09a1fb69efee1cf1273cb7e6661f432ffd1382883abb04d603def3d329b,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__train.parquet
+tree,train,1332001,129,124,39734211,0,2.61,0bfa48021c37347a8474be44e463b04c09585630441daad440588a7d2e2636bd,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__train.parquet
+linear,oot,194658,308,303,0,1,0.62,ad1e57dccd5e325c1cce6556ca70d04f40d949f9735c4bd33f85474f095e2125,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__oot.parquet
+tree,oot,194658,129,124,5069844,0,0.38,87905d3034174471b1637e200ec73a67c44bb1eb62b2fbbf35309e7485049e99,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__oot.parquet
+linear,test,10,307,303,0,1,0.04,f4fdb11a7ffd8e9380e2cb4026ff6920588ad95a2f712cdda028d5eb1bbc6bd7,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__test.parquet
+tree,test,10,128,124,676,0,0.01,02a654a8f949996a0531bbd635aa89a173c9025c97fdda0d3f159a84c490c81f,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__test.parquet

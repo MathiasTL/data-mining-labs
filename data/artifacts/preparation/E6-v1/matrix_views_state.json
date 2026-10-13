@@ -1,0 +1,971 @@
+{
+  "version": 1,
+  "preprocessor": {
+    "version": 1,
+    "cutoff_week": 74,
+    "spec": {
+      "numeric": [
+        "applprev_1__annuity_853a__count__all",
+        "applprev_1__annuity_853a__max__all",
+        "applprev_1__annuity_853a__mean__all",
+        "applprev_1__annuity_853a__min__all",
+        "applprev_1__annuity_853a__sum__all",
+        "applprev_1__approvaldate_319d__days_since_last__all",
+        "applprev_1__byoccupationinc_3656910l__count__all",
+        "applprev_1__byoccupationinc_3656910l__max__all",
+        "applprev_1__byoccupationinc_3656910l__mean__all",
+        "applprev_1__byoccupationinc_3656910l__min__all",
+        "applprev_1__childnum_21l__count__all",
+        "applprev_1__childnum_21l__max__all",
+        "applprev_1__childnum_21l__mean__all",
+        "applprev_1__childnum_21l__min__all",
+        "applprev_1__creationdate_885d__days_since_first__all",
+        "applprev_1__creationdate_885d__days_since_last__all",
+        "applprev_1__credacc_credlmt_575a__count__all",
+        "applprev_1__credacc_credlmt_575a__max__all",
+        "applprev_1__credacc_credlmt_575a__mean__all",
+        "applprev_1__credacc_credlmt_575a__min__all",
+        "applprev_1__credacc_credlmt_575a__sum__all",
+        "applprev_1__credamount_590a__count__all",
+        "applprev_1__credamount_590a__max__all",
+        "applprev_1__credamount_590a__mean__all",
+        "applprev_1__credamount_590a__min__all",
+        "applprev_1__credamount_590a__sum__all",
+        "applprev_1__credtype_587l__n_distinct__all",
+        "applprev_1__credtype_587l__share_cal__all",
+        "applprev_1__credtype_587l__share_col__all",
+        "applprev_1__credtype_587l__share_rel__all",
+        "applprev_1__dateactivated_425d__days_since_last__all",
+        "applprev_1__dtlastpmt_581d__days_since_last__all",
+        "applprev_1__education_1138m__n_distinct__all",
+        "applprev_1__education_1138m__share_a55475b1__all",
+        "applprev_1__education_1138m__share_p33_146_175__all",
+        "applprev_1__education_1138m__share_p97_36_170__all",
+        "applprev_1__employedfrom_700d__days_since_last__all",
+        "applprev_1__familystate_726l__n_distinct__all",
+        "applprev_1__familystate_726l__share_divorced__all",
+        "applprev_1__familystate_726l__share_living_with_partner__all",
+        "applprev_1__familystate_726l__share_married__all",
+        "applprev_1__familystate_726l__share_single__all",
+        "applprev_1__familystate_726l__share_widowed__all",
+        "applprev_1__inittransactioncode_279l__n_distinct__all",
+        "applprev_1__inittransactioncode_279l__share_cash__all",
+        "applprev_1__inittransactioncode_279l__share_ndf__all",
+        "applprev_1__inittransactioncode_279l__share_pos__all",
+        "applprev_1__isbidproduct_390l__share_true__all",
+        "applprev_1__isdebitcard_527l__share_true__all",
+        "applprev_1__mainoccupationinc_437a__count__all",
+        "applprev_1__mainoccupationinc_437a__max__all",
+        "applprev_1__mainoccupationinc_437a__mean__all",
+        "applprev_1__mainoccupationinc_437a__min__all",
+        "applprev_1__mainoccupationinc_437a__sum__all",
+        "applprev_1__n_records",
+        "applprev_1__profession_152m__n_distinct__all",
+        "applprev_1__tenor_203l__count__all",
+        "applprev_1__tenor_203l__max__all",
+        "applprev_1__tenor_203l__mean__all",
+        "applprev_1__tenor_203l__min__all",
+        "applprev_2__children_per_parent_max__all",
+        "applprev_2__children_per_parent_mean__all",
+        "applprev_2__n_records",
+        "credit_bureau_a_1__n_records",
+        "credit_bureau_b_1__n_records",
+        "credit_bureau_b_2__n_records",
+        "debitcard_1__n_records",
+        "deposit_1__n_records",
+        "other_1__n_records",
+        "person_1__birth_259d__age_years__all",
+        "person_1__empl_employedfrom_271d__days_since_last__all",
+        "person_1__mainoccupationinc_384a__main__all",
+        "person_1__n_contacts__all",
+        "person_1__n_records",
+        "person_1__personindex_1023l__main__all",
+        "person_1__persontype_1072l__main__all",
+        "person_1__persontype_792l__main__all",
+        "person_1__relationshiptoclient_415t__share_child__all",
+        "person_1__relationshiptoclient_415t__share_colleague__all",
+        "person_1__relationshiptoclient_415t__share_friend__all",
+        "person_1__relationshiptoclient_415t__share_neighbor__all",
+        "person_1__relationshiptoclient_415t__share_other__all",
+        "person_1__relationshiptoclient_415t__share_other_relative__all",
+        "person_1__relationshiptoclient_415t__share_parent__all",
+        "person_1__relationshiptoclient_415t__share_sibling__all",
+        "person_1__relationshiptoclient_415t__share_spouse__all",
+        "person_1__relationshiptoclient_642t__share_child__all",
+        "person_1__relationshiptoclient_642t__share_colleague__all",
+        "person_1__relationshiptoclient_642t__share_friend__all",
+        "person_1__relationshiptoclient_642t__share_neighbor__all",
+        "person_1__relationshiptoclient_642t__share_other__all",
+        "person_1__relationshiptoclient_642t__share_other_relative__all",
+        "person_1__relationshiptoclient_642t__share_parent__all",
+        "person_1__relationshiptoclient_642t__share_sibling__all",
+        "person_1__relationshiptoclient_642t__share_spouse__all",
+        "person_2__n_records",
+        "static_0__n_records",
+        "static_cb_0__n_records",
+        "tax_registry_a_1__n_records",
+        "tax_registry_b_1__n_records",
+        "tax_registry_c_1__n_records"
+      ],
+      "categorical": [
+        "applprev_1__source_present",
+        "applprev_2__source_present",
+        "credit_bureau_a_1__source_present",
+        "credit_bureau_b_1__source_present",
+        "credit_bureau_b_2__source_present",
+        "debitcard_1__source_present",
+        "deposit_1__source_present",
+        "other_1__source_present",
+        "person_1__education_927m__main__all",
+        "person_1__empl_employedtotal_800l__main__all",
+        "person_1__empl_industry_691l__main__all",
+        "person_1__familystate_447l__main__all",
+        "person_1__incometype_1044t__main__all",
+        "person_1__language1_981m__main__all",
+        "person_1__role_1084l__main__all",
+        "person_1__source_present",
+        "person_1__type_25l__main__all",
+        "person_2__source_present",
+        "static_0__source_present",
+        "static_cb_0__source_present",
+        "tax_registry_a_1__source_present",
+        "tax_registry_b_1__source_present",
+        "tax_registry_c_1__source_present"
+      ],
+      "min_frequency": 0.01,
+      "clip_columns": [],
+      "clip_quantiles": [
+        0.001,
+        0.999
+      ],
+      "domain": {}
+    },
+    "medians": {
+      "applprev_1__annuity_853a__count__all": 4.0,
+      "applprev_1__annuity_853a__max__all": 4671.0,
+      "applprev_1__annuity_853a__mean__all": 2969.3732525892856,
+      "applprev_1__annuity_853a__min__all": 1405.4,
+      "applprev_1__annuity_853a__sum__all": 10902.0003,
+      "applprev_1__approvaldate_319d__days_since_last__all": 305.0,
+      "applprev_1__byoccupationinc_3656910l__count__all": 0.0,
+      "applprev_1__byoccupationinc_3656910l__max__all": 15000.0,
+      "applprev_1__byoccupationinc_3656910l__mean__all": 10000.0,
+      "applprev_1__byoccupationinc_3656910l__min__all": 1.0,
+      "applprev_1__childnum_21l__count__all": 1.0,
+      "applprev_1__childnum_21l__max__all": 1.0,
+      "applprev_1__childnum_21l__mean__all": 0.75,
+      "applprev_1__childnum_21l__min__all": 0.0,
+      "applprev_1__creationdate_885d__days_since_first__all": 1653.0,
+      "applprev_1__creationdate_885d__days_since_last__all": 241.0,
+      "applprev_1__credacc_credlmt_575a__count__all": 4.0,
+      "applprev_1__credacc_credlmt_575a__max__all": 0.0,
+      "applprev_1__credacc_credlmt_575a__mean__all": 0.0,
+      "applprev_1__credacc_credlmt_575a__min__all": 0.0,
+      "applprev_1__credacc_credlmt_575a__sum__all": 0.0,
+      "applprev_1__credamount_590a__count__all": 4.0,
+      "applprev_1__credamount_590a__max__all": 53590.0,
+      "applprev_1__credamount_590a__mean__all": 31177.333333333332,
+      "applprev_1__credamount_590a__min__all": 11603.4005,
+      "applprev_1__credamount_590a__sum__all": 113760.0,
+      "applprev_1__credtype_587l__n_distinct__all": 2.0,
+      "applprev_1__credtype_587l__share_cal__all": 0.16666666666666666,
+      "applprev_1__credtype_587l__share_col__all": 0.6666666666666666,
+      "applprev_1__credtype_587l__share_rel__all": 0.0,
+      "applprev_1__dateactivated_425d__days_since_last__all": 307.0,
+      "applprev_1__dtlastpmt_581d__days_since_last__all": 224.0,
+      "applprev_1__education_1138m__n_distinct__all": 2.0,
+      "applprev_1__education_1138m__share_a55475b1__all": 0.4,
+      "applprev_1__education_1138m__share_p33_146_175__all": 0.0,
+      "applprev_1__education_1138m__share_p97_36_170__all": 0.3333333333333333,
+      "applprev_1__employedfrom_700d__days_since_last__all": 2568.0,
+      "applprev_1__familystate_726l__n_distinct__all": 1.0,
+      "applprev_1__familystate_726l__share_divorced__all": 0.0,
+      "applprev_1__familystate_726l__share_living_with_partner__all": 0.0,
+      "applprev_1__familystate_726l__share_married__all": 1.0,
+      "applprev_1__familystate_726l__share_single__all": 0.0,
+      "applprev_1__familystate_726l__share_widowed__all": 0.0,
+      "applprev_1__inittransactioncode_279l__n_distinct__all": 1.0,
+      "applprev_1__inittransactioncode_279l__share_cash__all": 0.16666666666666666,
+      "applprev_1__inittransactioncode_279l__share_ndf__all": 0.0,
+      "applprev_1__inittransactioncode_279l__share_pos__all": 0.75,
+      "applprev_1__isbidproduct_390l__share_true__all": 0.0,
+      "applprev_1__isdebitcard_527l__share_true__all": 0.0,
+      "applprev_1__mainoccupationinc_437a__count__all": 4.0,
+      "applprev_1__mainoccupationinc_437a__max__all": 56000.0,
+      "applprev_1__mainoccupationinc_437a__mean__all": 36457.142857142855,
+      "applprev_1__mainoccupationinc_437a__min__all": 19600.0,
+      "applprev_1__mainoccupationinc_437a__sum__all": 131800.0,
+      "applprev_1__n_records": 3.0,
+      "applprev_1__profession_152m__n_distinct__all": 1.0,
+      "applprev_1__tenor_203l__count__all": 3.0,
+      "applprev_1__tenor_203l__max__all": 24.0,
+      "applprev_1__tenor_203l__mean__all": 13.333333333333334,
+      "applprev_1__tenor_203l__min__all": 6.0,
+      "applprev_2__children_per_parent_max__all": 3.0,
+      "applprev_2__children_per_parent_mean__all": 2.0,
+      "applprev_2__n_records": 5.0,
+      "credit_bureau_a_1__n_records": 2.0,
+      "credit_bureau_b_1__n_records": 0.0,
+      "credit_bureau_b_2__n_records": 0.0,
+      "debitcard_1__n_records": 0.0,
+      "deposit_1__n_records": 0.0,
+      "other_1__n_records": 0.0,
+      "person_1__birth_259d__age_years__all": 42.0,
+      "person_1__empl_employedfrom_271d__days_since_last__all": 1371.0,
+      "person_1__mainoccupationinc_384a__main__all": 50000.0,
+      "person_1__n_contacts__all": 1.0,
+      "person_1__n_records": 2.0,
+      "person_1__personindex_1023l__main__all": 0.0,
+      "person_1__persontype_1072l__main__all": 1.0,
+      "person_1__persontype_792l__main__all": 1.0,
+      "person_1__relationshiptoclient_415t__share_child__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_colleague__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_friend__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_neighbor__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_other__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_other_relative__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_parent__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_sibling__all": 0.0,
+      "person_1__relationshiptoclient_415t__share_spouse__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_child__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_colleague__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_friend__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_neighbor__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_other__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_other_relative__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_parent__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_sibling__all": 0.0,
+      "person_1__relationshiptoclient_642t__share_spouse__all": 0.0,
+      "person_2__n_records": 1.0,
+      "static_0__n_records": 1.0,
+      "static_cb_0__n_records": 1.0,
+      "tax_registry_a_1__n_records": 0.0,
+      "tax_registry_b_1__n_records": 0.0,
+      "tax_registry_c_1__n_records": 0.0
+    },
+    "vocabs": {
+      "applprev_1__source_present": [
+        "false",
+        "true"
+      ],
+      "applprev_2__source_present": [
+        "false",
+        "true"
+      ],
+      "credit_bureau_a_1__source_present": [
+        "false",
+        "true"
+      ],
+      "credit_bureau_b_1__source_present": [
+        "false"
+      ],
+      "credit_bureau_b_2__source_present": [
+        "false"
+      ],
+      "debitcard_1__source_present": [
+        "false",
+        "true"
+      ],
+      "deposit_1__source_present": [
+        "false",
+        "true"
+      ],
+      "other_1__source_present": [
+        "false",
+        "true"
+      ],
+      "person_1__education_927m__main__all": [
+        "P33_146_175",
+        "P97_36_170",
+        "a55475b1"
+      ],
+      "person_1__empl_employedtotal_800l__main__all": [
+        "LESS_ONE",
+        "MORE_FIVE",
+        "MORE_ONE"
+      ],
+      "person_1__empl_industry_691l__main__all": [
+        "AGRICULTURE",
+        "EDUCATION",
+        "GOVERNMENT",
+        "HEALTH",
+        "MANUFACTURING",
+        "OTHER",
+        "TRADE"
+      ],
+      "person_1__familystate_447l__main__all": [
+        "DIVORCED",
+        "LIVING_WITH_PARTNER",
+        "MARRIED",
+        "SINGLE",
+        "WIDOWED"
+      ],
+      "person_1__incometype_1044t__main__all": [
+        "EMPLOYED",
+        "PRIVATE_SECTOR_EMPLOYEE",
+        "RETIRED_PENSIONER",
+        "SALARIED_GOVT",
+        "SELFEMPLOYED"
+      ],
+      "person_1__language1_981m__main__all": [
+        "P10_39_147",
+        "P209_127_106"
+      ],
+      "person_1__role_1084l__main__all": [
+        "CL",
+        "EM"
+      ],
+      "person_1__source_present": [
+        "true"
+      ],
+      "person_1__type_25l__main__all": [
+        "HOME_PHONE",
+        "PRIMARY_MOBILE"
+      ],
+      "person_2__source_present": [
+        "false",
+        "true"
+      ],
+      "static_0__source_present": [
+        "true"
+      ],
+      "static_cb_0__source_present": [
+        "false",
+        "true"
+      ],
+      "tax_registry_a_1__source_present": [
+        "false",
+        "true"
+      ],
+      "tax_registry_b_1__source_present": [
+        "false",
+        "true"
+      ],
+      "tax_registry_c_1__source_present": [
+        "false",
+        "true"
+      ]
+    },
+    "train_range": {
+      "applprev_1__annuity_853a__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__annuity_853a__max__all": [
+        0.0,
+        105130.2
+      ],
+      "applprev_1__annuity_853a__mean__all": [
+        0.0,
+        103000.0
+      ],
+      "applprev_1__annuity_853a__min__all": [
+        0.0,
+        103000.0
+      ],
+      "applprev_1__annuity_853a__sum__all": [
+        0.0,
+        440684.006
+      ],
+      "applprev_1__approvaldate_319d__days_since_last__all": [
+        0.0,
+        5219.0
+      ],
+      "applprev_1__byoccupationinc_3656910l__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__byoccupationinc_3656910l__max__all": [
+        0.0,
+        200000.0
+      ],
+      "applprev_1__byoccupationinc_3656910l__mean__all": [
+        0.0,
+        200000.0
+      ],
+      "applprev_1__byoccupationinc_3656910l__min__all": [
+        0.0,
+        200000.0
+      ],
+      "applprev_1__childnum_21l__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__childnum_21l__max__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__childnum_21l__mean__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__childnum_21l__min__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__creationdate_885d__days_since_first__all": [
+        0.0,
+        5246.0
+      ],
+      "applprev_1__creationdate_885d__days_since_last__all": [
+        0.0,
+        5200.0
+      ],
+      "applprev_1__credacc_credlmt_575a__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__credacc_credlmt_575a__max__all": [
+        0.0,
+        400000.0
+      ],
+      "applprev_1__credacc_credlmt_575a__mean__all": [
+        0.0,
+        400000.0
+      ],
+      "applprev_1__credacc_credlmt_575a__min__all": [
+        0.0,
+        400000.0
+      ],
+      "applprev_1__credacc_credlmt_575a__sum__all": [
+        0.0,
+        1540000.0
+      ],
+      "applprev_1__credamount_590a__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__credamount_590a__max__all": [
+        0.0,
+        1000000.0
+      ],
+      "applprev_1__credamount_590a__mean__all": [
+        0.0,
+        400000.0
+      ],
+      "applprev_1__credamount_590a__min__all": [
+        0.0,
+        400000.0
+      ],
+      "applprev_1__credamount_590a__sum__all": [
+        0.0,
+        6400000.0
+      ],
+      "applprev_1__credtype_587l__n_distinct__all": [
+        0.0,
+        3.0
+      ],
+      "applprev_1__credtype_587l__share_cal__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__credtype_587l__share_col__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__credtype_587l__share_rel__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__dateactivated_425d__days_since_last__all": [
+        0.0,
+        5217.0
+      ],
+      "applprev_1__dtlastpmt_581d__days_since_last__all": [
+        0.0,
+        4241.0
+      ],
+      "applprev_1__education_1138m__n_distinct__all": [
+        1.0,
+        5.0
+      ],
+      "applprev_1__education_1138m__share_a55475b1__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__education_1138m__share_p33_146_175__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__education_1138m__share_p97_36_170__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__employedfrom_700d__days_since_last__all": [
+        4.0,
+        21098.0
+      ],
+      "applprev_1__familystate_726l__n_distinct__all": [
+        0.0,
+        5.0
+      ],
+      "applprev_1__familystate_726l__share_divorced__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__familystate_726l__share_living_with_partner__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__familystate_726l__share_married__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__familystate_726l__share_single__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__familystate_726l__share_widowed__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__inittransactioncode_279l__n_distinct__all": [
+        0.0,
+        3.0
+      ],
+      "applprev_1__inittransactioncode_279l__share_cash__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__inittransactioncode_279l__share_ndf__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__inittransactioncode_279l__share_pos__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__isbidproduct_390l__share_true__all": [
+        0.0,
+        0.9
+      ],
+      "applprev_1__isdebitcard_527l__share_true__all": [
+        0.0,
+        1.0
+      ],
+      "applprev_1__mainoccupationinc_437a__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__mainoccupationinc_437a__max__all": [
+        0.0,
+        199600.0
+      ],
+      "applprev_1__mainoccupationinc_437a__mean__all": [
+        0.0,
+        199600.0
+      ],
+      "applprev_1__mainoccupationinc_437a__min__all": [
+        0.0,
+        199600.0
+      ],
+      "applprev_1__mainoccupationinc_437a__sum__all": [
+        0.0,
+        3920000.0
+      ],
+      "applprev_1__n_records": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__profession_152m__n_distinct__all": [
+        1.0,
+        8.0
+      ],
+      "applprev_1__tenor_203l__count__all": [
+        0.0,
+        20.0
+      ],
+      "applprev_1__tenor_203l__max__all": [
+        3.0,
+        62.0
+      ],
+      "applprev_1__tenor_203l__mean__all": [
+        3.0,
+        60.0
+      ],
+      "applprev_1__tenor_203l__min__all": [
+        3.0,
+        60.0
+      ],
+      "applprev_2__children_per_parent_max__all": [
+        1.0,
+        12.0
+      ],
+      "applprev_2__children_per_parent_mean__all": [
+        1.0,
+        12.0
+      ],
+      "applprev_2__n_records": [
+        0.0,
+        79.0
+      ],
+      "credit_bureau_a_1__n_records": [
+        0.0,
+        303.0
+      ],
+      "credit_bureau_b_1__n_records": [
+        0.0,
+        6.0
+      ],
+      "credit_bureau_b_2__n_records": [
+        0.0,
+        108.0
+      ],
+      "debitcard_1__n_records": [
+        0.0,
+        66.0
+      ],
+      "deposit_1__n_records": [
+        0.0,
+        65.0
+      ],
+      "other_1__n_records": [
+        0.0,
+        1.0
+      ],
+      "person_1__birth_259d__age_years__all": [
+        20.0,
+        76.0
+      ],
+      "person_1__empl_employedfrom_271d__days_since_last__all": [
+        0.0,
+        20603.0
+      ],
+      "person_1__mainoccupationinc_384a__main__all": [
+        0.0,
+        200000.0
+      ],
+      "person_1__n_contacts__all": [
+        0.0,
+        9.0
+      ],
+      "person_1__n_records": [
+        1.0,
+        10.0
+      ],
+      "person_1__personindex_1023l__main__all": [
+        0.0,
+        0.0
+      ],
+      "person_1__persontype_1072l__main__all": [
+        1.0,
+        1.0
+      ],
+      "person_1__persontype_792l__main__all": [
+        1.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_child__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_colleague__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_friend__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_neighbor__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_other__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_other_relative__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_parent__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_sibling__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_415t__share_spouse__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_child__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_colleague__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_friend__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_neighbor__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_other__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_other_relative__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_parent__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_sibling__all": [
+        0.0,
+        1.0
+      ],
+      "person_1__relationshiptoclient_642t__share_spouse__all": [
+        0.0,
+        1.0
+      ],
+      "person_2__n_records": [
+        0.0,
+        34.0
+      ],
+      "static_0__n_records": [
+        1.0,
+        1.0
+      ],
+      "static_cb_0__n_records": [
+        0.0,
+        1.0
+      ],
+      "tax_registry_a_1__n_records": [
+        0.0,
+        99.0
+      ],
+      "tax_registry_b_1__n_records": [
+        0.0,
+        83.0
+      ],
+      "tax_registry_c_1__n_records": [
+        0.0,
+        121.0
+      ]
+    },
+    "clip_bounds": {},
+    "domain": {}
+  },
+  "means": {
+    "applprev_1__annuity_853a__count__all": 4.722306514784899,
+    "applprev_1__annuity_853a__max__all": 5326.315309289737,
+    "applprev_1__annuity_853a__mean__all": 3258.759220171821,
+    "applprev_1__annuity_853a__min__all": 1672.169734142641,
+    "applprev_1__annuity_853a__sum__all": 15541.860607357805,
+    "applprev_1__approvaldate_319d__days_since_last__all": 530.5834207331676,
+    "applprev_1__byoccupationinc_3656910l__count__all": 0.9903641213482572,
+    "applprev_1__byoccupationinc_3656910l__max__all": 19367.520258468277,
+    "applprev_1__byoccupationinc_3656910l__mean__all": 12731.360479352314,
+    "applprev_1__byoccupationinc_3656910l__min__all": 3724.3026269349643,
+    "applprev_1__childnum_21l__count__all": 2.1435119042703423,
+    "applprev_1__childnum_21l__max__all": 1.2070899346171662,
+    "applprev_1__childnum_21l__mean__all": 0.8894067532113039,
+    "applprev_1__childnum_21l__min__all": 0.45574740559504084,
+    "applprev_1__creationdate_885d__days_since_first__all": 1847.6128786690101,
+    "applprev_1__creationdate_885d__days_since_last__all": 450.43792009165156,
+    "applprev_1__credacc_credlmt_575a__count__all": 4.758946877667509,
+    "applprev_1__credacc_credlmt_575a__max__all": 7616.868879078334,
+    "applprev_1__credacc_credlmt_575a__mean__all": 3040.628921881955,
+    "applprev_1__credacc_credlmt_575a__min__all": 1078.9906681586576,
+    "applprev_1__credacc_credlmt_575a__sum__all": 12795.284674714607,
+    "applprev_1__credamount_590a__count__all": 4.75443261679233,
+    "applprev_1__credamount_590a__max__all": 64651.286864849055,
+    "applprev_1__credamount_590a__mean__all": 35601.37142653977,
+    "applprev_1__credamount_590a__min__all": 16327.770748628656,
+    "applprev_1__credamount_590a__sum__all": 176691.03864434405,
+    "applprev_1__credtype_587l__n_distinct__all": 1.7411818759895825,
+    "applprev_1__credtype_587l__share_cal__all": 0.2673667779288822,
+    "applprev_1__credtype_587l__share_col__all": 0.6315362438520432,
+    "applprev_1__credtype_587l__share_rel__all": 0.06466920276445152,
+    "applprev_1__dateactivated_425d__days_since_last__all": 534.4782060974429,
+    "applprev_1__dtlastpmt_581d__days_since_last__all": 276.28173852722335,
+    "applprev_1__education_1138m__n_distinct__all": 1.842509877995587,
+    "applprev_1__education_1138m__share_a55475b1__all": 0.38282928002373906,
+    "applprev_1__education_1138m__share_p33_146_175__all": 0.17020268051765822,
+    "applprev_1__education_1138m__share_p97_36_170__all": 0.3775232797366739,
+    "applprev_1__employedfrom_700d__days_since_last__all": 3027.17500362237,
+    "applprev_1__familystate_726l__n_distinct__all": 1.1263272324870628,
+    "applprev_1__familystate_726l__share_divorced__all": 0.0222088937758338,
+    "applprev_1__familystate_726l__share_living_with_partner__all": 0.010632225483612257,
+    "applprev_1__familystate_726l__share_married__all": 0.7919218136516953,
+    "applprev_1__familystate_726l__share_single__all": 0.12999021533170138,
+    "applprev_1__familystate_726l__share_widowed__all": 0.04524685175715732,
+    "applprev_1__inittransactioncode_279l__n_distinct__all": 1.4422496679807297,
+    "applprev_1__inittransactioncode_279l__share_cash__all": 0.2674618159707206,
+    "applprev_1__inittransactioncode_279l__share_ndf__all": 0.02430040784317374,
+    "applprev_1__inittransactioncode_279l__share_pos__all": 0.690023888458794,
+    "applprev_1__isbidproduct_390l__share_true__all": 0.03004465246929268,
+    "applprev_1__isdebitcard_527l__share_true__all": 0.03747647715165757,
+    "applprev_1__mainoccupationinc_437a__count__all": 4.8292786566977055,
+    "applprev_1__mainoccupationinc_437a__max__all": 61437.32372656845,
+    "applprev_1__mainoccupationinc_437a__mean__all": 39761.003767944894,
+    "applprev_1__mainoccupationinc_437a__min__all": 23513.60214387977,
+    "applprev_1__mainoccupationinc_437a__sum__all": 189047.98092462265,
+    "applprev_1__n_records": 4.007055550258596,
+    "applprev_1__profession_152m__n_distinct__all": 1.044212429269948,
+    "applprev_1__tenor_203l__count__all": 4.333733983683196,
+    "applprev_1__tenor_203l__max__all": 22.758989670428175,
+    "applprev_1__tenor_203l__mean__all": 14.409744901512578,
+    "applprev_1__tenor_203l__min__all": 8.26301556830663,
+    "applprev_2__children_per_parent_max__all": 2.7502164037414385,
+    "applprev_2__children_per_parent_mean__all": 2.123359597904729,
+    "applprev_2__n_records": 8.670200698047523,
+    "credit_bureau_a_1__n_records": 3.4709350818805693,
+    "credit_bureau_b_1__n_records": 0.005242488556690273,
+    "credit_bureau_b_2__n_records": 0.06503373495965843,
+    "debitcard_1__n_records": 0.1006102848271135,
+    "deposit_1__n_records": 0.09283401438887809,
+    "other_1__n_records": 0.019413649088852035,
+    "person_1__birth_259d__age_years__all": 43.52334194944298,
+    "person_1__empl_employedfrom_271d__days_since_last__all": 1669.0011148640278,
+    "person_1__mainoccupationinc_384a__main__all": 57899.91934004779,
+    "person_1__n_contacts__all": 1.0052597558109941,
+    "person_1__n_records": 2.005259755810994,
+    "person_1__personindex_1023l__main__all": 0.0,
+    "person_1__persontype_1072l__main__all": 1.0,
+    "person_1__persontype_792l__main__all": 1.0,
+    "person_1__relationshiptoclient_415t__share_child__all": 0.06300658432939114,
+    "person_1__relationshiptoclient_415t__share_colleague__all": 0.022102761184113223,
+    "person_1__relationshiptoclient_415t__share_friend__all": 0.0489943325868374,
+    "person_1__relationshiptoclient_415t__share_neighbor__all": 0.004436082755693627,
+    "person_1__relationshiptoclient_415t__share_other__all": 0.00813681821560194,
+    "person_1__relationshiptoclient_415t__share_other_relative__all": 0.054170767639563834,
+    "person_1__relationshiptoclient_415t__share_parent__all": 0.0318294555834918,
+    "person_1__relationshiptoclient_415t__share_sibling__all": 0.07167560935264564,
+    "person_1__relationshiptoclient_415t__share_spouse__all": 0.0774913957772304,
+    "person_1__relationshiptoclient_642t__share_child__all": 0.06300464489140775,
+    "person_1__relationshiptoclient_642t__share_colleague__all": 0.02210213555895729,
+    "person_1__relationshiptoclient_642t__share_friend__all": 0.048996384637348865,
+    "person_1__relationshiptoclient_642t__share_neighbor__all": 0.00443714631845872,
+    "person_1__relationshiptoclient_642t__share_other__all": 0.008136768165589465,
+    "person_1__relationshiptoclient_642t__share_other_relative__all": 0.05417270707754723,
+    "person_1__relationshiptoclient_642t__share_parent__all": 0.03183139502147521,
+    "person_1__relationshiptoclient_642t__share_sibling__all": 0.07167723597805108,
+    "person_1__relationshiptoclient_642t__share_spouse__all": 0.07748482671309306,
+    "person_2__n_records": 1.1241207776871038,
+    "static_0__n_records": 1.0,
+    "static_cb_0__n_records": 0.9805593239044115,
+    "tax_registry_a_1__n_records": 2.448163327204709,
+    "tax_registry_b_1__n_records": 0.13759974654673682,
+    "tax_registry_c_1__n_records": 2.51035847570685
+  },
+  "scales": {
+    "applprev_1__annuity_853a__count__all": 3.783489717503167,
+    "applprev_1__annuity_853a__max__all": 3607.5668099115546,
+    "applprev_1__annuity_853a__mean__all": 1868.2254473978685,
+    "applprev_1__annuity_853a__min__all": 1717.9024075730176,
+    "applprev_1__annuity_853a__sum__all": 15926.254651834246,
+    "applprev_1__approvaldate_319d__days_since_last__all": 768.254365547784,
+    "applprev_1__byoccupationinc_3656910l__count__all": 1.9217483809346958,
+    "applprev_1__byoccupationinc_3656910l__max__all": 23411.18757195007,
+    "applprev_1__byoccupationinc_3656910l__mean__all": 15605.273549488267,
+    "applprev_1__byoccupationinc_3656910l__min__all": 14347.089196606596,
+    "applprev_1__childnum_21l__count__all": 2.540675718265354,
+    "applprev_1__childnum_21l__max__all": 1.186490546550535,
+    "applprev_1__childnum_21l__mean__all": 0.9239805423336229,
+    "applprev_1__childnum_21l__min__all": 0.9662024628672161,
+    "applprev_1__creationdate_885d__days_since_first__all": 1259.798400173575,
+    "applprev_1__creationdate_885d__days_since_last__all": 687.4116804182084,
+    "applprev_1__credacc_credlmt_575a__count__all": 3.8104968444454155,
+    "applprev_1__credacc_credlmt_575a__max__all": 22007.722676667956,
+    "applprev_1__credacc_credlmt_575a__mean__all": 10338.672061363226,
+    "applprev_1__credacc_credlmt_575a__min__all": 7764.812327742154,
+    "applprev_1__credacc_credlmt_575a__sum__all": 40727.71553776848,
+    "applprev_1__credamount_590a__count__all": 3.8055772853902146,
+    "applprev_1__credamount_590a__max__all": 48804.397420771435,
+    "applprev_1__credamount_590a__mean__all": 22342.00467496898,
+    "applprev_1__credamount_590a__min__all": 18206.56351650414,
+    "applprev_1__credamount_590a__sum__all": 205412.9609700727,
+    "applprev_1__credtype_587l__n_distinct__all": 0.6252537599427553,
+    "applprev_1__credtype_587l__share_cal__all": 0.30821070710058196,
+    "applprev_1__credtype_587l__share_col__all": 0.3161924053001974,
+    "applprev_1__credtype_587l__share_rel__all": 0.17268181648299138,
+    "applprev_1__dateactivated_425d__days_since_last__all": 774.0578686716856,
+    "applprev_1__dtlastpmt_581d__days_since_last__all": 230.78830004189118,
+    "applprev_1__education_1138m__n_distinct__all": 0.5608276810208673,
+    "applprev_1__education_1138m__share_a55475b1__all": 0.27086573658964125,
+    "applprev_1__education_1138m__share_p33_146_175__all": 0.31081770580866624,
+    "applprev_1__education_1138m__share_p97_36_170__all": 0.3266426034755321,
+    "applprev_1__employedfrom_700d__days_since_last__all": 2089.775764148021,
+    "applprev_1__familystate_726l__n_distinct__all": 0.47711984820371706,
+    "applprev_1__familystate_726l__share_divorced__all": 0.12683855547796546,
+    "applprev_1__familystate_726l__share_living_with_partner__all": 0.08623735301519111,
+    "applprev_1__familystate_726l__share_married__all": 0.3747616024547286,
+    "applprev_1__familystate_726l__share_single__all": 0.3089966266588311,
+    "applprev_1__familystate_726l__share_widowed__all": 0.18653950466498376,
+    "applprev_1__inittransactioncode_279l__n_distinct__all": 0.6160305416610646,
+    "applprev_1__inittransactioncode_279l__share_cash__all": 0.30824401586577377,
+    "applprev_1__inittransactioncode_279l__share_ndf__all": 0.09408920562317606,
+    "applprev_1__inittransactioncode_279l__share_pos__all": 0.3141898719132882,
+    "applprev_1__isbidproduct_390l__share_true__all": 0.0863541337205731,
+    "applprev_1__isdebitcard_527l__share_true__all": 0.18311050723751793,
+    "applprev_1__mainoccupationinc_437a__count__all": 3.955116725579728,
+    "applprev_1__mainoccupationinc_437a__max__all": 35082.358997955445,
+    "applprev_1__mainoccupationinc_437a__mean__all": 20956.17215407228,
+    "applprev_1__mainoccupationinc_437a__min__all": 19802.707049134908,
+    "applprev_1__mainoccupationinc_437a__sum__all": 201270.91195825022,
+    "applprev_1__n_records": 4.50093362299757,
+    "applprev_1__profession_152m__n_distinct__all": 0.2238773052989956,
+    "applprev_1__tenor_203l__count__all": 3.7329622927638333,
+    "applprev_1__tenor_203l__max__all": 11.091943156771269,
+    "applprev_1__tenor_203l__mean__all": 6.385078530211483,
+    "applprev_1__tenor_203l__min__all": 5.768251334247415,
+    "applprev_2__children_per_parent_max__all": 0.6958820940296498,
+    "applprev_2__children_per_parent_mean__all": 0.5160459885969746,
+    "applprev_2__n_records": 10.213072210176174,
+    "credit_bureau_a_1__n_records": 5.140008719549064,
+    "credit_bureau_b_1__n_records": 0.08760400951693394,
+    "credit_bureau_b_2__n_records": 1.3299923467879893,
+    "debitcard_1__n_records": 0.4512076806797775,
+    "deposit_1__n_records": 0.4285279523459874,
+    "other_1__n_records": 0.137973763150488,
+    "person_1__birth_259d__age_years__all": 13.852190789279666,
+    "person_1__empl_employedfrom_271d__days_since_last__all": 1445.8743529811409,
+    "person_1__mainoccupationinc_384a__main__all": 33378.29827693609,
+    "person_1__n_contacts__all": 1.1566921785662987,
+    "person_1__n_records": 1.1566921785662991,
+    "person_1__personindex_1023l__main__all": 1.0,
+    "person_1__persontype_1072l__main__all": 1.0,
+    "person_1__persontype_792l__main__all": 1.0,
+    "person_1__relationshiptoclient_415t__share_child__all": 0.22617508849204185,
+    "person_1__relationshiptoclient_415t__share_colleague__all": 0.1345309547435404,
+    "person_1__relationshiptoclient_415t__share_friend__all": 0.20165258334209632,
+    "person_1__relationshiptoclient_415t__share_neighbor__all": 0.058865666861499674,
+    "person_1__relationshiptoclient_415t__share_other__all": 0.08532617017880245,
+    "person_1__relationshiptoclient_415t__share_other_relative__all": 0.20613373408431546,
+    "person_1__relationshiptoclient_415t__share_parent__all": 0.1607998065826861,
+    "person_1__relationshiptoclient_415t__share_sibling__all": 0.23713044113279833,
+    "person_1__relationshiptoclient_415t__share_spouse__all": 0.24749009160333718,
+    "person_1__relationshiptoclient_642t__share_child__all": 0.22617621655699902,
+    "person_1__relationshiptoclient_642t__share_colleague__all": 0.13453183259594206,
+    "person_1__relationshiptoclient_642t__share_friend__all": 0.2016616381551866,
+    "person_1__relationshiptoclient_642t__share_neighbor__all": 0.05888174794446623,
+    "person_1__relationshiptoclient_642t__share_other__all": 0.08532592565782429,
+    "person_1__relationshiptoclient_642t__share_other_relative__all": 0.20614439056285833,
+    "person_1__relationshiptoclient_642t__share_parent__all": 0.16080884117243333,
+    "person_1__relationshiptoclient_642t__share_sibling__all": 0.23713845789477328,
+    "person_1__relationshiptoclient_642t__share_spouse__all": 0.24748202616711992,
+    "person_2__n_records": 0.6614638185053896,
+    "static_0__n_records": 1.0,
+    "static_cb_0__n_records": 0.13806786812482807,
+    "tax_registry_a_1__n_records": 4.063109561597367,
+    "tax_registry_b_1__n_records": 1.1325699677883672,
+    "tax_registry_c_1__n_records": 3.969218988674484
+  },
+  "control_columns": [
+    "case_id",
+    "date_decision",
+    "MONTH",
+    "WEEK_NUM",
+    "target"
+  ]
+}

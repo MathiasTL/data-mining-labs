@@ -1,0 +1,438 @@
+view,role,output_column,source_feature,logical_type,transformation,parameters,fitted_on
+linear,control,case_id,case_id,int,passthrough,{},not fitted
+linear,control,date_decision,date_decision,date,passthrough,{},not fitted
+linear,control,MONTH,MONTH,int,passthrough,{},not fitted
+linear,control,WEEK_NUM,WEEK_NUM,int,passthrough,{},not fitted
+linear,control,target,target,int,passthrough,{},not fitted
+tree,control,case_id,case_id,int,passthrough,{},not fitted
+tree,control,date_decision,date_decision,date,passthrough,{},not fitted
+tree,control,MONTH,MONTH,int,passthrough,{},not fitted
+tree,control,WEEK_NUM,WEEK_NUM,int,passthrough,{},not fitted
+tree,control,target,target,int,passthrough,{},not fitted
+linear,predictor,applprev_1__annuity_853a__count__all,applprev_1__annuity_853a__count__all,float,median_impute+standard_scale,"{""mean"": 4.722306514784899, ""median"": 4.0, ""scale"": 3.783489717503167}",train WEEK_NUM < 74
+linear,predictor,applprev_1__annuity_853a__max__all,applprev_1__annuity_853a__max__all,float,median_impute+standard_scale,"{""mean"": 5326.315309289737, ""median"": 4671.0, ""scale"": 3607.5668099115546}",train WEEK_NUM < 74
+linear,predictor,applprev_1__annuity_853a__mean__all,applprev_1__annuity_853a__mean__all,float,median_impute+standard_scale,"{""mean"": 3258.759220171821, ""median"": 2969.3732525892856, ""scale"": 1868.2254473978685}",train WEEK_NUM < 74
+linear,predictor,applprev_1__annuity_853a__min__all,applprev_1__annuity_853a__min__all,float,median_impute+standard_scale,"{""mean"": 1672.169734142641, ""median"": 1405.4, ""scale"": 1717.9024075730176}",train WEEK_NUM < 74
+linear,predictor,applprev_1__annuity_853a__sum__all,applprev_1__annuity_853a__sum__all,float,median_impute+standard_scale,"{""mean"": 15541.860607357805, ""median"": 10902.0003, ""scale"": 15926.254651834246}",train WEEK_NUM < 74
+linear,predictor,applprev_1__approvaldate_319d__days_since_last__all,applprev_1__approvaldate_319d__days_since_last__all,float,median_impute+standard_scale,"{""mean"": 530.5834207331676, ""median"": 305.0, ""scale"": 768.254365547784}",train WEEK_NUM < 74
+linear,predictor,applprev_1__byoccupationinc_3656910l__count__all,applprev_1__byoccupationinc_3656910l__count__all,float,median_impute+standard_scale,"{""mean"": 0.9903641213482572, ""median"": 0.0, ""scale"": 1.9217483809346958}",train WEEK_NUM < 74
+linear,predictor,applprev_1__byoccupationinc_3656910l__max__all,applprev_1__byoccupationinc_3656910l__max__all,float,median_impute+standard_scale,"{""mean"": 19367.520258468277, ""median"": 15000.0, ""scale"": 23411.18757195007}",train WEEK_NUM < 74
+linear,predictor,applprev_1__byoccupationinc_3656910l__mean__all,applprev_1__byoccupationinc_3656910l__mean__all,float,median_impute+standard_scale,"{""mean"": 12731.360479352314, ""median"": 10000.0, ""scale"": 15605.273549488267}",train WEEK_NUM < 74
+linear,predictor,applprev_1__byoccupationinc_3656910l__min__all,applprev_1__byoccupationinc_3656910l__min__all,float,median_impute+standard_scale,"{""mean"": 3724.3026269349643, ""median"": 1.0, ""scale"": 14347.089196606596}",train WEEK_NUM < 74
+linear,predictor,applprev_1__childnum_21l__count__all,applprev_1__childnum_21l__count__all,float,median_impute+standard_scale,"{""mean"": 2.1435119042703423, ""median"": 1.0, ""scale"": 2.540675718265354}",train WEEK_NUM < 74
+linear,predictor,applprev_1__childnum_21l__max__all,applprev_1__childnum_21l__max__all,float,median_impute+standard_scale,"{""mean"": 1.2070899346171662, ""median"": 1.0, ""scale"": 1.186490546550535}",train WEEK_NUM < 74
+linear,predictor,applprev_1__childnum_21l__mean__all,applprev_1__childnum_21l__mean__all,float,median_impute+standard_scale,"{""mean"": 0.8894067532113039, ""median"": 0.75, ""scale"": 0.9239805423336229}",train WEEK_NUM < 74
+linear,predictor,applprev_1__childnum_21l__min__all,applprev_1__childnum_21l__min__all,float,median_impute+standard_scale,"{""mean"": 0.45574740559504084, ""median"": 0.0, ""scale"": 0.9662024628672161}",train WEEK_NUM < 74
+linear,predictor,applprev_1__creationdate_885d__days_since_first__all,applprev_1__creationdate_885d__days_since_first__all,float,median_impute+standard_scale,"{""mean"": 1847.6128786690101, ""median"": 1653.0, ""scale"": 1259.798400173575}",train WEEK_NUM < 74
+linear,predictor,applprev_1__creationdate_885d__days_since_last__all,applprev_1__creationdate_885d__days_since_last__all,float,median_impute+standard_scale,"{""mean"": 450.43792009165156, ""median"": 241.0, ""scale"": 687.4116804182084}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credacc_credlmt_575a__count__all,applprev_1__credacc_credlmt_575a__count__all,float,median_impute+standard_scale,"{""mean"": 4.758946877667509, ""median"": 4.0, ""scale"": 3.8104968444454155}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credacc_credlmt_575a__max__all,applprev_1__credacc_credlmt_575a__max__all,float,median_impute+standard_scale,"{""mean"": 7616.868879078334, ""median"": 0.0, ""scale"": 22007.722676667956}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credacc_credlmt_575a__mean__all,applprev_1__credacc_credlmt_575a__mean__all,float,median_impute+standard_scale,"{""mean"": 3040.628921881955, ""median"": 0.0, ""scale"": 10338.672061363226}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credacc_credlmt_575a__min__all,applprev_1__credacc_credlmt_575a__min__all,float,median_impute+standard_scale,"{""mean"": 1078.9906681586576, ""median"": 0.0, ""scale"": 7764.812327742154}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credacc_credlmt_575a__sum__all,applprev_1__credacc_credlmt_575a__sum__all,float,median_impute+standard_scale,"{""mean"": 12795.284674714607, ""median"": 0.0, ""scale"": 40727.71553776848}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credamount_590a__count__all,applprev_1__credamount_590a__count__all,float,median_impute+standard_scale,"{""mean"": 4.75443261679233, ""median"": 4.0, ""scale"": 3.8055772853902146}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credamount_590a__max__all,applprev_1__credamount_590a__max__all,float,median_impute+standard_scale,"{""mean"": 64651.286864849055, ""median"": 53590.0, ""scale"": 48804.397420771435}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credamount_590a__mean__all,applprev_1__credamount_590a__mean__all,float,median_impute+standard_scale,"{""mean"": 35601.37142653977, ""median"": 31177.333333333332, ""scale"": 22342.00467496898}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credamount_590a__min__all,applprev_1__credamount_590a__min__all,float,median_impute+standard_scale,"{""mean"": 16327.770748628656, ""median"": 11603.4005, ""scale"": 18206.56351650414}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credamount_590a__sum__all,applprev_1__credamount_590a__sum__all,float,median_impute+standard_scale,"{""mean"": 176691.03864434405, ""median"": 113760.0, ""scale"": 205412.9609700727}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credtype_587l__n_distinct__all,applprev_1__credtype_587l__n_distinct__all,float,median_impute+standard_scale,"{""mean"": 1.7411818759895825, ""median"": 2.0, ""scale"": 0.6252537599427553}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credtype_587l__share_cal__all,applprev_1__credtype_587l__share_cal__all,float,median_impute+standard_scale,"{""mean"": 0.2673667779288822, ""median"": 0.16666666666666666, ""scale"": 0.30821070710058196}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credtype_587l__share_col__all,applprev_1__credtype_587l__share_col__all,float,median_impute+standard_scale,"{""mean"": 0.6315362438520432, ""median"": 0.6666666666666666, ""scale"": 0.3161924053001974}",train WEEK_NUM < 74
+linear,predictor,applprev_1__credtype_587l__share_rel__all,applprev_1__credtype_587l__share_rel__all,float,median_impute+standard_scale,"{""mean"": 0.06466920276445152, ""median"": 0.0, ""scale"": 0.17268181648299138}",train WEEK_NUM < 74
+linear,predictor,applprev_1__dateactivated_425d__days_since_last__all,applprev_1__dateactivated_425d__days_since_last__all,float,median_impute+standard_scale,"{""mean"": 534.4782060974429, ""median"": 307.0, ""scale"": 774.0578686716856}",train WEEK_NUM < 74
+linear,predictor,applprev_1__dtlastpmt_581d__days_since_last__all,applprev_1__dtlastpmt_581d__days_since_last__all,float,median_impute+standard_scale,"{""mean"": 276.28173852722335, ""median"": 224.0, ""scale"": 230.78830004189118}",train WEEK_NUM < 74
+linear,predictor,applprev_1__education_1138m__n_distinct__all,applprev_1__education_1138m__n_distinct__all,float,median_impute+standard_scale,"{""mean"": 1.842509877995587, ""median"": 2.0, ""scale"": 0.5608276810208673}",train WEEK_NUM < 74
+linear,predictor,applprev_1__education_1138m__share_a55475b1__all,applprev_1__education_1138m__share_a55475b1__all,float,median_impute+standard_scale,"{""mean"": 0.38282928002373906, ""median"": 0.4, ""scale"": 0.27086573658964125}",train WEEK_NUM < 74
+linear,predictor,applprev_1__education_1138m__share_p33_146_175__all,applprev_1__education_1138m__share_p33_146_175__all,float,median_impute+standard_scale,"{""mean"": 0.17020268051765822, ""median"": 0.0, ""scale"": 0.31081770580866624}",train WEEK_NUM < 74
+linear,predictor,applprev_1__education_1138m__share_p97_36_170__all,applprev_1__education_1138m__share_p97_36_170__all,float,median_impute+standard_scale,"{""mean"": 0.3775232797366739, ""median"": 0.3333333333333333, ""scale"": 0.3266426034755321}",train WEEK_NUM < 74
+linear,predictor,applprev_1__employedfrom_700d__days_since_last__all,applprev_1__employedfrom_700d__days_since_last__all,float,median_impute+standard_scale,"{""mean"": 3027.17500362237, ""median"": 2568.0, ""scale"": 2089.775764148021}",train WEEK_NUM < 74
+linear,predictor,applprev_1__familystate_726l__n_distinct__all,applprev_1__familystate_726l__n_distinct__all,float,median_impute+standard_scale,"{""mean"": 1.1263272324870628, ""median"": 1.0, ""scale"": 0.47711984820371706}",train WEEK_NUM < 74
+linear,predictor,applprev_1__familystate_726l__share_divorced__all,applprev_1__familystate_726l__share_divorced__all,float,median_impute+standard_scale,"{""mean"": 0.0222088937758338, ""median"": 0.0, ""scale"": 0.12683855547796546}",train WEEK_NUM < 74
+linear,predictor,applprev_1__familystate_726l__share_living_with_partner__all,applprev_1__familystate_726l__share_living_with_partner__all,float,median_impute+standard_scale,"{""mean"": 0.010632225483612257, ""median"": 0.0, ""scale"": 0.08623735301519111}",train WEEK_NUM < 74
+linear,predictor,applprev_1__familystate_726l__share_married__all,applprev_1__familystate_726l__share_married__all,float,median_impute+standard_scale,"{""mean"": 0.7919218136516953, ""median"": 1.0, ""scale"": 0.3747616024547286}",train WEEK_NUM < 74
+linear,predictor,applprev_1__familystate_726l__share_single__all,applprev_1__familystate_726l__share_single__all,float,median_impute+standard_scale,"{""mean"": 0.12999021533170138, ""median"": 0.0, ""scale"": 0.3089966266588311}",train WEEK_NUM < 74
+linear,predictor,applprev_1__familystate_726l__share_widowed__all,applprev_1__familystate_726l__share_widowed__all,float,median_impute+standard_scale,"{""mean"": 0.04524685175715732, ""median"": 0.0, ""scale"": 0.18653950466498376}",train WEEK_NUM < 74
+linear,predictor,applprev_1__inittransactioncode_279l__n_distinct__all,applprev_1__inittransactioncode_279l__n_distinct__all,float,median_impute+standard_scale,"{""mean"": 1.4422496679807297, ""median"": 1.0, ""scale"": 0.6160305416610646}",train WEEK_NUM < 74
+linear,predictor,applprev_1__inittransactioncode_279l__share_cash__all,applprev_1__inittransactioncode_279l__share_cash__all,float,median_impute+standard_scale,"{""mean"": 0.2674618159707206, ""median"": 0.16666666666666666, ""scale"": 0.30824401586577377}",train WEEK_NUM < 74
+linear,predictor,applprev_1__inittransactioncode_279l__share_ndf__all,applprev_1__inittransactioncode_279l__share_ndf__all,float,median_impute+standard_scale,"{""mean"": 0.02430040784317374, ""median"": 0.0, ""scale"": 0.09408920562317606}",train WEEK_NUM < 74
+linear,predictor,applprev_1__inittransactioncode_279l__share_pos__all,applprev_1__inittransactioncode_279l__share_pos__all,float,median_impute+standard_scale,"{""mean"": 0.690023888458794, ""median"": 0.75, ""scale"": 0.3141898719132882}",train WEEK_NUM < 74
+linear,predictor,applprev_1__isbidproduct_390l__share_true__all,applprev_1__isbidproduct_390l__share_true__all,float,median_impute+standard_scale,"{""mean"": 0.03004465246929268, ""median"": 0.0, ""scale"": 0.0863541337205731}",train WEEK_NUM < 74
+linear,predictor,applprev_1__isdebitcard_527l__share_true__all,applprev_1__isdebitcard_527l__share_true__all,float,median_impute+standard_scale,"{""mean"": 0.03747647715165757, ""median"": 0.0, ""scale"": 0.18311050723751793}",train WEEK_NUM < 74
+linear,predictor,applprev_1__mainoccupationinc_437a__count__all,applprev_1__mainoccupationinc_437a__count__all,float,median_impute+standard_scale,"{""mean"": 4.8292786566977055, ""median"": 4.0, ""scale"": 3.955116725579728}",train WEEK_NUM < 74
+linear,predictor,applprev_1__mainoccupationinc_437a__max__all,applprev_1__mainoccupationinc_437a__max__all,float,median_impute+standard_scale,"{""mean"": 61437.32372656845, ""median"": 56000.0, ""scale"": 35082.358997955445}",train WEEK_NUM < 74
+linear,predictor,applprev_1__mainoccupationinc_437a__mean__all,applprev_1__mainoccupationinc_437a__mean__all,float,median_impute+standard_scale,"{""mean"": 39761.003767944894, ""median"": 36457.142857142855, ""scale"": 20956.17215407228}",train WEEK_NUM < 74
+linear,predictor,applprev_1__mainoccupationinc_437a__min__all,applprev_1__mainoccupationinc_437a__min__all,float,median_impute+standard_scale,"{""mean"": 23513.60214387977, ""median"": 19600.0, ""scale"": 19802.707049134908}",train WEEK_NUM < 74
+linear,predictor,applprev_1__mainoccupationinc_437a__sum__all,applprev_1__mainoccupationinc_437a__sum__all,float,median_impute+standard_scale,"{""mean"": 189047.98092462265, ""median"": 131800.0, ""scale"": 201270.91195825022}",train WEEK_NUM < 74
+linear,predictor,applprev_1__n_records,applprev_1__n_records,float,median_impute+standard_scale,"{""mean"": 4.007055550258596, ""median"": 3.0, ""scale"": 4.50093362299757}",train WEEK_NUM < 74
+linear,predictor,applprev_1__profession_152m__n_distinct__all,applprev_1__profession_152m__n_distinct__all,float,median_impute+standard_scale,"{""mean"": 1.044212429269948, ""median"": 1.0, ""scale"": 0.2238773052989956}",train WEEK_NUM < 74
+linear,predictor,applprev_1__tenor_203l__count__all,applprev_1__tenor_203l__count__all,float,median_impute+standard_scale,"{""mean"": 4.333733983683196, ""median"": 3.0, ""scale"": 3.7329622927638333}",train WEEK_NUM < 74
+linear,predictor,applprev_1__tenor_203l__max__all,applprev_1__tenor_203l__max__all,float,median_impute+standard_scale,"{""mean"": 22.758989670428175, ""median"": 24.0, ""scale"": 11.091943156771269}",train WEEK_NUM < 74
+linear,predictor,applprev_1__tenor_203l__mean__all,applprev_1__tenor_203l__mean__all,float,median_impute+standard_scale,"{""mean"": 14.409744901512578, ""median"": 13.333333333333334, ""scale"": 6.385078530211483}",train WEEK_NUM < 74
+linear,predictor,applprev_1__tenor_203l__min__all,applprev_1__tenor_203l__min__all,float,median_impute+standard_scale,"{""mean"": 8.26301556830663, ""median"": 6.0, ""scale"": 5.768251334247415}",train WEEK_NUM < 74
+linear,predictor,applprev_2__children_per_parent_max__all,applprev_2__children_per_parent_max__all,float,median_impute+standard_scale,"{""mean"": 2.7502164037414385, ""median"": 3.0, ""scale"": 0.6958820940296498}",train WEEK_NUM < 74
+linear,predictor,applprev_2__children_per_parent_mean__all,applprev_2__children_per_parent_mean__all,float,median_impute+standard_scale,"{""mean"": 2.123359597904729, ""median"": 2.0, ""scale"": 0.5160459885969746}",train WEEK_NUM < 74
+linear,predictor,applprev_2__n_records,applprev_2__n_records,float,median_impute+standard_scale,"{""mean"": 8.670200698047523, ""median"": 5.0, ""scale"": 10.213072210176174}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_a_1__n_records,credit_bureau_a_1__n_records,float,median_impute+standard_scale,"{""mean"": 3.4709350818805693, ""median"": 2.0, ""scale"": 5.140008719549064}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_1__n_records,credit_bureau_b_1__n_records,float,median_impute+standard_scale,"{""mean"": 0.005242488556690273, ""median"": 0.0, ""scale"": 0.08760400951693394}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_2__n_records,credit_bureau_b_2__n_records,float,median_impute+standard_scale,"{""mean"": 0.06503373495965843, ""median"": 0.0, ""scale"": 1.3299923467879893}",train WEEK_NUM < 74
+linear,predictor,debitcard_1__n_records,debitcard_1__n_records,float,median_impute+standard_scale,"{""mean"": 0.1006102848271135, ""median"": 0.0, ""scale"": 0.4512076806797775}",train WEEK_NUM < 74
+linear,predictor,deposit_1__n_records,deposit_1__n_records,float,median_impute+standard_scale,"{""mean"": 0.09283401438887809, ""median"": 0.0, ""scale"": 0.4285279523459874}",train WEEK_NUM < 74
+linear,predictor,other_1__n_records,other_1__n_records,float,median_impute+standard_scale,"{""mean"": 0.019413649088852035, ""median"": 0.0, ""scale"": 0.137973763150488}",train WEEK_NUM < 74
+linear,predictor,person_1__birth_259d__age_years__all,person_1__birth_259d__age_years__all,float,median_impute+standard_scale,"{""mean"": 43.52334194944298, ""median"": 42.0, ""scale"": 13.852190789279666}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_employedfrom_271d__days_since_last__all,person_1__empl_employedfrom_271d__days_since_last__all,float,median_impute+standard_scale,"{""mean"": 1669.0011148640278, ""median"": 1371.0, ""scale"": 1445.8743529811409}",train WEEK_NUM < 74
+linear,predictor,person_1__mainoccupationinc_384a__main__all,person_1__mainoccupationinc_384a__main__all,float,median_impute+standard_scale,"{""mean"": 57899.91934004779, ""median"": 50000.0, ""scale"": 33378.29827693609}",train WEEK_NUM < 74
+linear,predictor,person_1__n_contacts__all,person_1__n_contacts__all,float,median_impute+standard_scale,"{""mean"": 1.0052597558109941, ""median"": 1.0, ""scale"": 1.1566921785662987}",train WEEK_NUM < 74
+linear,predictor,person_1__n_records,person_1__n_records,float,median_impute+standard_scale,"{""mean"": 2.005259755810994, ""median"": 2.0, ""scale"": 1.1566921785662991}",train WEEK_NUM < 74
+linear,predictor,person_1__personindex_1023l__main__all,person_1__personindex_1023l__main__all,float,median_impute+center_only_zero_variance,"{""mean"": 0.0, ""median"": 0.0, ""scale"": 1.0}",train WEEK_NUM < 74
+linear,predictor,person_1__persontype_1072l__main__all,person_1__persontype_1072l__main__all,float,median_impute+center_only_zero_variance,"{""mean"": 1.0, ""median"": 1.0, ""scale"": 1.0}",train WEEK_NUM < 74
+linear,predictor,person_1__persontype_792l__main__all,person_1__persontype_792l__main__all,float,median_impute+center_only_zero_variance,"{""mean"": 1.0, ""median"": 1.0, ""scale"": 1.0}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_child__all,person_1__relationshiptoclient_415t__share_child__all,float,median_impute+standard_scale,"{""mean"": 0.06300658432939114, ""median"": 0.0, ""scale"": 0.22617508849204185}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_colleague__all,person_1__relationshiptoclient_415t__share_colleague__all,float,median_impute+standard_scale,"{""mean"": 0.022102761184113223, ""median"": 0.0, ""scale"": 0.1345309547435404}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_friend__all,person_1__relationshiptoclient_415t__share_friend__all,float,median_impute+standard_scale,"{""mean"": 0.0489943325868374, ""median"": 0.0, ""scale"": 0.20165258334209632}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_neighbor__all,person_1__relationshiptoclient_415t__share_neighbor__all,float,median_impute+standard_scale,"{""mean"": 0.004436082755693627, ""median"": 0.0, ""scale"": 0.058865666861499674}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_other__all,person_1__relationshiptoclient_415t__share_other__all,float,median_impute+standard_scale,"{""mean"": 0.00813681821560194, ""median"": 0.0, ""scale"": 0.08532617017880245}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_other_relative__all,person_1__relationshiptoclient_415t__share_other_relative__all,float,median_impute+standard_scale,"{""mean"": 0.054170767639563834, ""median"": 0.0, ""scale"": 0.20613373408431546}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_parent__all,person_1__relationshiptoclient_415t__share_parent__all,float,median_impute+standard_scale,"{""mean"": 0.0318294555834918, ""median"": 0.0, ""scale"": 0.1607998065826861}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_sibling__all,person_1__relationshiptoclient_415t__share_sibling__all,float,median_impute+standard_scale,"{""mean"": 0.07167560935264564, ""median"": 0.0, ""scale"": 0.23713044113279833}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_415t__share_spouse__all,person_1__relationshiptoclient_415t__share_spouse__all,float,median_impute+standard_scale,"{""mean"": 0.0774913957772304, ""median"": 0.0, ""scale"": 0.24749009160333718}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_child__all,person_1__relationshiptoclient_642t__share_child__all,float,median_impute+standard_scale,"{""mean"": 0.06300464489140775, ""median"": 0.0, ""scale"": 0.22617621655699902}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_colleague__all,person_1__relationshiptoclient_642t__share_colleague__all,float,median_impute+standard_scale,"{""mean"": 0.02210213555895729, ""median"": 0.0, ""scale"": 0.13453183259594206}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_friend__all,person_1__relationshiptoclient_642t__share_friend__all,float,median_impute+standard_scale,"{""mean"": 0.048996384637348865, ""median"": 0.0, ""scale"": 0.2016616381551866}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_neighbor__all,person_1__relationshiptoclient_642t__share_neighbor__all,float,median_impute+standard_scale,"{""mean"": 0.00443714631845872, ""median"": 0.0, ""scale"": 0.05888174794446623}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_other__all,person_1__relationshiptoclient_642t__share_other__all,float,median_impute+standard_scale,"{""mean"": 0.008136768165589465, ""median"": 0.0, ""scale"": 0.08532592565782429}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_other_relative__all,person_1__relationshiptoclient_642t__share_other_relative__all,float,median_impute+standard_scale,"{""mean"": 0.05417270707754723, ""median"": 0.0, ""scale"": 0.20614439056285833}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_parent__all,person_1__relationshiptoclient_642t__share_parent__all,float,median_impute+standard_scale,"{""mean"": 0.03183139502147521, ""median"": 0.0, ""scale"": 0.16080884117243333}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_sibling__all,person_1__relationshiptoclient_642t__share_sibling__all,float,median_impute+standard_scale,"{""mean"": 0.07167723597805108, ""median"": 0.0, ""scale"": 0.23713845789477328}",train WEEK_NUM < 74
+linear,predictor,person_1__relationshiptoclient_642t__share_spouse__all,person_1__relationshiptoclient_642t__share_spouse__all,float,median_impute+standard_scale,"{""mean"": 0.07748482671309306, ""median"": 0.0, ""scale"": 0.24748202616711992}",train WEEK_NUM < 74
+linear,predictor,person_2__n_records,person_2__n_records,float,median_impute+standard_scale,"{""mean"": 1.1241207776871038, ""median"": 1.0, ""scale"": 0.6614638185053896}",train WEEK_NUM < 74
+linear,predictor,static_0__n_records,static_0__n_records,float,median_impute+center_only_zero_variance,"{""mean"": 1.0, ""median"": 1.0, ""scale"": 1.0}",train WEEK_NUM < 74
+linear,predictor,static_cb_0__n_records,static_cb_0__n_records,float,median_impute+standard_scale,"{""mean"": 0.9805593239044115, ""median"": 1.0, ""scale"": 0.13806786812482807}",train WEEK_NUM < 74
+linear,predictor,tax_registry_a_1__n_records,tax_registry_a_1__n_records,float,median_impute+standard_scale,"{""mean"": 2.448163327204709, ""median"": 0.0, ""scale"": 4.063109561597367}",train WEEK_NUM < 74
+linear,predictor,tax_registry_b_1__n_records,tax_registry_b_1__n_records,float,median_impute+standard_scale,"{""mean"": 0.13759974654673682, ""median"": 0.0, ""scale"": 1.1325699677883672}",train WEEK_NUM < 74
+linear,predictor,tax_registry_c_1__n_records,tax_registry_c_1__n_records,float,median_impute+standard_scale,"{""mean"": 2.51035847570685, ""median"": 0.0, ""scale"": 3.969218988674484}",train WEEK_NUM < 74
+linear,predictor,applprev_1__annuity_853a__count__all__missing,applprev_1__annuity_853a__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__annuity_853a__max__all__missing,applprev_1__annuity_853a__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__annuity_853a__mean__all__missing,applprev_1__annuity_853a__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__annuity_853a__min__all__missing,applprev_1__annuity_853a__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__annuity_853a__sum__all__missing,applprev_1__annuity_853a__sum__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__approvaldate_319d__days_since_last__all__missing,applprev_1__approvaldate_319d__days_since_last__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__byoccupationinc_3656910l__count__all__missing,applprev_1__byoccupationinc_3656910l__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__byoccupationinc_3656910l__max__all__missing,applprev_1__byoccupationinc_3656910l__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__byoccupationinc_3656910l__mean__all__missing,applprev_1__byoccupationinc_3656910l__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__byoccupationinc_3656910l__min__all__missing,applprev_1__byoccupationinc_3656910l__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__childnum_21l__count__all__missing,applprev_1__childnum_21l__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__childnum_21l__max__all__missing,applprev_1__childnum_21l__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__childnum_21l__mean__all__missing,applprev_1__childnum_21l__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__childnum_21l__min__all__missing,applprev_1__childnum_21l__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__creationdate_885d__days_since_first__all__missing,applprev_1__creationdate_885d__days_since_first__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__creationdate_885d__days_since_last__all__missing,applprev_1__creationdate_885d__days_since_last__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credacc_credlmt_575a__count__all__missing,applprev_1__credacc_credlmt_575a__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credacc_credlmt_575a__max__all__missing,applprev_1__credacc_credlmt_575a__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credacc_credlmt_575a__mean__all__missing,applprev_1__credacc_credlmt_575a__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credacc_credlmt_575a__min__all__missing,applprev_1__credacc_credlmt_575a__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credacc_credlmt_575a__sum__all__missing,applprev_1__credacc_credlmt_575a__sum__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credamount_590a__count__all__missing,applprev_1__credamount_590a__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credamount_590a__max__all__missing,applprev_1__credamount_590a__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credamount_590a__mean__all__missing,applprev_1__credamount_590a__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credamount_590a__min__all__missing,applprev_1__credamount_590a__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credamount_590a__sum__all__missing,applprev_1__credamount_590a__sum__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credtype_587l__n_distinct__all__missing,applprev_1__credtype_587l__n_distinct__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credtype_587l__share_cal__all__missing,applprev_1__credtype_587l__share_cal__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credtype_587l__share_col__all__missing,applprev_1__credtype_587l__share_col__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__credtype_587l__share_rel__all__missing,applprev_1__credtype_587l__share_rel__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__dateactivated_425d__days_since_last__all__missing,applprev_1__dateactivated_425d__days_since_last__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__dtlastpmt_581d__days_since_last__all__missing,applprev_1__dtlastpmt_581d__days_since_last__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__education_1138m__n_distinct__all__missing,applprev_1__education_1138m__n_distinct__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__education_1138m__share_a55475b1__all__missing,applprev_1__education_1138m__share_a55475b1__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__education_1138m__share_p33_146_175__all__missing,applprev_1__education_1138m__share_p33_146_175__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__education_1138m__share_p97_36_170__all__missing,applprev_1__education_1138m__share_p97_36_170__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__employedfrom_700d__days_since_last__all__missing,applprev_1__employedfrom_700d__days_since_last__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__familystate_726l__n_distinct__all__missing,applprev_1__familystate_726l__n_distinct__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__familystate_726l__share_divorced__all__missing,applprev_1__familystate_726l__share_divorced__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__familystate_726l__share_living_with_partner__all__missing,applprev_1__familystate_726l__share_living_with_partner__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__familystate_726l__share_married__all__missing,applprev_1__familystate_726l__share_married__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__familystate_726l__share_single__all__missing,applprev_1__familystate_726l__share_single__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__familystate_726l__share_widowed__all__missing,applprev_1__familystate_726l__share_widowed__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__inittransactioncode_279l__n_distinct__all__missing,applprev_1__inittransactioncode_279l__n_distinct__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__inittransactioncode_279l__share_cash__all__missing,applprev_1__inittransactioncode_279l__share_cash__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__inittransactioncode_279l__share_ndf__all__missing,applprev_1__inittransactioncode_279l__share_ndf__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__inittransactioncode_279l__share_pos__all__missing,applprev_1__inittransactioncode_279l__share_pos__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__isbidproduct_390l__share_true__all__missing,applprev_1__isbidproduct_390l__share_true__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__isdebitcard_527l__share_true__all__missing,applprev_1__isdebitcard_527l__share_true__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__mainoccupationinc_437a__count__all__missing,applprev_1__mainoccupationinc_437a__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__mainoccupationinc_437a__max__all__missing,applprev_1__mainoccupationinc_437a__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__mainoccupationinc_437a__mean__all__missing,applprev_1__mainoccupationinc_437a__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__mainoccupationinc_437a__min__all__missing,applprev_1__mainoccupationinc_437a__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__mainoccupationinc_437a__sum__all__missing,applprev_1__mainoccupationinc_437a__sum__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__n_records__missing,applprev_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__profession_152m__n_distinct__all__missing,applprev_1__profession_152m__n_distinct__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__tenor_203l__count__all__missing,applprev_1__tenor_203l__count__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__tenor_203l__max__all__missing,applprev_1__tenor_203l__max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__tenor_203l__mean__all__missing,applprev_1__tenor_203l__mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__tenor_203l__min__all__missing,applprev_1__tenor_203l__min__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_2__children_per_parent_max__all__missing,applprev_2__children_per_parent_max__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_2__children_per_parent_mean__all__missing,applprev_2__children_per_parent_mean__all,int,missing_indicator,{},not fitted
+linear,predictor,applprev_2__n_records__missing,applprev_2__n_records,int,missing_indicator,{},not fitted
+linear,predictor,credit_bureau_a_1__n_records__missing,credit_bureau_a_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,credit_bureau_b_1__n_records__missing,credit_bureau_b_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,credit_bureau_b_2__n_records__missing,credit_bureau_b_2__n_records,int,missing_indicator,{},not fitted
+linear,predictor,debitcard_1__n_records__missing,debitcard_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,deposit_1__n_records__missing,deposit_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,other_1__n_records__missing,other_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,person_1__birth_259d__age_years__all__missing,person_1__birth_259d__age_years__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__empl_employedfrom_271d__days_since_last__all__missing,person_1__empl_employedfrom_271d__days_since_last__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__mainoccupationinc_384a__main__all__missing,person_1__mainoccupationinc_384a__main__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__n_contacts__all__missing,person_1__n_contacts__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__n_records__missing,person_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,person_1__personindex_1023l__main__all__missing,person_1__personindex_1023l__main__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__persontype_1072l__main__all__missing,person_1__persontype_1072l__main__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__persontype_792l__main__all__missing,person_1__persontype_792l__main__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_child__all__missing,person_1__relationshiptoclient_415t__share_child__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_colleague__all__missing,person_1__relationshiptoclient_415t__share_colleague__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_friend__all__missing,person_1__relationshiptoclient_415t__share_friend__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_neighbor__all__missing,person_1__relationshiptoclient_415t__share_neighbor__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_other__all__missing,person_1__relationshiptoclient_415t__share_other__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_other_relative__all__missing,person_1__relationshiptoclient_415t__share_other_relative__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_parent__all__missing,person_1__relationshiptoclient_415t__share_parent__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_sibling__all__missing,person_1__relationshiptoclient_415t__share_sibling__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_415t__share_spouse__all__missing,person_1__relationshiptoclient_415t__share_spouse__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_child__all__missing,person_1__relationshiptoclient_642t__share_child__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_colleague__all__missing,person_1__relationshiptoclient_642t__share_colleague__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_friend__all__missing,person_1__relationshiptoclient_642t__share_friend__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_neighbor__all__missing,person_1__relationshiptoclient_642t__share_neighbor__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_other__all__missing,person_1__relationshiptoclient_642t__share_other__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_other_relative__all__missing,person_1__relationshiptoclient_642t__share_other_relative__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_parent__all__missing,person_1__relationshiptoclient_642t__share_parent__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_sibling__all__missing,person_1__relationshiptoclient_642t__share_sibling__all,int,missing_indicator,{},not fitted
+linear,predictor,person_1__relationshiptoclient_642t__share_spouse__all__missing,person_1__relationshiptoclient_642t__share_spouse__all,int,missing_indicator,{},not fitted
+linear,predictor,person_2__n_records__missing,person_2__n_records,int,missing_indicator,{},not fitted
+linear,predictor,static_0__n_records__missing,static_0__n_records,int,missing_indicator,{},not fitted
+linear,predictor,static_cb_0__n_records__missing,static_cb_0__n_records,int,missing_indicator,{},not fitted
+linear,predictor,tax_registry_a_1__n_records__missing,tax_registry_a_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,tax_registry_b_1__n_records__missing,tax_registry_b_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,tax_registry_c_1__n_records__missing,tax_registry_c_1__n_records,int,missing_indicator,{},not fitted
+linear,predictor,applprev_1__source_present__is__false,applprev_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_1__source_present__is__true,applprev_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_1__source_present__is____missing__,applprev_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_1__source_present__is____UNKNOWN__,applprev_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_2__source_present__is__false,applprev_2__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_2__source_present__is__true,applprev_2__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_2__source_present__is____missing__,applprev_2__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,applprev_2__source_present__is____UNKNOWN__,applprev_2__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_a_1__source_present__is__false,credit_bureau_a_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_a_1__source_present__is__true,credit_bureau_a_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_a_1__source_present__is____missing__,credit_bureau_a_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_a_1__source_present__is____UNKNOWN__,credit_bureau_a_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_1__source_present__is__false,credit_bureau_b_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_1__source_present__is____missing__,credit_bureau_b_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_1__source_present__is____UNKNOWN__,credit_bureau_b_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_2__source_present__is__false,credit_bureau_b_2__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_2__source_present__is____missing__,credit_bureau_b_2__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,credit_bureau_b_2__source_present__is____UNKNOWN__,credit_bureau_b_2__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,debitcard_1__source_present__is__false,debitcard_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,debitcard_1__source_present__is__true,debitcard_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,debitcard_1__source_present__is____missing__,debitcard_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,debitcard_1__source_present__is____UNKNOWN__,debitcard_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,deposit_1__source_present__is__false,deposit_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,deposit_1__source_present__is__true,deposit_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,deposit_1__source_present__is____missing__,deposit_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,deposit_1__source_present__is____UNKNOWN__,deposit_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,other_1__source_present__is__false,other_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,other_1__source_present__is__true,other_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,other_1__source_present__is____missing__,other_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,other_1__source_present__is____UNKNOWN__,other_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__education_927m__main__all__is__P33_146_175,person_1__education_927m__main__all,int,one_hot,"{""level"": ""P33_146_175"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__education_927m__main__all__is__P97_36_170,person_1__education_927m__main__all,int,one_hot,"{""level"": ""P97_36_170"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__education_927m__main__all__is__a55475b1,person_1__education_927m__main__all,int,one_hot,"{""level"": ""a55475b1"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__education_927m__main__all__is____missing__,person_1__education_927m__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__education_927m__main__all__is____UNKNOWN__,person_1__education_927m__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_employedtotal_800l__main__all__is__LESS_ONE,person_1__empl_employedtotal_800l__main__all,int,one_hot,"{""level"": ""LESS_ONE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_employedtotal_800l__main__all__is__MORE_FIVE,person_1__empl_employedtotal_800l__main__all,int,one_hot,"{""level"": ""MORE_FIVE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_employedtotal_800l__main__all__is__MORE_ONE,person_1__empl_employedtotal_800l__main__all,int,one_hot,"{""level"": ""MORE_ONE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_employedtotal_800l__main__all__is____missing__,person_1__empl_employedtotal_800l__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_employedtotal_800l__main__all__is____UNKNOWN__,person_1__empl_employedtotal_800l__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__AGRICULTURE,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""AGRICULTURE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__EDUCATION,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""EDUCATION"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__GOVERNMENT,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""GOVERNMENT"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__HEALTH,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""HEALTH"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__MANUFACTURING,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""MANUFACTURING"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__OTHER,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""OTHER"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is__TRADE,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""TRADE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is____missing__,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__empl_industry_691l__main__all__is____UNKNOWN__,person_1__empl_industry_691l__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is__DIVORCED,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""DIVORCED"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is__LIVING_WITH_PARTNER,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""LIVING_WITH_PARTNER"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is__MARRIED,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""MARRIED"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is__SINGLE,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""SINGLE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is__WIDOWED,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""WIDOWED"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is____missing__,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__familystate_447l__main__all__is____UNKNOWN__,person_1__familystate_447l__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is__EMPLOYED,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""EMPLOYED"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is__PRIVATE_SECTOR_EMPLOYEE,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""PRIVATE_SECTOR_EMPLOYEE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is__RETIRED_PENSIONER,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""RETIRED_PENSIONER"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is__SALARIED_GOVT,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""SALARIED_GOVT"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is__SELFEMPLOYED,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""SELFEMPLOYED"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is____missing__,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__incometype_1044t__main__all__is____UNKNOWN__,person_1__incometype_1044t__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__language1_981m__main__all__is__P10_39_147,person_1__language1_981m__main__all,int,one_hot,"{""level"": ""P10_39_147"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__language1_981m__main__all__is__P209_127_106,person_1__language1_981m__main__all,int,one_hot,"{""level"": ""P209_127_106"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__language1_981m__main__all__is____missing__,person_1__language1_981m__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__language1_981m__main__all__is____UNKNOWN__,person_1__language1_981m__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__role_1084l__main__all__is__CL,person_1__role_1084l__main__all,int,one_hot,"{""level"": ""CL"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__role_1084l__main__all__is__EM,person_1__role_1084l__main__all,int,one_hot,"{""level"": ""EM"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__role_1084l__main__all__is____missing__,person_1__role_1084l__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__role_1084l__main__all__is____UNKNOWN__,person_1__role_1084l__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__source_present__is__true,person_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__source_present__is____missing__,person_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__source_present__is____UNKNOWN__,person_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__type_25l__main__all__is__HOME_PHONE,person_1__type_25l__main__all,int,one_hot,"{""level"": ""HOME_PHONE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__type_25l__main__all__is__PRIMARY_MOBILE,person_1__type_25l__main__all,int,one_hot,"{""level"": ""PRIMARY_MOBILE"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__type_25l__main__all__is____missing__,person_1__type_25l__main__all,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_1__type_25l__main__all__is____UNKNOWN__,person_1__type_25l__main__all,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_2__source_present__is__false,person_2__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_2__source_present__is__true,person_2__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_2__source_present__is____missing__,person_2__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,person_2__source_present__is____UNKNOWN__,person_2__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_0__source_present__is__true,static_0__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_0__source_present__is____missing__,static_0__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_0__source_present__is____UNKNOWN__,static_0__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_cb_0__source_present__is__false,static_cb_0__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_cb_0__source_present__is__true,static_cb_0__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_cb_0__source_present__is____missing__,static_cb_0__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,static_cb_0__source_present__is____UNKNOWN__,static_cb_0__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_a_1__source_present__is__false,tax_registry_a_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_a_1__source_present__is__true,tax_registry_a_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_a_1__source_present__is____missing__,tax_registry_a_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_a_1__source_present__is____UNKNOWN__,tax_registry_a_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_b_1__source_present__is__false,tax_registry_b_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_b_1__source_present__is__true,tax_registry_b_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_b_1__source_present__is____missing__,tax_registry_b_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_b_1__source_present__is____UNKNOWN__,tax_registry_b_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_c_1__source_present__is__false,tax_registry_c_1__source_present,int,one_hot,"{""level"": ""false"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_c_1__source_present__is__true,tax_registry_c_1__source_present,int,one_hot,"{""level"": ""true"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_c_1__source_present__is____missing__,tax_registry_c_1__source_present,int,one_hot,"{""level"": ""__missing__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+linear,predictor,tax_registry_c_1__source_present__is____UNKNOWN__,tax_registry_c_1__source_present,int,one_hot,"{""level"": ""__UNKNOWN__"", ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,applprev_1__annuity_853a__count__all,applprev_1__annuity_853a__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__annuity_853a__max__all,applprev_1__annuity_853a__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__annuity_853a__mean__all,applprev_1__annuity_853a__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__annuity_853a__min__all,applprev_1__annuity_853a__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__annuity_853a__sum__all,applprev_1__annuity_853a__sum__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__approvaldate_319d__days_since_last__all,applprev_1__approvaldate_319d__days_since_last__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__byoccupationinc_3656910l__count__all,applprev_1__byoccupationinc_3656910l__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__byoccupationinc_3656910l__max__all,applprev_1__byoccupationinc_3656910l__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__byoccupationinc_3656910l__mean__all,applprev_1__byoccupationinc_3656910l__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__byoccupationinc_3656910l__min__all,applprev_1__byoccupationinc_3656910l__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__childnum_21l__count__all,applprev_1__childnum_21l__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__childnum_21l__max__all,applprev_1__childnum_21l__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__childnum_21l__mean__all,applprev_1__childnum_21l__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__childnum_21l__min__all,applprev_1__childnum_21l__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__creationdate_885d__days_since_first__all,applprev_1__creationdate_885d__days_since_first__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__creationdate_885d__days_since_last__all,applprev_1__creationdate_885d__days_since_last__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credacc_credlmt_575a__count__all,applprev_1__credacc_credlmt_575a__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credacc_credlmt_575a__max__all,applprev_1__credacc_credlmt_575a__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credacc_credlmt_575a__mean__all,applprev_1__credacc_credlmt_575a__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credacc_credlmt_575a__min__all,applprev_1__credacc_credlmt_575a__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credacc_credlmt_575a__sum__all,applprev_1__credacc_credlmt_575a__sum__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credamount_590a__count__all,applprev_1__credamount_590a__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credamount_590a__max__all,applprev_1__credamount_590a__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credamount_590a__mean__all,applprev_1__credamount_590a__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credamount_590a__min__all,applprev_1__credamount_590a__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credamount_590a__sum__all,applprev_1__credamount_590a__sum__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credtype_587l__n_distinct__all,applprev_1__credtype_587l__n_distinct__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credtype_587l__share_cal__all,applprev_1__credtype_587l__share_cal__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credtype_587l__share_col__all,applprev_1__credtype_587l__share_col__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__credtype_587l__share_rel__all,applprev_1__credtype_587l__share_rel__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__dateactivated_425d__days_since_last__all,applprev_1__dateactivated_425d__days_since_last__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__dtlastpmt_581d__days_since_last__all,applprev_1__dtlastpmt_581d__days_since_last__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__education_1138m__n_distinct__all,applprev_1__education_1138m__n_distinct__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__education_1138m__share_a55475b1__all,applprev_1__education_1138m__share_a55475b1__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__education_1138m__share_p33_146_175__all,applprev_1__education_1138m__share_p33_146_175__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__education_1138m__share_p97_36_170__all,applprev_1__education_1138m__share_p97_36_170__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__employedfrom_700d__days_since_last__all,applprev_1__employedfrom_700d__days_since_last__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__familystate_726l__n_distinct__all,applprev_1__familystate_726l__n_distinct__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__familystate_726l__share_divorced__all,applprev_1__familystate_726l__share_divorced__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__familystate_726l__share_living_with_partner__all,applprev_1__familystate_726l__share_living_with_partner__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__familystate_726l__share_married__all,applprev_1__familystate_726l__share_married__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__familystate_726l__share_single__all,applprev_1__familystate_726l__share_single__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__familystate_726l__share_widowed__all,applprev_1__familystate_726l__share_widowed__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__inittransactioncode_279l__n_distinct__all,applprev_1__inittransactioncode_279l__n_distinct__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__inittransactioncode_279l__share_cash__all,applprev_1__inittransactioncode_279l__share_cash__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__inittransactioncode_279l__share_ndf__all,applprev_1__inittransactioncode_279l__share_ndf__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__inittransactioncode_279l__share_pos__all,applprev_1__inittransactioncode_279l__share_pos__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__isbidproduct_390l__share_true__all,applprev_1__isbidproduct_390l__share_true__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__isdebitcard_527l__share_true__all,applprev_1__isdebitcard_527l__share_true__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__mainoccupationinc_437a__count__all,applprev_1__mainoccupationinc_437a__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__mainoccupationinc_437a__max__all,applprev_1__mainoccupationinc_437a__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__mainoccupationinc_437a__mean__all,applprev_1__mainoccupationinc_437a__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__mainoccupationinc_437a__min__all,applprev_1__mainoccupationinc_437a__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__mainoccupationinc_437a__sum__all,applprev_1__mainoccupationinc_437a__sum__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__n_records,applprev_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__profession_152m__n_distinct__all,applprev_1__profession_152m__n_distinct__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__tenor_203l__count__all,applprev_1__tenor_203l__count__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__tenor_203l__max__all,applprev_1__tenor_203l__max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__tenor_203l__mean__all,applprev_1__tenor_203l__mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__tenor_203l__min__all,applprev_1__tenor_203l__min__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_2__children_per_parent_max__all,applprev_2__children_per_parent_max__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_2__children_per_parent_mean__all,applprev_2__children_per_parent_mean__all,float,native_nulls,{},not fitted
+tree,predictor,applprev_2__n_records,applprev_2__n_records,float,native_nulls,{},not fitted
+tree,predictor,credit_bureau_a_1__n_records,credit_bureau_a_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,credit_bureau_b_1__n_records,credit_bureau_b_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,credit_bureau_b_2__n_records,credit_bureau_b_2__n_records,float,native_nulls,{},not fitted
+tree,predictor,debitcard_1__n_records,debitcard_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,deposit_1__n_records,deposit_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,other_1__n_records,other_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,person_1__birth_259d__age_years__all,person_1__birth_259d__age_years__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__empl_employedfrom_271d__days_since_last__all,person_1__empl_employedfrom_271d__days_since_last__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__mainoccupationinc_384a__main__all,person_1__mainoccupationinc_384a__main__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__n_contacts__all,person_1__n_contacts__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__n_records,person_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,person_1__personindex_1023l__main__all,person_1__personindex_1023l__main__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__persontype_1072l__main__all,person_1__persontype_1072l__main__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__persontype_792l__main__all,person_1__persontype_792l__main__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_child__all,person_1__relationshiptoclient_415t__share_child__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_colleague__all,person_1__relationshiptoclient_415t__share_colleague__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_friend__all,person_1__relationshiptoclient_415t__share_friend__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_neighbor__all,person_1__relationshiptoclient_415t__share_neighbor__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_other__all,person_1__relationshiptoclient_415t__share_other__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_other_relative__all,person_1__relationshiptoclient_415t__share_other_relative__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_parent__all,person_1__relationshiptoclient_415t__share_parent__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_sibling__all,person_1__relationshiptoclient_415t__share_sibling__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_415t__share_spouse__all,person_1__relationshiptoclient_415t__share_spouse__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_child__all,person_1__relationshiptoclient_642t__share_child__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_colleague__all,person_1__relationshiptoclient_642t__share_colleague__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_friend__all,person_1__relationshiptoclient_642t__share_friend__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_neighbor__all,person_1__relationshiptoclient_642t__share_neighbor__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_other__all,person_1__relationshiptoclient_642t__share_other__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_other_relative__all,person_1__relationshiptoclient_642t__share_other_relative__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_parent__all,person_1__relationshiptoclient_642t__share_parent__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_sibling__all,person_1__relationshiptoclient_642t__share_sibling__all,float,native_nulls,{},not fitted
+tree,predictor,person_1__relationshiptoclient_642t__share_spouse__all,person_1__relationshiptoclient_642t__share_spouse__all,float,native_nulls,{},not fitted
+tree,predictor,person_2__n_records,person_2__n_records,float,native_nulls,{},not fitted
+tree,predictor,static_0__n_records,static_0__n_records,float,native_nulls,{},not fitted
+tree,predictor,static_cb_0__n_records,static_cb_0__n_records,float,native_nulls,{},not fitted
+tree,predictor,tax_registry_a_1__n_records,tax_registry_a_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,tax_registry_b_1__n_records,tax_registry_b_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,tax_registry_c_1__n_records,tax_registry_c_1__n_records,float,native_nulls,{},not fitted
+tree,predictor,applprev_1__source_present,applprev_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,applprev_2__source_present,applprev_2__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,credit_bureau_a_1__source_present,credit_bureau_a_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,credit_bureau_b_1__source_present,credit_bureau_b_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,credit_bureau_b_2__source_present,credit_bureau_b_2__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,debitcard_1__source_present,debitcard_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,deposit_1__source_present,deposit_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,other_1__source_present,other_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__education_927m__main__all,person_1__education_927m__main__all,string,native_enum_nulls,"{""categories"": [""P33_146_175"", ""P97_36_170"", ""a55475b1"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__empl_employedtotal_800l__main__all,person_1__empl_employedtotal_800l__main__all,string,native_enum_nulls,"{""categories"": [""LESS_ONE"", ""MORE_FIVE"", ""MORE_ONE"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__empl_industry_691l__main__all,person_1__empl_industry_691l__main__all,string,native_enum_nulls,"{""categories"": [""AGRICULTURE"", ""EDUCATION"", ""GOVERNMENT"", ""HEALTH"", ""MANUFACTURING"", ""OTHER"", ""TRADE"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__familystate_447l__main__all,person_1__familystate_447l__main__all,string,native_enum_nulls,"{""categories"": [""DIVORCED"", ""LIVING_WITH_PARTNER"", ""MARRIED"", ""SINGLE"", ""WIDOWED"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__incometype_1044t__main__all,person_1__incometype_1044t__main__all,string,native_enum_nulls,"{""categories"": [""EMPLOYED"", ""PRIVATE_SECTOR_EMPLOYEE"", ""RETIRED_PENSIONER"", ""SALARIED_GOVT"", ""SELFEMPLOYED"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__language1_981m__main__all,person_1__language1_981m__main__all,string,native_enum_nulls,"{""categories"": [""P10_39_147"", ""P209_127_106"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__role_1084l__main__all,person_1__role_1084l__main__all,string,native_enum_nulls,"{""categories"": [""CL"", ""EM"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__source_present,person_1__source_present,string,native_enum_nulls,"{""categories"": [""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_1__type_25l__main__all,person_1__type_25l__main__all,string,native_enum_nulls,"{""categories"": [""HOME_PHONE"", ""PRIMARY_MOBILE"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,person_2__source_present,person_2__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,static_0__source_present,static_0__source_present,string,native_enum_nulls,"{""categories"": [""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,static_cb_0__source_present,static_cb_0__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,tax_registry_a_1__source_present,tax_registry_a_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,tax_registry_b_1__source_present,tax_registry_b_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
+tree,predictor,tax_registry_c_1__source_present,tax_registry_c_1__source_present,string,native_enum_nulls,"{""categories"": [""false"", ""true"", ""__UNKNOWN__""], ""min_frequency"": 0.01}",train WEEK_NUM < 74
