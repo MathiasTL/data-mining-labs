@@ -1,0 +1,514 @@
+{
+  "format_version": 1,
+  "generated_at_utc": "2026-10-13T23:18:06+00:00",
+  "git_commit": "64be025f4bcdf023079885ad27b4b8c642e93f3b",
+  "python": "3.11.14",
+  "polars": "1.44.2",
+  "config": "configs/preparation.json",
+  "config_sha256": "1a9554144bf19cb479e6351d1b34a82e143a675e82bffb34cc4297c846ed5056",
+  "cutoff_week": 74,
+  "inputs": {
+    "results/preparation/C8_feature_catalog.csv": "2a31a39e2addf623d191aa5ec0849612ebcec42652a55719f57b8b4e5e85074b",
+    "results/preparation/G2_applications_people_columns.csv": "2a2f1b920636cc4a9099ba70136d8f36abac1300ab15d20f022bec4369a3e023",
+    "results/preparation/G2_applications_people_vocabulary.csv": "4e64216af35edf1c21c6536734dcb3d9c6cd8c59e9708acf9d5ba35c60cee549",
+    "results/preparation/G2_depth0_columns.csv": "79d21a8594deda5a0d03e7982bb96d4a5de951f2f26135f62fd61c11eb490102",
+    "results/preparation/G2_bureau_columns.csv": "cc1d9a6f1baaf8272455720450ed85fc6afaa03e130a7b79cc0641d8303805b6",
+    "results/preparation/G2_products_registry_columns.csv": "0dd4c23c4131bf8ba08ca7d0685df497259fe66b49eda10ba4d2ef7532efe97f"
+  },
+  "partitions": {
+    "train": {
+      "cases": 1332001,
+      "positives": 43734,
+      "week_min": 0,
+      "week_max": 73,
+      "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961"
+    },
+    "oot": {
+      "cases": 194658,
+      "positives": 4260,
+      "week_min": 74,
+      "week_max": 91,
+      "base_sha256": "7b88d3380a5a094d09350c88c885231f7f97f3b1b9e3a3ef4f27325db4d74568"
+    },
+    "test": {
+      "cases": 10,
+      "positives": null,
+      "week_min": 100,
+      "week_max": 100,
+      "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef"
+    }
+  },
+  "artifacts": {
+    "e4": [
+      {
+        "family": "applprev",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/applprev/train/applprev__train.manifest.json",
+        "manifest_sha256": "62538062d2b0a0f687c56a5ff9b7fe49b8be57e55f5e8ac9b1a423f26bc3b612",
+        "data_sha256": "7961d70d25aa06c513aee43cd32432d5f53fa91e64170e6e15e454351f78bbb0",
+        "rows": 1332001
+      },
+      {
+        "family": "credit_bureau_a",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/credit_bureau_a/train/credit_bureau_a__train.manifest.json",
+        "manifest_sha256": "f0e8f70e9860b9946387ccd157474c5492d7e6bfc490ea55547d59bf8a183a99",
+        "data_sha256": "3e8b7f2e210d2e41cbdce824feb38e7a8ce39b7d390c8ef0ded786234cdb2ed5",
+        "rows": 1332001
+      },
+      {
+        "family": "credit_bureau_b",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/credit_bureau_b/train/credit_bureau_b__train.manifest.json",
+        "manifest_sha256": "ccc02711c51a3ca3961a9e554a601665bd935bf50e601d7348cee742d2390203",
+        "data_sha256": "70341ca46c8ee23c4a72752a11718959bcc976feb08ae6ea17ae515e77fd13e3",
+        "rows": 1332001
+      },
+      {
+        "family": "debitcard_1",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/train/debitcard_1__train.manifest.json",
+        "manifest_sha256": "af109a789732c65774ffa7248f478344081b3e66e9c5c112beb6983144407756",
+        "data_sha256": "fab1767ce80f67166dcd88ff0841ffe3402dde4622d3e8c2c01ad45e1ee41a41",
+        "rows": 1332001
+      },
+      {
+        "family": "deposit_1",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/deposit_1/train/deposit_1__train.manifest.json",
+        "manifest_sha256": "87e162e6d659e874118baed114c4155e68bc0ed94a43a9c4e917d5026178a68c",
+        "data_sha256": "a09e1f5b70e9ea4168538680a9bee113a1d8f104ac3a0232e246236639450a70",
+        "rows": 1332001
+      },
+      {
+        "family": "other_1",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/other_1/train/other_1__train.manifest.json",
+        "manifest_sha256": "80261a71df7089c7dfefcd5eda4b2ff9bc9ef384101e73dfa20d846c18ab094b",
+        "data_sha256": "06eb9db2ab6cc9cd4eb509015e61ac7be437850d85596af05eecb5a8abe1dbb5",
+        "rows": 1332001
+      },
+      {
+        "family": "person",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/person/train/person__train.manifest.json",
+        "manifest_sha256": "85ae0eaa5bc9c6bb225d679df8e58eb3ea4e9e24a4b704df646d21681625b14a",
+        "data_sha256": "a0d54f33022924290c4ac6017dd3cf13dd13fa6a639b65804dcee13c3a59eb4e",
+        "rows": 1332001
+      },
+      {
+        "family": "static_0",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/static_0/train/static_0__train.manifest.json",
+        "manifest_sha256": "d2ee055128282c134cbb0210c69f235ae128918da27ee0f081eb9816006a70fa",
+        "data_sha256": "aa2332758f2355fba9624d27cfd307cd28e54a63c2714f5a03782a882e1a02c9",
+        "rows": 1332001
+      },
+      {
+        "family": "static_cb_0",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/static_cb_0/train/static_cb_0__train.manifest.json",
+        "manifest_sha256": "5982c830f710c78b4d8acdbbf7b2ff31087ba6e6c8956a2d60ac01d2f7bf2ee8",
+        "data_sha256": "09b1d224782fbd7c190c462cd55d64c3ccb335e85d37e43542730f726e1eb65d",
+        "rows": 1332001
+      },
+      {
+        "family": "tax_registry_a_1",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/train/tax_registry_a_1__train.manifest.json",
+        "manifest_sha256": "0d592384ae76755cd753c9ca87d451e67f511b04984d24a177150f5d1eb13c77",
+        "data_sha256": "19d4d981d3dbe16c3c91d29810e1363dd757544a1578bfcbdf465de143cf4e6f",
+        "rows": 1332001
+      },
+      {
+        "family": "tax_registry_b_1",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/train/tax_registry_b_1__train.manifest.json",
+        "manifest_sha256": "af8a0fd26645d63eb0b97423c7af6a7fac684948b1049bd236f19ab35a534cfc",
+        "data_sha256": "df5de77bbadb3d1419471eec8f354ff8eac912da5356affafcd7d53aed284ca4",
+        "rows": 1332001
+      },
+      {
+        "family": "tax_registry_c_1",
+        "split": "train",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/train/tax_registry_c_1__train.manifest.json",
+        "manifest_sha256": "fe6bf121e45b7100d4aec2c575b1b74d09e774c8aab3f3658f77c353309ca73a",
+        "data_sha256": "4b774d34436cc63c8094c104699847bba30d48838efaa4c1a1cf35dfbda1d363",
+        "rows": 1332001
+      },
+      {
+        "family": "applprev",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/applprev/oot/applprev__oot.manifest.json",
+        "manifest_sha256": "c1b53e73e3a4215fe5b976c365353c4de2da3789e75692eb171f4df238927075",
+        "data_sha256": "eb2494f9bfb08bb8a50c5ef9068b5bab5107bcffc8190e5bcc309dfc39c7710d",
+        "rows": 194658
+      },
+      {
+        "family": "credit_bureau_a",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/credit_bureau_a/oot/credit_bureau_a__oot.manifest.json",
+        "manifest_sha256": "00f301fc168e9bd325e9fce5d19f134d221dcf6df99e906eaef1f21841672931",
+        "data_sha256": "e88695f5aa0ec9a2c493991ef7ee5d2fe10bc97804cc73cf4ed1ff10c88e8609",
+        "rows": 194658
+      },
+      {
+        "family": "credit_bureau_b",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/credit_bureau_b/oot/credit_bureau_b__oot.manifest.json",
+        "manifest_sha256": "8362eb8199f98330a9397fcc54698e0096adae58e29b9ead04bed58b278b93f8",
+        "data_sha256": "5ca0b1dd4ebd6dce923a13d82f925ca42a0a6f429d482274192d969b5b1bdaa2",
+        "rows": 194658
+      },
+      {
+        "family": "debitcard_1",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/oot/debitcard_1__oot.manifest.json",
+        "manifest_sha256": "151bafe511d38373d1664cf5ef3eeaa8117c69de8a9d44bc054602e55dfabc2c",
+        "data_sha256": "79eca8b667f23da27ea8ea206f1a34f64fe8997cd462a867902c30eee7aba0ae",
+        "rows": 194658
+      },
+      {
+        "family": "deposit_1",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/deposit_1/oot/deposit_1__oot.manifest.json",
+        "manifest_sha256": "3d5b2dae9fb036ac0e937fd65bb5ac4c06fe7f209a158763011b953868dd11d0",
+        "data_sha256": "4e95fc4aebd0b997e7a15fe4ee9bfc680d850faf67c7f4ebfe4341c4faeb99ff",
+        "rows": 194658
+      },
+      {
+        "family": "other_1",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/other_1/oot/other_1__oot.manifest.json",
+        "manifest_sha256": "5c8c3b7f77ba1e3c81d1ec90ee1916fa2a54582605c101b14a59a962988a50a6",
+        "data_sha256": "b6b8797acd52dcd58433fc3f30964ced374685fc67b4da3bcfdcfe87643c267c",
+        "rows": 194658
+      },
+      {
+        "family": "person",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/person/oot/person__oot.manifest.json",
+        "manifest_sha256": "0a984913c993bf5101a22871074d7b2c00689bfb71a66c2f62413e28cdbcd019",
+        "data_sha256": "68d30781ab2017efe145536cb624ec2d8c81586a05c4503ebfc8bba6fed0c46b",
+        "rows": 194658
+      },
+      {
+        "family": "static_0",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/static_0/oot/static_0__oot.manifest.json",
+        "manifest_sha256": "a6e495c9cb686c63df91091e7172b01e01ccf9e402708d61383df826b7ead15a",
+        "data_sha256": "04be1ae0ce24a27ab97b38b51d6222f741972e507ba7500d9cd9f9008a691f99",
+        "rows": 194658
+      },
+      {
+        "family": "static_cb_0",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/static_cb_0/oot/static_cb_0__oot.manifest.json",
+        "manifest_sha256": "2dbf4e3cfd3d41559436fc67e5c42926a840396bcbcfa41d7d77efa4331c1c59",
+        "data_sha256": "d3ad122caeb222e226a5620f263c38432029f9d3dd3571ed542a2d08ef70095b",
+        "rows": 194658
+      },
+      {
+        "family": "tax_registry_a_1",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/oot/tax_registry_a_1__oot.manifest.json",
+        "manifest_sha256": "f4f1588da77d2ce0da1365fa1704e11f48dc708f8bf30ad5f7eb4ebae0f6ac0a",
+        "data_sha256": "6f12a3169dbe8fa983e22c262310dda4b33a39a9cf3bc3138cc27d85b5a7708d",
+        "rows": 194658
+      },
+      {
+        "family": "tax_registry_b_1",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/oot/tax_registry_b_1__oot.manifest.json",
+        "manifest_sha256": "9cfb66ec09df4fc12c7d3898bfd0cd631245a0cd331fac286fc0ef3708899982",
+        "data_sha256": "ec84fdf0d06523c351a1ab223d7c01cea9533ef0ad82a47717dcb3fc0d95babb",
+        "rows": 194658
+      },
+      {
+        "family": "tax_registry_c_1",
+        "split": "oot",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/oot/tax_registry_c_1__oot.manifest.json",
+        "manifest_sha256": "8589d8301246bf64ee21839304c6d33789cff5a70501ec33684629c9485efd61",
+        "data_sha256": "b080e53d3ba8c86fe76bc3bdf131b8b7d31a0062bf033847d107eec0e34ce18c",
+        "rows": 194658
+      },
+      {
+        "family": "applprev",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/applprev/test/applprev__test.manifest.json",
+        "manifest_sha256": "4a9315f125735d11b9faf9c7467190cc83857342897cfb69a2fbffc8d85f2745",
+        "data_sha256": "b634a33063610d08c90f8d37619430b8b15ca4a68d504072c59b50ddd61a3a2e",
+        "rows": 10
+      },
+      {
+        "family": "credit_bureau_a",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/credit_bureau_a/test/credit_bureau_a__test.manifest.json",
+        "manifest_sha256": "a732bd8e7a7400200ec35f64883da67f292ecd0cfec1786e4344932f9f4ab2ec",
+        "data_sha256": "7412edba9f2aa4d14fab06fdc4ffce0f8f6bdf925a1cdc2c9cea2fb45fd201db",
+        "rows": 10
+      },
+      {
+        "family": "credit_bureau_b",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/credit_bureau_b/test/credit_bureau_b__test.manifest.json",
+        "manifest_sha256": "83432ec78005d4fcc77f199a9954019b029846ea45d36194d3fa6db15528a33c",
+        "data_sha256": "4c3085dce768bf3ccc9b3692ffadb0266e7a125f79309e906428de0b03512048",
+        "rows": 10
+      },
+      {
+        "family": "debitcard_1",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/test/debitcard_1__test.manifest.json",
+        "manifest_sha256": "dcb0fba845708c25472984ff9aa5682e528b15f6563fec21a26e2fb943493052",
+        "data_sha256": "4f023a3c6ec1451b6157b5fa324f5b6c2a3f7ebeeeebc947dfe947663c022f67",
+        "rows": 10
+      },
+      {
+        "family": "deposit_1",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/deposit_1/test/deposit_1__test.manifest.json",
+        "manifest_sha256": "7368c8c5ac0294086e9caa74ce16c001c24de0e978aa0b2f18b76d50ed9a4ccc",
+        "data_sha256": "68ee0664d7ced18576f9ddf34f98906b7094ed5e9301ae61e897b73995cbf39a",
+        "rows": 10
+      },
+      {
+        "family": "other_1",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/other_1/test/other_1__test.manifest.json",
+        "manifest_sha256": "bda986263075fd9f8138a7c04b00f61fed5ec4d9dd4770c441292fe204e63271",
+        "data_sha256": "8561ce35c06567575ddc9d19626210f6a453b1fc83fd1a26d541fcfe27dc4570",
+        "rows": 10
+      },
+      {
+        "family": "person",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/person/test/person__test.manifest.json",
+        "manifest_sha256": "ccfbe3f5428aa031193f69137b73c220e8dc51b614137a0dc5d0a26571a31a67",
+        "data_sha256": "3f45d6372da94bac8d92f9c62982721b5566a3cd3e0b21e89f52634123545745",
+        "rows": 10
+      },
+      {
+        "family": "static_0",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/static_0/test/static_0__test.manifest.json",
+        "manifest_sha256": "160bab568383fac15d3261c35d9573771c350c2f43ff56bef2501bf62333972a",
+        "data_sha256": "96a12a0fa57fbc9ea1144c0fdc59dab3e79319808ded4ee5b1998c1497aed65f",
+        "rows": 10
+      },
+      {
+        "family": "static_cb_0",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/static_cb_0/test/static_cb_0__test.manifest.json",
+        "manifest_sha256": "99dbb9421c55333ce004466609fc2094b1cf27d1a631c3d9a0afc44322a6435a",
+        "data_sha256": "4d65b61694a410e926920663620d71d5cc9db0bbf1b4ac958841be0468881bbf",
+        "rows": 10
+      },
+      {
+        "family": "tax_registry_a_1",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/test/tax_registry_a_1__test.manifest.json",
+        "manifest_sha256": "96fbbc3823f9aa32216ac78d7f7fbfaf4303650290ef67de73c37fd3f387adcc",
+        "data_sha256": "e4be3b5a35505985c549bd164d9f8c89be610b7785b28058900ae8f3303ea7cd",
+        "rows": 10
+      },
+      {
+        "family": "tax_registry_b_1",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/test/tax_registry_b_1__test.manifest.json",
+        "manifest_sha256": "37d9beba948e3b974356aeac2476d4a44af567fdd4d7b62c61219ee1bb09323f",
+        "data_sha256": "50aee079331206cc79b4e6aeaab4a330aedce13369e28a3dc9e2010345975321",
+        "rows": 10
+      },
+      {
+        "family": "tax_registry_c_1",
+        "split": "test",
+        "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/test/tax_registry_c_1__test.manifest.json",
+        "manifest_sha256": "723b7a392931ce83d0dc2bd405707305ae4281d59810d24519f55bc4e58a58d6",
+        "data_sha256": "892ba7110f1e6e8b6e1c1c351a1a90762857f9742eb3eaf1bd549f0532b18b95",
+        "rows": 10
+      }
+    ],
+    "e5": [
+      {
+        "split": "train",
+        "rows": 1332001,
+        "columns": 129,
+        "features": 124,
+        "data_sha256": "b4f0840851bf413a232343d78e4b9050fa1363d3e73d86366c1b811a6d7a0114",
+        "data_path": "data/artifacts/preparation/E5-v1/feature_matrix__train.parquet"
+      },
+      {
+        "split": "oot",
+        "rows": 194658,
+        "columns": 129,
+        "features": 124,
+        "data_sha256": "aa5423dbf4167634781c69f91b3543d17d66894a935d8eeb7f24f48436eef7d6",
+        "data_path": "data/artifacts/preparation/E5-v1/feature_matrix__oot.parquet"
+      },
+      {
+        "split": "test",
+        "rows": 10,
+        "columns": 128,
+        "features": 124,
+        "data_sha256": "e6a52876ce74777be6faf438c4ceb1986279ab0bea32c33742e6aa8caa34de46",
+        "data_path": "data/artifacts/preparation/E5-v1/feature_matrix__test.parquet"
+      }
+    ],
+    "e6": {
+      "outputs": [
+        {
+          "view": "linear",
+          "split": "train",
+          "rows": 1332001,
+          "predictors": 303,
+          "predictor_nulls": 0,
+          "data_sha256": "e503b09a1fb69efee1cf1273cb7e6661f432ffd1382883abb04d603def3d329b",
+          "data_path": "data/artifacts/preparation/E6-v1/linear__train.parquet"
+        },
+        {
+          "view": "tree",
+          "split": "train",
+          "rows": 1332001,
+          "predictors": 124,
+          "predictor_nulls": 39734211,
+          "data_sha256": "0bfa48021c37347a8474be44e463b04c09585630441daad440588a7d2e2636bd",
+          "data_path": "data/artifacts/preparation/E6-v1/tree__train.parquet"
+        },
+        {
+          "view": "linear",
+          "split": "oot",
+          "rows": 194658,
+          "predictors": 303,
+          "predictor_nulls": 0,
+          "data_sha256": "ad1e57dccd5e325c1cce6556ca70d04f40d949f9735c4bd33f85474f095e2125",
+          "data_path": "data/artifacts/preparation/E6-v1/linear__oot.parquet"
+        },
+        {
+          "view": "tree",
+          "split": "oot",
+          "rows": 194658,
+          "predictors": 124,
+          "predictor_nulls": 5069844,
+          "data_sha256": "87905d3034174471b1637e200ec73a67c44bb1eb62b2fbbf35309e7485049e99",
+          "data_path": "data/artifacts/preparation/E6-v1/tree__oot.parquet"
+        },
+        {
+          "view": "linear",
+          "split": "test",
+          "rows": 10,
+          "predictors": 303,
+          "predictor_nulls": 0,
+          "data_sha256": "f4fdb11a7ffd8e9380e2cb4026ff6920588ad95a2f712cdda028d5eb1bbc6bd7",
+          "data_path": "data/artifacts/preparation/E6-v1/linear__test.parquet"
+        },
+        {
+          "view": "tree",
+          "split": "test",
+          "rows": 10,
+          "predictors": 124,
+          "predictor_nulls": 676,
+          "data_sha256": "02a654a8f949996a0531bbd635aa89a173c9025c97fdda0d3f159a84c490c81f",
+          "data_path": "data/artifacts/preparation/E6-v1/tree__test.parquet"
+        }
+      ],
+      "state_sha256": "53dbdf6a1d148aff9e1a5f74a0face289e5ae421fcb14d3d479240f6a82c5ab5",
+      "spec_sha256": "e11d5bade10b7a47aef2dd21d12f90e694d673199bff186a45c6ce1c6c671719"
+    }
+  },
+  "steps": [
+    {
+      "name": "e4_rebuild",
+      "command": [
+        "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
+        "-m",
+        "dm_credit.preparation.e4_rebuild",
+        "--all",
+        "--max-rss-mib",
+        "5120",
+        "--timeout-seconds",
+        "900"
+      ],
+      "returncode": 0,
+      "seconds": 65.35,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_rebuild.log"
+    },
+    {
+      "name": "e4_checkpoints",
+      "command": [
+        "<interno: e4_checkpoints>"
+      ],
+      "returncode": 0,
+      "seconds": 0.01,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_checkpoints.log"
+    },
+    {
+      "name": "e4_audit",
+      "command": [
+        "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
+        "-m",
+        "dm_credit.preparation.e4"
+      ],
+      "returncode": 0,
+      "seconds": 2.67,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_audit.log"
+    },
+    {
+      "name": "e4_checkpoint_audit",
+      "command": [
+        "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
+        "-m",
+        "dm_credit.preparation.e4_shards",
+        "--checkpoint-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints"
+      ],
+      "returncode": 0,
+      "seconds": 1.19,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_checkpoint_audit.log"
+    },
+    {
+      "name": "e5",
+      "command": [
+        "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
+        "-m",
+        "dm_credit.preparation.e5",
+        "--artifacts",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1",
+        "--output-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1"
+      ],
+      "returncode": 0,
+      "seconds": 5.9,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e5.log"
+    },
+    {
+      "name": "e6",
+      "command": [
+        "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
+        "-m",
+        "dm_credit.preparation.e6",
+        "--masters",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
+        "--output-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1"
+      ],
+      "returncode": 0,
+      "seconds": 11.49,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e6.log"
+    },
+    {
+      "name": "validation",
+      "command": [
+        "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
+        "-m",
+        "dm_credit.preparation.validation",
+        "--artifacts",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1"
+      ],
+      "returncode": 0,
+      "seconds": 10.32,
+      "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/validation.log"
+    }
+  ],
+  "regenerate": "POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch"
+}
