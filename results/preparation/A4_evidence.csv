@@ -1,0 +1,16 @@
+metric,value
+applprev_1_rows,6525979
+applprev_1_cases,1221522
+applprev_1_rows_after_decision,140040
+applprev_1_rows_null_creation,66
+applprev_1_cases_after_filter,1208039
+applprev_2_rows,14075487
+applprev_2_orphans,0
+applprev_2_rows_valid_parent,13862275
+person_1_rows,2973991
+person_1_cases,1526659
+person_1_cases_with_main,1526659
+person_1_employment_after_decision,316
+person_1_birth_after_decision,0
+person_2_rows,1643410
+person_2_orphans,0
