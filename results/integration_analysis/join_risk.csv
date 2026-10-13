@@ -1,0 +1,18 @@
+family,direct_left_join_rows,mean_expansion_all_base,mean_rows_per_covered_case,max_expansion,cases_multiplicity_ge_10,cases_multiplicity_ge_100,row_increase_vs_base,cartesian_warning
+base,1526659,1.0,1.0,1,0,0,0,none
+static_0,1526659,1.0,1.0,1,0,0,0,none
+static_cb_0,1526659,1.0,1.0,1,0,0,0,none
+applprev_1,6831116,4.4746,5.3425,20,194925,0,5304457,aggregate separately before join
+credit_bureau_a_1,16080923,10.5334,11.4988,529,714217,170,14554264,aggregate separately before join
+credit_bureau_b_1,1575950,1.0323,2.3504,21,32,0,49291,aggregate separately before join
+debitcard_1,1572189,1.0298,1.4073,66,140,0,45530,aggregate separately before join
+deposit_1,1566634,1.0262,1.3803,65,131,0,39975,aggregate separately before join
+other_1,1526659,1.0,1.0,1,0,0,0,none
+person_1,2973991,1.948,1.948,10,2,0,1447332,aggregate separately before join
+tax_registry_a_1,4344495,2.8458,7.1534,99,95505,0,2817836,aggregate separately before join
+tax_registry_b_1,2483860,1.627,7.3504,101,28762,1,957201,aggregate separately before join
+tax_registry_c_1,4388194,2.8744,6.9335,121,87921,3,2861535,aggregate separately before join
+applprev_2,14380624,9.4197,11.5229,79,527967,0,12853965,aggregate separately before join
+credit_bureau_a_2,188439823,123.4328,135.9273,9404,1385286,630603,186913164,aggregate separately before join
+credit_bureau_b_2,2776967,1.819,35.3048,301,30640,597,1250308,aggregate separately before join
+person_2,1734964,1.1364,1.1451,34,1520,0,208305,aggregate separately before join

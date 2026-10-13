@@ -1,0 +1,3 @@
+case_id,source_a_rows,source_b_rows,direct_join_rows
+101,2,3,6
+102,3,2,6

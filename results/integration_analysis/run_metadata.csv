@@ -1,0 +1,5 @@
+setting,value
+batch_size,1048576
+threads,1
+unit,logical train family
+modeling_grain,one row per case_id

@@ -1,0 +1,11 @@
+order,rule,requirement,explicit_failure
+1,base_grain,Start from train_base with exactly one non-null row per case_id.,fail on null/duplicate case_id
+2,split_first,Create train WEEK_NUM < 74 and OOT WEEK_NUM >= 74 before fitting transformations.,"fail on overlap, omission, or fitted OOT statistics"
+3,as_of_filter,Filter events by availability at date_decision and the approved retrospective window before aggregation.,fail on event dates after date_decision or missing approved time rule
+4,independent_aggregation,Aggregate each logical family independently to one row per case_id.,fail on duplicate/null case_id after aggregation
+5,coverage_features,"Preserve source-present indicators, record counts and meaningful missingness counts.",fail when required audit columns are absent
+6,aggregate_key,Validate case_id uniqueness after every family aggregation.,fail on any duplicate/null case_id
+7,one_to_one_join,Join only validated 1:1 aggregates to base.,fail when right side is not unique on case_id
+8,join_invariants,"After each left join, preserve base row count and unique case_id set.","fail on row-count, uniqueness, or key-set change"
+9,fit_train_only,"Fit imputation, encoding, selection and all learned statistics only on WEEK_NUM < 74.",fail when fitted rows include WEEK_NUM >= 74
+10,reserved_predictors,"Exclude case_id, num_group1, num_group2, date_decision, MONTH and WEEK_NUM from predictors unless explicitly revised.",fail when any reserved field enters the feature matrix
