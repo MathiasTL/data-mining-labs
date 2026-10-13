@@ -15,7 +15,7 @@ from dm_credit.preparation.contracts import (
 )
 
 
-def _validate_weeks(base: pl.DataFrame, label: str) -> None:
+def validate_weeks(base: pl.DataFrame, label: str) -> None:
     weeks = base["WEEK_NUM"]
     if not (weeks.dtype.is_integer() or weeks.dtype.is_float()):
         raise ValueError(f"{label}: WEEK_NUM must be numeric")
@@ -65,9 +65,9 @@ def partition_base(
     validate_base_keys(train_base)
     baseline.validate_contract(train_base)
     validate_decision_date(train_base)
-    _validate_weeks(train_base, "train base")
+    validate_weeks(train_base, "train base")
     validate_base(test_base, "test", cutoff_week)
-    _validate_weeks(test_base, "test base")
+    validate_weeks(test_base, "test base")
 
     train, oot = baseline.oot_split(train_base, cutoff_week)
     validate_base(train, "train", cutoff_week)

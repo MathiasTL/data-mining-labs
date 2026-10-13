@@ -126,7 +126,7 @@ class FeatureMatrixArtifact:
     input_manifests: tuple[Path | str, ...]
 
 
-def _logical_type(dtype: pl.DataType, name: str) -> str:
+def logical_type(dtype: pl.DataType, name: str) -> str:
     if dtype.is_integer():
         return "int"
     if dtype in DTYPE_TO_LOGICAL:
@@ -158,7 +158,7 @@ def describe_features(
             FeatureDefinition(
                 name=name,
                 role="cobertura" if is_coverage else "predictor",
-                logical_type=_logical_type(frame.schema[name], name),
+                logical_type=logical_type(frame.schema[name], name),
                 source_table=p["source_table"],
                 source_columns=cols,
                 aggregation=p["aggregation"],
