@@ -1,0 +1,16 @@
+{
+  "cutoff_week": 74,
+  "polars_max_threads": 1,
+  "artifact_root": "artifacts/preparation",
+  "versions": {"e4": "E4-v1", "e5": "E5-v1", "e6": "E6-v1"},
+  "e4": {"max_rss_mib": 5120, "timeout_seconds": 900},
+  "catalog": "results/preparation/C8_feature_catalog.csv",
+  "decisions": [
+    "results/preparation/G2_applications_people_columns.csv",
+    "results/preparation/G2_applications_people_vocabulary.csv",
+    "results/preparation/G2_depth0_columns.csv",
+    "results/preparation/G2_bureau_columns.csv",
+    "results/preparation/G2_products_registry_columns.csv"
+  ],
+  "results_dir": "results/preparation"
+}

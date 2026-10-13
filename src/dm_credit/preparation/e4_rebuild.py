@@ -303,6 +303,12 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int, *, everyth
     return records
 
 
+def any_blocked(records: list[dict]) -> bool:
+    """Solo cuenta el último registro de cada pieza: un bloqueo viejo ya reconstruido no es un fallo."""
+    latest = {(r["family"], r["split"]): r for r in records}
+    return any(r["status"] == "blocked" for r in latest.values())
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -324,7 +330,7 @@ def main() -> None:
         build_one(*args.worker, args.output)
     else:
         records = rebuild(args.audit, args.max_rss_mib, args.timeout_seconds, everything=args.all)
-        if any(r["status"] == "blocked" for r in records):
+        if any_blocked(records):
             raise SystemExit(1)
 
 

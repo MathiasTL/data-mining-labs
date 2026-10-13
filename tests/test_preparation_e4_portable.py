@@ -46,3 +46,13 @@ def test_process_tree_rss_measures_the_current_process():
 
 def test_available_memory_is_positive():
     assert rb.available_kib() > 0
+
+
+def test_only_the_latest_record_of_each_piece_decides_the_exit_code():
+    history = [
+        {"family": "applprev", "split": "train", "status": "blocked"},  # intento viejo
+        {"family": "applprev", "split": "train", "status": "generated_pending_audit"},  # reconstrucción posterior
+        {"family": "person", "split": "train", "status": "generated_pending_audit"},
+    ]
+    assert rb.any_blocked(history) is False
+    assert rb.any_blocked(history + [{"family": "person", "split": "train", "status": "blocked"}]) is True
