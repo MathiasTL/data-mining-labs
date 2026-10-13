@@ -2,8 +2,9 @@
 
 Funciones puras sobre tablas ya leídas: no leen disco, no escriben manifiestos y no conocen
 la interfaz ``build_family_features`` (que G1 aún no congela). Devuelven una fila por
-``case_id`` **solo para los casos con cobertura**: el ensamblador completa ``n_records = 0`` y
-``source_present = False`` para el resto (propuesta A4 §8.3 y A6 §2).
+``case_id`` **solo para los casos con cobertura**. Los adaptadores (``build_*_features``) completan
+después una fila por cada caso de la base, con ``n_records = 0`` y ``source_present = False``, igual
+que bureau y productos, porque el ensamblador no rellena cobertura.
 
 Reglas temporales (A4 §2, ventana ``all`` de A7):
     - ``applprev_1``: una fila existe solo si ``creationdate_885D <= date_decision``; fecha nula
@@ -377,6 +378,20 @@ def aggregate_people(base, person_1, person_2, config: PeopleConfig | None = Non
 
 
 # ----------------------------------------------------------------- adaptadores de familia
+TABLES = {"applprev": ("applprev_1", "applprev_2"), "person": ("person_1", "person_2")}  # (tabla padre, tabla hija)
+
+
+def _complete_coverage(features: pl.DataFrame, base: pl.DataFrame, family: str) -> pl.DataFrame:
+    """Una fila por caso de la base, como bureau y productos: sin cobertura, ``n_records = 0`` y
+    ``source_present = False`` en cada tabla física; el resto de características queda nulo para D2."""
+    full = base.select(KEY).sort(KEY).join(features, on=KEY, how="left", validate="1:1")
+    fills = []
+    for table in TABLES[family]:
+        n, present = f"{table}__n_records", f"{table}__source_present"
+        fills += [pl.col(n).fill_null(0), pl.col(present).fill_null(False)]
+    return full.with_columns(fills)
+
+
 def _base_fingerprint(base: pl.DataFrame) -> str:
     """Huella de la base de referencia: cambiar casos, semanas, fechas o partición invalida la caché."""
     ordered = base.select(KEY, "WEEK_NUM", "date_decision").sort(KEY)
@@ -432,6 +447,7 @@ def build_applprev_features(
     a1 = _read(file_split, "applprev_1", cols1, cases)
     a2 = _read(file_split, "applprev_2", cols2, cases)
     result = aggregate_applications_with_exclusions(base, a1, a2, cfg)
+    result = FamilyAggregate(_complete_coverage(result.features, base, "applprev"), result.exclusions)
     return _publish(
         "applprev", base, split, cutoff_week, output_dir, result, ["applprev_1", "applprev_2"], file_split,
         [*cols1, *cols2], f"{CREATION} <= date_decision; hijos solo con padre válido",
@@ -456,6 +472,7 @@ def build_person_features(
     p1 = _read(file_split, "person_1", cols1, cases)
     p2 = _read(file_split, "person_2", cols2, cases)
     result = aggregate_people_with_exclusions(base, p1, p2, cfg)
+    result = FamilyAggregate(_complete_coverage(result.features, base, "person"), result.exclusions)
     return _publish(
         "person", base, split, cutoff_week, output_dir, result, ["person_1", "person_2"], file_split,
         [*cols1, *cols2], "atributos de la solicitud actual; fechas internas <= date_decision",

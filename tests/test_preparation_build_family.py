@@ -54,8 +54,12 @@ def test_train_artifact_matches_the_pure_core(data, tmp_path):
     base = base_for("train", cutoff=74)
     art = ap.build_applprev_features(base, "train", output_dir=tmp_path / "out", config=SMALL_APP)
     expected = ap.aggregate_applications(fx.base(), fx.applprev_1(), fx.applprev_2(), SMALL_APP)
-    assert pl.read_parquet(art.data_path).equals(expected)
-    assert art.family == "applprev" and art.split == "train" and art.case_count == 3
+    out = pl.read_parquet(art.data_path)
+    # los casos con cobertura coinciden exactamente con el núcleo
+    assert out.filter(pl.col("applprev_1__source_present")).equals(expected)
+    # y la salida trae una fila por cada caso de la base (como bureau y productos)
+    assert out["case_id"].to_list() == base_for("train", 74)["case_id"].sort().to_list()
+    assert art.family == "applprev" and art.split == "train" and art.case_count == 6
 
 
 def test_manifest_records_exclusions_inputs_and_rules(data, tmp_path):
@@ -70,7 +74,9 @@ def test_manifest_records_exclusions_inputs_and_rules(data, tmp_path):
 
 def test_oot_only_aggregates_the_cases_of_its_base(data, tmp_path):
     art = ap.build_applprev_features(base_for("oot", 11), "oot", cutoff_week=11, output_dir=tmp_path / "out", config=SMALL_APP)
-    assert pl.read_parquet(art.data_path)["case_id"].to_list() == [4]  # el caso 5 solo tiene solicitudes posteriores
+    out = pl.read_parquet(art.data_path)
+    assert out["case_id"].to_list() == [3, 4, 5, 6]  # todos los casos de la base OOT
+    assert out.filter(pl.col("applprev_1__source_present"))["case_id"].to_list() == [4]  # el caso 5 solo tiene solicitudes posteriores
 
 
 def test_train_and_oot_do_not_leak_cases_into_each_other(data, tmp_path):
@@ -81,13 +87,15 @@ def test_train_and_oot_do_not_leak_cases_into_each_other(data, tmp_path):
 
 def test_test_split_reads_test_files(data, tmp_path):
     art = ap.build_person_features(base_for("test"), "test", output_dir=tmp_path / "out", config=SMALL_PEOPLE)
-    assert art.split == "test" and art.case_count == 5
+    assert art.split == "test" and art.case_count == 6
 
 
 def test_person_artifact_matches_the_pure_core(data, tmp_path):
     art = ap.build_person_features(base_for("train", 74), "train", output_dir=tmp_path / "out", config=SMALL_PEOPLE)
     expected = ap.aggregate_people(fx.base(), fx.person_1(), fx.person_2(), SMALL_PEOPLE)
-    assert pl.read_parquet(art.data_path).equals(expected)
+    out = pl.read_parquet(art.data_path)
+    assert out.filter(pl.col("person_1__source_present")).equals(expected)
+    assert out.height == 6
     assert art.family == "person"
 
 
@@ -154,3 +162,36 @@ def test_shard_fingerprint_changes_when_a_shard_is_modified_in_place(data, tmp_p
     os.utime(shard, ns=(stat.st_atime_ns, stat.st_mtime_ns + 5_000_000_000))  # mismo tamaño, otra fecha
     b = ap.build_applprev_features(base_for("train", 74), "train", output_dir=tmp_path / "b", config=SMALL_APP)
     assert json.loads(a.manifest_path.read_text())["inputs"]["shards"] != json.loads(b.manifest_path.read_text())["inputs"]["shards"]
+
+
+
+@pytest.mark.parametrize("family", ["applprev", "person"])
+def test_uncovered_cases_get_zero_records_and_false_presence(data, tmp_path, family):
+    build = ap.build_applprev_features if family == "applprev" else ap.build_person_features
+    cfg = SMALL_APP if family == "applprev" else SMALL_PEOPLE
+    out = pl.read_parquet(build(base_for("train", 74), "train", output_dir=tmp_path / "o", config=cfg).data_path)
+    parent, child = ap.TABLES[family]
+    uncovered = out.filter(~pl.col(f"{parent}__source_present"))
+    assert uncovered.height > 0
+    for table in (parent, child):
+        assert uncovered[f"{table}__n_records"].to_list() == [0] * uncovered.height
+        assert uncovered[f"{table}__source_present"].to_list() == [False] * uncovered.height
+    # la cobertura nunca queda nula; el resto de características sí, para que D2 las trate
+    for table in (parent, child):
+        assert out[f"{table}__n_records"].null_count() == 0 and out[f"{table}__source_present"].null_count() == 0
+    predictors = [c for c in out.columns if c != "case_id" and not c.endswith(("__n_records", "__source_present", "__n_contacts__all"))]
+    assert all(uncovered[c].null_count() == uncovered.height for c in predictors)
+
+
+def test_assembled_matrix_has_no_null_coverage_for_applprev_and_person(data, tmp_path):
+    from dm_credit.preparation import assembly
+
+    oot = fx.base().filter(pl.col("WEEK_NUM") >= 11)  # casos 3 a 6, con target
+    arts = [
+        ap.build_applprev_features(oot, "oot", cutoff_week=11, output_dir=tmp_path / "a", config=SMALL_APP),
+        ap.build_person_features(oot, "oot", cutoff_week=11, output_dir=tmp_path / "p", config=SMALL_PEOPLE),
+    ]
+    m = pl.read_parquet(assembly.assemble_feature_matrix(oot, arts, "oot", output_dir=tmp_path / "m").data_path)
+    coverage = [c for c in m.columns if c.endswith(("__n_records", "__source_present"))]
+    assert len(coverage) == 8
+    assert all(m[c].null_count() == 0 for c in coverage)

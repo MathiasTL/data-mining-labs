@@ -36,8 +36,7 @@ REPORT_SCHEMA = {
     "valid_rows_table_1": pl.Int64, "valid_rows_table_2": pl.Int64, "predictor_features": pl.Int64, "coverage_features": pl.Int64,
 }
 EXCLUSIONS_SCHEMA = {"split": pl.String, "family": pl.String, "metric": pl.String, "value": pl.Int64}
-# tablas físicas de cada familia: (tabla padre, tabla hija)
-TABLES = {"applprev": ("applprev_1", "applprev_2"), "person": ("person_1", "person_2")}
+TABLES = ap.TABLES  # tablas físicas de cada familia: (tabla padre, tabla hija)
 
 
 def assert_same_feature_schema(artifacts: Sequence[contracts.FamilyFeatureArtifact]) -> None:
@@ -84,13 +83,14 @@ def run_real_data(
             artifacts.append(art)
             t1, t2 = TABLES[family]
             predictors = sum(f.role == "predictor" for f in art.feature_schema)
+            covered = _sum(art.data_path, f"{t1}__source_present")
             report.append(
                 {
                     "split": split,
                     "family": family,
                     "base_cases": bases[split].height,
-                    "cases_with_source": art.case_count,
-                    "cases_without_source": bases[split].height - art.case_count,
+                    "cases_with_source": covered,
+                    "cases_without_source": bases[split].height - covered,
                     "valid_rows_table_1": _sum(art.data_path, f"{t1}__n_records"),
                     "valid_rows_table_2": _sum(art.data_path, f"{t2}__n_records"),
                     "predictor_features": predictors,
@@ -130,7 +130,7 @@ def main() -> None:
         exclusions_path=args.exclusions, cutoff_week=args.cutoff_week,
     )
     for a in arts:
-        print(f"{a.family}/{a.split}: {a.case_count} cases with source, {len(a.feature_schema)} features")
+        print(f"{a.family}/{a.split}: {a.case_count} cases, {len(a.feature_schema)} features")
     print(f"catalog: {args.catalog}\nrun report: {args.run_report}\nexclusions: {args.exclusions}")
 
 
