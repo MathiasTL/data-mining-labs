@@ -147,6 +147,37 @@ La tasa de incumplimiento tampoco es estable. Su mediana semanal es 2,79 %, el m
 
 Este será el corte primario del baseline. `WEEK_NUM` no se usará como predictor y toda transformación se ajustará únicamente con semanas `< 74`. Como análisis de sensibilidad se podrán comparar cortes cercanos (por ejemplo, 72 y 76), pero no se escogerá retrospectivamente el que produzca la mejor métrica.
 
+### Revisión de la métrica oficial
+
+La métrica de selección será **Gini Stability**, según la página oficial [Evaluation de Home Credit – Credit Risk Model Stability](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/overview/evaluation), consultada el **2026-10-12**. El endpoint oficial de la competición identifica el algoritmo como `Home Credit 2023 - Gini Stability` (ID 1126, kernel de métrica 47057943, versión 16032). No es un AUC calculado sobre todas las semanas juntas: primero se calcula un Gini independiente para cada `WEEK_NUM` observado y luego se agregan esos valores sin ponderarlos por cantidad de casos.
+
+Para cada semana `t`, con ambas clases presentes:
+
+```text
+G_t = 2 × ROC_AUC(y_t, p_t) − 1
+Gini Stability = mean(G_t) + 88 × min(0, a) − 0,5 × std_pop(r_t)
+r_t = G_t − (a × WEEK_NUM_t + b)
+```
+
+`a` y `b` son respectivamente la pendiente y el intercepto de una regresión lineal ordinaria de los Gini semanales contra los valores numéricos observados de `WEEK_NUM`. La media es aritmética y semanal, no ponderada. La desviación de los residuos es **poblacional** (`numpy.std`, `ddof=0`). El término `88 × min(0, a)` penaliza únicamente una pendiente negativa; una pendiente positiva no recibe premio. El término `0,5 × std_pop(r_t)` penaliza variación alrededor de la tendencia. Las predicciones constantes producen AUC 0,5 y Gini 0 si existen ambas clases.
+
+El código oficial no define una sustitución para entradas inválidas: una semana monoclase hace que ROC AUC no sea calculable; nulos o valores no finitos tampoco reciben un valor especial. Para evitar resultados silenciosamente distintos de la competición, el proyecto **rechaza** el cálculo completo si cualquier semana observada contiene una sola clase, si hay nulos/no finitos, si el objetivo no pertenece a `{0, 1}` o si las longitudes no coinciden. Las semanas ausentes no se interpolan: solo participan los `WEEK_NUM` observados. Se exigen al menos dos semanas evaluables para estimar la pendiente. Estas convenciones están implementadas en `src/dm_credit/baseline.py` y probadas con datos sintéticos en `tests/test_baseline.py`.
+
+La auditoría corrigió la implementación anterior, que descartaba silenciosamente Gini semanales no finitos. La API separa ahora Gini global, tabla de Gini semanal y conteos, regresión temporal, desviación residual y resultado final mediante `gini`, `weekly_gini` y `gini_stability_components`. La evidencia reproducible está en `results/metric_review/definition.csv`, `example_components.csv` y `source.csv`.
+
+#### Métricas internas por experimento
+
+| Métrica                                                  | Partición              | Papel                                                              | Requiere probabilidades                      |
+| -------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------ | -------------------------------------------- |
+| Gini Stability                                           | OOT (`WEEK_NUM >= 74`) | **Métrica oficial y criterio primario de selección**               | No; depende del orden de los scores          |
+| ROC AUC y Gini global                                    | Entrenamiento y OOT    | Diagnóstico de discriminación global; no sustituyen Gini Stability | No                                           |
+| Gini por semana; media, desviación y pendiente semanales | OOT                    | Diagnóstico temporal y componentes auditables                      | No                                           |
+| Casos y positivos por semana                             | OOT                    | Soporte de cada estimación semanal                                 | No                                           |
+| Log loss y Brier score                                   | OOT                    | Diagnóstico de calidad probabilística/calibración                  | **Sí**                                       |
+| PR AUC                                                   | OOT                    | Diagnóstico complementario por desbalance                          | No, aunque se calcula sobre scores continuos |
+
+Cada comparación conservará entrenamiento `WEEK_NUM < 74` y OOT `WEEK_NUM >= 74`. El modelo se seleccionará por mayor Gini Stability OOT; las demás métricas explicarán discriminación global, estabilidad, soporte y calidad probabilística, pero no reemplazarán la métrica oficial.
+
 ### Hipótesis iniciales
 
 <!-- Registrar hipótesis verificables sobre fuentes o variables prometedoras. -->

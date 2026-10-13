@@ -23,7 +23,12 @@ import polars as pl
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import average_precision_score, roc_auc_score
+from sklearn.metrics import (
+    average_precision_score,
+    brier_score_loss,
+    log_loss,
+    roc_auc_score,
+)
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardScaler
 
@@ -33,31 +38,117 @@ KEY, WEEK, TARGET = "case_id", "WEEK_NUM", "target"
 # Columnas técnicas/temporales que nunca son predictores en el baseline.
 RESERVED = (KEY, WEEK, TARGET, "date_decision", "MONTH")
 MISSING = "__missing__"
-STABILITY_FALLING_RATE_PENALTY = 88.0  # constante de la métrica de Kaggle (por confirmar, ver documentación)
+STABILITY_FALLING_RATE_PENALTY = 88.0
+STABILITY_RESIDUAL_PENALTY = 0.5
 
 
 # ---------------------------------------------------------------- métricas
+@dataclass(frozen=True)
+class StabilityComponents:
+    mean_weekly_gini: float
+    slope: float
+    intercept: float
+    residual_std: float
+    slope_penalty: float
+    variability_penalty: float
+    score: float
+
+
+def _validated_metric_arrays(y_true, y_score) -> tuple[np.ndarray, np.ndarray]:
+    y = np.asarray(y_true)
+    score = np.asarray(y_score, dtype=float)
+    if y.ndim != 1 or score.ndim != 1 or len(y) != len(score) or len(y) == 0:
+        raise ValueError(
+            "y_true and y_score must be non-empty one-dimensional arrays of equal length"
+        )
+    if not np.isfinite(score).all():
+        raise ValueError("y_score must contain only finite values")
+    try:
+        y_float = y.astype(float)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("y_true must contain only 0/1") from exc
+    if not np.isfinite(y_float).all() or not set(np.unique(y_float)) <= {0.0, 1.0}:
+        raise ValueError("y_true must contain only 0/1")
+    if len(np.unique(y_float)) < 2:
+        raise ValueError("Gini is undefined when y_true contains a single class")
+    return y_float, score
+
+
 def gini(y_true, y_score) -> float:
-    """Gini = 2*AUC - 1. Devuelve NaN si solo hay una clase."""
-    y_true = np.asarray(y_true)
-    if len(np.unique(y_true)) < 2:
-        return float("nan")
-    return 2.0 * roc_auc_score(y_true, y_score) - 1.0
+    """Return 2 * ROC AUC - 1 after validating the binary inputs."""
+    y, score = _validated_metric_arrays(y_true, y_score)
+    return float(2.0 * roc_auc_score(y, score) - 1.0)
 
 
-def gini_stability(weekly_gini, weeks) -> float:
-    """Estabilidad al estilo de la competición: media + 88*min(0, pendiente) - 0.5*std(residuos)."""
-    g = np.asarray(weekly_gini, dtype=float)
-    w = np.asarray(weeks, dtype=float)
-    mask = np.isfinite(g)
-    g, w = g[mask], w[mask]
-    if len(g) == 0:
-        return float("nan")
-    if len(g) < 2:
-        return float(g.mean())
-    slope, intercept = np.polyfit(w, g, 1)
-    residuals = g - (slope * w + intercept)
-    return float(g.mean() + STABILITY_FALLING_RATE_PENALTY * min(0.0, slope) - 0.5 * residuals.std())
+def weekly_gini(y_true, y_score, weeks) -> pl.DataFrame:
+    """Calculate auditable weekly Gini values; every observed week must have both classes."""
+    y = np.asarray(y_true)
+    score = np.asarray(y_score)
+    week = np.asarray(weeks)
+    if week.ndim != 1 or len(week) != len(y):
+        raise ValueError(
+            "weeks must be one-dimensional and have the same length as y_true"
+        )
+    if (
+        len(week) == 0
+        or pl.Series(week).null_count()
+        or not np.isfinite(week.astype(float)).all()
+    ):
+        raise ValueError(
+            "weeks must be non-empty and contain only finite, non-null values"
+        )
+    rows = []
+    for value in np.unique(week):
+        mask = week == value
+        rows.append(
+            {
+                WEEK: value,
+                "n": int(mask.sum()),
+                "n_pos": int(np.asarray(y[mask], dtype=float).sum()),
+                "gini": gini(y[mask], score[mask]),
+            }
+        )
+    return pl.DataFrame(rows).sort(WEEK)
+
+
+def gini_stability_components(weekly_gini_values, weeks) -> StabilityComponents:
+    """Return the official score and each component used to calculate it."""
+    values = np.asarray(weekly_gini_values, dtype=float)
+    week = np.asarray(weeks, dtype=float)
+    if (
+        values.ndim != 1
+        or week.ndim != 1
+        or len(values) != len(week)
+        or len(values) < 2
+    ):
+        raise ValueError(
+            "weekly Gini and weeks must have equal length and contain at least two weeks"
+        )
+    if not np.isfinite(values).all() or not np.isfinite(week).all():
+        raise ValueError("weekly Gini and weeks must contain only finite values")
+    if len(np.unique(week)) != len(week):
+        raise ValueError("weeks must be unique")
+    slope, intercept = np.polyfit(week, values, 1)
+    residuals = values - (slope * week + intercept)
+    mean = float(values.mean())
+    residual_std = float(residuals.std(ddof=0))
+    slope_penalty = float(STABILITY_FALLING_RATE_PENALTY * min(0.0, slope))
+    variability_penalty = float(STABILITY_RESIDUAL_PENALTY * residual_std)
+    score = mean + slope_penalty - variability_penalty
+    return StabilityComponents(
+        mean,
+        float(slope),
+        float(intercept),
+        residual_std,
+        slope_penalty,
+        variability_penalty,
+        score,
+    )
+
+
+def gini_stability(weekly_gini_values, weeks) -> float:
+    """Return the official Gini Stability score."""
+    return gini_stability_components(weekly_gini_values, weeks).score
 
 
 # --------------------------------------------------------------- contrato
@@ -97,7 +188,9 @@ def _to_float(a):
     return a.astype(float)
 
 
-def _split_features(df: pl.DataFrame, features: list[str]) -> tuple[list[str], list[str]]:
+def _split_features(
+    df: pl.DataFrame, features: list[str]
+) -> tuple[list[str], list[str]]:
     num, cat = [], []
     for c in features:
         dt = df.schema[c]
@@ -106,7 +199,9 @@ def _split_features(df: pl.DataFrame, features: list[str]) -> tuple[list[str], l
         elif dt in (pl.String, pl.Categorical, pl.Boolean):
             cat.append(c)
         else:
-            raise ValueError(f"unsupported dtype {dt} for feature {c!r}; transform it first")
+            raise ValueError(
+                f"unsupported dtype {dt} for feature {c!r}; transform it first"
+            )
     return num, cat
 
 
@@ -116,7 +211,9 @@ def _matrix(df: pl.DataFrame, num: list[str], cat: list[str]) -> np.ndarray:
     return np.column_stack(cols).astype(object)
 
 
-def _build_logistic(num: list[str], cat: list[str], seed: int, params: dict) -> Pipeline:
+def _build_logistic(
+    num: list[str], cat: list[str], seed: int, params: dict
+) -> Pipeline:
     n_num = len(num)
     transformers = []
     if num:
@@ -126,7 +223,10 @@ def _build_logistic(num: list[str], cat: list[str], seed: int, params: dict) -> 
                 Pipeline(
                     [
                         ("cast", FunctionTransformer(_to_float)),
-                        ("impute", SimpleImputer(strategy="median", add_indicator=True)),
+                        (
+                            "impute",
+                            SimpleImputer(strategy="median", add_indicator=True),
+                        ),
                         ("scale", StandardScaler()),
                     ]
                 ),
@@ -137,7 +237,11 @@ def _build_logistic(num: list[str], cat: list[str], seed: int, params: dict) -> 
         transformers.append(
             (
                 "cat",
-                OneHotEncoder(handle_unknown="infrequent_if_exist", min_frequency=0.01, sparse_output=False),
+                OneHotEncoder(
+                    handle_unknown="infrequent_if_exist",
+                    min_frequency=0.01,
+                    sparse_output=False,
+                ),
                 list(range(n_num, n_num + len(cat))),
             )
         )
@@ -178,6 +282,7 @@ def run_baseline(
 
     params: dict = {}
     if model == "prevalence" or not features:
+        train_score = np.full(train.height, y_train.mean())
         score = np.full(val.height, y_train.mean())
         used_features: list[str] = []
         model_name = "prevalence"
@@ -185,30 +290,33 @@ def run_baseline(
         params = {"max_iter": 1000, "C": 1.0}
         num, cat = _split_features(train, features)
         pipe = _build_logistic(num, cat, seed, params)
-        pipe.fit(_matrix(train, num, cat), y_train)  # se ajusta solo con entrenamiento: sin fuga desde OOT
+        pipe.fit(
+            _matrix(train, num, cat), y_train
+        )  # se ajusta solo con entrenamiento: sin fuga desde OOT
+        train_score = pipe.predict_proba(_matrix(train, num, cat))[:, 1]
         score = pipe.predict_proba(_matrix(val, num, cat))[:, 1]
         used_features, model_name = features, "logistic"
 
     scores = val.select(KEY, WEEK, TARGET).with_columns(pl.Series("score", score))
-    weekly = (
-        scores.group_by(WEEK)
-        .agg(
-            pl.len().alias("n"),
-            pl.col(TARGET).sum().alias("n_pos"),
-            pl.struct(TARGET, "score").map_batches(
-                lambda s: pl.Series([gini(s.struct.field(TARGET).to_numpy(), s.struct.field("score").to_numpy())]),
-                returns_scalar=True,
-            ).alias("gini"),
-        )
-        .sort(WEEK)
+    weekly = weekly_gini(y_val, score, val[WEEK].to_numpy())
+    stability = gini_stability_components(
+        weekly["gini"].to_numpy(), weekly[WEEK].to_numpy()
     )
+    weekly_values = weekly["gini"].to_numpy()
     metrics = {
+        "train_roc_auc": float(roc_auc_score(y_train, train_score)),
+        "train_gini": gini(y_train, train_score),
+        "roc_auc": float(roc_auc_score(y_val, score)),
         "gini": gini(y_val, score),
-        "roc_auc": float(roc_auc_score(y_val, score)) if len(np.unique(y_val)) > 1 else float("nan"),
-        "pr_auc": float(average_precision_score(y_val, score)) if y_val.sum() else float("nan"),
-        "gini_stability": gini_stability(weekly["gini"].to_numpy(), weekly[WEEK].to_numpy()),
-        "mean_weekly_gini": float(np.nanmean(weekly["gini"].to_numpy())) if weekly.height else float("nan"),
-        "min_weekly_gini": float(np.nanmin(weekly["gini"].to_numpy())) if weekly.height else float("nan"),
+        "gini_stability": stability.score,
+        "mean_weekly_gini": stability.mean_weekly_gini,
+        "weekly_gini_std": float(weekly_values.std(ddof=0)),
+        "weekly_gini_slope": stability.slope,
+        "residual_std": stability.residual_std,
+        "log_loss": float(log_loss(y_val, score)),
+        "brier_score": float(brier_score_loss(y_val, score)),
+        "pr_auc": float(average_precision_score(y_val, score)),
+        "min_weekly_gini": float(weekly_values.min()),
         "prevalence_train": float(y_train.mean()),
         "prevalence_val": float(y_val.mean()),
         "n_train": train.height,
@@ -234,10 +342,19 @@ def append_record(record: dict, path: Path) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--cutoff-week", type=int, required=True, help="OOT cut: train < cutoff <= validation")
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    ap.add_argument(
+        "--cutoff-week",
+        type=int,
+        required=True,
+        help="OOT cut: train < cutoff <= validation",
+    )
     ap.add_argument("--model", choices=["prevalence", "logistic"], default="prevalence")
-    ap.add_argument("--features", nargs="*", help="Predictor columns (default: all non-reserved)")
+    ap.add_argument(
+        "--features", nargs="*", help="Predictor columns (default: all non-reserved)"
+    )
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--log", type=Path, default=Path("results/experiments.jsonl"))
     args = ap.parse_args()
@@ -245,7 +362,9 @@ def main() -> None:
     path = io.base_path("train")
     df = io.load_parquet(path)
     version = f"{path.name}|{path.stat().st_size}B|{df.height}rows"
-    res = run_baseline(df, args.cutoff_week, args.model, args.features, args.seed, version)
+    res = run_baseline(
+        df, args.cutoff_week, args.model, args.features, args.seed, version
+    )
     print(json.dumps(res.record, indent=2, default=str))
     append_record(res.record, args.log)
     print(f"appended to {args.log}")
