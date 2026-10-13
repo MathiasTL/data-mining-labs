@@ -1,0 +1,4 @@
+source_type,name,url,consulted_on,evidence
+official_evaluation,Home Credit - Credit Risk Model Stability Evaluation,https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/overview/evaluation,2026-10-12,"Formula and reference implementation shown on Evaluation page"
+official_api,Kaggle CompetitionService GetCompetition,https://www.kaggle.com/api/i/competitions.CompetitionService/GetCompetition,2026-10-12,"Competition 50160; evaluation algorithm 1126 Home Credit 2023 - Gini Stability; metric kernel 47057943; version 16032"
+local_implementation,dm_credit.baseline,src/dm_credit/baseline.py,2026-10-12,"Validated by deterministic tests and example_components.csv"

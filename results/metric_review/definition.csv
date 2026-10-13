@@ -1,0 +1,11 @@
+component,official_definition,local_convention
+weekly_gini,2 * ROC_AUC(target prediction) - 1 calculated separately for each observed WEEK_NUM,Raise ValueError if any observed week has one class
+mean_weekly_gini,Arithmetic mean of weekly Gini values,Unweighted by weekly case count
+slope,OLS coefficient of weekly Gini regressed on observed WEEK_NUM,Uses numeric WEEK_NUM values and does not fill absent weeks
+slope_penalty,88 * min(0 slope),Positive slopes receive neither reward nor penalty
+residual_std,np.std(observed Gini - fitted Gini),Population standard deviation ddof=0
+variability_penalty,0.5 * residual_std,Subtracted from score
+gini_stability,mean_weekly_gini + slope_penalty - variability_penalty,Official model-selection metric on OOT weeks 74-91
+constant_predictions,Weekly ROC AUC 0.5 and Gini 0 when both classes exist,Accepted
+null_or_infinite_values,Not assigned a special score by official code,Rejected before scoring
+absent_weeks,Only observed WEEK_NUM groups enter aggregation,No interpolation
