@@ -225,10 +225,86 @@ Solo se detectan dos columnas constantes globales según los perfiles: el índic
 
 La integridad de claves se verificó exactamente para las 17 familias y quedó consolidada en `results/key_integrity_all_families.csv`. `case_id` no tiene nulos y las claves candidatas —`case_id`, `case_id + num_group1` o `case_id + num_group1 + num_group2`, según la granularidad— tienen cero grupos y cero filas duplicadas. En consecuencia, tampoco existen filas exactamente duplicadas dentro de cada familia. Para las fuentes grandes y fragmentadas se utilizó una agregación externa DuckDB limitada a un hilo y 1 GB de memoria; para la tanda menor se conservaron los controles Polars previos. La unicidad de la clave compuesta no implica que `case_id` sea único: las fuentes de profundidad 1 y 2 contienen múltiples observaciones por caso y deberán agregarse antes del join.
 
-### Riesgos de integración y fuga de información
+### Riesgos de integración y fuga de información (Etapa A, punto 6)
 
-`case_id` es único en `train_base` y las claves candidatas de las 17 familias son íntegras, pero las tablas de profundidad 1 y 2 tienen varias filas por caso. Por ello, un join directo sobre `case_id` multiplicaría casos aunque no existan duplicados de clave. Cada fuente deberá agregarse a una fila por caso —respetando `num_group1` y `num_group2`— antes de integrarse. La disponibilidad temporal y el riesgo de fuga de los campos marcados en `results/variable_catalog.csv` siguen requiriendo revisión de dominio.
+El análisis reproducible está en `src/dm_credit/integration_analysis.py` y sus resultados en `results/integration_analysis/`. Se leyeron únicamente las claves, una familia y un lote a la vez, con un hilo; no se materializaron joins entre fuentes. Los fragmentos físicos se consolidaron como una familia lógica y todas las métricas se calcularon contra la unidad final de modelado: una fila de `train_base` por `case_id`.
+
+```bash
+POLARS_MAX_THREADS=1 uv run -m dm_credit.integration_analysis
+```
+
+#### Cardinalidad y cobertura observadas
+
+Las 17 familias tienen cero filas huérfanas respecto de `train_base`. Las claves candidatas no tienen nulos ni repeticiones según `results/key_integrity_all_families.csv`. En profundidad 2, `case_id + num_group1` se repite, como corresponde a un padre con varios hijos, mientras que `case_id + num_group1 + num_group2` sí es única; `num_group1` y `num_group2` nunca se consideran claves globales. Los percentiles se calculan entre casos presentes en cada fuente.
+
+| Familia             | Prof. | Clave candidata                     | Archivos |       Filas |     Casos | Cobertura | Filas/caso mediana / p99 / máx. | Cardinalidad |
+| ------------------- | ----: | ----------------------------------- | -------: | ----------: | --------: | --------: | ------------------------------: | ------------ |
+| `base`              |     0 | `case_id`                           |        1 |   1 526 659 | 1 526 659 |  100,00 % |                       1 / 1 / 1 | `1:1`        |
+| `static_0`          |     0 | `case_id`                           |        2 |   1 526 659 | 1 526 659 |  100,00 % |                       1 / 1 / 1 | `1:1`        |
+| `static_cb_0`       |     0 | `case_id`                           |        1 |   1 500 476 | 1 500 476 |   98,28 % |                       1 / 1 / 1 | `1:0..1`     |
+| `applprev_1`        |     1 | `case_id + num_group1`              |        2 |   6 525 979 | 1 221 522 |   80,01 % |                     4 / 20 / 20 | `1:N`        |
+| `credit_bureau_a_1` |     1 | `case_id + num_group1`              |        4 |  15 940 537 | 1 386 273 |   90,80 % |                   10 / 31 / 529 | `1:N`        |
+| `credit_bureau_b_1` |     1 | `case_id + num_group1`              |        1 |      85 791 |    36 500 |    2,39 % |                      2 / 7 / 21 | `1:N`        |
+| `debitcard_1`       |     1 | `case_id + num_group1`              |        1 |     157 302 |   111 772 |    7,32 % |                      1 / 5 / 66 | `1:N`        |
+| `deposit_1`         |     1 | `case_id + num_group1`              |        1 |     145 086 |   105 111 |    6,89 % |                      1 / 5 / 65 | `1:N`        |
+| `other_1`           |     1 | `case_id + num_group1`              |        1 |      51 109 |    51 109 |    3,35 % |                       1 / 1 / 1 | `1:0..1`     |
+| `person_1`          |     1 | `case_id + num_group1`              |        1 |   2 973 991 | 1 526 659 |  100,00 % |                      1 / 5 / 10 | `1:N`        |
+| `tax_registry_a_1`  |     1 | `case_id + num_group1`              |        1 |   3 275 770 |   457 934 |   30,00 % |                     6 / 20 / 99 | `1:N`        |
+| `tax_registry_b_1`  |     1 | `case_id + num_group1`              |        1 |   1 107 933 |   150 732 |    9,87 % |                    6 / 21 / 101 | `1:N`        |
+| `tax_registry_c_1`  |     1 | `case_id + num_group1`              |        1 |   3 343 800 |   482 265 |   31,59 % |                    6 / 19 / 121 | `1:N`        |
+| `applprev_2`        |     2 | `case_id + num_group1 + num_group2` |        1 |  14 075 487 | 1 221 522 |   80,01 % |                     8 / 48 / 79 | `1:N`        |
+| `credit_bureau_a_2` |     2 | `case_id + num_group1 + num_group2` |       11 | 188 298 452 | 1 385 288 |   90,74 % |                96 / 588 / 9 404 | `1:N`        |
+| `credit_bureau_b_2` |     2 | `case_id + num_group1 + num_group2` |        1 |   1 286 755 |    36 447 |    2,39 % |                  36 / 108 / 301 | `1:N`        |
+| `person_2`          |     2 | `case_id + num_group1 + num_group2` |        1 |   1 643 410 | 1 435 105 |   94,00 % |                      1 / 4 / 34 | `1:N`        |
+
+El detalle reproducible incluye mínimo, máximo, media, mediana, p90, p95 y p99 en `family_cardinality.csv`. Que `other_1` tenga profundidad 1 no obliga a que sea `1:N`: en los datos observados `num_group1=0` y hay como máximo una fila por caso.
+
+#### Riesgo de multiplicación
+
+Un `LEFT JOIN` directo de una sola fuente conserva una fila para casos sin cobertura y replica los cubiertos. Los riesgos máximos son:
+
+| Familia             | Filas tras join directo | Factor medio sobre toda la base | Media por caso cubierto | Máximo | Casos con ≥100 filas |
+| ------------------- | ----------------------: | ------------------------------: | ----------------------: | -----: | -------------------: |
+| `credit_bureau_a_2` |             188 439 823 |                         123,43× |                  135,93 |  9 404 |              630 603 |
+| `credit_bureau_a_1` |              16 080 923 |                          10,53× |                   11,50 |    529 |                  170 |
+| `applprev_2`        |              14 380 624 |                           9,42× |                   11,52 |     79 |                    0 |
+| `applprev_1`        |               6 831 116 |                           4,47× |                    5,34 |     20 |                    0 |
+| `tax_registry_c_1`  |               4 388 194 |                           2,87× |                    6,93 |    121 |                    3 |
+| `tax_registry_a_1`  |               4 344 495 |                           2,85× |                    7,15 |     99 |                    0 |
+| `credit_bureau_b_2` |               2 776 967 |                           1,82× |                   35,30 |    301 |                  597 |
+
+Las cifras completas están en `join_risk.csv`. Dos fuentes `1:N` no deben unirse entre sí por `case_id`: para un caso con 2 filas en A y 3 en B el resultado tiene `2 × 3 = 6` filas, no 5; el ejemplo determinista de dos casos está en `cartesian_example.csv`. En el peor caso teórico, combinar los máximos de `credit_bureau_a_2` (9 404) y `credit_bureau_a_1` (529) podría producir 4 974 716 combinaciones para un solo `case_id` si coincidieran. Por ello, cada familia se filtra temporalmente y se agrega por separado antes de cualquier join con la base.
+
+#### Disponibilidad temporal y fuga
+
+`temporal_leakage_review.csv` registra por familia las columnas temporales, estados/resultados, identificadores y cuasi-identificadores, regla previa a agregación y acción. La evidencia usada es la definición oficial más el nombre de columna; esto confirma la semántica, **no** el instante real de extracción. No se declara seguro ningún predictor solo por su nombre.
+
+- `base`: `date_decision` es la referencia _as-of_; `WEEK_NUM` crea la partición y `target` es el resultado. `case_id`, `date_decision`, `MONTH`, `WEEK_NUM` y `target` quedan fuera de predictores.
+- Con fechas o periodos explícitos (`applprev_1`, ambas familias `credit_bureau_a`, ambas `credit_bureau_b`, `debitcard_1`, `deposit_1`, `person_1`, `person_2`, `static_0`, `static_cb_0` y los tres registros fiscales), se exige que la fecha aplicable del evento o _snapshot_ sea `<= date_decision` y que la ventana retrospectiva esté definida **antes** de agregar. Fechas de fin futuras pueden describir calendario contractual conocido, pero no prueban disponibilidad del resto del estado; requieren una regla por campo.
+- `applprev_2` y `other_1` no tienen referencia temporal de fila suficiente. Deben vincularse primero con un padre cuya disponibilidad esté validada o excluirse preventivamente; `credacc_cards_status_52L` no se admite sin esa trazabilidad.
+- Estados, aprobaciones/rechazos, cancelaciones, deuda “actual”, pagos, DPD/mora, cierres y respuestas pueden haberse actualizado después de la decisión. Se excluyen hasta demostrar una instantánea válida a `date_decision`; tener una fecha en la misma familia no demuestra automáticamente que esa fecha gobierne cada medida.
+- Claves técnicas y cuasi-identificadores —nombres, empleadores/instituciones, direcciones, distritos, códigos postales y teléfonos— no entran directamente como predictores. Cualquier uso posterior exige justificación, tratamiento de cardinalidad y revisión de privacidad/estabilidad.
+- Variables sin fecha, linaje o evidencia _as-of_ quedan en “revisión de dominio”; no pasan por defecto al modelado.
+
+#### Contrato seguro de integración
+
+El contrato auditable completo y su condición explícita de fallo están en `integration_contract.csv`:
+
+1. Partir de `train_base`, con una fila y clave no nula por `case_id`.
+2. Crear primero entrenamiento (`WEEK_NUM < 74`) y OOT (`WEEK_NUM >= 74`), sin solapamiento ni omisiones.
+3. Aplicar el corte _as-of_ y la ventana retrospectiva antes de cualquier agregación.
+4. Agregar cada familia lógica independientemente hasta una fila por `case_id`; en profundidad 2 respetar primero el padre `case_id + num_group1` y luego sus hijos `num_group2` cuando la característica lo requiera.
+5. Preservar `source_present`, conteo de registros y conteos/indicadores de ausencia relevantes.
+6. Fallar ante `case_id` nulo o repetido después de cada agregación.
+7. Unir a base únicamente agregados cuya relación sea `1:1` por `case_id`.
+8. Fallar si cualquier join cambia el número de filas, la unicidad o el conjunto de `case_id` de la base.
+9. Ajustar imputación, codificación, selección y toda estadística aprendida exclusivamente con `WEEK_NUM < 74`.
+10. Excluir `case_id`, `num_group1`, `num_group2`, `date_decision`, `MONTH` y `WEEK_NUM` de predictores salvo decisión posterior explícita; `target` permanece exclusivamente como etiqueta.
+
+`safe_left_join` implementa las invariantes mínimas de unicidad y número de filas, y `aggregate_one_row_per_case` ofrece una referencia pequeña para conteos auditables. Las agregaciones de negocio concretas (por ejemplo, último valor válido, suma en ventana, máximo histórico o número de contratos) se definirán por semántica y nunca mezclando primero dos fuentes multirregistro.
 
 ### Conclusión de la fase
 
-La revisión confirma una unidad de análisis identificable, un catálogo funcional completo y perfiles de calidad e integridad de clave para las 17 familias de entrenamiento. No se detectaron claves candidatas nulas o duplicadas, pero sí ausencia extrema, categorías casi constantes, alta cardinalidad y rangos que requieren interpretación. Los puntos 1–5 quedan completados, incluido el protocolo OOT con corte `WEEK_NUM = 74` y la revisión de la métrica oficial. El punto 6, dedicado a relaciones e integración, permanece pendiente; allí corresponderá definir agregaciones por granularidad, revisar disponibilidad temporal y fugas, y comparar las fuentes adicionales con test.
+La revisión confirma una unidad de análisis identificable, un catálogo funcional completo y perfiles de calidad e integridad de clave para las 17 familias de entrenamiento. El punto 6 queda completado con cardinalidades, cobertura, factores de expansión, revisión temporal conservadora, contrato de integración, código, reportes y pruebas reproducibles. No se detectaron huérfanos ni claves candidatas repetidas, pero el join directo de fuentes históricas puede expandir la base hasta 123,43 veces para una sola familia y mucho más al combinar dos relaciones `1:N`.
+
+Los puntos 1–6 están completados. El punto 7, comparación completa entre train y test, continúa pendiente y no forma parte de este análisis.
