@@ -44,41 +44,49 @@ construcción nueva a esos frentes. Su reutilización evita repetir las fuentes 
 costosas del orden A5. No se consultaron los shards de bureau A2: el plan B5/G2 la
 omite por ausencia de ancla temporal autorizada.
 
-`e4_rebuild.py` invoca constructores en procesos separados. El supervisor Linux mide
-externamente el RSS del árbol cada 100 ms y GNU `time` registra duración y RSS máximo
-del proceso constructor. Presupuesto: **5.120 MiB**, 120 s por ejecución; exige al
-inicio presupuesto más 1.536 MiB de reserva y detiene si la reserva cae por debajo de
-1 GiB. Para `applprev` se añadió `build_applprev_features_batched`: particiona la base
-por bloques de 100.000 casos, agrega cada bloque con las mismas reglas y combina las
-filas/exclusiones. La prueba sintética compara exactamente el Parquet y exclusiones
-con el builder de una sola pasada. No cambió G2 ni el contrato del artefacto.
+`e4_rebuild.py` invoca `build_family_features` en procesos separados. El supervisor
+Linux mide externamente el RSS del árbol de procesos cada 100 ms y usa GNU `time`
+para duración y máximo RSS del proceso constructor. Presupuesto: **5.120 MiB**, 120 s
+por ejecución; requiere al comenzar memoria disponible para ese límite más 1.536
+MiB de reserva, y detiene si la reserva durante ejecución cae por debajo de 1 GiB.
+La máquina tenía aproximadamente 8,2 GiB disponibles al inicio. El objetivo A5 de
+2 GB no es una medición ni una garantía del builder C2/C3: `person/train` lo supera,
+aunque quedó dentro del presupuesto explícito de esta ejecución.
 
-| Familia/split    | Acción             | Duración externa (s) | Pico externo (KiB) | Resultado                                       |
-| ---------------- | ------------------ | -------------------: | -----------------: | ----------------------------------------------- |
-| `applprev/test`  | Generado           |                 3,12 |            398.316 | Validado, 10 casos                              |
-| `person/test`    | Generado           |                 2,16 |            403.076 | Validado, 10 casos                              |
-| `applprev/train` | Generado por lotes |                 44,2 |          2.685.224 | Validado, 1.332.001 casos; árbol bajo 5.120 MiB |
-| `applprev/oot`   | Generado           |                 8,82 |          2.009.500 | Validado, 194.658 casos                         |
-| `person/train`   | Generado           |                11,89 |          2.711.960 | Validado, 1.332.001 casos                       |
-| `person/oot`     | Generado           |                 3,35 |          1.139.224 | Validado, 194.658 casos                         |
+| Familia/split    | Acción               | Duración externa (s) | Pico externo (KiB) | Resultado                                    |
+| ---------------- | -------------------- | -------------------: | -----------------: | -------------------------------------------- |
+| `applprev/test`  | Generado             |                 3,12 |            398.316 | Validado, 10 casos                           |
+| `person/test`    | Generado             |                 2,16 |            403.076 | Validado, 10 casos                           |
+| `applprev/train` | Intentado y detenido |        No disponible |      No disponible | Supervisor observó RSS del árbol > 5.120 MiB |
+| `applprev/oot`   | Generado             |                 8,82 |          2.009.500 | Validado, 194.658 casos                      |
+| `person/train`   | Generado             |                11,89 |          2.711.960 | Validado, 1.332.001 casos                    |
+| `person/oot`     | Generado             |                 3,35 |          1.139.224 | Validado, 194.658 casos                      |
 
-El intento inicial sin lotes se mantuvo registrado como bloqueado; el nuevo registro
-identifica `applprev_case_batches_v1` y lo reemplaza como estado más reciente. La nueva
-construcción no elevó el presupuesto ni sustituyó datos por fixtures.
+El intento detenido no publicó un reemplazo. Al matar el grupo también se detuvo
+GNU `time`; esa primera versión del supervisor no persistía las muestras antes
+del aborto. Solo está acreditado el cruce del umbral, **no** una duración ni un
+pico exactos. El supervisor ahora conserva las muestras para eventuales abortos
+futuros; no se rellenaron retrospectivamente las métricas faltantes.
+
+No se elevó el presupuesto ni se reintentó `applprev/train`. Para resolverlo hace
+falta un builder/runner C2 de memoria acotada (por lotes con validación de equivalencia)
+o una decisión explícita de recursos. No se sustituyeron datos por fixtures.
 
 Las cinco salidas nuevas viven en `data/artifacts/preparation/E4-v1/<familia>/<split>/`.
 Se conservaron intactas las anteriores. El auditor prefiere un reemplazo E4 si existe
 y lo valida: no cae silenciosamente al anterior si el reemplazo es inválido.
 `E4_runs.csv` es el inventario con rutas, checksums y origen de cada resultado.
-**30 `reused`, 6 `generated_validated`, 0 artefactos inválidos.** `applprev/train`
-se publicó en E4-v1 y pasó la auditoría final.
+**30 `reused`, 5 `generated_validated`, 1 `invalid` con bloqueo de construcción.**
+El catálogo estructural incluye `applprev/train`, pero ese artefacto antiguo **no se
+puede consumir como resultado vigente de E4**.
 
 ## 3. Validaciones observadas
 
 - Partición real: train **1.332.001**, OOT **194.658**; total **1.526.659**; test local
   **10 casos**. Corte inmutable: `< 74` / `>= 74`.
 - Los 36 Parquet inspeccionados tienen claves no nulas, únicas, ordenadas y exactamente
-  iguales a la base de su split; todos pasaron la comprobación de vigencia de entradas.
+  iguales a la base de su split. En 35 se verificó también vigencia de entradas; en
+  `applprev/train` la comprobación estructural no resuelve su huella obsoleta.
 - Manifiestos con versión/formato, checksum de datos, esquema físico y definiciones
   completas iguales entre splits. Ausencia de infinitos comprobada columna por columna.
 - Correspondencia completa con los cuatro catálogos y C8, y con los reportes C1,
@@ -170,13 +178,15 @@ POLARS_MAX_THREADS=1 uv run --extra dev pytest -q tests/test_preparation_*.py
 git --no-pager diff --check
 ```
 
-**Resultados de validación ejecutada:** suite de preparación **536 passed, 1 xfailed**,
-5 `RangeWarning` esperados de las pruebas sintéticas G3 (política D5, sin recorte),
-en 29,93 s. Auditor E4: exit 0, 36 artefactos vigentes. Auditor de shards: exit 0,
-19 checkpoints válidos. La última auditoría de artefactos
+**Resultados de validación ejecutada:** suite de preparación **514 passed**, 5
+`RangeWarning` esperados de las pruebas sintéticas G3 (política D5, sin recorte),
+en 28,08 s. `git diff --check` sin errores. Auditor final: exit 1, exclusivamente
+por `applprev/train/metadata_current_inputs`; 30 reutilizados y 5 generados válidos.
+Auditor de shards: exit 0, 19 checkpoints válidos. La última auditoría de artefactos
 tardó 3,26 s, pico acumulado 494.416 KiB; la de checkpoints 0,19 s y 297.516 KiB.
 Estas últimas mediciones corresponden **a los auditores**, no a los builds históricos.
 
-Las pruebas sintéticas no reemplazan los datos reales; la reconstrucción real por lotes
-quedó validada con el auditor E4. E4 ya no está bloqueada por `applprev/train`. La falta
-de mediciones históricas de las familias reutilizadas queda como limitación explícita.
+Las pruebas sintéticas no reemplazan datos reales ni resuelven el bloqueo de recursos.
+**No cerrar E4 ni iniciar E5** hasta reconstruir y validar `applprev/train`. La falta
+de mediciones históricas de las familias reutilizadas queda como limitación explícita
+incluso después de resolver ese bloqueo.

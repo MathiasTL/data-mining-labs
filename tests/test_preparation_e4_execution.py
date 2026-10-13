@@ -62,28 +62,6 @@ def test_select_jobs_rejects_unapproved_failures(problem):
         rebuild.select_jobs(audit)
 
 
-def test_latest_build_status_supersedes_a_prior_block():
-    assert (
-        rebuild.latest_builds_blocked(
-            [
-                {"family": "applprev", "split": "train", "status": "blocked"},
-                {
-                    "family": "applprev",
-                    "split": "train",
-                    "status": "generated_pending_audit",
-                },
-            ]
-        )
-        is False
-    )
-    assert (
-        rebuild.latest_builds_blocked(
-            [{"family": "applprev", "split": "train", "status": "blocked"}]
-        )
-        is True
-    )
-
-
 def test_select_jobs_skips_valid_outputs_and_orders_test_first():
     expected = [(f, "test") for f in ("applprev", "person")] + [
         (f, s) for f in ("applprev", "person") for s in ("train", "oot")
