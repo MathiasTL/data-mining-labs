@@ -338,14 +338,14 @@ Determinar:
 
 #### 4.3 Proponer la validación temporal
 
-Se propone como primera división OOT el **corte `WEEK_NUM = 72`**:
+Se fija como división OOT primaria el **corte `WEEK_NUM = 74`**:
 
 ```text
-Entrenamiento: WEEK_NUM < 72  (semanas 0–71)
-Validación OOT: WEEK_NUM >= 72 (semanas 72–91)
+Entrenamiento: WEEK_NUM < 74  (semanas 0–73)
+Validación OOT: WEEK_NUM >= 74 (semanas 74–91)
 ```
 
-Con este corte, entrenamiento contiene 1 314 456 casos y 43 338 positivos (tasa 3,2970 %); validación contiene 212 203 casos y 4 656 positivos (tasa 2,1941 %) distribuidos en 20 semanas. En la validación, cada semana tiene al menos 5 158 casos y 112 positivos. Se elige este corte para conservar un periodo OOT suficientemente largo y con positivos semanales, evitando que las semanas de menor volumen 65–70 sean parte de la ventana de evaluación.
+Con este corte, entrenamiento contiene 1 332 001 casos y 43 734 positivos (tasa 3,2833 %); validación contiene 194 658 casos y 4 260 positivos (tasa 2,1885 %) distribuidos en 18 semanas. En la validación, cada semana tiene al menos 5 158 casos y 112 positivos. El corte resulta de la regla reproducible que reserva aproximadamente el último 20 % de las semanas observadas (`results/target_analysis/oot_recommendation.csv`); conserva un periodo OOT con positivos semanales suficientes y deja las semanas de menor volumen 65–70 fuera de la ventana de evaluación.
 
 #### 4.4 Confirmar métricas
 
@@ -360,7 +360,7 @@ Gini Stability = media(Gini semanal)
 
 La pendiente se obtiene de una regresión lineal del Gini semanal respecto de `WEEK_NUM`; los residuos son la diferencia entre cada Gini semanal y el valor ajustado por esa regresión. La penalización de pendiente solo se aplica cuando la tendencia es decreciente.
 
-Como métricas internas de apoyo se reportarán ROC-AUC y Gini globales en el periodo OOT, PR-AUC por el desbalance de clases, y Gini por semana. Para comparar modelos se conservará el mismo corte `WEEK_NUM = 72` y se presentará una tabla temporal con semana, cantidad de casos y positivos, tasa de incumplimiento, ROC-AUC/Gini semanal; se resumirán además Gini Stability, media y mínimo de Gini semanal. Si una semana no contiene ambas clases, su ROC-AUC/Gini no se define y se marcará como no disponible, no como cero.
+Como métricas internas de apoyo se reportarán ROC-AUC y Gini globales en el periodo OOT, PR-AUC por el desbalance de clases, y Gini por semana. Para comparar modelos se conservará el mismo corte `WEEK_NUM = 74` y se presentará una tabla temporal con semana, cantidad de casos y positivos, tasa de incumplimiento, ROC-AUC/Gini semanal; se resumirán además Gini Stability, media y mínimo de Gini semanal. Si una semana no contiene ambas clases, su ROC-AUC/Gini no se define y se marcará como no disponible, no como cero.
 
 ### Entregable
 
