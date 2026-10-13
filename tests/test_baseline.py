@@ -193,3 +193,11 @@ def test_experiment_record_contains_required_fields(base_df):
     ):
         assert key in rec
     assert rec["seed"] == 7
+
+
+def test_group_indices_are_reserved(base_df):
+    # num_group1/num_group2 son índices de grupo, no predictores (contrato del capítulo 02)
+    df = base_df.with_columns(pl.lit(0).alias("num_group1"), pl.lit(0).alias("num_group2"))
+    assert baseline.default_feature_columns(df) == ["x_signal", "x_noise", "x_cat"]
+    with pytest.raises(ValueError, match="reserved"):
+        baseline.run_baseline(df, cutoff_week=15, model="logistic", features=["num_group1"])
