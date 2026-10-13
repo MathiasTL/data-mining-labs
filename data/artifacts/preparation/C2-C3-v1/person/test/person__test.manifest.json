@@ -1,0 +1,500 @@
+{
+  "format_version": 1,
+  "rules_version": "A4-v1",
+  "family": "person",
+  "split": "test",
+  "data_path": "person__test.parquet",
+  "data_sha256": "3f45d6372da94bac8d92f9c62982721b5566a3cd3e0b21e89f52634123545745",
+  "row_count": 10,
+  "case_count": 10,
+  "features": [
+    {
+      "name": "person_1__mainoccupationinc_384a__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "mainoccupationinc_384A"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de mainoccupationinc_384a en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__personindex_1023l__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "personindex_1023L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de personindex_1023l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__persontype_1072l__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "persontype_1072L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de persontype_1072l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__persontype_792l__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "persontype_792L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de persontype_792l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__education_927m__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "education_927M"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de education_927m en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__empl_employedtotal_800l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "empl_employedtotal_800L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de empl_employedtotal_800l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__empl_industry_691l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "empl_industry_691L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de empl_industry_691l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__familystate_447l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "familystate_447L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de familystate_447l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__incometype_1044t__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "incometype_1044T"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de incometype_1044t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__language1_981m__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "language1_981M"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de language1_981m en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__role_1084l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "role_1084L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de role_1084l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__type_25l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "type_25L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de type_25l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__birth_259d__age_years__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [
+        "birth_259D"
+      ],
+      "aggregation": "age_years",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "age_years de birth_259d en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__empl_employedfrom_271d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [
+        "empl_employedfrom_271D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "days_since_last de empl_employedfrom_271d en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "n_records en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__n_contacts__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [],
+      "aggregation": "n_contacts",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "n_contacts en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "person_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "source_present en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_sibling__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_sibling",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_sibling de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_spouse__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_spouse",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_spouse de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_child__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_child",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_child de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_other_relative__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_other_relative",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other_relative de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_friend__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_friend",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_friend de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_parent__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_parent",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_parent de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_colleague__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_colleague",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_colleague de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_other__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_other",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_neighbor__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_neighbor",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_neighbor de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_sibling__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_sibling",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_sibling de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_spouse__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_spouse",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_spouse de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_child__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_child",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_child de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_other_relative__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_other_relative",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other_relative de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_friend__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_friend",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_friend de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_parent__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_parent",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_parent de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_colleague__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_colleague",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_colleague de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_other__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_other",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_neighbor__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_neighbor",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_neighbor de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_2__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "person_2",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "n_records en person_2 (ventana all)"
+    },
+    {
+      "name": "person_2__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "person_2",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "source_present en person_2 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "person_1_rows_null_decision": 0,
+    "birth_259D_values_after_decision": 0,
+    "empl_employedfrom_271D_values_after_decision": 0
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
+    "shards": "test_person_1.parquet:25868:1791162508772815634;test_person_2.parquet:8401:1791162508772995885"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}
