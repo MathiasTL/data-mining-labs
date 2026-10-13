@@ -41,14 +41,14 @@ def base() -> pl.DataFrame:
 
 def applprev_1() -> pl.DataFrame:
     rows = [
-        (1, 0, "2020-01-10", 1000.0, "D"),
-        (1, 1, "2020-03-01", 2000.0, "K"),
-        (1, 2, "2020-05-31", 3000.0, "D"),
-        (2, 0, "2020-02-01", 500.0, "D"),
-        (2, 1, "2020-06-10", 700.0, "K"),
-        (4, 0, "2020-06-01", 400.0, "D"),
-        (4, 1, None, 900.0, "K"),
-        (5, 0, "2020-06-15", 800.0, "D"),
+        (1, 0, "2020-01-10", 1000.0, "D", "CAL", "2020-01-15", True),
+        (1, 1, "2020-03-01", 2000.0, "K", "REL", "2020-06-20", False),  # aprobación posterior: se anula
+        (1, 2, "2020-05-31", 3000.0, "D", "CAL", None, None),
+        (2, 0, "2020-02-01", 500.0, "D", "CAL", "2020-02-10", True),
+        (2, 1, "2020-06-10", 700.0, "K", "REL", "2020-06-12", False),
+        (4, 0, "2020-06-01", 400.0, "D", "REL", None, False),
+        (4, 1, None, 900.0, "K", "CAL", "2020-01-01", True),
+        (5, 0, "2020-06-15", 800.0, "D", "CAL", "2020-06-20", True),
     ]
     return pl.DataFrame(
         rows,
@@ -58,6 +58,9 @@ def applprev_1() -> pl.DataFrame:
             "creationdate_885D": pl.String,
             "credamount_590A": pl.Float64,
             "status_219L": pl.String,
+            "credtype_587L": pl.String,
+            "approvaldate_319D": pl.String,
+            "isbidproduct_390L": pl.Boolean,
         },
         orient="row",
     )
@@ -89,12 +92,12 @@ def applprev_2() -> pl.DataFrame:
 
 def person_1() -> pl.DataFrame:
     rows = [
-        (1, 0, "M", 1000.0, "2019-01-01", "1985-04-12"),
-        (1, 1, "F", None, None, None),
-        (2, 0, "M", 800.0, "2020-07-01", "1990-01-01"),  # inicio de empleo posterior a la decisión
-        (3, 0, "F", 1200.0, "2018-05-05", "1975-09-30"),
-        (4, 0, "M", 900.0, None, "1980-02-02"),
-        (5, 0, "F", 700.0, "2017-03-03", "1995-07-07"),
+        (1, 0, "M", 1000.0, "2019-01-01", "1985-04-12", "AA"),
+        (1, 1, "F", None, None, None, "BB"),
+        (2, 0, "M", 800.0, "2020-07-01", "1990-01-01", "AA"),  # inicio de empleo posterior a la decisión
+        (3, 0, "F", 1200.0, "2018-05-05", "1975-09-30", "AA"),
+        (4, 0, "M", 900.0, None, "1980-02-02", "AA"),
+        (5, 0, "F", 700.0, "2017-03-03", "1995-07-07", "AA"),
     ]
     return pl.DataFrame(
         rows,
@@ -105,6 +108,7 @@ def person_1() -> pl.DataFrame:
             "mainoccupationinc_384A": pl.Float64,
             "empl_employedfrom_271D": pl.String,
             "birth_259D": pl.String,
+            "role_1084L": pl.String,
         },
         orient="row",
     )
