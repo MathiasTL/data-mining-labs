@@ -1,6 +1,6 @@
 # E4 — Auditoría y ejecución real secuencial
 
-**Estado: parcial, bloqueada en `applprev/train` por presupuesto de memoria.**
+**Estado: cerrada el 13/10/2026** (Andre, P3): las 36 piezas se reconstruyeron en serie y los dos auditores pasan. Las secciones 1 a 5 conservan el intento anterior de Nick, bloqueado en `applprev/train` por memoria; el cierre está en la **sección 6**.
 Auditoría y reconstrucciones realizadas el 13/10/2026, después de G3 (`d40daba`),
 sobre el checkout `f59d5ac` más los módulos E4 de este cambio. **No se ejecutaron
 E5/E6, ensamblado de matrices maestras, ajuste de preprocesadores ni modelos.**
@@ -187,6 +187,58 @@ tardó 3,26 s, pico acumulado 494.416 KiB; la de checkpoints 0,19 s y 297.516 Ki
 Estas últimas mediciones corresponden **a los auditores**, no a los builds históricos.
 
 Las pruebas sintéticas no reemplazan datos reales ni resuelven el bloqueo de recursos.
-**No cerrar E4 ni iniciar E5** hasta reconstruir y validar `applprev/train`. La falta
+(Histórico) **No cerrar E4 ni iniciar E5** hasta reconstruir y validar `applprev/train`: resuelto en la sección 6. La falta
 de mediciones históricas de las familias reutilizadas queda como limitación explícita
 incluso después de resolver ese bloqueo.
+
+## 6. Cierre de E4 (13/10/2026, Andre)
+
+### Qué bloqueaba y cómo se resolvió
+
+| Problema | Causa | Solución |
+| --- | --- | --- |
+| `applprev/train` superaba 5 120 MiB | El adaptador leía y agregaba todos los casos a la vez | El adaptador de C2 y C3 procesa los casos en **bloques** (4 por defecto). Como toda agregación es por caso, el resultado es idéntico: se comprobó con pruebas y con el OOT real de Nick (mismas 194 658 filas y mismas exclusiones). |
+| Las piezas reutilizadas solo eran válidas en la computadora que las construyó | La huella de los shards incluía la **fecha de modificación** del archivo, que cambia en cada copia de los datos | La huella pasó a ser `nombre:tamaño:sha256:<contenido>` (`io.file_fingerprint`), una sola función para las cuatro familias y el auditor. La fecha ya no participa. |
+| `e4_rebuild` solo funcionaba en Linux | Usaba `/proc` y GNU time | En macOS mide con `ps`, `memory_pressure` y `/usr/bin/time -l`. Se agregó `--all` para reconstruir las 36 piezas en el orden del backlog. |
+| El auditor de checkpoints leía manifiestos de `C4-C5-v2` | No conocía los reemplazos de E4 | Usa el reemplazo de `E4-v1` cuando existe, igual que el auditor principal. |
+
+### Ejecución
+
+Macintosh de 16 GB, un hilo (`POLARS_MAX_THREADS=1`), presupuesto de **5 120 MiB** y 900 s por pieza. Orden del backlog §7: primero la prueba pequeña de cada familia, luego profundidad 0, productos, solicitudes y personas, bureau B, registros fiscales y bureau A al final (`credit_bureau_a_2` no se lee).
+
+| Familia | Train (s) | Train (MiB) | OOT (s) | OOT (MiB) |
+| --- | ---: | ---: | ---: | ---: |
+| `static_0` | 1,28 | 414 | 1,03 | 358 |
+| `static_cb_0` | 1,24 | 431 | 0,93 | 358 |
+| `debitcard_1` | 1,04 | 407 | 0,88 | 358 |
+| `deposit_1` | 1,04 | 406 | 0,87 | 358 |
+| `other_1` | 1,05 | 399 | 0,88 | 358 |
+| `applprev` | 11,83 | 2 104 | 4,08 | 1 903 |
+| `person` | 3,81 | 1 670 | 1,87 | 1 072 |
+| `credit_bureau_b` | 1,16 | 502 | 0,94 | 384 |
+| `tax_registry_a_1` | 1,26 | 682 | 0,90 | 358 |
+| `tax_registry_b_1` | 1,02 | 410 | 0,93 | 432 |
+| `tax_registry_c_1` | 1,28 | 688 | 0,90 | 357 |
+| `credit_bureau_a` | 2,72 | 642 | 2,01 | 508 |
+
+Las 12 piezas de test tardaron menos de 1 s cada una. Total: **55,6 s** para las 36 piezas; pico máximo **2 104 MiB**, que cabe en la máquina de 8 GiB de Nick. Las exclusiones de bureau A en train (7 528 249 filas sin ancla y 1 583 190 con ancla posterior) coinciden con la ejecución C4-C5, así que se leyeron todas las filas.
+
+### Validaciones
+
+| Auditor | Resultado |
+| --- | --- |
+| `uv run -m dm_credit.preparation.e4` | **ok**: 36 de 36 piezas `generated_validated`, salida 0 |
+| `uv run -m dm_credit.preparation.e4_shards --checkpoint-dir data/artifacts/preparation/E4-v1/checkpoints` | **ok**: 26 controles y 19 checkpoints vigentes |
+| `uv run -m dm_credit.preparation.validation` (F3, ahora sobre `E4-v1`) | **26 de 26** controles correctos |
+| Suite completa | 645 pruebas correctas y 1 fallo esperado (claves repetidas en bureau, ver F1) |
+
+### Reproducir
+
+```bash
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.e4_rebuild --all --max-rss-mib 5120 --timeout-seconds 900
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.e4
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.e4_shards --checkpoint-dir data/artifacts/preparation/E4-v1/checkpoints
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.validation
+```
+
+`--all` exige que `data/artifacts/preparation/E4-v1/` no tenga manifiestos previos: hay que moverla o borrarla antes. Con E4 cerrada, el siguiente paso es E5 (ensamblar las tablas maestras a partir de `E4-v1`).
