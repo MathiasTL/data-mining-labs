@@ -107,6 +107,9 @@ class FeatureDefinition:
 | Despacho `build_family_features` | `src/dm_credit/preparation/build.py` | Hecho para `applprev` y `person`; las demás familias se registran en `BUILDERS`. |
 | Adaptadores `applprev` y `person` | `src/dm_credit/preparation/families/applications_people.py` | Hecho, con pruebas. |
 
+| Catálogo C8, informe de ejecución y exclusiones F7 de `applprev` y `person` | `families/applications_people_run.py`, `contracts.feature_catalog` y `results/preparation/` | Hecho. Ejecuta train, OOT y test, y comprueba que las características sean idénticas en los tres splits. |
+| Datos y artefactos pequeños para el ensamblador (E3) | `tests/preparation_artifacts.py` | Hecho: `write_sample_data` y `build_small_artifacts` generan los datos y artefactos sintéticos de train, OOT y test. |
+
 **Verificación con datos reales** (un hilo, ruta `data/artifacts/preparation/A4-v1/`): train (`WEEK_NUM < 74`) y OOT (`>= 74`) de las dos familias.
 
 | Familia | Casos train | Casos OOT | Suma | Solapamiento |

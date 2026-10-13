@@ -181,3 +181,34 @@ Aviso: los conteos de fechas internas posteriores (por ejemplo `dtlastpmt_581D` 
 `build_applprev_features` y `build_person_features` (en `families/applications_people.py`, accesibles con `build.build_family_features`) envuelven el núcleo: leen con el lector compartido solo los casos de la base, aplican el núcleo y publican el Parquet y su manifiesto de forma atómica. El manifiesto guarda las exclusiones (totales, nunca por caso), la versión de reglas (`A4-v1`) y las huellas de entrada: corte, base y shards.
 
 Ejecución real con train y OOT: ver la sección 7 del documento de [decisión G1](03-preparacion-G1-decision.md). Las columnas por defecto siguen siendo los candidatos de B4, **pendientes de G2**.
+
+## 11. Aporte de `applprev` y `person` al informe de fuga temporal (F7)
+
+Totales por regla, producidos por `uv run -m dm_credit.preparation.families.applications_people_run` y escritos en `results/preparation/F7_applications_people_exclusions.csv`. Son solo para el manifiesto y el informe: ninguna característica por caso cuenta fechas futuras. Los conteos de fechas internas se calculan entre filas ya válidas. Con los datos reales:
+
+| Regla (familia) | Train (`< 74`) | OOT (`>= 74`) | Train + OOT |
+| --- | ---: | ---: | ---: |
+| Solicitud creada después de la decisión, fila excluida (`applprev`) | 117 977 | 22 063 | 140 040 |
+| Fecha de creación nula, fila excluida (`applprev`) | 65 | 1 | 66 |
+| Hijo de `applprev_2` con padre inválido, excluido | 178 626 | 34 586 | 213 212 |
+| `approvaldate_319D` posterior, anulada | 89 | 5 | 94 |
+| `dateactivated_425D` posterior, anulada | 10 491 | 1 508 | 11 999 |
+| `dtlastpmt_581D` posterior, anulada | 35 089 | 6 595 | 41 684 |
+| `dtlastpmtallstes_3545839D` posterior, anulada | 301 224 | 50 579 | 351 803 |
+| `employedfrom_700D` posterior, anulada | 0 | 0 | 0 |
+| `empl_employedfrom_271D` posterior (`person`), anulada | 312 | 4 | 316 |
+| `birth_259D` posterior (`person`) | 0 | 0 | 0 |
+| `date_decision` nula | 0 | 0 | 0 |
+
+Las sumas train + OOT coinciden con la evidencia de la sección 1 (140 040, 66, 213 212 y 316), de modo que la partición no pierde ni inventa exclusiones.
+
+**Cobertura** (`results/preparation/C2_C3_applications_people_run.csv`):
+
+| Split | Familia | Casos de la base | Con cobertura | Sin cobertura |
+| --- | --- | ---: | ---: | ---: |
+| train | `applprev` | 1 332 001 | 1 042 139 | 289 862 |
+| OOT | `applprev` | 194 658 | 165 900 | 28 758 |
+| train | `person` | 1 332 001 | 1 332 001 | 0 |
+| OOT | `person` | 194 658 | 194 658 | 0 |
+
+Los casos sin cobertura se completan en el ensamblador con `n_records = 0` y `source_present = False`. El test local (10 casos) pasó la misma construcción y tiene exactamente las mismas 45 y 10 características que train: la compatibilidad de esquema con el test real queda comprobada.
