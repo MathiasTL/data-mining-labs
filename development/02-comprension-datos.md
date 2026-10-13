@@ -1,6 +1,6 @@
 # 2. Comprensión de los datos
 
-> **Estado:** en desarrollo. Inventario y catálogo de variables completados; continúan pendientes los análisis de calidad, integración y validación temporal indicados al final del capítulo.
+> **Estado:** puntos 1–5 completados. Quedaron cerrados el inventario, el catálogo de variables, la calidad de datos, el análisis temporal con protocolo OOT y la revisión de la métrica oficial. El punto 6, dedicado a relaciones e integración, continúa pendiente.
 
 ## 2.1 Recopilar datos iniciales
 
@@ -125,7 +125,7 @@ El catálogo también registra:
 - `leakage_review`: marca fechas para compararlas con `date_decision` y estados, mora, deuda, pagos, aprobaciones o rechazos para comprobar si estaban disponibles al decidir. Estas marcas son candidatos de revisión, no evidencia de fuga;
 - `pct_null` y `n_unique`: incorpora los resultados de los perfiles existentes cuando están disponibles.
 
-Las 484 apariciones de 16 familias proceden de `results/profile_train_*/columns.csv`. Las 19 columnas de `credit_bureau_a_2`, cuya materialización completa es especialmente costosa, se incorporan desde `results/parquet_inventory.csv`; quedan identificadas mediante `profile_source=inventory_schema` y no se les atribuyen estadísticas de nulos o cardinalidad. De este modo se completa el catálogo semántico sin presentar como calculadas métricas que todavía no se han obtenido para esa familia.
+Las 503 apariciones de las 17 familias proceden de `results/profile_train_*/columns.csv`. Las 19 columnas de `credit_bureau_a_2` se incorporan desde su perfil agregado en `results/profile_train_credit_bureau_a_2/` y quedan identificadas mediante `profile_source=column_profile`. El catálogo incluye su porcentaje de nulos; `n_unique` permanece vacío para esta familia porque el perfil agregado conserva cotas inferior y superior de cardinalidad, no un conteo único exacto.
 
 **Decisión inicial:** `case_id`, `num_group1` y `num_group2` se conservan para trazabilidad, orden y agregación, pero no se usarán directamente como predictores. `target` queda reservado como etiqueta, y `date_decision`, `MONTH` y `WEEK_NUM` se reservan inicialmente para construcción temporal y validación. Las demás variables requieren comprobar disponibilidad temporal y definir una agregación acorde con la granularidad de su familia antes de entrar al modelo.
 
@@ -231,4 +231,4 @@ La integridad de claves se verificó exactamente para las 17 familias y quedó c
 
 ### Conclusión de la fase
 
-La revisión confirma una unidad de análisis identificable, un catálogo funcional completo y perfiles de calidad e integridad de clave para las 17 familias de entrenamiento. No se detectaron claves candidatas nulas o duplicadas, pero sí ausencia extrema, categorías casi constantes, alta cardinalidad y rangos que requieren interpretación. Antes de preparar la tabla de modelado aún corresponde definir agregaciones por granularidad, revisar disponibilidad temporal y fugas, comparar las fuentes adicionales con test y cerrar el análisis temporal y el protocolo OOT.
+La revisión confirma una unidad de análisis identificable, un catálogo funcional completo y perfiles de calidad e integridad de clave para las 17 familias de entrenamiento. No se detectaron claves candidatas nulas o duplicadas, pero sí ausencia extrema, categorías casi constantes, alta cardinalidad y rangos que requieren interpretación. Los puntos 1–5 quedan completados, incluido el protocolo OOT con corte `WEEK_NUM = 74` y la revisión de la métrica oficial. El punto 6, dedicado a relaciones e integración, permanece pendiente; allí corresponderá definir agregaciones por granularidad, revisar disponibilidad temporal y fugas, y comparar las fuentes adicionales con test.

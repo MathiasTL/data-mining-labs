@@ -38,6 +38,40 @@ def test_catalog_joins_definitions_and_classifies_columns(tmp_path: Path):
     assert by_name["unknown_1L"]["definition_status"] == "not_in_feature_definitions"
 
 
+def test_profile_takes_precedence_over_inventory_and_keeps_statistics(
+    tmp_path: Path,
+):
+    profile = tmp_path / "profile_train_credit_bureau_a_2"
+    profile.mkdir()
+    pl.DataFrame(
+        {
+            "column": ["case_id", "pmts_dpd_1073P"],
+            "dtype": ["Int64", "Float64"],
+            "pct_null": [0.0, 81.2493],
+            "n_unique": [100, 42],
+        }
+    ).write_csv(profile / "columns.csv")
+    inventory = pl.DataFrame(
+        {
+            "split": ["train"],
+            "file": ["train_credit_bureau_a_2_0.parquet"],
+            "types": ["case_id:int64; pmts_dpd_1073P:double"],
+        }
+    )
+
+    catalog = build_catalog(
+        pl.DataFrame({"Variable": [], "Description": []}),
+        [profile / "columns.csv"],
+        inventory,
+    )
+    by_name = {row["column"]: row for row in catalog.iter_rows(named=True)}
+
+    assert catalog.height == 2
+    assert catalog["profile_source"].unique().to_list() == ["column_profile"]
+    assert by_name["pmts_dpd_1073P"]["pct_null"] == 81.2493
+    assert by_name["pmts_dpd_1073P"]["n_unique"] == 42
+
+
 def test_summary_counts_definition_coverage(tmp_path: Path):
     profile = tmp_path / "profile_train_example"
     profile.mkdir()
