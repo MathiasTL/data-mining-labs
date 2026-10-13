@@ -1,6 +1,6 @@
 # C7 — Adaptadores de registros fiscales con cobertura y cero predictores
 
-> **Responsable:** Gabriel (P5). **Estado:** implementado con sintéticos; ejecución real pendiente de la cola pesada (E4).
+> **Responsable:** Gabriel (P5). **Estado:** implementado y ejecutado con Parquet reales en train, OOT y test (13/10/2026).
 > **Alcance:** `tax_registry_a_1`, `tax_registry_b_1`, `tax_registry_c_1` (tarea C7 del [backlog](03-preparacion-datos-backlog.md)).
 > **Insumos:** B6, G2 (`G2_products_registry_columns.csv`, 0 aprobadas), contratos G1, lector `dm_credit.io`.
 > **Código:** `src/dm_credit/preparation/families/products_registry.py` (módulo compartido C6/C7). **Pruebas:** `tests/test_preparation_c7.py`.
@@ -31,4 +31,4 @@ uv run --extra dev pytest -q tests/test_preparation_c7.py tests/test_preparation
 uv run -m dm_credit.preparation.families.products_registry --splits train oot test  # ejecución real E4 en cola pesada ([R])
 ```
 
-Ejecución real E4 y catálogo C8 consolidado van en la cola pesada compartida.
+Ejecución real completada junto con C6 mediante `POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.families.products_registry --splits train oot test`. Los tres adaptadores fiscales aparecen en `results/preparation/C6_products_run.csv`; cada uno genera dos columnas de cobertura y cero predictores en cada split. `tax_registry_c_1` está vacío en test y produjo el agregado con el esquema correcto. Las seis familias C6/C7 aportan 12 filas al catálogo `results/preparation/products_feature_catalog.csv`; la consolidación global está en `results/preparation/C8_feature_catalog.csv`.
