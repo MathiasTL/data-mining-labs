@@ -174,3 +174,10 @@ Revisión del 12/10/2026 contra la decisión A1 y la propuesta de interfaces A2.
 Aviso: los conteos de fechas internas posteriores (por ejemplo `dtlastpmt_581D` 41 684) se calculan entre filas ya válidas, por eso difieren de los † de la sección 1, que cuentan todas las filas.
 
 **Recursos:** 11 s y un pico de memoria de unos 5,1 GB leyendo las tablas completas en memoria. Eso excede el objetivo de 2 GB por proceso de A5; es aceptable en una máquina de 16 GB pero conviene leer por lotes o por shard en la ejecución real E4.
+
+
+## 10. Adaptadores de familia (bajo la decisión G1)
+
+`build_applprev_features` y `build_person_features` (en `families/applications_people.py`, accesibles con `build.build_family_features`) envuelven el núcleo: leen con el lector compartido solo los casos de la base, aplican el núcleo y publican el Parquet y su manifiesto de forma atómica. El manifiesto guarda las exclusiones (totales, nunca por caso), la versión de reglas (`A4-v1`) y las huellas de entrada: corte, base y shards.
+
+Ejecución real con train y OOT: ver la sección 7 del documento de [decisión G1](03-preparacion-G1-decision.md). Las columnas por defecto siguen siendo los candidatos de B4, **pendientes de G2**.

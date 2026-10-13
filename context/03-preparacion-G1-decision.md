@@ -97,10 +97,24 @@ class FeatureDefinition:
 | Mathias (P4) | Revisar el lector por lotes; prototipo de bureau con caché de parciales. |
 | Gabriel (P5) | Ajustar la expresión regular de A6 a `{1,4}`; preprocesador D1–D3. |
 
-## 7. Cambios que ya están hechos por esta decisión
+## 7. Lo que ya está implementado bajo esta decisión
 
-- El núcleo de `applprev` y `person` usa ya la gramática de la sección 3 (recencia como `<campo>__days_since_last__all`) y la expresión de hasta cuatro segmentos.
-- `applprev_2` y `person_2` tienen su propio `source_present`.
+| Pieza | Dónde | Estado |
+| --- | --- | --- |
+| Lector compartido (`shard_paths`, `scan_parquet_shards`, `iter_row_groups`) | `src/dm_credit/io.py` | Hecho, con pruebas. Con los datos reales encuentra 32 shards de train y 36 de test, en orden numérico. |
+| `FeatureDefinition`, artefactos, manifiesto JSON y publicación atómica | `src/dm_credit/preparation/contracts.py` | Hecho, con pruebas. Si una validación falla no se escribe nada y no se sobrescribe una salida válida. |
+| Validación de la base de cada familia (`validate_base`) | `contracts.py` | Hecho: rechaza claves, semanas o fechas nulas, duplicados, train con semanas `>= 74`, OOT con semanas `< 74` y test con `target`. |
+| Despacho `build_family_features` | `src/dm_credit/preparation/build.py` | Hecho para `applprev` y `person`; las demás familias se registran en `BUILDERS`. |
+| Adaptadores `applprev` y `person` | `src/dm_credit/preparation/families/applications_people.py` | Hecho, con pruebas. |
+
+**Verificación con datos reales** (un hilo, ruta `data/artifacts/preparation/A4-v1/`): train (`WEEK_NUM < 74`) y OOT (`>= 74`) de las dos familias.
+
+| Familia | Casos train | Casos OOT | Suma | Solapamiento |
+| --- | ---: | ---: | ---: | ---: |
+| `applprev` | 1 042 139 | 165 900 | 1 208 039 | 0 |
+| `person` | 1 332 001 | 194 658 | 1 526 659 | 0 |
+
+La suma coincide con la cobertura documentada en A4, y el OOT de `person` coincide con los 194 658 casos del backlog. El conjunto completo tardó 13 s, con un pico de memoria de unos 4,8 GB.
 
 ## 8. Límites
 
