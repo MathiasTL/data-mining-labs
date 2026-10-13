@@ -51,7 +51,7 @@ Casos por número de personas †: 1 → 769 339; 2 → 273 106; 3 → 302 446; 
 
 ## 3. Catálogo inicial de agregaciones
 
-Convención: `<familia>__<columna>__<agregación>`. Una característica entra solo si se describe con familia + columnas fuente + filtro temporal + agregación + significado.
+Convención (A6 y A7): `<familia>__<columna>__<agregación>__<ventana>`, en minúsculas y con ventana `all` hasta que G1 fije otras; la cobertura se llama `<familia>__n_records` y `<familia>__source_present`. Una característica entra solo si se describe con familia + columnas fuente + filtro temporal + agregación + significado.
 
 ### 3.1 `applprev_1` (filtrada, una fila por caso)
 
@@ -68,10 +68,10 @@ Convención: `<familia>__<columna>__<agregación>`. Una característica entra so
 
 ### 3.2 `applprev_2` (solo vía padre válido)
 
-| Fuente                 | Regla                                         | Característica                                               | Justificación temporal                         |
-| ---------------------- | --------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------- |
-| hijos con padre válido | conteo total, hijos por padre (media, máximo) | `applprev_2__n_children`, `__children_per_parent_{mean,max}` | el padre pasó el filtro de `creationdate_885D` |
-| `conts_type_509L`      | proporción de categorías aprobadas            | `__conts_type__share_<cat>`                                  | **bloqueada hasta G2**: sin fecha propia       |
+| Fuente                 | Regla                                                                             | Característica                                                 | Justificación temporal                         |
+| ---------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------- |
+| hijos con padre válido | conteo total, hijos por padre válido (media, máximo; un padre sin hijos cuenta 0) | `applprev_2__n_records`, `__children_per_parent_{mean,max}__all` | el padre pasó el filtro de `creationdate_885D` |
+| `conts_type_509L`      | proporción de categorías aprobadas                                                | `__conts_type__share_<cat>`                                    | **bloqueada hasta G2**: sin fecha propia       |
 
 `credacc_cards_status_52L` queda excluida (estado sin linaje); `cacccardblochreas_147M` queda bloqueada hasta G2, igual que `conts_type_509L`.
 
@@ -122,7 +122,8 @@ Resultado de B4 para las 95 columnas: 43 candidatas a G2, 19 bloqueadas hasta G2
 4. **`profession_152M`** (11 558 valores distintos): alta cardinalidad. Propuesta: solo conteo de distintos, sin categorías libres.
 5. **Estados, mora, deuda y motivos de rechazo** de `applprev_1` (`status_219L`, `rejectreason*`, `outstandingdebt_522A`, `currdebt_94A`, `credacc_status_367L`, `credacc_actualbalance_314A`, etc.): ¿existe una instantánea válida a `date_decision`? Sin evidencia, siguen bloqueadas.
 6. **Fecha nula en `creationdate_885D`** (66 filas): se descartan. Es una regla conservadora; son pocas filas.
-7. **Ventana retrospectiva:** depende de A7.
+7. **Ventana retrospectiva:** A7 (Giancarlo) propone `all` por defecto, igual que este borrador; falta que G1 la apruebe.
+8. **`dtlastpmtallstes_3545839D`:** al ejecutar el núcleo sobre datos reales, 351 803 filas **ya válidas** (5,4 %) tienen esta fecha posterior a la decisión, mucho más que `dtlastpmt_581D` (41 684). Una fecha de "último pago" que cae en el futuro sugiere un calendario o una proyección, no un hecho ocurrido. Propuesta: bloquearla hasta G2 en lugar de transformarla en recencia.
 
 ## 7. Reproducir la evidencia
 
@@ -149,3 +150,27 @@ Revisión del 12/10/2026 contra la decisión A1 y la propuesta de interfaces A2.
 7. **Orden.** Cada agregado se escribe ordenado por `case_id`.
 
 **Corrección propia:** una versión previa de este documento proponía características `__n_future_<campo>`. Se retiraron: contar fechas posteriores a la decisión es fuga de información.
+
+## 9. Núcleo de C2 y C3 (avance previo a G1)
+
+`src/dm_credit/preparation/families/applications_people.py` implementa la agregación como funciones puras sobre tablas ya leídas: `aggregate_applications` y `aggregate_people` (y sus variantes `*_with_exclusions`, que además devuelven los totales para el manifiesto). No leen disco ni escriben manifiestos, de modo que no dependen de la interfaz `build_family_features` que G1 todavía no congela; cuando se congele, el adaptador será una envoltura delgada.
+
+- Devuelven una fila por `case_id` **solo para los casos con cobertura**; el ensamblador completa `n_records = 0` y `source_present = False` (decisión 3 de la sección 8).
+- La lista de columnas está en `ApplicationsConfig` y `PeopleConfig`. Los valores por defecto son los candidatos de B4 y **no están aprobados**: dependen de G2. Los vocabularios de categorías (`category_shares`) vienen vacíos porque deben ajustarse solo con train (D3).
+- Reutilizan la coerción estricta D4. Validan claves únicas, que todo caso exista en la base, que cada caso tenga persona principal y que ninguna característica use filas posteriores a la decisión.
+
+**Verificación con datos reales de train** (un hilo, `POLARS_MAX_THREADS=1`, lectura con proyección de columnas):
+
+| Resultado | Valor | Coincide con la evidencia (sección 1) |
+| --- | ---: | --- |
+| Casos con cobertura de solicitudes | 1 208 039 | Sí |
+| Filas posteriores a la decisión excluidas | 140 040 | Sí |
+| Filas con fecha de creación nula excluidas | 66 | Sí |
+| Hijos de `applprev_2` con padre inválido | 213 212 | Sí |
+| Casos con persona | 1 526 659 | Sí (cobertura 100 %) |
+| Empleos posteriores a la decisión anulados | 316 | Sí |
+| Edad de la persona principal | 20 a 76 años, media 44 | Plausible |
+
+Aviso: los conteos de fechas internas posteriores (por ejemplo `dtlastpmt_581D` 41 684) se calculan entre filas ya válidas, por eso difieren de los † de la sección 1, que cuentan todas las filas.
+
+**Recursos:** 11 s y un pico de memoria de unos 5,1 GB leyendo las tablas completas en memoria. Eso excede el objetivo de 2 GB por proceso de A5; es aceptable en una máquina de 16 GB pero conviene leer por lotes o por shard en la ejecución real E4.
