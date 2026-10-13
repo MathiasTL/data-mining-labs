@@ -102,3 +102,39 @@ El acta pide cobertura "por fuente física". El núcleo solo emitía `source_pre
 ### Qué falta para cerrar G1
 
 Reunión conjunta para un sí o no sobre cada uno de estos puntos del acta: firma con `base`, familias padre-hijo, dueño del lector por lotes en `io`, gramática de nombres (con los ajustes 1 y 2), caché de parciales y manejo de personas y snapshots. Después, P1 congela A2 en el contrato canónico y se acuerdan el formato de `FeatureDefinition` y los manifiestos. G1 sigue sin estar aprobada.
+
+## Revisión de Mathias (P4), 13/10/2026
+
+Revisión del lector compartido de `dm_credit.io` (`shard_paths`, `scan_parquet_shards`, `iter_row_groups`), asignada a P4 en la decisión 10 del acta y en el punto 3 de la [decisión G1](03-preparacion-G1-decision.md). Se comprobó contra los archivos reales de bureau, leyendo como máximo un grupo de filas por fuente. **No modifica `io.py`**: son hallazgos para su responsable.
+
+### Comprobado y conforme
+
+| Aspecto | Resultado |
+| --- | --- |
+| Descubrimiento de shards | `credit_bureau_a_1`: 4 en train y 5 en test. `credit_bureau_a_2`: 11 en train y 12 en test. `credit_bureau_b_1` y `credit_bureau_b_2`: 1 en cada split. |
+| Orden numérico | `train_credit_bureau_a_2_10.parquet` queda al final, después de `_9`. |
+| Memoria por lote | Un grupo de filas de `train_credit_bureau_a_2_5.parquet` (1 048 576 filas) ocupa unos 153 MB con las 19 columnas y unos 89 MB con 11 columnas numéricas. Confirma las estimaciones de A5 (~160 MB y ~90 MB). |
+| Tiempo por lote | Entre 0,02 s y 0,08 s por grupo de filas. |
+| Orden interno | El lote llega ordenado por `case_id`, como asume A5. |
+| Archivo vacío | `test_tax_registry_c_1.parquet` produce un lote de 0 filas y 5 columnas, sin error. Las columnas llegan con tipo físico `Null`: la coerción al tipo lógico corresponde a D4. |
+
+### Hallazgos
+
+| # | Gravedad | Hallazgo | Evidencia | Corrección propuesta |
+| -: | --- | --- | --- | --- |
+| 1 | Alta | Un nombre de familia lógica pasado como `source` devuelve tablas distintas como si fueran shards de una misma fuente, sin error. | `shard_paths("train", "credit_bureau_b")` devuelve `b_1` y `b_2`; `"person"` devuelve `person_1` y `person_2`; `"applprev"` devuelve solo `applprev_2`. `scan_parquet_shards("train", "credit_bureau_b")` produce una tabla de 49 columnas, cuando `b_1` tiene 45 y `b_2` tiene 6. Solo `"credit_bureau_a"` falla. | Validar `source` contra la lista de las 17 fuentes físicas y rechazar cualquier otro valor. G1 nombra las familias `credit_bureau_b`, `person` y `applprev`, por lo que la confusión es previsible. |
+| 2 | Media | `iter_row_groups` descarta en silencio las columnas pedidas que no existen. | Con `columns=["case_id", "no_such_column"]` devuelve solo `case_id`. `scan_parquet_shards` sí rechaza columnas desconocidas: las dos funciones se comportan distinto. | Comparar `columns` con el esquema del archivo antes de leer y lanzar `ValueError` con las columnas ausentes. |
+| 3 | Media | `iter_row_groups` lee con varios hilos. | `ParquetFile.read_row_group` usa `use_threads=True` por defecto y el grupo de hilos de Arrow tenía 10. `POLARS_MAX_THREADS=1` no lo controla. | Leer con `use_threads=False`, o exponer el parámetro con ese valor por defecto, para cumplir la decisión 9 (un hilo en ejecuciones `[R]`). |
+| 4 | Baja | El error por archivo inexistente se lanza al pedir el primer lote, no al llamar a la función. | `iter_row_groups("/ruta/inexistente")` devuelve un generador; `FileNotFoundError` aparece en el primer `next()`. | Validar la ruta antes de crear el generador. |
+| 5 | Baja | `scan_parquet_shards` concatena con `diagonal_relaxed`, que rellena con nulos una columna ausente en un shard y unifica tipos distintos sin avisar. | Lectura del código; es lo que permite el hallazgo 1. No afecta a bureau, que usa `iter_row_groups`. | Comprobar que todos los shards de una fuente comparten nombres de columnas y fallar si no; conservar la relajación solo para tipos físicos `Null`. |
+
+### Veredicto
+
+El lector cubre lo que A5 necesita para `credit_bureau_a` y `credit_bureau_b`. Los hallazgos 1 a 3 deberían corregirse antes de la ejecución real (E4); el adaptador de bureau puede desarrollarse mientras tanto pasando siempre nombres físicos completos y validando por su cuenta las columnas recibidas.
+
+### Reproducir
+
+```bash
+uv run python -c "from dm_credit import io; print([p.name for p in io.shard_paths('train', 'credit_bureau_b')])"
+uv run python -c "from dm_credit import io; p = io.shard_paths('train', 'credit_bureau_b_1')[0]; print(next(io.iter_row_groups(p, columns=['case_id', 'no_such_column'])).columns)"
+```
