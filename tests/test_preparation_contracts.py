@@ -139,3 +139,25 @@ def test_empty_family_with_declared_schema_is_valid(tmp_path):
 def test_feature_matrix_artifact_fields():
     m = ct.FeatureMatrixArtifact(split="train", data_path="m.parquet", manifest_path="m.json", row_count=3, control_columns=("case_id",), feature_schema=tuple(defs()), input_manifests=("a.json",))
     assert m.control_columns == ("case_id",)
+
+
+def test_unserializable_manifest_does_not_touch_an_existing_valid_pair(tmp_path):
+    first = ct.write_family_features(frame(), defs(), family="applprev", split="train", output_dir=tmp_path)
+    data_before, manifest_before = first.data_path.read_bytes(), first.manifest_path.read_bytes()
+    with pytest.raises(TypeError):
+        ct.write_family_features(frame().head(2), defs(), family="applprev", split="train", output_dir=tmp_path, exclusions={"a": object()})
+    assert first.data_path.read_bytes() == data_before and first.manifest_path.read_bytes() == manifest_before
+    assert not list(tmp_path.glob("*.tmp"))
+
+
+def test_load_detects_a_parquet_that_does_not_match_its_manifest(tmp_path):
+    art = ct.write_family_features(frame(), defs(), family="applprev", split="train", output_dir=tmp_path)
+    frame().head(2).write_parquet(art.data_path)  # alguien reemplaza el Parquet sin actualizar el manifiesto
+    with pytest.raises(ValueError, match="checksum|sha256"):
+        ct.load_family_artifact(art.manifest_path)
+
+
+def test_validate_base_rejects_nan_week_numbers():
+    base = pl.DataFrame({"case_id": [1, 2], "WEEK_NUM": [1.0, float("nan")], "date_decision": ["2020-01-01", "2020-01-02"]})
+    with pytest.raises(ValueError, match="WEEK_NUM"):
+        ct.validate_base(base, "train", 74)

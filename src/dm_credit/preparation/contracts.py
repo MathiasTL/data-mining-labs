@@ -11,6 +11,7 @@ usa ``<fuente>__n_records`` y ``<fuente>__source_present``; ``__missing`` solo l
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -140,6 +141,30 @@ def describe_features(
     return tuple(out)
 
 
+def validate_base(base: pl.DataFrame, split: str, cutoff_week: int = 74) -> None:
+    """Valida la base mínima que recibe cada familia (decisión G1, punto 1)."""
+    if split not in SPLITS:
+        raise ValueError(f"split must be one of {SPLITS}, got {split!r}")
+    required = [KEY, "WEEK_NUM", "date_decision"]
+    missing = [c for c in required if c not in base.columns]
+    if missing:
+        raise ValueError(f"base: missing required columns {missing}")
+    for col in required:
+        nan = int(base[col].is_nan().sum()) if base.schema[col].is_float() else 0  # NaN también es ausencia
+        if base[col].null_count() or nan:
+            raise ValueError(f"base: {col} contains nulls (explicit failure, no implicit partition)")
+    if base[KEY].n_unique() != base.height:
+        raise ValueError(f"base: {KEY} is not unique")
+    if split == "test":
+        if "target" in base.columns:
+            raise ValueError("base: the test split must not include target")
+    elif base.height:
+        if split == "train" and base["WEEK_NUM"].max() >= cutoff_week:
+            raise ValueError(f"base: train split has WEEK_NUM >= {cutoff_week}")
+        if split == "oot" and base["WEEK_NUM"].min() < cutoff_week:
+            raise ValueError(f"base: oot split has WEEK_NUM < {cutoff_week}")
+
+
 def _validate(features: pl.DataFrame, definitions: tuple[FeatureDefinition, ...], split: str) -> None:
     if split not in SPLITS:
         raise ValueError(f"split must be one of {SPLITS}, got {split!r}")
@@ -158,13 +183,12 @@ def _validate(features: pl.DataFrame, definitions: tuple[FeatureDefinition, ...]
         raise ValueError(f"{KEY} must be sorted ascending (G1: ordered aggregates)")
 
 
-def _atomic_write(path: Path, write) -> None:
-    tmp = path.with_name(path.name + ".tmp")
-    try:
-        write(tmp)
-        os.replace(tmp, path)
-    finally:
-        tmp.unlink(missing_ok=True)
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def write_family_features(
@@ -178,34 +202,47 @@ def write_family_features(
     rules_version: str = "unversioned",
     inputs: Mapping[str, str] | None = None,
 ) -> FamilyFeatureArtifact:
-    """Valida y publica un agregado y su manifiesto. Si falla una validación no se escribe nada."""
+    """Valida y publica un agregado y su manifiesto.
+
+    Todo se prepara en archivos temporales (incluida la serialización del manifiesto) antes de
+    reemplazar nada: si algo falla, no se escribe ni se pisa ninguna salida válida. El manifiesto
+    guarda la suma de verificación del Parquet para detectar pares incoherentes al cargar.
+    """
     definitions = tuple(definitions)
     _validate(features, definitions, split)
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     data_path = output_dir / f"{family}__{split}.parquet"
     manifest_path = output_dir / f"{family}__{split}.manifest.json"
-    manifest = {
-        "format_version": FORMAT_VERSION,
-        "rules_version": rules_version,
-        "family": family,
-        "split": split,
-        "data_path": data_path.name,
-        "row_count": features.height,
-        "case_count": features[KEY].n_unique(),
-        "features": [asdict(d) for d in definitions],
-        "exclusions": dict(exclusions or {}),
-        "inputs": dict(inputs or {}),
-        "validations": [
-            "case_id no nulo",
-            "case_id único",
-            "sin columnas reservadas",
-            "esquema igual a las definiciones y en el mismo orden",
-            "ordenado por case_id",
-        ],
-    }
-    _atomic_write(data_path, lambda p: features.write_parquet(p))
-    _atomic_write(manifest_path, lambda p: p.write_text(json.dumps(manifest, indent=2, ensure_ascii=False)))
+    tmp_data, tmp_manifest = (p.with_name(p.name + ".tmp") for p in (data_path, manifest_path))
+    try:
+        features.write_parquet(tmp_data)
+        manifest = {
+            "format_version": FORMAT_VERSION,
+            "rules_version": rules_version,
+            "family": family,
+            "split": split,
+            "data_path": data_path.name,
+            "data_sha256": _sha256(tmp_data),
+            "row_count": features.height,
+            "case_count": features[KEY].n_unique(),
+            "features": [asdict(d) for d in definitions],
+            "exclusions": dict(exclusions or {}),
+            "inputs": dict(inputs or {}),
+            "validations": [
+                "case_id no nulo",
+                "case_id único",
+                "sin columnas reservadas",
+                "esquema igual a las definiciones y en el mismo orden",
+                "ordenado por case_id",
+            ],
+        }
+        tmp_manifest.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))  # puede fallar: aún nada publicado
+        os.replace(tmp_data, data_path)
+        os.replace(tmp_manifest, manifest_path)
+    finally:
+        tmp_data.unlink(missing_ok=True)
+        tmp_manifest.unlink(missing_ok=True)
     return FamilyFeatureArtifact(
         family=family,
         split=split,  # type: ignore[arg-type]
@@ -223,10 +260,13 @@ def load_family_artifact(manifest_path: Path) -> FamilyFeatureArtifact:
     try:
         m = json.loads(manifest_path.read_text())
         schema = tuple(FeatureDefinition(**{**f, "source_columns": tuple(f["source_columns"])}) for f in m["features"])
+        data_path = manifest_path.parent / m["data_path"]
+        if _sha256(data_path) != m["data_sha256"]:
+            raise ValueError(f"{data_path} does not match its manifest (sha256 mismatch): incoherent pair")
         return FamilyFeatureArtifact(
             family=m["family"],
             split=m["split"],
-            data_path=manifest_path.parent / m["data_path"],
+            data_path=data_path,
             manifest_path=manifest_path,
             row_count=m["row_count"],
             case_count=m["case_count"],
