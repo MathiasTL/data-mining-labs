@@ -1,0 +1,55 @@
+{
+  "format_version": 1,
+  "rules_version": "C4-C5-v2",
+  "family": "credit_bureau_a",
+  "split": "test",
+  "data_path": "credit_bureau_a__test.parquet",
+  "data_sha256": "bf6620289aca0727f2410fdefac291d672596dffa43f9d50fe98aa19ac18b6af",
+  "row_count": 10,
+  "case_count": 10,
+  "features": [
+    {
+      "name": "credit_bureau_a_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "n_records en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "source_present en credit_bureau_a_1 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "credit_bureau_a_1_rows_null_anchor": 1,
+    "credit_bureau_a_1_rows_after_decision": 12
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
+    "shards": "test_credit_bureau_a_1_0.parquet:59968:1790997776401075699;test_credit_bureau_a_1_1.parquet:60903:1790997776400971634;test_credit_bureau_a_1_2.parquet:60300:1790997776401725230;test_credit_bureau_a_1_3.parquet:61325:1790997776401280266;test_credit_bureau_a_1_4.parquet:60115:1790997776402962971",
+    "selection_manifest": "B5_bureau_columns.csv",
+    "g2_decision": "G2_bureau_columns.csv",
+    "g2_mode": "approved",
+    "plan_sha256": "0d67ad3eec05eadcfcc12f4697c0fdbda648f49ff1c2831f3ae5c4f4b571c4cf",
+    "skipped_table:credit_bureau_a_2": "sin ancla temporal (referencia_as_of) en B5: la tabla no se lee"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}
