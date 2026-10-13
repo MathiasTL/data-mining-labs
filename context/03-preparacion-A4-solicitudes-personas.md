@@ -155,7 +155,7 @@ Revisión del 12/10/2026 contra la decisión A1 y la propuesta de interfaces A2.
 
 `src/dm_credit/preparation/families/applications_people.py` implementa la agregación como funciones puras sobre tablas ya leídas: `aggregate_applications` y `aggregate_people` (y sus variantes `*_with_exclusions`, que además devuelven los totales para el manifiesto). No leen disco ni escriben manifiestos, de modo que no dependen de la interfaz `build_family_features` que G1 todavía no congela; cuando se congele, el adaptador será una envoltura delgada.
 
-- Devuelven una fila por `case_id` **solo para los casos con cobertura**; el ensamblador completa `n_records = 0` y `source_present = False` (decisión 3 de la sección 8).
+- El núcleo devuelve una fila por `case_id` solo para los casos con cobertura. Los adaptadores completan una fila por **cada caso de la base**, con `n_records = 0` y `source_present = False` en cada tabla física (`applprev_1`, `applprev_2`, `person_1`, `person_2`), igual que bureau y productos: el ensamblador de Nick no rellena cobertura. El resto de características queda nulo para que lo trate D2.
 - La lista de columnas está en `ApplicationsConfig` y `PeopleConfig`. Los valores por defecto son los candidatos de B4 y **no están aprobados**: dependen de G2. Los vocabularios de categorías (`category_shares`) vienen vacíos porque deben ajustarse solo con train (D3).
 - Reutilizan la coerción estricta D4. Validan claves únicas, que todo caso exista en la base, que cada caso tenga persona principal y que ninguna característica use filas posteriores a la decisión.
 
@@ -210,4 +210,4 @@ Las sumas train + OOT coinciden con la evidencia de la sección 1 (140 040, 66, 
 | train | `person` | 1 332 001 | 1 332 001 | 0 |
 | OOT | `person` | 194 658 | 194 658 | 0 |
 
-Los casos sin cobertura se completan en el ensamblador con `n_records = 0` y `source_present = False`. El test local (10 casos) pasó la misma construcción y tiene exactamente las mismas características que train (65 de `applprev` y 37 de `person` tras G2): la compatibilidad de esquema con el test real queda comprobada.
+Los casos sin cobertura se completan en los adaptadores con `n_records = 0` y `source_present = False`; verificado al ensamblar el OOT real con el ensamblador de Nick (194 658 filas, 0 nulos en las columnas de cobertura). El test local (10 casos) pasó la misma construcción y tiene exactamente las mismas características que train (65 de `applprev` y 37 de `person` tras G2): la compatibilidad de esquema con el test real queda comprobada.

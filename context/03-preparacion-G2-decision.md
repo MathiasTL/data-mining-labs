@@ -52,8 +52,8 @@ El filtro evaluó 102 características de train (94 numéricas o booleanas y 8 d
 | Resultado                                           | Valor |
 | --------------------------------------------------- | ----: |
 | Características con bandera de fuga o inestabilidad | **0** |
-|                                                     |  Gini | máximo (por sí sola)             | 0,184 (`applprev_1__employedfrom_700d__days_since_last__all`) |
-|                                                     |  Gini | máximo del indicador de ausencia | 0,070                                                         |
+| Gini absoluto máximo de una variable sola           | 0,184 (`applprev_1__employedfrom_700d__days_since_last__all`) |
+| Gini absoluto máximo del indicador de ausencia      | 0,070 |
 | Características de texto no medidas                 |     8 |
 
 **Cómo leerlo:** descarta una fuga fuerte, la que haría que una variable sola casi adivine el objetivo. No demuestra que no haya fugas moderadas, y para las 8 columnas de texto (educación, tipo de ingreso, etc.) no hay medición: se aprobaron por regla. Es un criterio mínimo, no una garantía.
