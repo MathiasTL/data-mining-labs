@@ -1,0 +1,16 @@
+{
+  "exclusions": {
+    "credit_bureau_a_1_rows_after_decision": 7,
+    "credit_bureau_a_1_rows_null_anchor": 1
+  },
+  "key": {
+    "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
+    "cutoff_week": "74",
+    "parent_shards": "",
+    "plan": "0d67ad3eec05eadcfcc12f4697c0fdbda648f49ff1c2831f3ae5c4f4b571c4cf",
+    "rules_version": "C4-C5-v2",
+    "shard": "test_credit_bureau_a_1_2.parquet:60300:1790997776401725230"
+  },
+  "keys_sha256": null,
+  "partial_sha256": "2834082fa9b6c16161eca829880afc8b6a42f82e9ab1e03bcc740e3f59252f00"
+}
