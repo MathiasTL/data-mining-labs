@@ -1,0 +1,2 @@
+cutoff_week,train_cases,train_positives,train_rate_pct,validation_cases,validation_positives,validation_rate_pct,validation_weeks,rule,validation_week_pct,validation_case_pct,validation_positive_pct
+74,1332001,43734,3.2833,194658,4260,2.1885,18,last_20pct_observed_weeks,19.5652,12.7506,8.8761

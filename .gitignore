@@ -13,6 +13,3 @@ data/
 .venv/
 *.egg-info/
 .pytest_cache/
-
-# Resultados de pruebas y reportes
-target_analysis/
