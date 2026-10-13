@@ -111,13 +111,13 @@ La matriz resultante conserva `case_id`, `WEEK_NUM`, `date_decision` y `target` 
 
 ## 4. Reparto entre cinco personas
 
-| Persona   | Identificador | Frente principal                                       | Propiedad inicial de archivos                                                                                           | Dependencias principales                    |
-| --------- | ------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| Nick      | P1            | Contratos, partición, orquestación e integración final | módulos compartidos nuevos de contrato/orquestación; pruebas asociadas                                                  | Lidera G1, G2, G3 y G4                      |
-| Giancarlo | P2            | Base, fuentes de profundidad 0, ventana y vistas       | adaptador de `base`, `static_0`, `static_cb_0`; política de ventana; vistas de matriz; informe de fuga; pruebas propias    | G1 para implementar interfaz definitiva     |
+| Persona   | Identificador | Frente principal                                       | Propiedad inicial de archivos                                                                                             | Dependencias principales                    |
+| --------- | ------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Nick      | P1            | Contratos, partición, orquestación e integración final | módulos compartidos nuevos de contrato/orquestación; pruebas asociadas                                                    | Lidera G1, G2, G3 y G4                      |
+| Giancarlo | P2            | Base, fuentes de profundidad 0, ventana y vistas       | adaptador de `base`, `static_0`, `static_cb_0`; política de ventana; vistas de matriz; informe de fuga; pruebas propias   | G1 para implementar interfaz definitiva     |
 | Andre     | P3            | Solicitudes previas, personas, coerción y extremos     | adaptador de `applprev_1`, `applprev_2`, `person_1`, `person_2`; módulos de coerción de tipos y extremos; pruebas propias | G1; reglas padre-hijo y temporales          |
-| Mathias   | P4            | Bureau de crédito                                      | adaptador de `credit_bureau_a_1`, `credit_bureau_a_2`, `credit_bureau_b_1`, `credit_bureau_b_2`; pruebas propias        | G1; ejecución real restringida              |
-| Gabriel   | P5            | Productos/registros, faltantes y categorías            | adaptador de `debitcard_1`, `deposit_1`, `other_1`, `tax_registry_[a-c]_1`; módulo de preprocesamiento; pruebas propias    | G1 para adaptadores; G2 para cerrar formato |
+| Mathias   | P4            | Bureau de crédito                                      | adaptador de `credit_bureau_a_1`, `credit_bureau_a_2`, `credit_bureau_b_1`, `credit_bureau_b_2`; pruebas propias          | G1; ejecución real restringida              |
+| Gabriel   | P5            | Productos/registros, faltantes y categorías            | adaptador de `debitcard_1`, `deposit_1`, `other_1`, `tax_registry_[a-c]_1`; módulo de preprocesamiento; pruebas propias   | G1 para adaptadores; G2 para cerrar formato |
 
 En las tablas de tareas se conservan los identificadores breves: P1 = Nick, P2 = Giancarlo, P3 = Andre, P4 = Mathias y P5 = Gabriel. Los nombres concretos de módulos se deciden en G1. Una distribución recomendada es:
 
@@ -144,16 +144,16 @@ No se debe crear esta estructura de forma automática si durante G1 se demuestra
 
 ### Épica A — Contratos y esqueleto compartido
 
-| ID  | Tipo      | Responsable       | Trabajo                                                                                                                                               | Dependencias | Evidencia / criterio de aceptación                                                    |
-| --- | --------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------- |
-| A1  | `[P]`     | P1                | Traducir los contratos de los capítulos 02 y 03 a invariantes ejecutables: partición, columnas reservadas, una fila por caso, temporalidad y esquema. | Ninguna      | Documento corto de decisión y pruebas sintéticas de invariantes.                      |
-| A2  | `[P]`     | P1                | Diseñar las interfaces de agregado por familia, artefacto, manifiesto y ensamblado.                                                                   | Ninguna      | Propuesta revisable, con errores y características de rendimiento explícitas.         |
-| A3  | `[P]`     | P2                | Proponer catálogo inicial de agregaciones para `static_0` y `static_cb_0`, incluyendo reglas de fechas y exclusiones.                                 | Ninguna      | Tabla fuente → regla → característica → justificación temporal.                       |
-| A4  | `[P]`     | P3                | Proponer agregaciones de solicitudes/personas y resolver relación de profundidad 2 con su padre.                                                      | Ninguna      | Catálogo inicial y casos ambiguos marcados para decisión.                             |
-| A5  | `[P] [R]` | P4                | Proponer estrategia streaming/checkpoint para bureau sin materializar 188 M de filas ni joins masivos.                                                | Ninguna      | Plan de memoria, orden de lectura, agregaciones soportadas y recuperación.            |
-| A6  | `[P]`     | P5                | Proponer política de faltantes, categorías, extremos, coerción y nombres de características.                                                          | Ninguna      | Especificación de `fit`/`transform` sin aprendizaje desde OOT/test.                   |
+| ID  | Tipo      | Responsable       | Trabajo                                                                                                                                                    | Dependencias | Evidencia / criterio de aceptación                                                    |
+| --- | --------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------- |
+| A1  | `[P]`     | P1                | Traducir los contratos de los capítulos 02 y 03 a invariantes ejecutables: partición, columnas reservadas, una fila por caso, temporalidad y esquema.      | Ninguna      | Documento corto de decisión y pruebas sintéticas de invariantes.                      |
+| A2  | `[P]`     | P1                | Diseñar las interfaces de agregado por familia, artefacto, manifiesto y ensamblado.                                                                        | Ninguna      | Propuesta revisable, con errores y características de rendimiento explícitas.         |
+| A3  | `[P]`     | P2                | Proponer catálogo inicial de agregaciones para `static_0` y `static_cb_0`, incluyendo reglas de fechas y exclusiones.                                      | Ninguna      | Tabla fuente → regla → característica → justificación temporal.                       |
+| A4  | `[P]`     | P3                | Proponer agregaciones de solicitudes/personas y resolver relación de profundidad 2 con su padre.                                                           | Ninguna      | Catálogo inicial y casos ambiguos marcados para decisión.                             |
+| A5  | `[P] [R]` | P4                | Proponer estrategia streaming/checkpoint para bureau sin materializar 188 M de filas ni joins masivos.                                                     | Ninguna      | Plan de memoria, orden de lectura, agregaciones soportadas y recuperación.            |
+| A6  | `[P]`     | P5                | Proponer política de faltantes, categorías, extremos, coerción y nombres de características.                                                               | Ninguna      | Especificación de `fit`/`transform` sin aprendizaje desde OOT/test.                   |
 | A7  | `[P]`     | P2                | Proponer la política común de ventana retrospectiva: todo el historial `<= date_decision` o ventanas fijas (por ejemplo 3, 6, 12 meses) y cómo se nombran. | Ninguna      | Tabla familia → ventana → justificación; evita que cada frente invente la suya.       |
-| G1  | `[S]`     | Equipo; lidera P1 | Congelar interfaces, convención de nombres, formato de manifiesto, errores, política de ventana y propiedad de archivos.                              | A1–A7        | Decisión registrada; todos los frentes pueden implementar sin editar archivos ajenos. |
+| G1  | `[S]`     | Equipo; lidera P1 | Congelar interfaces, convención de nombres, formato de manifiesto, errores, política de ventana y propiedad de archivos.                                   | A1–A7        | Decisión registrada; todos los frentes pueden implementar sin editar archivos ajenos. |
 
 **Duración objetivo de G1:** una sesión corta. Mientras Nick prepara la decisión, Giancarlo, Andre, Mathias y Gabriel pueden completar A3–A7 y crear fixtures/pruebas de caja negra contra la interfaz conceptual.
 
@@ -175,28 +175,28 @@ Todos los agregadores deben producir conteo de registros, indicador de cobertura
 
 Todos descubren los shards de cada familia por `results/parquet_inventory.csv` o por patrón de nombre, nunca con una lista fija: train tiene 32 archivos físicos y test 36 (difieren `static_0`, `applprev_1`, `credit_bureau_a_1` y `credit_bureau_a_2`). `test_tax_registry_c_1.parquet` está **vacío** y sus columnas son de tipo físico `Null`: el adaptador debe devolver un agregado con el esquema correcto y sin error.
 
-| ID  | Tipo      | Responsable                   | Trabajo                                                                                              | Dependencias                | Evidencia / criterio de aceptación                                                                               |
-| --- | --------- | ----------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| C1  | `[P]`     | P2                            | Adaptador de `base`, `static_0` y `static_cb_0`.                                                     | G1; cierre funcional con G2 | Una fila por caso; fechas y columnas estáticas tratadas según contrato.                                          |
-| C2  | `[P]`     | P3                            | Adaptador de `applprev_1` y `applprev_2`, enlazando profundidad 2 a padres válidos antes de agregar. | G1; cierre funcional con G2 | No se usa una fila hija cuyo padre no sea temporalmente válido.                                                  |
-| C3  | `[P]`     | P3                            | Adaptador de `person_1` y `person_2`.                                                                | G1; cierre funcional con G2 | Roles/relaciones agregados sin usar identificadores directos.                                                    |
-| C4  | `[P] [R]` | P4                            | Adaptador streaming de `credit_bureau_a_1` y `credit_bureau_a_2`.                                    | G1; cierre funcional con G2 | Memoria acotada, checkpoints, una fila por caso, agregados verificables por muestra sintética.                   |
-| C5  | `[P] [R]` | P4                            | Adaptador de `credit_bureau_b_1` y `credit_bureau_b_2`.                                              | G1; cierre funcional con G2 | Relación padre-hijo respetada; sin joins gigantes.                                                               |
-| C6  | `[P]`     | P5                            | Adaptador de `debitcard_1`, `deposit_1` y `other_1`.                                                 | G1; cierre funcional con G2 | `other_1` solo se usa si su disponibilidad temporal está demostrada; en caso contrario se excluye con evidencia. |
+| ID  | Tipo      | Responsable                   | Trabajo                                                                                              | Dependencias                | Evidencia / criterio de aceptación                                                                                              |
+| --- | --------- | ----------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| C1  | `[P]`     | P2                            | Adaptador de `base`, `static_0` y `static_cb_0`.                                                     | G1; cierre funcional con G2 | Una fila por caso; fechas y columnas estáticas tratadas según contrato.                                                         |
+| C2  | `[P]`     | P3                            | Adaptador de `applprev_1` y `applprev_2`, enlazando profundidad 2 a padres válidos antes de agregar. | G1; cierre funcional con G2 | No se usa una fila hija cuyo padre no sea temporalmente válido.                                                                 |
+| C3  | `[P]`     | P3                            | Adaptador de `person_1` y `person_2`.                                                                | G1; cierre funcional con G2 | Roles/relaciones agregados sin usar identificadores directos.                                                                   |
+| C4  | `[P] [R]` | P4                            | Adaptador streaming de `credit_bureau_a_1` y `credit_bureau_a_2`.                                    | G1; cierre funcional con G2 | Memoria acotada, checkpoints, una fila por caso, agregados verificables por muestra sintética.                                  |
+| C5  | `[P] [R]` | P4                            | Adaptador de `credit_bureau_b_1` y `credit_bureau_b_2`.                                              | G1; cierre funcional con G2 | Relación padre-hijo respetada; sin joins gigantes.                                                                              |
+| C6  | `[P]`     | P5                            | Adaptador de `debitcard_1`, `deposit_1` y `other_1`.                                                 | G1; cierre funcional con G2 | `other_1` solo se usa si su disponibilidad temporal está demostrada; en caso contrario se excluye con evidencia.                |
 | C7  | `[P] [R]` | P5                            | Adaptador streaming de `tax_registry_a_1`, `tax_registry_b_1` y `tax_registry_c_1`.                  | G1; cierre funcional con G2 | Alta cardinalidad manejada sin nombres directos como categorías libres; prueba con el archivo test vacío de `tax_registry_c_1`. |
-| C8  | `[P]`     | P2–P5, cada cual en su módulo | Catálogo de características por familia.                                                             | C1–C7 según frente          | Nombre, tipo, fuente, columna, agregación, ventana, regla temporal y descripción.                                |
+| C8  | `[P]`     | P2–P5, cada cual en su módulo | Catálogo de características por familia.                                                             | C1–C7 según frente          | Nombre, tipo, fuente, columna, agregación, ventana, regla temporal y descripción.                                               |
 
 ### Épica D — Limpieza y formateo
 
-| ID  | Tipo  | Responsable | Trabajo                                                                        | Dependencias               | Evidencia / criterio de aceptación                                                                 |
-| --- | ----- | ----------- | ------------------------------------------------------------------------------ | -------------------------- | -------------------------------------------------------------------------------------------------- |
-| D1  | `[P]` | P5          | Implementar preprocesador ajustable solo con train temporal.                   | G1                         | `fit` rechaza OOT/test o recibe una partición validada; estado serializable.                       |
-| D2  | `[P]` | P5          | Política de faltantes: indicadores de ausencia y estrategias por tipo/familia. | G1; se completa tras C1–C7 | Ninguna imputación implícita; parámetros aprendidos solo de train.                                 |
-| D3  | `[P]` | P5          | Política categórica: raras, desconocidas y `__UNKNOWN__`.                      | G1                         | OOT/test no amplían vocabulario; orden estable.                                                    |
-| D4  | `[P]` | P3          | Coerción de tipos y control de infinitos/valores no convertibles (`coercion.py`). | G1                         | Errores explícitos; columnas físicas `Null` adoptan el esquema lógico; las cuatro fechas `Float64` nulas de test se validan. |
-| D5  | `[P]` | P3          | Política de extremos (`outliers.py`).                                          | G1                         | Fuera de rango genera advertencia; recorte solo con regla de dominio aprobada y ajustada en train. |
-| D6  | `[P]` | P1          | Especificación y validación del esquema final ordenado.                        | G1                         | Misma lista, orden y tipos en train, OOT y test; columnas de control separadas de predictores; `target` ausente en test. |
-| D7  | `[P]` | P2          | Vistas de la matriz final (`views.py`): **lineal** (imputada, escalada, codificada) y **de árboles** (nulos y categóricas nativos). | G1; se completa tras D1–D3 | Mismas filas y columnas de origen en ambas vistas; especificación `matrix_views.csv`; ajustadas solo con train `< 74`. |
+| ID  | Tipo  | Responsable | Trabajo                                                                                                                             | Dependencias               | Evidencia / criterio de aceptación                                                                                           |
+| --- | ----- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| D1  | `[P]` | P5          | Implementar preprocesador ajustable solo con train temporal.                                                                        | G1                         | `fit` rechaza OOT/test o recibe una partición validada; estado serializable.                                                 |
+| D2  | `[P]` | P5          | Política de faltantes: indicadores de ausencia y estrategias por tipo/familia.                                                      | G1; se completa tras C1–C7 | Ninguna imputación implícita; parámetros aprendidos solo de train.                                                           |
+| D3  | `[P]` | P5          | Política categórica: raras, desconocidas y `__UNKNOWN__`.                                                                           | G1                         | OOT/test no amplían vocabulario; orden estable.                                                                              |
+| D4  | `[P]` | P3          | Coerción de tipos y control de infinitos/valores no convertibles (`coercion.py`).                                                   | G1                         | Errores explícitos; columnas físicas `Null` adoptan el esquema lógico; las cuatro fechas `Float64` nulas de test se validan. |
+| D5  | `[P]` | P3          | Política de extremos (`outliers.py`).                                                                                               | G1                         | Fuera de rango genera advertencia; recorte solo con regla de dominio aprobada y ajustada en train.                           |
+| D6  | `[P]` | P1          | Especificación y validación del esquema final ordenado.                                                                             | G1                         | Misma lista, orden y tipos en train, OOT y test; columnas de control separadas de predictores; `target` ausente en test.     |
+| D7  | `[P]` | P2          | Vistas de la matriz final (`views.py`): **lineal** (imputada, escalada, codificada) y **de árboles** (nulos y categóricas nativos). | G1; se completa tras D1–D3 | Mismas filas y columnas de origen en ambas vistas; especificación `matrix_views.csv`; ajustadas solo con train `< 74`.       |
 
 D1–D7 pueden desarrollarse con tablas sintéticas mientras se implementan los agregadores. Su validación final depende de G3. La vista lineal y la de árboles responden a `context/03` (3.4.4): el capítulo 04 compara regresión logística y boosting sobre la misma partición.
 
@@ -213,30 +213,32 @@ D1–D7 pueden desarrollarse con tablas sintéticas mientras se implementan los 
 | E6  | `[S] [R]` | P5                                    | Ajustar preprocesador con train `< 74` y transformar train/OOT/test.        | E5                       | Esquemas idénticos; OOT/test no alteran estado ajustado.                      |
 | E7  | `[S]`     | P1                                    | Escribir manifiesto final y comando único de reproducción.                  | E6                       | Rutas, hash/configuración, columnas, particiones y artefactos registrados.    |
 
+**Avance E4 (13/10/2026): parcial, no habilita E5.** Auditoría real de 36 artefactos: 30 reutilizados, 5 regenerados y validados, `applprev/train` obsoleto y bloqueado tras superar el presupuesto de 5.120 MiB. Bureau A2 sigue omitida por B5/G2. Recursos históricos no medidos de las ejecuciones reutilizadas quedan explícitamente como desconocidos. Evidencia, limitaciones y reproducción en [E4 — ejecución secuencial](03-preparacion-E4-ejecucion.md) y `results/preparation/E4_*`.
+
 ### Épica F — Validación, documentación y cierre
 
-| ID  | Tipo  | Responsable                     | Trabajo                                                                      | Dependencias | Evidencia / criterio de aceptación                                                             |
-| --- | ----- | ------------------------------- | ---------------------------------------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------- |
-| F1  | `[P]` | P2–P5                           | Pruebas específicas de sus adaptadores y catálogos.                          | C1–C8        | Casos temporales, nulos, claves y agregaciones calculables manualmente.                        |
-| F2  | `[P]` | P1                              | Pruebas end-to-end sintéticas del pipeline.                                  | G3           | Partición, filtrado, agregado, join, fit/transform y manifiesto.                               |
-| F3  | `[S]` | P1                              | Ejecutar validaciones sobre artefactos reales.                               | E7           | Conteos, unicidad, esquema, finitud, cobertura por familia y entrada sin cambios a `dm_credit.baseline`. |
-| F4  | `[P]` | P2–P5                           | Redactar resultados de sus fuentes en notas disjuntas o tablas de evidencia. | E4           | Cifras acompañadas de comando, reporte y fecha.                                                |
-| F5  | `[S]` | Editor acordado; recomendado P1 | Consolidar `development/03-preparacion-datos.md` sin placeholders.           | F3, F4, F7   | Secciones 3.1–3.5 completas y trazables.                                                       |
-| F6  | `[S]` | Equipo                          | Revisión cruzada: cada persona revisa un frente ajeno.                       | F5           | Hallazgos resueltos o documentados como limitación.                                            |
-| F7  | `[S]` | P2 consolida; P3–P5 aportan     | Informe de fuga temporal por familia (`temporal_leakage_report.csv`).         | B3–B6, E4    | Por familia: regla de disponibilidad, columnas excluidas, filas descartadas por temporalidad y evidencia. |
-| G4  | `[S]` | Equipo                          | Cierre del capítulo 03.                                                      | F1–F7        | Suite completa, `git diff --check`, comando reproducible y definición de terminado satisfecha. |
+| ID  | Tipo  | Responsable                     | Trabajo                                                                      | Dependencias | Evidencia / criterio de aceptación                                                                        |
+| --- | ----- | ------------------------------- | ---------------------------------------------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------- |
+| F1  | `[P]` | P2–P5                           | Pruebas específicas de sus adaptadores y catálogos.                          | C1–C8        | Casos temporales, nulos, claves y agregaciones calculables manualmente.                                   |
+| F2  | `[P]` | P1                              | Pruebas end-to-end sintéticas del pipeline.                                  | G3           | Partición, filtrado, agregado, join, fit/transform y manifiesto.                                          |
+| F3  | `[S]` | P1                              | Ejecutar validaciones sobre artefactos reales.                               | E7           | Conteos, unicidad, esquema, finitud, cobertura por familia y entrada sin cambios a `dm_credit.baseline`.  |
+| F4  | `[P]` | P2–P5                           | Redactar resultados de sus fuentes en notas disjuntas o tablas de evidencia. | E4           | Cifras acompañadas de comando, reporte y fecha.                                                           |
+| F5  | `[S]` | Editor acordado; recomendado P1 | Consolidar `development/03-preparacion-datos.md` sin placeholders.           | F3, F4, F7   | Secciones 3.1–3.5 completas y trazables.                                                                  |
+| F6  | `[S]` | Equipo                          | Revisión cruzada: cada persona revisa un frente ajeno.                       | F5           | Hallazgos resueltos o documentados como limitación.                                                       |
+| F7  | `[S]` | P2 consolida; P3–P5 aportan     | Informe de fuga temporal por familia (`temporal_leakage_report.csv`).        | B3–B6, E4    | Por familia: regla de disponibilidad, columnas excluidas, filas descartadas por temporalidad y evidencia. |
+| G4  | `[S]` | Equipo                          | Cierre del capítulo 03.                                                      | F1–F7        | Suite completa, `git diff --check`, comando reproducible y definición de terminado satisfecha.            |
 
 ## 6. Plan de arranque simultáneo
 
 Las cinco personas pueden comenzar inmediatamente así:
 
-| Persona   | Primera tarea | Segunda tarea mientras espera G1                                                      |
-| --------- | ------------- | ------------------------------------------------------------------------------------- |
-| Nick      | A1 y A2       | Preparar fixtures comunes para B1, B2, E1 y E2.                                       |
-| Giancarlo | A3 y A7       | Fixtures y resultados manuales para fuentes 1:1 y 1:0..1.                             |
+| Persona   | Primera tarea | Segunda tarea mientras espera G1                                                                                               |
+| --------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Nick      | A1 y A2       | Preparar fixtures comunes para B1, B2, E1 y E2.                                                                                |
+| Giancarlo | A3 y A7       | Fixtures y resultados manuales para fuentes 1:1 y 1:0..1.                                                                      |
 | Andre     | A4            | Fixtures padre-hijo de profundidades 1 y 2, incluidos eventos posteriores a decisión; casos de coerción y extremos para D4/D5. |
-| Mathias   | A5            | Prototipo sintético de agregación por lotes/checkpoints, sin leer Parquet grandes.    |
-| Gabriel   | A6            | Fixtures de faltantes, desconocidos, infinitos, coerción y rangos nuevos.             |
+| Mathias   | A5            | Prototipo sintético de agregación por lotes/checkpoints, sin leer Parquet grandes.                                             |
+| Gabriel   | A6            | Fixtures de faltantes, desconocidos, infinitos, coerción y rangos nuevos.                                                      |
 
 Después de G1, B1–B6, C1–C7, D1–D7, E1–E3 y F1/F2 avanzan en paralelo dentro de sus dependencias. El camino crítico es:
 
@@ -357,22 +359,22 @@ Las matrices potencialmente grandes pueden ubicarse fuera de git, pero su ruta, 
 
 ## 12. Riesgos del plan y mitigaciones
 
-| Riesgo                                        | Mitigación                                                                                 |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Cinco personas cambian interfaces compartidas | Congelar G1 temprano y asignar propiedad de archivos.                                      |
-| Fuga por fechas ambiguas                      | Exclusión preventiva hasta G2; no inferir seguridad por nombre.                            |
-| Agregaciones semánticamente inconsistentes    | Catálogo obligatorio y revisión cruzada por otra persona.                                  |
-| Saturación de memoria/E/S                     | Desarrollo paralelo, ejecución pesada serial y checkpoints.                                |
-| Explosión de columnas                         | Primer corte conservador y convención común de agregaciones.                               |
-| Drift entre esquemas                          | Manifiesto y esquema final único; `transform` no aprende.                                  |
-| Test contamina decisiones                     | Test solo valida contrato; no aporta estadísticas ajustadas.                               |
-| Conflictos de documentación                   | Un editor por corte; contribuciones en notas/tablas disjuntas.                             |
-| Bloqueo por `credit_bureau_a_2`               | Adaptador streaming aislado; el resto del pipeline se valida con fixture y otras familias. |
-| Test local mínimo (10 filas, un archivo vacío) | Validar solo estructura y esquema con test; no inferir distribución ni drift; prueba explícita con `tax_registry_c_1` vacío. |
-| Shards distintos entre train y test           | Descubrimiento de shards por inventario o patrón; nunca listas fijas.                      |
-| Ventanas retrospectivas inconsistentes        | Política común en A7 y G1; cada característica registra su ventana en el catálogo.         |
+| Riesgo                                           | Mitigación                                                                                                                      |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| Cinco personas cambian interfaces compartidas    | Congelar G1 temprano y asignar propiedad de archivos.                                                                           |
+| Fuga por fechas ambiguas                         | Exclusión preventiva hasta G2; no inferir seguridad por nombre.                                                                 |
+| Agregaciones semánticamente inconsistentes       | Catálogo obligatorio y revisión cruzada por otra persona.                                                                       |
+| Saturación de memoria/E/S                        | Desarrollo paralelo, ejecución pesada serial y checkpoints.                                                                     |
+| Explosión de columnas                            | Primer corte conservador y convención común de agregaciones.                                                                    |
+| Drift entre esquemas                             | Manifiesto y esquema final único; `transform` no aprende.                                                                       |
+| Test contamina decisiones                        | Test solo valida contrato; no aporta estadísticas ajustadas.                                                                    |
+| Conflictos de documentación                      | Un editor por corte; contribuciones en notas/tablas disjuntas.                                                                  |
+| Bloqueo por `credit_bureau_a_2`                  | Adaptador streaming aislado; el resto del pipeline se valida con fixture y otras familias.                                      |
+| Test local mínimo (10 filas, un archivo vacío)   | Validar solo estructura y esquema con test; no inferir distribución ni drift; prueba explícita con `tax_registry_c_1` vacío.    |
+| Shards distintos entre train y test              | Descubrimiento de shards por inventario o patrón; nunca listas fijas.                                                           |
+| Ventanas retrospectivas inconsistentes           | Política común en A7 y G1; cada característica registra su ventana en el catálogo.                                              |
 | Carga desigual o indisponibilidad de una persona | D4–D5 con Andre y A7/D7/F7 con Giancarlo para aliviar a Gabriel y Nick; cada frente documenta su estado para poder traspasarlo. |
-| Calendario sin holgura antes del 14/11        | Fechas por compuerta (sección 14); la ejecución real E4 es la línea roja y empieza con `credit_bureau_a_2` al final. |
+| Calendario sin holgura antes del 14/11           | Fechas por compuerta (sección 14); la ejecución real E4 es la línea roja y empieza con `credit_bureau_a_2` al final.            |
 
 ## 13. Primera reunión de sincronización (G1)
 
@@ -399,15 +401,15 @@ Todo lo demás debe resolverse dentro de cada módulo mientras respete esas inte
 
 Fechas **propuestas**, a confirmar o ajustar en G1. El hito oficial de preparación de datos es el 14/11/2026 (sábado); el plan deja un día de holgura.
 
-| Compuerta o bloque                              | Fecha propuesta | Responsables                 |
-| ----------------------------------------------- | --------------: | ---------------------------- |
-| A1–A7 (propuestas iniciales)                    |      jue 15/10 | Todos                        |
-| **G1** (interfaces y decisiones)                |      vie 16/10 | Equipo; lidera Nick          |
-| B1–B6, C en esqueleto, D1–D7, E1–E3, F1–F2      |      vie 23/10 | Cada frente en paralelo      |
-| **G2** (columnas y reglas temporales)           |      lun 26/10 | Equipo; lidera Nick          |
-| C1–C8 con cierre funcional                      |      vie 30/10 | P2–P5                        |
-| **G3** (integración sintética)                  |      lun 02/11 | Equipo; lidera Nick          |
-| E4 ejecución real serial (A2 de bureau al final) |   03/11–06/11 | P2–P5 en cola; coordina Nick |
-| E5 ensamblado → E6 preprocesado → E7 manifiesto |   09/11–11/11 | Nick y Gabriel               |
-| F3, F4, F7                                      |      jue 12/11 | Nick, P2–P5                  |
-| F5, F6 y **G4** (cierre)                        |      vie 13/11 | Equipo                       |
+| Compuerta o bloque                               | Fecha propuesta | Responsables                 |
+| ------------------------------------------------ | --------------: | ---------------------------- |
+| A1–A7 (propuestas iniciales)                     |       jue 15/10 | Todos                        |
+| **G1** (interfaces y decisiones)                 |       vie 16/10 | Equipo; lidera Nick          |
+| B1–B6, C en esqueleto, D1–D7, E1–E3, F1–F2       |       vie 23/10 | Cada frente en paralelo      |
+| **G2** (columnas y reglas temporales)            |       lun 26/10 | Equipo; lidera Nick          |
+| C1–C8 con cierre funcional                       |       vie 30/10 | P2–P5                        |
+| **G3** (integración sintética)                   |       lun 02/11 | Equipo; lidera Nick          |
+| E4 ejecución real serial (A2 de bureau al final) |     03/11–06/11 | P2–P5 en cola; coordina Nick |
+| E5 ensamblado → E6 preprocesado → E7 manifiesto  |     09/11–11/11 | Nick y Gabriel               |
+| F3, F4, F7                                       |       jue 12/11 | Nick, P2–P5                  |
+| F5, F6 y **G4** (cierre)                         |       vie 13/11 | Equipo                       |

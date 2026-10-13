@@ -101,7 +101,7 @@ C4–C5: la ejecución real con corte 74 (82 características por split para
 `credit_bureau_a` y 78 para `credit_bureau_b`, artefactos en
 `data/artifacts/preparation/C4-C5-v1/`) usó la versión pre-G2 y queda reemplazada. La
 versión vigente (C4-C5-v2) lee G2 y, sin columnas aprobadas, solo produce cobertura: el
-catálogo del frente tiene 6 definiciones. La reejecución real está pendiente. C6–C7 se ejecutaron en los mismos splits y generaron 12 definiciones
+catálogo del frente tiene 6 definiciones. La auditoría E4 encontró y validó los seis artefactos reales C4-C5-v2 y sus 19 checkpoints; los reutilizó sin reconstruir bureau (ver `03-preparacion-E4-ejecucion.md`). C6–C7 se ejecutaron en los mismos splits y generaron 12 definiciones
 de cobertura en `products_feature_catalog.csv`, sin predictores. `C6_products_run.csv`
 registra cobertura y conteos por familia y partición.
 
@@ -113,4 +113,4 @@ Pruebas sintéticas de los casos de borde:
 
 El reporte local de C1 contiene resultados para train, OOT y test. La suite citada
 arriba valida casos sintéticos; el catálogo y los manifiestos son evidencia de esquema
-real. El cierre de C8 queda pendiente de incorporar los catálogos C4–C7.
+real. C8 ya incorpora los catálogos C4–C7: E4 verificó la correspondencia de las 124 definiciones con los manifiestos. Esto no cierra E4, que sigue bloqueada en la vigencia del artefacto `applprev/train`.
