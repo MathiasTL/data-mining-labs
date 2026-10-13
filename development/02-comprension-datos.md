@@ -1,6 +1,6 @@
 # 2. Comprensión de los datos
 
-> **Estado:** puntos 1–5 completados. Quedaron cerrados el inventario, el catálogo de variables, la calidad de datos, el análisis temporal con protocolo OOT y la revisión de la métrica oficial. El punto 6, dedicado a relaciones e integración, continúa pendiente.
+> **Estado:** capítulo 02 cerrado. Los puntos 1–8 están completados y trazados a código y reportes reproducibles. Este cierre fija decisiones y prerrequisitos para la fase siguiente, pero no implementa preparación de datos, variables ni modelos.
 
 ## 2.1 Recopilar datos iniciales
 
@@ -15,7 +15,7 @@ Los datos proceden de la competición Home Credit – Credit Risk Model Stabilit
 
 ### Entorno y herramientas comunes (Etapa A, paso 1)
 
-Entorno Python 3.11 con `polars`, `pyarrow`, `numpy` y `scikit-learn`; instalación y comandos en el [README](../README.md#entorno-y-herramientas). Lectura única mediante `src/dm_credit/io.py`; perfilador en `src/dm_credit/profiling.py`; esqueleto del baseline en `src/dm_credit/baseline.py`. Verificación: 29 pruebas automáticas (`pytest`).
+Entorno Python 3.11 con `polars`, `pyarrow`, `numpy` y `scikit-learn`; instalación y comandos en el [README](../README.md#entorno-y-herramientas). Lectura única mediante `src/dm_credit/io.py`; perfilador en `src/dm_credit/profiling.py`; baseline y métrica en `src/dm_credit/baseline.py`. Verificación al cerrar el capítulo: 81 pruebas automáticas con `uv run --extra dev pytest -q`.
 
 Observaciones verificadas con los reportes del perfilador (`results/profile_train_base/` y `results/profile_test_base/`):
 
@@ -72,7 +72,7 @@ Hay 32 archivos de train y 36 de test. Los Parquet de test disponibles contienen
 
 ### Tabla base y unidad de análisis
 
-<!-- Confirmar: tabla base, clave del caso, variable objetivo, número de casos y definición de una observación. -->
+La tabla base, su clave, el objetivo y la unidad de observación quedaron confirmados mediante la siguiente comprobación reproducible.
 
 Integridad estructural de `train_base.parquet` (Etapa A, paso 2). Fuente: `src/dm_credit/integrity.py`, resultados en `results/integrity_train_base/`, ejecución del 2026-10-10.
 
@@ -180,7 +180,7 @@ Cada comparación conservará entrenamiento `WEEK_NUM < 74` y OOT `WEEK_NUM >= 7
 
 ### Hipótesis iniciales
 
-<!-- Registrar hipótesis verificables sobre fuentes o variables prometedoras. -->
+La tabla base no permite formular hipótesis bivariadas sobre predictores porque carece de ellos. Los perfiles de fuentes relacionadas sugieren revisar en fases posteriores —sin asumir capacidad predictiva— la ausencia estructural, historiales de mora/pagos, importes, categorías casi constantes y variables de alta cardinalidad. Estas son líneas de revisión, no hallazgos causales ni autorización para usar campos cuya disponibilidad temporal no esté demostrada.
 
 ## 2.4 Verificar la calidad de los datos
 
@@ -200,7 +200,7 @@ La comparación de metadatos indica que los nombres de columnas coinciden entre 
 
 En algunas columnas de test el tipo Parquet aparece como `null`; esto ocurre cuando no hay valores observados para esa columna, no significa que la columna falte. En `test_tax_registry_c_1.parquet` hay 0 filas, por lo que sus campos no tienen valores observados. Los fragmentos de train que parecen pertenecer a una misma tabla mantienen esquemas consistentes; algunos fragmentos de test muestran tipos distintos en campos sin valores. Por tanto, estas diferencias deberán resolverse contra el esquema lógico de train y las definiciones antes de preparar el pipeline, sin tratarlas por ahora como errores confirmados.
 
-Fuente: comparación de metadatos Parquet registrada en `results/parquet_inventory.csv` y lectura de los valores de las columnas citadas en los archivos `static_0` y `static_cb_0` disponibles. Este control no incluye todavía una comparación de distribuciones o categorías entre particiones.
+Fuente: comparación de metadatos Parquet registrada en `results/parquet_inventory.csv` y lectura de los valores de las columnas citadas en los archivos `static_0` y `static_cb_0` disponibles. La comparación completa de cobertura, tipos, categorías y rangos quedó posteriormente consolidada por `src/dm_credit/schema_compatibility.py` en `results/schema_compatibility/`; por tanto, esta subsección se conserva solo como control inicial.
 
 ### Perfil de calidad de las fuentes relacionadas
 
@@ -303,8 +303,104 @@ El contrato auditable completo y su condición explícita de fallo están en `in
 
 `safe_left_join` implementa las invariantes mínimas de unicidad y número de filas, y `aggregate_one_row_per_case` ofrece una referencia pequeña para conteos auditables. Las agregaciones de negocio concretas (por ejemplo, último valor válido, suma en ventana, máximo histórico o número de contratos) se definirán por semántica y nunca mezclando primero dos fuentes multirregistro.
 
+### Compatibilidad train/test de las fuentes adicionales (Etapa A, punto 7)
+
+El análisis reproducible está en `src/dm_credit/schema_compatibility.py` y sus resultados en `results/schema_compatibility/`. Consolida los shards por familia lógica a partir de `parquet_inventory.csv`, reutiliza los perfiles de train para tipos y rangos, y lee secuencialmente la muestra local de test. Para las categorías de test que no aparecían entre las cinco más frecuentes guardadas, realiza únicamente una búsqueda dirigida de pertenencia en train, en lotes monohilo; no calcula frecuencias nuevas ni aprende vocabularios desde test.
+
+```bash
+POLARS_MAX_THREADS=1 uv run -m dm_credit.schema_compatibility
+```
+
+#### Cobertura y columnas
+
+Las 17 familias lógicas están presentes en ambos splits. Train tiene 32 archivos físicos y test 36 porque difiere el número de shards en `static_0`, `applprev_1`, `credit_bureau_a_1` y `credit_bureau_a_2`; esto no constituye una diferencia de esquema lógico. Las 503 apariciones de columnas por familia coinciden por nombre salvo `target`, correctamente presente solo en `train_base`. No hay predictores exclusivos de train ni columnas adicionales de test. `test_tax_registry_c_1.parquet` está presente pero vacío; los demás archivos test tienen solo 10 filas. `family_coverage.csv` conserva archivos, filas, columnas compartidas y diferencias por familia.
+
+#### Tipos y coerción
+
+De las 503 columnas, 428 tienen tipo físico idéntico, 53 son convertibles explícitamente al tipo lógico, 17 aparecen físicamente como `null` en al menos un shard test, cuatro fechas requieren validación con un test real porque se almacenan como `Float64` pero sus 10 valores son nulos, y una es `target`. No se confirmó ningún valor no convertible ni incompatibilidad de tipo en la muestra. Las cuatro diferencias potenciales son `static_0.validfrom_1069D` y `static_cb_0.assignmentdate_238D`, `birthdate_574D` y `responsedate_1012D`: son `String` en train, `Float64` sin valores observados en test y su tipo lógico es fecha. Las 17 columnas `null` se consideran sin observaciones, no de tipo lógico `Null`; incluyen fechas, categóricas, booleanas, numéricas y todas las columnas del archivo vacío `tax_registry_c_1`.
+
+El esquema lógico se deriva de train, definiciones oficiales y sufijos Home Credit: `D` se interpreta como fecha `%Y-%m-%d`, `M` como categórica textual, los tipos numéricos `A`/`P`/`L`/`T` conservan la representación compatible definida por train, y claves/partición mantienen tipos enteros. Las diferencias entero/flotante solo se aceptan para enteros si todo valor finito tiene parte fraccionaria cero. Texto booleano solo admite `true`, `false`, `1` o `0`. Toda coerción es explícita y cualquier valor no convertible produce error; nunca se convierte silenciosamente en nulo.
+
+#### Categorías
+
+Se revisaron 112 columnas categóricas o booleanas: 101 tienen todos los valores observados de test confirmados en train (71 ya estaban en el `top-k` y 30 se comprobaron mediante búsqueda dirigida), ocho no tienen categorías observables y tres contienen cuatro categorías no observadas en train:
+
+| Familia             | Columna                     | Categorías desconocidas observadas |
+| ------------------- | --------------------------- | ---------------------------------- |
+| `applprev_1`        | `cancelreason_3545846M`     | `f2052b23`                         |
+| `credit_bureau_a_1` | `financialinstitution_382M` | `da981185`                         |
+| `tax_registry_a_1`  | `name_4527232M`             | `cc68a90a`, `ff9eb829`             |
+
+Esto es una comprobación técnica de la muestra, no una estimación de frecuencia o drift. Los vocabularios se ajustan solo con `WEEK_NUM < 74`; OOT/test nunca los amplían. Todo valor no visto se asigna al bucket reservado `__UNKNOWN__` o se entrega a un codificador con soporte equivalente. Las categorías de train ausentes en estas diez filas no se interpretan por ser una muestra no representativa.
+
+#### Rangos y convertibilidad
+
+No se observaron infinitos, valores numéricos no convertibles ni fechas no parseables. Hay 80 observaciones fuera del rango de train distribuidas en nueve columnas: `base.MONTH` y `base.WEEK_NUM`; `applprev_1.revolvingaccount_394A`; cuatro años `T` de `credit_bureau_a_1` (`dpdmaxdateyear_596T`, `dpdmaxdateyear_896T`, `overdueamountmaxdateyear_2T`, `overdueamountmaxdateyear_994T`); `other_1.num_group1`; y `credit_bureau_a_2.pmts_year_1139T`. Por ejemplo, test contiene `MONTH=202201`, `WEEK_NUM=100` y años hasta 2022, posteriores a los máximos de train. Son alertas técnicas esperables en un corte temporal futuro, no errores ni prueba de drift. Los valores numéricos nuevos se admiten salvo restricción de dominio explícita; infinitos, conversiones fallidas o violaciones de dominio sí bloquean el pipeline. El detalle de mínimos, máximos y conteos está en `range_compatibility.csv`.
+
+#### Contrato de compatibilidad
+
+`compatibility_contract.csv` registra once reglas auditables:
+
+1. Derivar el esquema lógico de train y definiciones, nunca de test.
+2. Permitir `target` únicamente en `train_base`.
+3. Exigir todas las variables seleccionadas al transformar OOT/test.
+4. Alinear y reordenar por nombre, no por posición.
+5. Coercionar explícitamente y fallar ante cualquier valor no convertible.
+6. Tratar columnas físicas `Null` o enteramente nulas como no observadas y aplicarles el tipo lógico de train.
+7. Ajustar imputación, escalado, selección y vocabularios solo con `WEEK_NUM < 74`.
+8. Reservar `__UNKNOWN__` —o soporte equivalente— para categorías desconocidas sin reajustar el codificador.
+9. Admitir rangos numéricos nuevos salvo una regla de dominio explícita y registrarlos como advertencia.
+10. Verificar tras cada transformación las mismas features, orden y tipos, además de ausencia de infinitos.
+11. No usar estadísticas de test para elegir columnas, umbrales o tratamientos.
+
+Producen **error**: predictor requerido ausente, `target` en test, columna no convertible, fecha inválida, fracción al coercionar a entero, infinito, violación explícita de dominio, vocabulario sin manejo de desconocidos o cambio de features/orden/tipos tras transformar. Producen **advertencia**: columna extra no seleccionada, columna física `Null`, categoría desconocida manejable y extensión del rango de train. La diferencia física de las cuatro fechas completamente nulas queda como incompatibilidad potencial que exige validación con el test real, no como error confirmado.
+
+Los reportes son `family_coverage.csv`, `column_schema.csv`, `categorical_compatibility.csv`, `range_compatibility.csv`, `compatibility_contract.csv` y `run_metadata.csv`. Los metadatos dejan explícitos el corte 74, formato de fecha, bucket desconocido, ejecución monohilo y limitación de la muestra. Test se usa exclusivamente para compatibilidad técnica: no participa en imputación, selección, umbrales, escalado, vocabularios ni decisiones de modelado.
+
+## 2.5 Trazabilidad y cierre de los ocho puntos
+
+La siguiente matriz identifica el origen reproducible de cada resultado. Los comandos que leen Parquet se muestran para reproducibilidad, no como instrucción de reejecutarlos durante este cierre documental.
+
+|                   Punto | Estado  | Implementación o comando principal                                                                                                                                                                           | Evidencia                                                                                            | Decisión principal                                                                                                                    |
+| ----------------------: | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+|           1. Inventario | Cerrado | Lectura común en `src/dm_credit/io.py`; inspección de metadatos que produjo el inventario consolidado                                                                                                        | `results/parquet_inventory.csv`                                                                      | Trabajar con 17 familias lógicas y no confundir shards físicos con fuentes distintas.                                                 |
+|   2. Catálogo funcional | Cerrado | `uv run -m dm_credit.variable_catalog`                                                                                                                                                                       | `results/variable_catalog.csv`, `results/variable_catalog_summary.csv`                               | Reservar claves y campos temporales; revisar semántica y disponibilidad antes de admitir predictores.                                 |
+| 3. Calidad e integridad | Cerrado | `uv run -m dm_credit.profiling`; `uv run -m dm_credit.streaming_profiling`; `uv run -m dm_credit.streaming_categories`; `uv run -m dm_credit.streaming_key_integrity`; `uv run -m dm_credit.quality_catalog` | `results/profile_train_*/`, `results/quality_catalog*.csv`, `results/key_integrity_all_families.csv` | No corregir extremos ni eliminar columnas por ausencia sin interpretación; las claves candidatas validadas gobiernan la granularidad. |
+|    4. Objetivo y tiempo | Cerrado | `uv run -m dm_credit.target_analysis --out results/target_analysis`                                                                                                                                          | `results/target_analysis/`                                                                           | Entrenar con `WEEK_NUM < 74`, evaluar OOT con `WEEK_NUM >= 74` y excluir `WEEK_NUM` de predictores.                                   |
+|      5. Métrica oficial | Cerrado | Implementación en `src/dm_credit/baseline.py`; pruebas en `tests/test_baseline.py`                                                                                                                           | `results/metric_review/`                                                                             | Seleccionar modelos por Gini Stability OOT; usar AUC/Gini global, PR AUC, log loss y Brier solo como diagnósticos acordados.          |
+|          6. Integración | Cerrado | `POLARS_MAX_THREADS=1 uv run -m dm_credit.integration_analysis`                                                                                                                                              | `results/integration_analysis/`                                                                      | Filtrar temporalmente y agregar cada familia por separado antes del join; fallar si se rompe cualquier invariante de caso.            |
+|       7. Compatibilidad | Cerrado | `POLARS_MAX_THREADS=1 uv run -m dm_credit.schema_compatibility`                                                                                                                                              | `results/schema_compatibility/`                                                                      | Derivar el esquema y transformaciones de train temporal; coercionar explícitamente y reservar tratamiento para desconocidos.          |
+|        8. Documentación | Cerrado | Auditoría integral de este capítulo y del `README.md`; validación con `git diff --check` y suite completa                                                                                                    | `development/02-comprension-datos.md`, `README.md`                                                   | Transferir un contrato explícito a la fase siguiente sin implementar el capítulo 03.                                                  |
+
+Los módulos auxiliares `src/dm_credit/shard_profile_aggregation.py`, `streaming_profiling.py`, `streaming_categories.py` y `streaming_key_integrity.py` explican cómo se construyeron perfiles agregados, categorías e integridad sin materializar todas las fuentes. Sus interfaces concretas se consultan con `uv run -m dm_credit.<módulo> --help`; algunos requieren rutas de shards y destinos específicos, por lo que la matriz evita presentar argumentos inventados.
+
+### Hechos, inferencias, decisiones y limitaciones
+
+- **Hechos observados:** existen 68 Parquet locales —32 train y 36 test— organizados en 17 familias lógicas. `train_base` contiene 1 526 659 casos únicos y 47 994 positivos (3,14 %). El catálogo contiene 503 apariciones, 471 nombres distintos y 464 nombres con definición oficial. Los perfiles muestran ausencia heterogénea, 32 categóricas casi constantes entre valores observados, alta cardinalidad y extremos que requieren interpretación. Las claves candidatas son únicas, no nulas y no hay filas huérfanas respecto de la base.
+- **Hechos de integración:** los joins directos de fuentes `1:N` multiplican filas; `credit_bureau_a_2` alcanzaría 188 439 823 filas y un factor medio de 123,43× al unirse sin agregar. La unidad final debe seguir siendo una fila por `case_id`.
+- **Inferencias conservadoras:** nombres, sufijos y definiciones oficiales ayudan a interpretar semántica, tipo lógico y posibles riesgos, pero no prueban por sí solos que un campo estuviera disponible en `date_decision`. Campos sin fecha, linaje o evidencia _as-of_, incluidos los marcados en revisión de dominio, no se consideran seguros automáticamente.
+- **Decisiones del equipo:** corte OOT en 74; `WEEK_NUM` fuera de predictores; Gini Stability OOT como criterio primario; cada familia se filtra y agrega independientemente; identificadores, índices de grupo y campos temporales reservados quedan fuera de predictores; test se usa solo para compatibilidad técnica.
+- **Limitaciones de perfilado:** las fuentes grandes se procesaron mediante escaneo streaming, lotes, checkpoints y agregaciones externas. En particular, la cardinalidad de `credit_bureau_a_2` se conserva como cotas en el perfil agregado, no como un `n_unique` exacto por columna. Los `top-k` categóricos son exactos para las categorías reportadas, pero no constituyen vocabularios completos en el catálogo de calidad.
+- **Limitaciones de test:** cada archivo local tiene 10 filas, salvo `test_tax_registry_c_1.parquet`, que está vacío. Cuatro fechas físicamente `Float64` están completamente nulas y no permiten validar la coerción con valores reales. Las cuatro categorías desconocidas y los rangos nuevos observados prueban que el pipeline debe tolerar esos casos, pero la muestra no permite estimar frecuencias ni interpretar extensiones de rango como drift.
+- **Reglas de fallo:** deben bloquear la integración las claves nulas o duplicadas, la alteración del número o conjunto de casos y cualquier join no `1:1` tras agregar. Deben bloquear la compatibilidad los predictores requeridos ausentes, `target` en test, coerciones inválidas, fechas inválidas, fracciones al convertir a entero, infinitos, violaciones de dominio, falta de manejo de desconocidos o cambios de features, orden o tipos. Columnas extra no seleccionadas, tipos físicos `Null`, categorías desconocidas manejables y rangos nuevos son advertencias registrables, no aprendizaje desde test.
+
+### Contrato documental de entrada al capítulo 03
+
+La fase posterior deberá respetar estos prerrequisitos; aquí solo se documentan y **no se implementan**:
+
+1. Conservar exactamente una fila por `case_id` y usar `train_base` como universo de casos.
+2. Crear la partición temporal antes de ajustar cualquier transformación: train con `WEEK_NUM < 74` y OOT con `WEEK_NUM >= 74`, sin solapamiento ni omisiones.
+3. Filtrar cada evento o _snapshot_ por disponibilidad `<= date_decision` y por una ventana retrospectiva definida antes de agregar; excluir preventivamente lo que no tenga evidencia temporal suficiente.
+4. Agregar cada familia lógica de forma independiente a una fila por `case_id`, respetando la jerarquía `num_group1`/`num_group2`, antes de unirla a la base.
+5. Validar después de cada agregación y join la no nulidad y unicidad de `case_id`, el número de filas y el conjunto exacto de casos; fallar explícitamente ante una violación.
+6. Ajustar imputación, codificación, escalado, vocabularios, umbrales y selección exclusivamente con las semanas `< 74`; OOT y test solo reciben transformaciones ya ajustadas.
+7. Reservar `__UNKNOWN__` o soporte equivalente para categorías no vistas, sin ampliar vocabularios con OOT/test.
+8. Alinear columnas por nombre y orden, aplicar el esquema lógico derivado de train y realizar coerciones estrictas; fallar ante valores no convertibles, infinitos o cambios de contrato.
+9. Excluir de predictores `case_id`, `num_group1`, `num_group2`, `date_decision`, `MONTH`, `WEEK_NUM` y `target`; cualquier excepción futura requerirá una decisión explícita y evidencia temporal.
+10. Evaluar finalmente en OOT con Gini Stability como criterio de selección y conservar Gini/AUC global, Gini semanal y su soporte, PR AUC, log loss y Brier como diagnósticos acordados.
+
 ### Conclusión de la fase
 
-La revisión confirma una unidad de análisis identificable, un catálogo funcional completo y perfiles de calidad e integridad de clave para las 17 familias de entrenamiento. El punto 6 queda completado con cardinalidades, cobertura, factores de expansión, revisión temporal conservadora, contrato de integración, código, reportes y pruebas reproducibles. No se detectaron huérfanos ni claves candidatas repetidas, pero el join directo de fuentes históricas puede expandir la base hasta 123,43 veces para una sola familia y mucho más al combinar dos relaciones `1:N`.
+El capítulo 02 queda formalmente cerrado con los ocho puntos completados. La evidencia confirma 68 archivos, 17 familias, una base desbalanceada de 1 526 659 casos, cobertura semántica amplia pero no equivalente a disponibilidad temporal, calidad heterogénea, claves candidatas íntegras, ausencia de huérfanos y riesgo severo de multiplicación en joins directos. El protocolo queda fijado en `WEEK_NUM = 74`, con Gini Stability OOT como métrica primaria y reglas conservadoras de integración y fuga.
 
-Los puntos 1–6 están completados. El punto 7, comparación completa entre train y test, continúa pendiente y no forma parte de este análisis.
+La compatibilidad lógica train/test es completa salvo `target`, esperado solo en train; las coerciones, categorías desconocidas y extensiones de rango tienen tratamiento explícito. La muestra local de test limita cualquier conclusión distributiva. Los asuntos transferidos son la validación de dominio y disponibilidad _as-of_, la definición semántica de agregaciones, el tratamiento de ausencia/extremos/cardinalidad y la implementación de transformaciones bajo el contrato anterior. No se prepararon datos, no se crearon features y no se entrenaron modelos como parte de este cierre.

@@ -15,7 +15,7 @@ El proyecto separa las instrucciones de desarrollo de los borradores del informe
 | `docs/us/`                     | Caso de negocio y _Project Charter_ elaborados por el equipo.                                                                                                                                                    |
 | `docs/` fuera de `docs/us/`    | Índice y materiales entregados por el profesor. No deben modificarse.                                                                                                                                            |
 
-La fase de **Comprensión del negocio** corresponde a [`context/01-entendimiento-empresarial.md`](context/01-entendimiento-empresarial.md) y su borrador para el informe es [`development/01-entendimiento-empresarial.md`](development/01-entendimiento-empresarial.md).
+La fase de **Comprensión del negocio** corresponde a [`context/01-entendimiento-empresarial.md`](context/01-entendimiento-empresarial.md) y su borrador para el informe es [`development/01-entendimiento-empresarial.md`](development/01-entendimiento-empresarial.md). El capítulo 02 de **Comprensión de los datos** está cerrado en [`development/02-comprension-datos.md`](development/02-comprension-datos.md), con trazabilidad de sus ocho puntos, limitaciones y contrato documental para la fase siguiente.
 
 ## Datos
 
@@ -32,16 +32,20 @@ Requiere Python 3.11+. Los datos viven fuera de git (`data/` está ignorado); co
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"      # polars, pyarrow, numpy, scikit-learn, pytest
-pytest                       # verifica el entorno
+pip install -e ".[dev]"              # polars, pyarrow, numpy, scikit-learn, pytest
+uv run --extra dev pytest -q          # suite completa: 81 pruebas al cerrar el capítulo 02
 ```
 
-| Comando                                                                     | Qué hace                                                                                                                                                                                                                                                                                                                            |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `python -m dm_credit.profiling [archivo.parquet] --out results/profile_x`   | Perfilador común: filas/columnas, tipos, nulos, únicos, duplicados, estadísticos numéricos y categorías principales. Sin argumento perfila `train_base`.                                                                                                                                                                            |
-| `python -m dm_credit.integrity [archivo.parquet] --out results/integrity_x` | Integridad estructural de la tabla base: tamaño y estructura, clave (`case_id` nula, repetida, filas duplicadas), tipos incompatibles con el contenido, columnas vacías, coherencia `MONTH`/`WEEK_NUM` con `date_decision` y valores de `target`. Sin argumento revisa `train_base` e indica si algún hallazgo bloquea el baseline. |
-| `python -m dm_credit.baseline --cutoff-week N --model prevalence\|logistic` | Baseline sobre `train_base`: valida el contrato, parte en OOT por `WEEK_NUM`, calcula métricas globales, probabilísticas y los componentes auditables de Gini Stability, y registra el experimento en `results/experiments.jsonl`.                                                                                                  |
-| `POLARS_MAX_THREADS=1 python -m dm_credit.integration_analysis`             | Audita secuencialmente las 17 familias de train: cardinalidad y cobertura por `case_id`, expansión de joins, profundidad 2, disponibilidad temporal y contrato seguro. Escribe evidencia en `results/integration_analysis/` sin materializar joins multirregistro.                                                                  |
+| Comando                                                                     | Qué hace                                                                                                                                                                                                       |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uv run -m dm_credit.profiling [archivo.parquet] --out results/profile_x`   | Perfilador común: filas/columnas, tipos, nulos, únicos, duplicados, estadísticos numéricos y categorías principales. Sin argumento perfila `train_base`.                                                       |
+| `uv run -m dm_credit.integrity [archivo.parquet] --out results/integrity_x` | Integridad estructural de la tabla base: tamaño, clave, tipos, coherencia temporal y objetivo. Sin argumento revisa `train_base`.                                                                              |
+| `uv run -m dm_credit.variable_catalog`                                      | Consolida el catálogo funcional de las 17 familias en `results/variable_catalog*.csv` a partir de perfiles existentes y definiciones oficiales.                                                                |
+| `uv run -m dm_credit.quality_catalog`                                       | Consolida perfiles existentes, sin releer Parquet, en `results/quality_catalog*.csv`.                                                                                                                          |
+| `uv run -m dm_credit.target_analysis --out results/target_analysis`         | Analiza objetivo, semanas y cortes OOT; documenta el corte primario `WEEK_NUM = 74`.                                                                                                                           |
+| `uv run -m dm_credit.baseline --cutoff-week 74 --model prevalence`          | Valida el contrato del baseline y calcula métricas globales, probabilísticas y componentes auditables de Gini Stability. No es necesario ejecutarlo para reproducir los reportes descriptivos del capítulo 02. |
+| `POLARS_MAX_THREADS=1 uv run -m dm_credit.integration_analysis`             | Audita secuencialmente las 17 familias de train: cardinalidad, cobertura, riesgo de joins, disponibilidad temporal y contrato seguro. Escribe `results/integration_analysis/`.                                 |
+| `POLARS_MAX_THREADS=1 uv run -m dm_credit.schema_compatibility`             | Compara las 17 familias lógicas train/test, valida coerciones, categorías desconocidas y rangos, y escribe `results/schema_compatibility/`. Test se usa solo como comprobación técnica.                        |
 
 En código, **toda** lectura pasa por `dm_credit.io` (`load_base("train")`, `load_parquet(ruta)`, `load_feature_definitions()`); no se implementan lectores propios en notebooks.
 
@@ -61,6 +65,10 @@ La selección de modelos usa la métrica oficial **Gini Stability** en OOT: medi
 ### Contrato de integración
 
 La tabla de modelado conserva exactamente una fila por `case_id`. La partición temporal se crea antes de ajustar transformaciones; cada fuente se filtra con información disponible a `date_decision`, se agrega independientemente a una fila por caso y solo entonces se une a `train_base`. Cada join debe preservar número de filas, unicidad y conjunto de casos. Imputación, codificación, selección y estadísticas se ajustan únicamente con `WEEK_NUM < 74`. `case_id`, `num_group1`, `num_group2`, `date_decision`, `MONTH` y `WEEK_NUM` permanecen fuera de los predictores; `target` se usa solo como etiqueta. Las reglas y condiciones explícitas de fallo están en `results/integration_analysis/integration_contract.csv` y el análisis completo en `development/02-comprension-datos.md`.
+
+### Contrato de compatibilidad train/test
+
+El esquema lógico se deriva de train y las definiciones, nunca de test. `target` solo se admite en entrenamiento; OOT/test deben contener las variables seleccionadas, que se alinean por nombre y se coercionan explícitamente con error ante valores no convertibles. Una columna física `Null` se considera sin observaciones y adopta el tipo lógico de train. Imputación, escalado, selección y vocabularios se ajustan exclusivamente con `WEEK_NUM < 74`; las categorías nuevas se asignan a `__UNKNOWN__` (o a un mecanismo equivalente) sin ampliar el vocabulario. Los rangos numéricos nuevos generan advertencia salvo restricción de dominio, mientras que infinitos y fallos de coerción generan error. Tras transformar se verifican features, orden, tipos y ausencia de infinitos. Test no decide columnas, umbrales ni tratamientos. El contrato completo y los reportes están en `results/schema_compatibility/`.
 
 ## Alcance
 
