@@ -26,6 +26,36 @@ from dm_credit.preparation.contracts import (
 )
 
 
+SCREENING_MARKER = "screening"
+
+
+def _reject_screening_artifact(artifact: FamilyFeatureArtifact) -> None:
+    """Screening artifacts (leakage-screen candidates) never enter a feature matrix.
+
+    Generic check, not tied to any family module: a family named ``*__screening``, a
+    manifest ``rules_version`` ending in ``-screening`` or any ``inputs`` mode entry
+    (``mode`` or ``*_mode``) set to ``screening`` marks the artifact as screening.
+    """
+    reasons = []
+    if artifact.family.endswith(f"__{SCREENING_MARKER}"):
+        reasons.append("family name")
+    # same codec as contracts.write_family_features / load_family_artifact (platform default)
+    manifest = json.loads(Path(artifact.manifest_path).read_text())
+    if str(manifest.get("rules_version", "")).endswith(f"-{SCREENING_MARKER}"):
+        reasons.append("rules_version")
+    inputs = manifest.get("inputs") or {}
+    if any(
+        (key == "mode" or key.endswith("_mode")) and value == SCREENING_MARKER
+        for key, value in inputs.items()
+    ):
+        reasons.append("inputs mode")
+    if reasons:
+        raise ValueError(
+            f"family {artifact.family!r} is a screening artifact ({', '.join(reasons)}): "
+            "screening outputs feed the leakage screen only and cannot be assembled"
+        )
+
+
 def _read_verified_artifact(
     artifact: FamilyFeatureArtifact, split: str
 ) -> pl.DataFrame:
@@ -38,6 +68,7 @@ def _read_verified_artifact(
         raise ValueError(
             f"family {artifact.family!r}: supplied artifact differs from its manifest"
         )
+    _reject_screening_artifact(artifact)
     try:
         frame = pl.read_parquet(artifact.data_path)
     except (OSError, pl.exceptions.PolarsError) as exc:

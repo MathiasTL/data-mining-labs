@@ -15,7 +15,8 @@ from dm_credit.preparation.families import bureau
 from dm_credit.preparation.split import partition_base
 
 SPLITS = ("train", "oot", "test")
-DEFAULT_OUTPUT_DIR = io.data_dir() / "artifacts" / "preparation" / "C4-C5-v1"
+# versioned folder follows the adapter rules (C4-C5-v2 reads G2); stale C4-C5-v1 outputs are never reused
+DEFAULT_OUTPUT_DIR = io.data_dir() / "artifacts" / "preparation" / bureau.RULES_VERSION
 DEFAULT_CATALOG = Path("results/preparation/bureau_feature_catalog.csv")
 
 

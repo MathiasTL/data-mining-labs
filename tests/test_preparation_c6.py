@@ -225,3 +225,30 @@ def test_catalog_lists_only_coverage_features(b6_selection, g2_decision, tmp_pat
     assert catalog.height == 6 and set(catalog["role"].to_list()) == {"cobertura"}
     out = contracts.write_feature_catalog(arts, tmp_path / "C8_products.csv")
     assert out.is_file()
+
+
+@pytest.mark.usefixtures("product_data")
+@pytest.mark.parametrize("family", ["debitcard_1", "deposit_1", "other_1"])
+def test_build_family_features_dispatches_products(b6_selection, g2_decision, tmp_path, family):
+    from dm_credit.preparation import build
+
+    artifact = build.build_family_features(
+        family, _base("train"), "train", output_dir=tmp_path / "out",
+        selection_path=b6_selection, g2_path=g2_decision,
+    )
+    direct = pr.BUILDERS[family](
+        _base("train"), "train", output_dir=tmp_path / "direct",
+        selection_path=b6_selection, g2_path=g2_decision,
+    )
+    assert artifact.family == family and artifact.split == "train"
+    assert pl.read_parquet(artifact.data_path).equals(pl.read_parquet(direct.data_path))
+
+
+def test_products_and_registry_families_are_registered_without_collisions():
+    from dm_credit.preparation import build
+    from dm_credit.preparation.families import applications_people, bureau
+
+    assert set(pr.BUILDERS) <= set(build.BUILDERS)
+    assert {"tax_registry_a_1", "tax_registry_b_1", "tax_registry_c_1"} <= set(build.BUILDERS)
+    registries = (applications_people.BUILDERS, bureau.BUILDERS, pr.BUILDERS)
+    assert len(build.BUILDERS) == sum(len(r) for r in registries)

@@ -162,3 +162,17 @@ def test_tax_rebuild_is_deterministic(b6_selection, g2_decision, tmp_path):
         for d in ("a", "b")
     ]
     assert pl.read_parquet(arts[0].data_path).equals(pl.read_parquet(arts[1].data_path))
+
+
+@pytest.mark.usefixtures("tax_data")
+@pytest.mark.parametrize("split", ["train", "test"])
+def test_build_family_features_dispatches_tax_registry_c_1(b6_selection, g2_decision, tmp_path, split):
+    from dm_credit.preparation import build
+
+    artifact = build.build_family_features(
+        "tax_registry_c_1", _base(split), split, output_dir=tmp_path / "out",
+        selection_path=b6_selection, g2_path=g2_decision,
+    )
+    features = pl.read_parquet(artifact.data_path)
+    assert artifact.family == "tax_registry_c_1" and artifact.split == split
+    assert features["case_id"].to_list() == _base(split)["case_id"].to_list()

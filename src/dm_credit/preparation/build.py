@@ -2,7 +2,7 @@
 
 ``build_family_features(family, base, split, *, cutoff_week, output_dir)`` delega en el constructor
 registrado de cada familia. Las familias se registran en ``BUILDERS``; P1 amplía este registro
-con depth 0, productos y bureau.
+con depth 0, productos y bureau. Hoy: applprev/person, bureau (C4-C5) y productos/registros (C6-C7).
 """
 
 from __future__ import annotations
@@ -12,9 +12,18 @@ from pathlib import Path
 import polars as pl
 
 from dm_credit.preparation.contracts import FamilyFeatureArtifact
-from dm_credit.preparation.families import applications_people, applications_people_g2, bureau
+from dm_credit.preparation.families import (
+    applications_people,
+    applications_people_g2,
+    bureau,
+    products_registry,
+)
 
-BUILDERS = {**applications_people.BUILDERS, **bureau.BUILDERS}
+_REGISTRIES = (applications_people.BUILDERS, bureau.BUILDERS, products_registry.BUILDERS)
+_names = [name for registry in _REGISTRIES for name in registry]
+if len(_names) != len(set(_names)):
+    raise RuntimeError(f"family name registered twice: {sorted(n for n in set(_names) if _names.count(n) > 1)}")
+BUILDERS = {name: builder for registry in _REGISTRIES for name, builder in registry.items()}
 G2_CONFIG_INDEX = {"applprev": 0, "person": 1}  # posición de la familia en load_g2_configs()
 
 

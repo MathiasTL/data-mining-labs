@@ -80,10 +80,12 @@ cero predictores por familia. Las cifras previas de 61 características (40 + 17
 predictores y cuatro de cobertura) describen una selección anterior a la decisión G2 y
 no representan el catálogo vigente.
 
-El catálogo C8 completo se generó en `results/preparation/C8_feature_catalog.csv` tras
-las ejecuciones reales de C4–C7. Consolida 278 definiciones únicas: 248 predictores y
-30 características de cobertura. El desglose por catálogos de frente es C1: 4, C2–C3:
-102, C4–C5: 160 y C6–C7: 12. El archivo previo
+El catálogo C8 completo está en `results/preparation/C8_feature_catalog.csv`. Consolida
+124 definiciones únicas: 94 predictores y 30 características de cobertura. El desglose
+por catálogos de frente es C1: 4, C2–C3: 102, C4–C5: 6 y C6–C7: 12. Una versión anterior
+consolidaba 278 definiciones porque incluía 160 de bureau generadas con la versión
+pre-G2 (C4-C5-v1); esas definiciones quedan reemplazadas (ver
+`03-preparacion-C4-C5-ejecucion.md`). El archivo previo
 `C8_feature_catalog_partial.csv` conserva el corte parcial de 106 filas; ya no es el
 catálogo vigente. Para reproducir la consolidación:
 
@@ -95,10 +97,11 @@ El comando requiere los catálogos individuales en `results/preparation/`: `dept
 `applications_people_feature_catalog.csv`, `bureau_feature_catalog.csv` y
 `products_feature_catalog.csv`.
 
-C4–C5 se ejecutaron en train, OOT y test con corte 74; sus artefactos están en
-`data/artifacts/preparation/C4-C5-v1/`. Se obtuvieron 82 características por split para
-`credit_bureau_a` y 78 para `credit_bureau_b`; el catálogo consolidado del frente tiene
-160 definiciones. C6–C7 se ejecutaron en los mismos splits y generaron 12 definiciones
+C4–C5: la ejecución real con corte 74 (82 características por split para
+`credit_bureau_a` y 78 para `credit_bureau_b`, artefactos en
+`data/artifacts/preparation/C4-C5-v1/`) usó la versión pre-G2 y queda reemplazada. La
+versión vigente (C4-C5-v2) lee G2 y, sin columnas aprobadas, solo produce cobertura: el
+catálogo del frente tiene 6 definiciones. La reejecución real está pendiente. C6–C7 se ejecutaron en los mismos splits y generaron 12 definiciones
 de cobertura en `products_feature_catalog.csv`, sin predictores. `C6_products_run.csv`
 registra cobertura y conteos por familia y partición.
 

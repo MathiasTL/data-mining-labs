@@ -359,9 +359,10 @@ def test_screening_artifact_cannot_join_a_matrix_with_the_approved_one(data, tmp
     approved = build_a("train", tmp_path / "out", selection_path, g2_path)
     screening = build_a("train", tmp_path / "out", selection_path, g2, mode="screening")
     base = bfx.base().filter(pl.col("WEEK_NUM") < bfx.CUTOFF)
-    with pytest.raises(ValueError, match="duplicate or reserved feature names"):
-        assemble_feature_matrix(base, [approved, screening], "train", output_dir=tmp_path / "matrix")
-    # alone, the assembler (not owned here) does not check the mode: it stays recognisable by name and manifest
+    for arts in ([approved, screening], [screening]):
+        with pytest.raises(ValueError, match="screening artifact"):
+            assemble_feature_matrix(base, arts, "train", output_dir=tmp_path / "matrix")
+    assert not (tmp_path / "matrix").exists()
     assert screening.family.endswith(bureau.SCREENING_SUFFIX) and bureau.SCREENING_SUBDIR in screening.manifest_path.parts
 
 

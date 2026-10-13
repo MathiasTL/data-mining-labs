@@ -140,3 +140,42 @@ def test_rejects_duplicate_family_artifact(tmp_path):
         assemble_feature_matrix(
             base_frame(), [artifact, artifact], "train", output_dir=tmp_path / "matrix"
         )
+
+
+@pytest.mark.parametrize(
+    "family,rules_version,inputs",
+    [
+        ("family_a__screening", "unversioned", None),
+        ("family_a", "X-v1-screening", None),
+        ("family_a", "X-v1", {"g2_mode": "screening"}),
+        ("family_a", "X-v1", {"mode": "screening"}),
+    ],
+)
+def test_rejects_screening_artifacts_generically(tmp_path, family, rules_version, inputs):
+    frame = pl.DataFrame({"case_id": [1, 2, 3], "family_a__amount__sum__all": [1.0, 2.0, 3.0]})
+    artifact = ct.write_family_features(
+        frame,
+        ct.describe_features(frame, temporal_rule="available at decision"),
+        family=family,
+        split="train",
+        output_dir=tmp_path / "screen",
+        rules_version=rules_version,
+        inputs=inputs,
+    )
+    with pytest.raises(ValueError, match="screening artifact"):
+        assemble_feature_matrix(base_frame(), [artifact], "train", output_dir=tmp_path / "matrix")
+    assert not (tmp_path / "matrix").exists()
+
+
+def test_approved_mode_input_is_not_mistaken_for_screening(tmp_path):
+    frame = pl.DataFrame({"case_id": [1, 2, 3], "family_a__amount__sum__all": [1.0, 2.0, 3.0]})
+    artifact = ct.write_family_features(
+        frame,
+        ct.describe_features(frame, temporal_rule="available at decision"),
+        family="family_a",
+        split="train",
+        output_dir=tmp_path / "ok",
+        rules_version="X-v1",
+        inputs={"g2_mode": "approved"},
+    )
+    assemble_feature_matrix(base_frame(), [artifact], "train", output_dir=tmp_path / "matrix")
