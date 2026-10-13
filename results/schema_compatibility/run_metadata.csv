@@ -1,0 +1,8 @@
+setting,value
+threads,1
+train_source,inventory/profiles plus targeted membership checks for test category candidates
+test_source,local compatibility sample read sequentially
+test_sample_limit,10 rows per file; tax_registry_c_1 has 0
+date_format,%Y-%m-%d
+unknown_category,__UNKNOWN__
+cutoff_week,74

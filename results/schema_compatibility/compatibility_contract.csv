@@ -1,0 +1,12 @@
+order,rule,requirement,handling
+1,train_defined_schema,"Derive logical schema from train and official definitions, never from test.",error if schema has no train definition
+2,target_train_only,Allow target only in train_base.,error if target appears in test or outside train_base
+3,required_predictors,Require every selected predictor when transforming OOT/test.,error on a missing required predictor
+4,name_alignment,"Align and reorder columns by name, never by position.",error on duplicate names; warning for unused extras
+5,strict_coercion,Coerce explicitly to logical types and reject non-convertible values.,error on any non-convertible non-null value
+6,physical_null,"Treat physical Null/all-null columns as unobserved, not as logical types.",warning; cast to train logical type
+7,fit_train_only,"Fit imputation, scaling, selection and vocabularies only on WEEK_NUM < 74.",error if fitted data include OOT/test
+8,unknown_categories,Map unseen OOT/test categories to __UNKNOWN__ or use a supporting encoder; never extend vocabulary.,warning and reserved bucket; error if encoder cannot handle it
+9,new_numeric_ranges,Permit values outside the train range unless an explicit domain constraint exists.,warning for range extension; error only on domain violation/non-finite
+10,post_transform_invariants,"Verify identical features, order, expected types and no infinities after every transform.",error on any invariant violation
+11,test_is_compatibility_only,"Never use test statistics to choose columns, thresholds or treatments.",error/process violation if test influences fitting or design

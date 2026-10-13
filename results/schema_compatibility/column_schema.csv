@@ -1,0 +1,504 @@
+family,column,train_physical_types,test_physical_types,logical_type,compatibility,test_non_null,non_convertible,action
+base,MONTH,Int64,Int64,Int64,exact,10,0,preserve type
+base,WEEK_NUM,Int64,Int64,Int64,exact,10,0,preserve type
+base,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+base,date_decision,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+base,target,Int64,"",Int64,expected_train_only_target,0,0,use only as training label
+static_0,actualdpdtolerance_344P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,amtinstpaidbefduel24m_4187115A,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,annuity_780A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,annuitynextmonth_57A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,applicationcnt_361L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,applications30d_658L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,applicationscnt_1086L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,applicationscnt_464L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,applicationscnt_629L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,applicationscnt_867L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,avgdbddpdlast24m_3658932P,Float64,Float64,Float64,exact,21,0,preserve type
+static_0,avgdbddpdlast3m_4187120P,Float64,Float64,Float64,exact,12,0,preserve type
+static_0,avgdbdtollast24m_4525197P,Float64,Float64,Float64,exact,21,0,preserve type
+static_0,avgdpdtolclosure24_3658938P,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,avginstallast24m_3658937A,Float64,Float64,Float64,exact,21,0,preserve type
+static_0,avglnamtstart24m_4525187A,Float64,Float64,Float64,exact,6,0,preserve type
+static_0,avgmaxdpdlast9m_3716943P,Float64,Float64,Float64,exact,15,0,preserve type
+static_0,avgoutstandbalancel6m_4187114A,Float64,Float64,Float64,exact,17,0,preserve type
+static_0,avgpmtlast12m_4525200A,Float64,Float64,Float64,exact,17,0,preserve type
+static_0,bankacctype_710L,String,String,String,exact,13,0,preserve type
+static_0,cardtype_51L,String,Null;String,String,safe_explicit_coercion,2,0,cast explicitly to String with strict validation
+static_0,case_id,Int64,Int64,Int64,exact,30,0,preserve type
+static_0,clientscnt12m_3712952L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt3m_3712950L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt6m_3712949L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_100L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_1022L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_1071L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_1130L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_136L,Float64,Float64,Float64,exact,0,0,preserve type
+static_0,clientscnt_157L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_257L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_304L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_360L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_493L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_533L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_887L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,clientscnt_946L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,cntincpaycont9m_3716944L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,cntpmts24_3658933L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,commnoinclast6m_3546845L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,credamount_770A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,credtype_322L,String,String,String,exact,30,0,preserve type
+static_0,currdebt_22A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,currdebtcredtyperange_828A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,datefirstoffer_1144D,String,String,Date,safe_explicit_coercion,17,0,cast explicitly to Date with strict validation
+static_0,datelastinstal40dpd_247D,String,Null;String,Date,safe_explicit_coercion,3,0,cast explicitly to Date with strict validation
+static_0,datelastunpaid_3546854D,String,String,Date,safe_explicit_coercion,16,0,cast explicitly to Date with strict validation
+static_0,daysoverduetolerancedd_3976961L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,deferredmnthsnum_166L,Float64,Float64,Float64,exact,4,0,preserve type
+static_0,disbursedcredamount_1113A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,disbursementtype_67L,String,String,String,exact,25,0,preserve type
+static_0,downpmt_116A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,dtlastpmtallstes_4499206D,String,String,Date,safe_explicit_coercion,11,0,cast explicitly to Date with strict validation
+static_0,eir_270L,Float64,Float64,Float64,exact,28,0,preserve type
+static_0,equalitydataagreement_891L,Boolean,Boolean,Boolean,exact,4,0,preserve type
+static_0,equalityempfrom_62L,Boolean,Null,Boolean,test_physical_null,0,0,cast explicitly to Boolean; no test values observed
+static_0,firstclxcampaign_1125D,String,String,Date,safe_explicit_coercion,15,0,cast explicitly to Date with strict validation
+static_0,firstdatedue_489D,String,String,Date,safe_explicit_coercion,24,0,cast explicitly to Date with strict validation
+static_0,homephncnt_628L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,inittransactionamount_650A,Float64,Float64,Float64,exact,2,0,preserve type
+static_0,inittransactioncode_186L,String,String,String,exact,30,0,preserve type
+static_0,interestrate_311L,Float64,Float64,Float64,exact,28,0,preserve type
+static_0,interestrategrace_34L,Float64,Float64,Float64,exact,0,0,preserve type
+static_0,isbidproduct_1095L,Boolean,Boolean,Boolean,exact,30,0,preserve type
+static_0,isbidproductrequest_292L,Boolean,Boolean;Null,Boolean,safe_explicit_coercion,2,0,cast explicitly to Boolean with strict validation
+static_0,isdebitcard_729L,Boolean,Boolean,Boolean,exact,28,0,preserve type
+static_0,lastactivateddate_801D,String,String,Date,safe_explicit_coercion,24,0,cast explicitly to Date with strict validation
+static_0,lastapplicationdate_877D,String,String,Date,safe_explicit_coercion,30,0,cast explicitly to Date with strict validation
+static_0,lastapprcommoditycat_1041M,String,String,String,exact,30,0,preserve type
+static_0,lastapprcommoditytypec_5251766M,String,String,String,exact,30,0,preserve type
+static_0,lastapprcredamount_781A,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,lastapprdate_640D,String,String,Date,safe_explicit_coercion,24,0,cast explicitly to Date with strict validation
+static_0,lastcancelreason_561M,String,String,String,exact,30,0,preserve type
+static_0,lastdelinqdate_224D,String,String,Date,safe_explicit_coercion,13,0,cast explicitly to Date with strict validation
+static_0,lastdependentsnum_448L,Float64,Float64,Float64,exact,0,0,preserve type
+static_0,lastotherinc_902A,Float64,Float64,Float64,exact,0,0,preserve type
+static_0,lastotherlnsexpense_631A,Float64,Float64,Float64,exact,0,0,preserve type
+static_0,lastrejectcommoditycat_161M,String,String,String,exact,30,0,preserve type
+static_0,lastrejectcommodtypec_5251769M,String,String,String,exact,30,0,preserve type
+static_0,lastrejectcredamount_222A,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,lastrejectdate_50D,String,String,Date,safe_explicit_coercion,24,0,cast explicitly to Date with strict validation
+static_0,lastrejectreason_759M,String,String,String,exact,30,0,preserve type
+static_0,lastrejectreasonclient_4145040M,String,String,String,exact,30,0,preserve type
+static_0,lastrepayingdate_696D,String,Null,Date,test_physical_null,0,0,cast explicitly to Date; no test values observed
+static_0,lastst_736L,String,String,String,exact,30,0,preserve type
+static_0,maininc_215A,Float64,Float64,Float64,exact,19,0,preserve type
+static_0,mastercontrelectronic_519L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,mastercontrexist_109L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxannuity_159A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxannuity_4075009A,Float64,Float64,Float64,exact,0,0,preserve type
+static_0,maxdbddpdlast1m_3658939P,Float64,Float64,Float64,exact,10,0,preserve type
+static_0,maxdbddpdtollast12m_3658940P,Float64,Float64,Float64,exact,17,0,preserve type
+static_0,maxdbddpdtollast6m_4187119P,Float64,Float64,Float64,exact,14,0,preserve type
+static_0,maxdebt4_972A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdfrom6mto36m_3546853P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdinstldate_3546855D,String,String,Date,safe_explicit_coercion,19,0,cast explicitly to Date with strict validation
+static_0,maxdpdinstlnum_3546846P,Float64,Float64,Float64,exact,18,0,preserve type
+static_0,maxdpdlast12m_727P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdlast24m_143P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdlast3m_392P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdlast6m_474P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdlast9m_1059P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxdpdtolerance_374P,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,maxinstallast24m_3658928A,Float64,Float64,Float64,exact,21,0,preserve type
+static_0,maxlnamtstart6m_4525199A,Float64,Float64,Float64,exact,18,0,preserve type
+static_0,maxoutstandbalancel12m_4187113A,Float64,Float64,Float64,exact,18,0,preserve type
+static_0,maxpmtlast3m_4525190A,Float64,Float64,Float64,exact,12,0,preserve type
+static_0,mindbddpdlast24m_3658935P,Float64,Float64,Float64,exact,21,0,preserve type
+static_0,mindbdtollast24m_4525191P,Float64,Float64,Float64,exact,21,0,preserve type
+static_0,mobilephncnt_593L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,monthsannuity_845L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numactivecreds_622L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numactivecredschannel_414L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numactiverelcontr_750L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numcontrs3months_479L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numincomingpmts_3546848L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstlallpaidearly3d_817L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstls_657L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numinstlsallpaid_934L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstlswithdpd10_728L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstlswithdpd5_4187116L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstlswithoutdpd_562L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstmatpaidtearly2d_4499204L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaid_4499208L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearly3d_3546850L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearly3dest_4493216L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearly5d_1087L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearly5dest_4493211L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearly5dobd_4499205L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearly_338L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidearlyest_4493214L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidlastcontr_4325080L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstpaidlate1d_3546852L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstregularpaid_973L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstregularpaidest_4493210L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinsttopaygr_769L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinsttopaygrest_4493213L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstunpaidmax_3546851L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numinstunpaidmaxest_4493212L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,numnotactivated_1143L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numpmtchanneldd_318L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,numrejects9m_859L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,opencred_647L,Boolean,Boolean,Boolean,exact,30,0,preserve type
+static_0,paytype1st_925L,String,String,String,exact,8,0,preserve type
+static_0,paytype_783L,String,String,String,exact,8,0,preserve type
+static_0,payvacationpostpone_4187118D,String,Null;String,Date,safe_explicit_coercion,1,0,cast explicitly to Date with strict validation
+static_0,pctinstlsallpaidearl3d_427L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,pctinstlsallpaidlat10d_839L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,pctinstlsallpaidlate1d_3546856L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,pctinstlsallpaidlate4d_3546849L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,pctinstlsallpaidlate6d_3546844L,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,pmtnum_254L,Float64,Float64,Float64,exact,28,0,preserve type
+static_0,posfpd10lastmonth_333P,Float64,Float64,Float64,exact,29,0,preserve type
+static_0,posfpd30lastmonth_3976960P,Float64,Float64,Float64,exact,28,0,preserve type
+static_0,posfstqpd30lastmonth_3976962P,Float64,Float64,Float64,exact,28,0,preserve type
+static_0,previouscontdistrict_112M,String,String,String,exact,30,0,preserve type
+static_0,price_1097A,Float64,Float64,Float64,exact,19,0,preserve type
+static_0,sellerplacecnt_915L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,sellerplacescnt_216L,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,sumoutstandtotal_3546847A,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,sumoutstandtotalest_4493215A,Float64,Float64,Float64,exact,24,0,preserve type
+static_0,totaldebt_9A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,totalsettled_863A,Float64,Float64,Float64,exact,30,0,preserve type
+static_0,totinstallast1m_4525188A,Float64,Float64,Float64,exact,12,0,preserve type
+static_0,twobodfilling_608L,String,String,String,exact,30,0,preserve type
+static_0,typesuite_864L,String,String,String,exact,5,0,preserve type
+static_0,validfrom_1069D,String,Float64,Date,potential_requires_real_test,0,0,cast explicitly to Date; sample has no values
+static_cb_0,assignmentdate_238D,String,Float64,Date,potential_requires_real_test,0,0,cast explicitly to Date; sample has no values
+static_cb_0,assignmentdate_4527235D,String,Null,Date,test_physical_null,0,0,cast explicitly to Date; no test values observed
+static_cb_0,assignmentdate_4955616D,String,String,Date,safe_explicit_coercion,4,0,cast explicitly to Date with strict validation
+static_cb_0,birthdate_574D,String,Float64,Date,potential_requires_real_test,0,0,cast explicitly to Date; sample has no values
+static_cb_0,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+static_cb_0,contractssum_5085716L,Float64,Float64,Float64,exact,9,0,preserve type
+static_cb_0,dateofbirth_337D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+static_cb_0,dateofbirth_342D,String,Null,Date,test_physical_null,0,0,cast explicitly to Date; no test values observed
+static_cb_0,days120_123L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,days180_256L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,days30_165L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,days360_512L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,days90_310L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,description_5085714M,String,String,String,exact,10,0,preserve type
+static_cb_0,education_1103M,String,String,String,exact,10,0,preserve type
+static_cb_0,education_88M,String,String,String,exact,10,0,preserve type
+static_cb_0,firstquarter_103L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,for3years_128L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,for3years_504L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,for3years_584L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,formonth_118L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,formonth_206L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,formonth_535L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,forquarter_1017L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,forquarter_462L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,forquarter_634L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,fortoday_1092L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,forweek_1077L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,forweek_528L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,forweek_601L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,foryear_618L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,foryear_818L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,foryear_850L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,fourthquarter_440L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,maritalst_385M,String,String,String,exact,10,0,preserve type
+static_cb_0,maritalst_893M,String,String,String,exact,10,0,preserve type
+static_cb_0,numberofqueries_373L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,pmtaverage_3A,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,pmtaverage_4527227A,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,pmtaverage_4955615A,Float64,Float64,Float64,exact,4,0,preserve type
+static_cb_0,pmtcount_4527229L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,pmtcount_4955617L,Float64,Float64,Float64,exact,4,0,preserve type
+static_cb_0,pmtcount_693L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,pmtscount_423L,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,pmtssum_45A,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,requesttype_4525192L,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+static_cb_0,responsedate_1012D,String,Float64,Date,potential_requires_real_test,0,0,cast explicitly to Date; sample has no values
+static_cb_0,responsedate_4527233D,String,Null,Date,test_physical_null,0,0,cast explicitly to Date; no test values observed
+static_cb_0,responsedate_4917613D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+static_cb_0,riskassesment_302T,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+static_cb_0,riskassesment_940T,Float64,Float64,Float64,exact,0,0,preserve type
+static_cb_0,secondquarter_766L,Float64,Float64,Float64,exact,10,0,preserve type
+static_cb_0,thirdquarter_1082L,Float64,Float64,Float64,exact,10,0,preserve type
+applprev_1,actualdpd_943P,Float64,Float64,Float64,exact,30,0,preserve type
+applprev_1,annuity_853A,Float64,Float64,Float64,exact,30,0,preserve type
+applprev_1,approvaldate_319D,String,String,Date,safe_explicit_coercion,19,0,cast explicitly to Date with strict validation
+applprev_1,byoccupationinc_3656910L,Float64,Float64,Float64,exact,8,0,preserve type
+applprev_1,cancelreason_3545846M,String,String,String,exact,30,0,preserve type
+applprev_1,case_id,Int64,Int64,Int64,exact,30,0,preserve type
+applprev_1,childnum_21L,Float64,Float64,Float64,exact,10,0,preserve type
+applprev_1,creationdate_885D,String,String,Date,safe_explicit_coercion,30,0,cast explicitly to Date with strict validation
+applprev_1,credacc_actualbalance_314A,Float64,Float64,Float64,exact,5,0,preserve type
+applprev_1,credacc_credlmt_575A,Float64,Float64,Float64,exact,30,0,preserve type
+applprev_1,credacc_maxhisbal_375A,Float64,Float64,Float64,exact,5,0,preserve type
+applprev_1,credacc_minhisbal_90A,Float64,Float64,Float64,exact,5,0,preserve type
+applprev_1,credacc_status_367L,String,Null;String,String,safe_explicit_coercion,5,0,cast explicitly to String with strict validation
+applprev_1,credacc_transactions_402L,Float64,Float64,Float64,exact,5,0,preserve type
+applprev_1,credamount_590A,Float64,Float64,Float64,exact,30,0,preserve type
+applprev_1,credtype_587L,String,String,String,exact,30,0,preserve type
+applprev_1,currdebt_94A,Float64,Float64,Float64,exact,24,0,preserve type
+applprev_1,dateactivated_425D,String,String,Date,safe_explicit_coercion,16,0,cast explicitly to Date with strict validation
+applprev_1,district_544M,String,String,String,exact,30,0,preserve type
+applprev_1,downpmt_134A,Float64,Float64,Float64,exact,30,0,preserve type
+applprev_1,dtlastpmt_581D,String,String,Date,safe_explicit_coercion,12,0,cast explicitly to Date with strict validation
+applprev_1,dtlastpmtallstes_3545839D,String,String,Date,safe_explicit_coercion,17,0,cast explicitly to Date with strict validation
+applprev_1,education_1138M,String,String,String,exact,30,0,preserve type
+applprev_1,employedfrom_700D,String,String,Date,safe_explicit_coercion,11,0,cast explicitly to Date with strict validation
+applprev_1,familystate_726L,String,String,String,exact,18,0,preserve type
+applprev_1,firstnonzeroinstldate_307D,String,String,Date,safe_explicit_coercion,21,0,cast explicitly to Date with strict validation
+applprev_1,inittransactioncode_279L,String,String,String,exact,30,0,preserve type
+applprev_1,isbidproduct_390L,Boolean,Boolean,Boolean,exact,30,0,preserve type
+applprev_1,isdebitcard_527L,Boolean,Boolean;Null,Boolean,safe_explicit_coercion,9,0,cast explicitly to Boolean with strict validation
+applprev_1,mainoccupationinc_437A,Float64,Float64,Float64,exact,26,0,preserve type
+applprev_1,maxdpdtolerance_577P,Float64,Float64,Float64,exact,24,0,preserve type
+applprev_1,num_group1,Int64,Int64,Int64,exact,30,0,preserve type
+applprev_1,outstandingdebt_522A,Float64,Float64,Float64,exact,24,0,preserve type
+applprev_1,pmtnum_8L,Float64,Float64,Float64,exact,22,0,preserve type
+applprev_1,postype_4733339M,String,String,String,exact,30,0,preserve type
+applprev_1,profession_152M,String,String,String,exact,30,0,preserve type
+applprev_1,rejectreason_755M,String,String,String,exact,30,0,preserve type
+applprev_1,rejectreasonclient_4145042M,String,String,String,exact,30,0,preserve type
+applprev_1,revolvingaccount_394A,Float64,Float64,Float64,exact,5,0,preserve type
+applprev_1,status_219L,String,String,String,exact,30,0,preserve type
+applprev_1,tenor_203L,Float64,Float64,Float64,exact,22,0,preserve type
+credit_bureau_a_1,annualeffectiverate_199L,Float64,Float64,Float64,exact,13,0,preserve type
+credit_bureau_a_1,annualeffectiverate_63L,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_a_1,case_id,Int64,Int64,Int64,exact,50,0,preserve type
+credit_bureau_a_1,classificationofcontr_13M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,classificationofcontr_400M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,contractst_545M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,contractst_964M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,contractsum_5085717L,Float64,Float64,Float64,exact,11,0,preserve type
+credit_bureau_a_1,credlmt_230A,Float64,Float64,Float64,exact,6,0,preserve type
+credit_bureau_a_1,credlmt_935A,Float64,Float64,Float64,exact,8,0,preserve type
+credit_bureau_a_1,dateofcredend_289D,String,String,Date,safe_explicit_coercion,15,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,dateofcredend_353D,String,String,Date,safe_explicit_coercion,44,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,dateofcredstart_181D,String,String,Date,safe_explicit_coercion,44,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,dateofcredstart_739D,String,String,Date,safe_explicit_coercion,15,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,dateofrealrepmt_138D,String,String,Date,safe_explicit_coercion,44,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,debtoutstand_525A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,debtoverdue_47A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,description_351M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,dpdmax_139P,Float64,Float64,Float64,exact,14,0,preserve type
+credit_bureau_a_1,dpdmax_757P,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,dpdmaxdatemonth_442T,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,dpdmaxdatemonth_89T,Float64,Float64,Float64,exact,14,0,preserve type
+credit_bureau_a_1,dpdmaxdateyear_596T,Float64,Float64,Float64,exact,14,0,preserve type
+credit_bureau_a_1,dpdmaxdateyear_896T,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,financialinstitution_382M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,financialinstitution_591M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,instlamount_768A,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,instlamount_852A,Float64,Float64,Float64,exact,6,0,preserve type
+credit_bureau_a_1,interestrate_508L,Float64,Float64,Float64,exact,0,0,preserve type
+credit_bureau_a_1,lastupdate_1112D,String,String,Date,safe_explicit_coercion,15,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,lastupdate_388D,String,String,Date,safe_explicit_coercion,44,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,monthlyinstlamount_332A,Float64,Float64,Float64,exact,14,0,preserve type
+credit_bureau_a_1,monthlyinstlamount_674A,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,nominalrate_281L,Float64,Float64,Float64,exact,11,0,preserve type
+credit_bureau_a_1,nominalrate_498L,Float64,Float64,Float64,exact,16,0,preserve type
+credit_bureau_a_1,num_group1,Int64,Float64;Int64,Int64,safe_explicit_coercion,50,0,cast explicitly to Int64 with strict validation
+credit_bureau_a_1,numberofcontrsvalue_258L,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,numberofcontrsvalue_358L,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,numberofinstls_229L,Float64,Float64,Float64,exact,38,0,preserve type
+credit_bureau_a_1,numberofinstls_320L,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,numberofoutstandinstls_520L,Float64,Float64,Float64,exact,38,0,preserve type
+credit_bureau_a_1,numberofoutstandinstls_59L,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,numberofoverdueinstlmax_1039L,Float64,Float64,Float64,exact,15,0,preserve type
+credit_bureau_a_1,numberofoverdueinstlmax_1151L,Float64,Float64,Float64,exact,44,0,preserve type
+credit_bureau_a_1,numberofoverdueinstlmaxdat_148D,String,Null;String,Date,safe_explicit_coercion,14,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,numberofoverdueinstlmaxdat_641D,String,Null;String,Date,safe_explicit_coercion,1,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,numberofoverdueinstls_725L,Float64,Float64,Float64,exact,14,0,preserve type
+credit_bureau_a_1,numberofoverdueinstls_834L,Float64,Float64,Float64,exact,44,0,preserve type
+credit_bureau_a_1,outstandingamount_354A,Float64,Float64,Float64,exact,38,0,preserve type
+credit_bureau_a_1,outstandingamount_362A,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,overdueamount_31A,Float64,Float64,Float64,exact,44,0,preserve type
+credit_bureau_a_1,overdueamount_659A,Float64,Float64,Float64,exact,14,0,preserve type
+credit_bureau_a_1,overdueamountmax2_14A,Float64,Float64,Float64,exact,15,0,preserve type
+credit_bureau_a_1,overdueamountmax2_398A,Float64,Float64,Float64,exact,44,0,preserve type
+credit_bureau_a_1,overdueamountmax2date_1002D,String,Null;String,Date,safe_explicit_coercion,13,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,overdueamountmax2date_1142D,String,Null;String,Date,safe_explicit_coercion,1,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,overdueamountmax_155A,Float64,Float64,Float64,exact,15,0,preserve type
+credit_bureau_a_1,overdueamountmax_35A,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,overdueamountmaxdatemonth_284T,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,overdueamountmaxdatemonth_365T,Float64,Float64,Float64,exact,15,0,preserve type
+credit_bureau_a_1,overdueamountmaxdateyear_2T,Float64,Float64,Float64,exact,15,0,preserve type
+credit_bureau_a_1,overdueamountmaxdateyear_994T,Float64,Float64,Float64,exact,43,0,preserve type
+credit_bureau_a_1,periodicityofpmts_1102L,Float64,Float64,Float64,exact,31,0,preserve type
+credit_bureau_a_1,periodicityofpmts_837L,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,prolongationcount_1120L,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,prolongationcount_599L,Float64,Float64,Float64,exact,0,0,preserve type
+credit_bureau_a_1,purposeofcred_426M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,purposeofcred_874M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,refreshdate_3813885D,String,String,Date,safe_explicit_coercion,36,0,cast explicitly to Date with strict validation
+credit_bureau_a_1,residualamount_488A,Float64,Float64,Float64,exact,6,0,preserve type
+credit_bureau_a_1,residualamount_856A,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,subjectrole_182M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,subjectrole_93M,String,String,String,exact,50,0,preserve type
+credit_bureau_a_1,totalamount_6A,Float64,Float64,Float64,exact,38,0,preserve type
+credit_bureau_a_1,totalamount_996A,Float64,Float64,Float64,exact,7,0,preserve type
+credit_bureau_a_1,totaldebtoverduevalue_178A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,totaldebtoverduevalue_718A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,totaloutstanddebtvalue_39A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_a_1,totaloutstanddebtvalue_668A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_b_1,amount_1115A,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+credit_bureau_b_1,classificationofcontr_1114M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,contractdate_551D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+credit_bureau_b_1,contractmaturitydate_151D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+credit_bureau_b_1,contractst_516M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,contracttype_653M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,credlmt_1052A,Float64,Float64,Float64,exact,2,0,preserve type
+credit_bureau_b_1,credlmt_228A,Float64,Float64,Float64,exact,2,0,preserve type
+credit_bureau_b_1,credlmt_3940954A,Float64,Float64,Float64,exact,6,0,preserve type
+credit_bureau_b_1,credor_3940957M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,credquantity_1099L,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,credquantity_984L,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_b_1,debtpastduevalue_732A,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,debtvalue_227A,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,dpd_550P,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,dpd_733P,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_b_1,dpdmax_851P,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,dpdmaxdatemonth_804T,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,dpdmaxdateyear_742T,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,installmentamount_644A,Float64,Float64,Float64,exact,5,0,preserve type
+credit_bureau_b_1,installmentamount_833A,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,instlamount_892A,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,interesteffectiverate_369L,Float64,Float64,Float64,exact,2,0,preserve type
+credit_bureau_b_1,interestrateyearly_538L,Float64,Float64,Float64,exact,3,0,preserve type
+credit_bureau_b_1,lastupdate_260D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+credit_bureau_b_1,maxdebtpduevalodued_3940955A,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+credit_bureau_b_1,numberofinstls_810L,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,overdueamountmax_950A,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,overdueamountmaxdatemonth_494T,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,overdueamountmaxdateyear_432T,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,periodicityofpmts_997L,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+credit_bureau_b_1,periodicityofpmts_997M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,pmtdaysoverdue_1135P,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_1,pmtmethod_731M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,pmtnumpending_403L,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,purposeofcred_722M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,residualamount_1093A,Float64,Float64,Float64,exact,2,0,preserve type
+credit_bureau_b_1,residualamount_127A,Float64,Float64,Float64,exact,2,0,preserve type
+credit_bureau_b_1,residualamount_3940956A,Float64,Float64,Float64,exact,6,0,preserve type
+credit_bureau_b_1,subjectrole_326M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,subjectrole_43M,String,String,String,exact,10,0,preserve type
+credit_bureau_b_1,totalamount_503A,Float64,Float64,Float64,exact,4,0,preserve type
+credit_bureau_b_1,totalamount_881A,Float64,Float64,Float64,exact,5,0,preserve type
+debitcard_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+debitcard_1,last180dayaveragebalance_704A,Float64,Float64,Float64,exact,0,0,preserve type
+debitcard_1,last180dayturnover_1134A,Float64,Float64,Float64,exact,0,0,preserve type
+debitcard_1,last30dayturnover_651A,Float64,Float64,Float64,exact,0,0,preserve type
+debitcard_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+debitcard_1,openingdate_857D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+deposit_1,amount_416A,Float64,Float64,Float64,exact,10,0,preserve type
+deposit_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+deposit_1,contractenddate_991D,String,String,Date,safe_explicit_coercion,4,0,cast explicitly to Date with strict validation
+deposit_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+deposit_1,openingdate_313D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+other_1,amtdebitincoming_4809443A,Float64,Float64,Float64,exact,10,0,preserve type
+other_1,amtdebitoutgoing_4809440A,Float64,Float64,Float64,exact,10,0,preserve type
+other_1,amtdepositbalance_4809441A,Float64,Float64,Float64,exact,10,0,preserve type
+other_1,amtdepositincoming_4809444A,Float64,Float64,Float64,exact,10,0,preserve type
+other_1,amtdepositoutgoing_4809442A,Float64,Float64,Float64,exact,10,0,preserve type
+other_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+other_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+person_1,birth_259D,String,String,Date,safe_explicit_coercion,6,0,cast explicitly to Date with strict validation
+person_1,birthdate_87D,String,String,Date,safe_explicit_coercion,2,0,cast explicitly to Date with strict validation
+person_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+person_1,childnum_185L,Float64,Float64,Float64,exact,1,0,preserve type
+person_1,contaddr_district_15M,String,String,String,exact,10,0,preserve type
+person_1,contaddr_matchlist_1032L,Boolean,Boolean,Boolean,exact,5,0,preserve type
+person_1,contaddr_smempladdr_334L,Boolean,Boolean,Boolean,exact,5,0,preserve type
+person_1,contaddr_zipcode_807M,String,String,String,exact,10,0,preserve type
+person_1,education_927M,String,String,String,exact,10,0,preserve type
+person_1,empl_employedfrom_271D,String,String,Date,safe_explicit_coercion,1,0,cast explicitly to Date with strict validation
+person_1,empl_employedtotal_800L,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+person_1,empl_industry_691L,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+person_1,empladdr_district_926M,String,String,String,exact,10,0,preserve type
+person_1,empladdr_zipcode_114M,String,String,String,exact,10,0,preserve type
+person_1,familystate_447L,String,String,String,exact,4,0,preserve type
+person_1,gender_992L,String,String,String,exact,2,0,preserve type
+person_1,housetype_905L,String,String,String,exact,3,0,preserve type
+person_1,housingtype_772L,String,String,String,exact,1,0,preserve type
+person_1,incometype_1044T,String,String,String,exact,6,0,preserve type
+person_1,isreference_387L,Boolean,Boolean,Boolean,exact,2,0,preserve type
+person_1,language1_981M,String,String,String,exact,10,0,preserve type
+person_1,mainoccupationinc_384A,Float64,Float64,Float64,exact,6,0,preserve type
+person_1,maritalst_703L,String,String,String,exact,1,0,preserve type
+person_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+person_1,personindex_1023L,Float64,Float64,Float64,exact,10,0,preserve type
+person_1,persontype_1072L,Float64,Float64,Float64,exact,10,0,preserve type
+person_1,persontype_792L,Float64,Float64,Float64,exact,10,0,preserve type
+person_1,registaddr_district_1083M,String,String,String,exact,10,0,preserve type
+person_1,registaddr_zipcode_184M,String,String,String,exact,10,0,preserve type
+person_1,relationshiptoclient_415T,String,String,String,exact,4,0,preserve type
+person_1,relationshiptoclient_642T,String,String,String,exact,4,0,preserve type
+person_1,remitter_829L,Boolean,Boolean,Boolean,exact,4,0,preserve type
+person_1,role_1084L,String,String,String,exact,10,0,preserve type
+person_1,role_993L,String,String,String,exact,2,0,preserve type
+person_1,safeguarantyflag_411L,Boolean,Boolean,Boolean,exact,6,0,preserve type
+person_1,sex_738L,String,String,String,exact,6,0,preserve type
+person_1,type_25L,String,String,String,exact,10,0,preserve type
+tax_registry_a_1,amount_4527230A,Float64,Float64,Float64,exact,10,0,preserve type
+tax_registry_a_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+tax_registry_a_1,name_4527232M,String,String,String,exact,10,0,preserve type
+tax_registry_a_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+tax_registry_a_1,recorddate_4527225D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+tax_registry_b_1,amount_4917619A,Float64,Float64,Float64,exact,10,0,preserve type
+tax_registry_b_1,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+tax_registry_b_1,deductiondate_4917603D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+tax_registry_b_1,name_4917606M,String,String,String,exact,10,0,preserve type
+tax_registry_b_1,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+tax_registry_c_1,case_id,Int64,Null,Int64,test_physical_null,0,0,cast explicitly to Int64; no test values observed
+tax_registry_c_1,employername_160M,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+tax_registry_c_1,num_group1,Int64,Null,Int64,test_physical_null,0,0,cast explicitly to Int64; no test values observed
+tax_registry_c_1,pmtamount_36A,Float64,Null,Float64,test_physical_null,0,0,cast explicitly to Float64; no test values observed
+tax_registry_c_1,processingdate_168D,String,Null,Date,test_physical_null,0,0,cast explicitly to Date; no test values observed
+applprev_2,cacccardblochreas_147M,String,String,String,exact,10,0,preserve type
+applprev_2,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+applprev_2,conts_type_509L,String,String,String,exact,6,0,preserve type
+applprev_2,credacc_cards_status_52L,String,Null,String,test_physical_null,0,0,cast explicitly to String; no test values observed
+applprev_2,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+applprev_2,num_group2,Int64,Int64,Int64,exact,10,0,preserve type
+credit_bureau_a_2,case_id,Int64,Int64,Int64,exact,120,0,preserve type
+credit_bureau_a_2,collater_typofvalofguarant_298M,String,String,String,exact,120,0,preserve type
+credit_bureau_a_2,collater_typofvalofguarant_407M,String,String,String,exact,120,0,preserve type
+credit_bureau_a_2,collater_valueofguarantee_1124L,Float64,Float64,Float64,exact,28,0,preserve type
+credit_bureau_a_2,collater_valueofguarantee_876L,Float64,Float64,Float64,exact,67,0,preserve type
+credit_bureau_a_2,collaterals_typeofguarante_359M,String,String,String,exact,120,0,preserve type
+credit_bureau_a_2,collaterals_typeofguarante_669M,String,String,String,exact,120,0,preserve type
+credit_bureau_a_2,num_group1,Int64,Int64,Int64,exact,120,0,preserve type
+credit_bureau_a_2,num_group2,Int64,Int64,Int64,exact,120,0,preserve type
+credit_bureau_a_2,pmts_dpd_1073P,Float64,Float64,Float64,exact,19,0,preserve type
+credit_bureau_a_2,pmts_dpd_303P,Float64,Float64,Float64,exact,22,0,preserve type
+credit_bureau_a_2,pmts_month_158T,Float64,Float64,Float64,exact,70,0,preserve type
+credit_bureau_a_2,pmts_month_706T,Float64,Float64,Float64,exact,108,0,preserve type
+credit_bureau_a_2,pmts_overdue_1140A,Float64,Float64,Float64,exact,20,0,preserve type
+credit_bureau_a_2,pmts_overdue_1152A,Float64,Float64,Float64,exact,22,0,preserve type
+credit_bureau_a_2,pmts_year_1139T,Float64,Float64,Float64,exact,70,0,preserve type
+credit_bureau_a_2,pmts_year_507T,Float64,Float64,Float64,exact,108,0,preserve type
+credit_bureau_a_2,subjectroles_name_541M,String,String,String,exact,120,0,preserve type
+credit_bureau_a_2,subjectroles_name_838M,String,String,String,exact,120,0,preserve type
+credit_bureau_b_2,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+credit_bureau_b_2,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+credit_bureau_b_2,num_group2,Int64,Int64,Int64,exact,10,0,preserve type
+credit_bureau_b_2,pmts_date_1107D,String,String,Date,safe_explicit_coercion,10,0,cast explicitly to Date with strict validation
+credit_bureau_b_2,pmts_dpdvalue_108P,Float64,Float64,Float64,exact,10,0,preserve type
+credit_bureau_b_2,pmts_pmtsoverdue_635A,Float64,Float64,Float64,exact,10,0,preserve type
+person_2,addres_district_368M,String,String,String,exact,10,0,preserve type
+person_2,addres_role_871L,String,String,String,exact,8,0,preserve type
+person_2,addres_zip_823M,String,String,String,exact,10,0,preserve type
+person_2,case_id,Int64,Int64,Int64,exact,10,0,preserve type
+person_2,conts_role_79M,String,String,String,exact,10,0,preserve type
+person_2,empls_economicalst_849M,String,String,String,exact,10,0,preserve type
+person_2,empls_employedfrom_796D,String,Null,Date,test_physical_null,0,0,cast explicitly to Date; no test values observed
+person_2,empls_employer_name_740M,String,String,String,exact,10,0,preserve type
+person_2,num_group1,Int64,Int64,Int64,exact,10,0,preserve type
+person_2,num_group2,Int64,Int64,Int64,exact,10,0,preserve type
+person_2,relatedpersons_role_762T,String,String,String,exact,3,0,preserve type
