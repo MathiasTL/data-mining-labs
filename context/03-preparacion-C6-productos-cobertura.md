@@ -34,3 +34,7 @@ uv run -m dm_credit.preparation.families.products_registry --splits train oot te
 ```
 
 Ejecución real completada con `POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.families.products_registry --splits train oot test`. El reporte `results/preparation/C6_products_run.csv` registra los seis orígenes en los tres splits, una fila por caso y dos características de cobertura por familia; no se generaron predictores. El catálogo de C6/C7 se escribió en `results/preparation/products_feature_catalog.csv` (12 filas, rol `cobertura`). Los artefactos y manifiestos están bajo `data/artifacts/preparation/C6-v1/` (ruta por defecto del módulo). La ejecución también verificó `tax_registry_c_1` vacío en test y produjo cobertura cero sin fallo.
+
+## 6. Aporte F7
+
+`results/preparation/F7_products_registry_exclusions.csv` (`split,family,metric,value`, mismo esquema que el de applprev/person): 108 filas desde los 18 manifiestos reales vía `collect_f7_exclusions`/`--f7-report`. El detalle por columna excluida vive en B6/G2; aquí van los conteos auditables (`g2_approved` = 0 en todo, `source_rows_outside_base` = 0).

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -385,6 +386,7 @@ def run_real_data(
     output_dir: Path,
     catalog_path: Path,
     run_report_path: Path,
+    f7_report_path: Path | None = None,
     selection_path: Path = DEFAULT_SELECTION_PATH,
     g2_path: Path = DEFAULT_G2_PATH,
     cutoff_week: int = 74,
@@ -446,7 +448,41 @@ def run_real_data(
     report_path = Path(run_report_path)
     report_path.parent.mkdir(parents=True, exist_ok=True)
     pl.DataFrame(summary_rows).sort(["split", "family"]).write_csv(report_path)
+    if f7_report_path is not None:
+        write_f7_exclusions(artifacts, Path(f7_report_path))
     return artifacts
+
+
+F7_SCHEMA = {"split": pl.String, "family": pl.String, "metric": pl.String, "value": pl.Int64}
+
+
+def collect_f7_exclusions(
+    artifacts: Sequence[contracts.FamilyFeatureArtifact],
+) -> pl.DataFrame:
+    """Aporte F7: exclusiones por split/familia/métrica, mismo esquema que el de applprev/person.
+
+    El detalle por columna (excluidas, motivos, evidencia) vive en los CSV B6 y
+    G2; aquí van los conteos auditables de cada manifiesto.
+    """
+    rows = [
+        {"split": art.split, "family": art.family, "metric": metric, "value": int(value)}
+        for art in artifacts
+        for metric, value in json.loads(Path(art.manifest_path).read_text())["exclusions"].items()
+    ]
+    return pl.DataFrame(rows, schema=F7_SCHEMA).sort(["split", "family", "metric"])
+
+
+def write_f7_exclusions(
+    artifacts: Sequence[contracts.FamilyFeatureArtifact], path: Path
+) -> Path:
+    """Escribe el aporte F7 de productos/registros; vacío es un error."""
+    table = collect_f7_exclusions(artifacts)
+    if table.is_empty():
+        raise ValueError("cannot write empty F7 exclusions")
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    table.write_csv(path)
+    return path
 
 
 def main() -> None:
@@ -466,6 +502,9 @@ def main() -> None:
     parser.add_argument(
         "--run-report", type=Path, default=Path("results/preparation/C6_products_run.csv")
     )
+    parser.add_argument(
+        "--f7-report", type=Path, default=Path("results/preparation/F7_products_registry_exclusions.csv")
+    )
     parser.add_argument("--selection", type=Path, default=DEFAULT_SELECTION_PATH)
     parser.add_argument("--g2-decision", type=Path, default=DEFAULT_G2_PATH)
     args = parser.parse_args()
@@ -474,6 +513,7 @@ def main() -> None:
         output_dir=args.output_dir,
         catalog_path=args.catalog,
         run_report_path=args.run_report,
+        f7_report_path=args.f7_report,
         selection_path=args.selection,
         g2_path=args.g2_decision,
         cutoff_week=args.cutoff_week,

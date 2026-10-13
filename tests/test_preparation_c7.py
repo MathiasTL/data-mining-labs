@@ -165,6 +165,25 @@ def test_tax_rebuild_is_deterministic(b6_selection, g2_decision, tmp_path):
 
 
 @pytest.mark.usefixtures("tax_data")
+def test_f7_exclusions_mirror_manifests_with_applprev_schema(b6_selection, g2_decision, tmp_path):
+    arts = [
+        pr.build_tax_registry_a_1_features(_base("train"), "train", output_dir=tmp_path / "a", selection_path=b6_selection, g2_path=g2_decision),
+        pr.build_tax_registry_a_1_features(_base("test"), "test", output_dir=tmp_path / "b", selection_path=b6_selection, g2_path=g2_decision),
+    ]
+    table = pr.collect_f7_exclusions(arts)
+    assert table.columns == ["split", "family", "metric", "value"]
+    assert table.schema["value"] == pl.Int64
+    assert table.rows() == sorted(table.rows())
+    assert set(table["metric"].to_list()) >= {"b6_excluded", "b6_blocked", "g2_approved", "source_rows_outside_base"}
+    out = pr.write_f7_exclusions(arts, tmp_path / "F7.csv")
+    assert out.is_file()
+    # mismo esquema que el aporte F7 de applprev/person
+    assert pl.read_csv("results/preparation/F7_applications_people_exclusions.csv").columns == table.columns
+    with pytest.raises(ValueError, match="empty"):
+        pr.write_f7_exclusions([], tmp_path / "F7empty.csv")
+
+
+@pytest.mark.usefixtures("tax_data")
 @pytest.mark.parametrize("split", ["train", "test"])
 def test_build_family_features_dispatches_tax_registry_c_1(b6_selection, g2_decision, tmp_path, split):
     from dm_credit.preparation import build
