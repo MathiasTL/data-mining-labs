@@ -4,6 +4,10 @@
 
 Transformar las fuentes originales en un conjunto de modelado reproducible, con una fila por caso, variables interpretables y un tratamiento que respete el instante temporal de predicción.
 
+## Backlog del equipo
+
+La distribución completa entre Nick, Giancarlo, Andre, Mathias y Gabriel, con tareas paralelas, compuertas secuenciales y restricciones de ejecución, está en [`03-preparacion-datos-backlog.md`](03-preparacion-datos-backlog.md).
+
 ## Estrategia de construcción
 
 La tabla base es el eje. Cada tabla con múltiples registros por caso debe transformarse en características agregadas antes de unirla. Las fuentes se incorporan progresivamente para medir su aporte y facilitar la detección de errores.
@@ -47,7 +51,7 @@ Cada característica debe registrar tabla de origen, columnas utilizadas, agrega
 
 ## Controles obligatorios
 
-- El número de casos tras cada *join* no debe crecer inesperadamente.
+- El número de casos tras cada _join_ no debe crecer inesperadamente.
 - Ninguna transformación debe aprender parámetros con la validación OOT o prueba.
 - Las variables temporales deben usar exclusivamente información disponible al momento de predicción.
 - Los nombres de columnas, tipos y orden deben coincidir en entrenamiento y prueba.

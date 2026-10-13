@@ -1,6 +1,10 @@
 # 3. Preparación de datos
 
-> **Estado:** documentar únicamente transformaciones implementadas y validadas.
+> **Estado:** fase planificada; implementación pendiente. El reparto, las dependencias y las compuertas de trabajo para cinco personas están en el [backlog operativo del capítulo 03](../context/03-preparacion-datos-backlog.md). Solo se documentarán aquí transformaciones implementadas y validadas.
+
+## Plan de ejecución
+
+El backlog divide la fase entre cinco frentes con propiedad de archivos disjunta. El desarrollo y las pruebas sintéticas se realizan en paralelo; las decisiones de interfaz y temporalidad, la integración final y las ejecuciones pesadas sobre datos reales se controlan mediante compuertas secuenciales. Véase [`context/03-preparacion-datos-backlog.md`](../context/03-preparacion-datos-backlog.md).
 
 ## 3.1 Seleccionar datos
 
@@ -22,11 +26,11 @@ La tabla de modelado debe conservar una fila por caso de la tabla base. Las fuen
 
 ## 3.2 Datos limpios
 
-| Problema | Regla aplicada | Variables afectadas | Justificación |
-|---|---|---|---|
-| Valores faltantes | <!-- Completar --> |  |  |
-| Valores atípicos | <!-- Completar --> |  |  |
-| Tipos/codificación | <!-- Completar --> |  |  |
+| Problema           | Regla aplicada     | Variables afectadas | Justificación |
+| ------------------ | ------------------ | ------------------- | ------------- |
+| Valores faltantes  | <!-- Completar --> |                     |               |
+| Valores atípicos   | <!-- Completar --> |                     |               |
+| Tipos/codificación | <!-- Completar --> |                     |               |
 
 ## 3.3 Datos de construcción
 

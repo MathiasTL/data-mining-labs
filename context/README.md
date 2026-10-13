@@ -4,16 +4,16 @@ Esta carpeta contiene la guía operativa del proyecto. Cada archivo corresponde 
 
 ## Orden de trabajo
 
-| Orden | Guía                                                         | Resultado que habilita                                                      |
-| ----: | ------------------------------------------------------------ | --------------------------------------------------------------------------- |
-|     1 | [Entendimiento empresarial](01-entendimiento-empresarial.md) | Problema, objetivos, métricas, alcance y plan confirmados.                  |
-|     2 | [Etapa A: tabla base](02a-etapa-inicial-tabla-base.md)       | Primer flujo mínimo: perfil, columnas, validación OOT y baseline preparado. |
-|     3 | [Comprensión de datos](02-comprension-datos.md)              | Inventario, EDA, calidad y mapa de granularidades de todas las fuentes.     |
-|     4 | [Preparación de datos](03-preparacion-datos.md)              | Tabla maestra y pipeline reproducible sin fuga de información.              |
-|     5 | [Modelado](04-modelado.md)                                   | Modelos comparados con validación fuera de tiempo.                          |
-|     6 | [Evaluación](05-evaluacion.md)                               | Modelo seleccionado por desempeño y estabilidad temporal.                   |
-|     7 | [Implementación](06-implementacion.md)                       | Predicciones, prototipo demostrativo y propuesta de monitoreo.              |
-|     8 | [Informe y cierre](07-informe-y-cierre.md)                   | Informe final y evidencias de reproducibilidad listos para entrega.         |
+| Orden | Guía                                                                                                    | Resultado que habilita                                                      |
+| ----: | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+|     1 | [Entendimiento empresarial](01-entendimiento-empresarial.md)                                            | Problema, objetivos, métricas, alcance y plan confirmados.                  |
+|     2 | [Etapa A: tabla base](02a-etapa-inicial-tabla-base.md)                                                  | Primer flujo mínimo: perfil, columnas, validación OOT y baseline preparado. |
+|     3 | [Comprensión de datos](02-comprension-datos.md)                                                         | Inventario, EDA, calidad y mapa de granularidades de todas las fuentes.     |
+|     4 | [Preparación de datos](03-preparacion-datos.md) y [backlog del equipo](03-preparacion-datos-backlog.md) | Tabla maestra y pipeline reproducible sin fuga de información.              |
+|     5 | [Modelado](04-modelado.md)                                                                              | Modelos comparados con validación fuera de tiempo.                          |
+|     6 | [Evaluación](05-evaluacion.md)                                                                          | Modelo seleccionado por desempeño y estabilidad temporal.                   |
+|     7 | [Implementación](06-implementacion.md)                                                                  | Predicciones, prototipo demostrativo y propuesta de monitoreo.              |
+|     8 | [Informe y cierre](07-informe-y-cierre.md)                                                              | Informe final y evidencias de reproducibilidad listos para entrega.         |
 
 ## Reglas transversales
 
