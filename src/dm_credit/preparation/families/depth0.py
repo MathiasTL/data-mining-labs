@@ -4,23 +4,22 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 import polars as pl
 
 from dm_credit import io
-from dm_credit.preparation import contracts
-from dm_credit.preparation import coercion
+from dm_credit.preparation import coercion, contracts
 from dm_credit.preparation.split import partition_base
 
 KEY = contracts.KEY
-RULES_VERSION = "depth0-v2"
+RULES_VERSION = "depth0-v3"
 SOURCES = ("static_0", "static_cb_0")
 TEMPORAL_RULE = (
     "Ventana all de G1. Valor identidad de la única fila estática por case_id; "
-    "la disponibilidad temporal se acepta según la selección B3 vigente, sin fecha "
-    "individual por columna en estas fuentes."
+    "solo columnas aprobadas explícitamente en G2, cuya política exige revisión "
+    "temporal y filtro de fuga en train; sin fecha individual por columna."
 )
 DEFAULT_SELECTION_PATH = (
     Path(__file__).resolve().parents[4]
@@ -28,6 +27,7 @@ DEFAULT_SELECTION_PATH = (
     / "preparation"
     / "B3_depth0_columns.csv"
 )
+DEFAULT_G2_PATH = DEFAULT_SELECTION_PATH.with_name("G2_depth0_columns.csv")
 OUTPUT_COLUMNS = {
     "family",
     "column",
@@ -73,7 +73,7 @@ def _read_and_validate_source(
 
 
 def _selected_columns(
-    source: str, selection_path: Path
+    source: str, selection_path: Path, g2_path: Path
 ) -> tuple[list[str], pl.DataFrame]:
     selection_path = Path(selection_path)
     if not selection_path.is_file():
@@ -86,13 +86,40 @@ def _selected_columns(
     if family_rows.is_empty():
         raise ValueError(f"B3 selection manifest contains no rows for {source!r}")
 
-    selected = family_rows.filter(pl.col("proposed_action") == "provisional_candidate")
-    columns = sorted(selected["column"].to_list())
-    if not columns:
-        raise ValueError(f"B3 selection manifest has no selected predictors for {source!r}")
-    if len(columns) != len(set(columns)) or KEY in columns:
-        raise ValueError(f"B3 selection manifest has duplicate or reserved columns for {source!r}")
-    return columns, family_rows
+    candidates = family_rows.filter(
+        pl.col("proposed_action") == "provisional_candidate"
+    )["column"].to_list()
+    if len(candidates) != len(set(candidates)) or KEY in candidates:
+        raise ValueError(
+            f"B3 selection manifest has duplicate or reserved columns for {source!r}"
+        )
+
+    g2_path = Path(g2_path)
+    if not g2_path.is_file():
+        raise FileNotFoundError(f"G2 depth-zero decision not found: {g2_path}")
+    decisions = pl.read_csv(g2_path)
+    required = {"family", "column", "g2_decision"}
+    if required - set(decisions.columns):
+        raise ValueError(
+            f"G2 depth-zero decision is missing columns {sorted(required - set(decisions.columns))}"
+        )
+    family_decisions = decisions.filter(pl.col("family") == source)
+    names = family_decisions["column"].to_list()
+    if len(names) != len(set(names)) or any(name is None for name in names):
+        raise ValueError(
+            f"G2 depth-zero decision has duplicate or invalid columns for {source!r}"
+        )
+    approved = family_decisions.filter(pl.col("g2_decision") == "aprobada")[
+        "column"
+    ].to_list()
+    if KEY in approved:
+        raise ValueError(f"G2 depth-zero decision approves reserved column {KEY!r}")
+
+    if set(approved) - set(candidates):
+        raise ValueError(
+            f"G2 depth-zero approval is not a B3 candidate for {source!r}: {sorted(set(approved) - set(candidates))}"
+        )
+    return sorted(approved), family_rows
 
 
 def _build_static_features(
@@ -103,11 +130,12 @@ def _build_static_features(
     cutoff_week: int,
     output_dir: Path,
     selection_path: Path,
+    g2_path: Path,
 ) -> contracts.FamilyFeatureArtifact:
     contracts.validate_base(base, split, cutoff_week)
     file_split = "test" if split == "test" else "train"
     cases = base.select(KEY)
-    columns, selection = _selected_columns(source, selection_path)
+    columns, selection = _selected_columns(source, selection_path, g2_path)
     source_rows = _read_and_validate_source(file_split, source, cases, columns)
     available_columns = set(
         io.scan_parquet_shards(file_split, source).collect_schema().names()
@@ -132,10 +160,7 @@ def _build_static_features(
             ),
         )
         .rename(
-            {
-                column: f"{source}__{column.lower()}__first__all"
-                for column in columns
-            }
+            {column: f"{source}__{column.lower()}__first__all" for column in columns}
         )
         .sort(KEY)
     )
@@ -146,9 +171,7 @@ def _build_static_features(
         source_columns={column.lower(): column for column in columns},
     )
     exclusions = {
-        "manual_review": int(
-            (selection["proposed_action"] == "manual_review").sum()
-        ),
+        "manual_review": int((selection["proposed_action"] == "manual_review").sum()),
         "exclude_predictor": int(
             (selection["proposed_action"] == "exclude_predictor").sum()
         ),
@@ -168,6 +191,7 @@ def _build_static_features(
             "base_sha256": _base_fingerprint(base),
             "shards": _shard_fingerprint(file_split, source),
             "selection_manifest": str(Path(selection_path)),
+            "g2_decision": str(Path(g2_path)),
         },
     )
 
@@ -179,8 +203,9 @@ def build_static_0_features(
     cutoff_week: int = 74,
     output_dir: Path,
     selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path = DEFAULT_G2_PATH,
 ) -> contracts.FamilyFeatureArtifact:
-    """Build B3-selected identity features and coverage from ``static_0``."""
+    """Build G2-approved identity features and coverage from ``static_0``."""
     return _build_static_features(
         base,
         split,
@@ -188,6 +213,7 @@ def build_static_0_features(
         cutoff_week=cutoff_week,
         output_dir=output_dir,
         selection_path=selection_path,
+        g2_path=g2_path,
     )
 
 
@@ -198,8 +224,9 @@ def build_static_cb_0_features(
     cutoff_week: int = 74,
     output_dir: Path,
     selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path = DEFAULT_G2_PATH,
 ) -> contracts.FamilyFeatureArtifact:
-    """Build B3-selected identity features and coverage from ``static_cb_0``."""
+    """Build G2-approved identity features and coverage from ``static_cb_0``."""
     return _build_static_features(
         base,
         split,
@@ -207,10 +234,13 @@ def build_static_cb_0_features(
         cutoff_week=cutoff_week,
         output_dir=output_dir,
         selection_path=selection_path,
+        g2_path=g2_path,
     )
 
 
-def feature_catalog(artifacts: Sequence[contracts.FamilyFeatureArtifact]) -> pl.DataFrame:
+def feature_catalog(
+    artifacts: Sequence[contracts.FamilyFeatureArtifact],
+) -> pl.DataFrame:
     """Return C8 catalog rows for depth-zero artifacts without touching the shared catalog."""
     rows = [
         {
@@ -265,6 +295,7 @@ def run_real_data(
     catalog_path: Path,
     run_report_path: Path,
     selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path = DEFAULT_G2_PATH,
     cutoff_week: int = 74,
 ) -> list[contracts.FamilyFeatureArtifact]:
     """Build requested depth-zero artifacts from the project's actual Parquet inputs."""
@@ -291,18 +322,21 @@ def run_real_data(
                     cutoff_week=cutoff_week,
                     output_dir=Path(output_dir) / source / split,
                     selection_path=selection_path,
+                    g2_path=g2_path,
                 )
             )
     write_feature_catalog(artifacts, catalog_path)
     summary_rows = []
     for artifact in artifacts:
         source = artifact.family
-        coverage = pl.scan_parquet(artifact.data_path).select(
-            pl.col(f"{source}__n_records").sum().alias("source_rows_for_base"),
-            pl.col(f"{source}__source_present")
-            .sum()
-            .alias("cases_with_source"),
-        ).collect()
+        coverage = (
+            pl.scan_parquet(artifact.data_path)
+            .select(
+                pl.col(f"{source}__n_records").sum().alias("source_rows_for_base"),
+                pl.col(f"{source}__source_present").sum().alias("cases_with_source"),
+            )
+            .collect()
+        )
         predictor_count = sum(
             feature.role == "predictor" for feature in artifact.feature_schema
         )
@@ -350,6 +384,7 @@ def main() -> None:
         default=Path("results/preparation/C1_depth0_run.csv"),
     )
     parser.add_argument("--selection", type=Path, default=DEFAULT_SELECTION_PATH)
+    parser.add_argument("--g2-decision", type=Path, default=DEFAULT_G2_PATH)
     args = parser.parse_args()
     artifacts = run_real_data(
         args.splits,
@@ -357,6 +392,7 @@ def main() -> None:
         catalog_path=args.catalog,
         run_report_path=args.run_report,
         selection_path=args.selection,
+        g2_path=args.g2_decision,
         cutoff_week=args.cutoff_week,
     )
     for artifact in artifacts:
