@@ -1,0 +1,30 @@
+check,split,status,detail
+family_set,all,ok,12 familias en cada split
+base_cases,train,ok,"1332001 casos, 43734 positivos; esperado 1332001 y 43734"
+same_base_fingerprint,train,ok,12 familias con una sola huella de base
+artifacts_cover_base,train,ok,cada familia trae una fila por caso de la base
+assembled_matrix,train,ok,"1332001 filas x 129 columnas, case_id único y en el orden de la base"
+finite_values,train,ok,64 columnas decimales sin infinitos
+features_in_catalog,train,ok,"124 características, todas en el catálogo"
+no_reserved_predictors,train,ok,ninguna columna reservada es característica
+base_cases,oot,ok,"194658 casos, 4260 positivos; esperado 194658 y 4260"
+same_base_fingerprint,oot,ok,12 familias con una sola huella de base
+artifacts_cover_base,oot,ok,cada familia trae una fila por caso de la base
+assembled_matrix,oot,ok,"194658 filas x 129 columnas, case_id único y en el orden de la base"
+finite_values,oot,ok,64 columnas decimales sin infinitos
+features_in_catalog,oot,ok,"124 características, todas en el catálogo"
+no_reserved_predictors,oot,ok,ninguna columna reservada es característica
+base_cases,test,ok,10 casos
+same_base_fingerprint,test,ok,12 familias con una sola huella de base
+artifacts_cover_base,test,ok,cada familia trae una fila por caso de la base
+assembled_matrix,test,ok,"10 filas x 128 columnas, case_id único y en el orden de la base"
+finite_values,test,ok,64 columnas decimales sin infinitos
+features_in_catalog,test,ok,"124 características, todas en el catálogo"
+no_reserved_predictors,test,ok,ninguna columna reservada es característica
+train_oot_partition,all,ok,"train 1332001 + OOT 194658 = 1526659 casos, sin solapamiento, corte 74"
+schema_parity,all,ok,"mismos controles (salvo target) y mismas características, orden y tipos en train, OOT y test"
+baseline_contract,all,ok,la matriz entra sin cambios a dm_credit.baseline: 1332001 de train y 194658 de OOT
+views_fit_on_train_only,all,ok,vistas ajustadas con train; OOT y test no cambian el estado; 303 predictores lineales sin nulos
+published_matrix,train,ok,"1332001 filas, manifiesto y contenido E4 coinciden"
+published_matrix,oot,ok,"194658 filas, manifiesto y contenido E4 coinciden"
+published_matrix,test,ok,"10 filas, manifiesto y contenido E4 coinciden"
