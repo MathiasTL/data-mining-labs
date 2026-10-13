@@ -3,7 +3,7 @@
 > **Responsable:** Gabriel (P5). **Estado:** propuesta para G1; nada de esto está aprobado todavía.
 > **Alcance:** transversal a todas las familias, según el [backlog del capítulo 03](03-preparacion-datos-backlog.md) (tarea A6) y la estrategia mínima de la sección 8.
 > **Complementos:** fixtures `tests/preparation_a6_fixtures.py`, pruebas `tests/test_preparation_a6.py`, coerción D4 (`src/dm_credit/preparation/coercion.py`, Andre) y extremos D5 (`src/dm_credit/preparation/outliers.py`, Andre).
-> **Documentos relacionados:** contratos A1/A2 (`03-preparation-contracts.md`), propuestas A4 (`03-preparacion-A4-solicitudes-personas.md`) y A5 (`03-preparacion-A5-bureau-streaming.md`).
+> **Documentos relacionados:** contratos A1/A2 (`03-preparation-A1-A2-contracts.md`), propuestas A4 (`03-preparacion-A4-solicitudes-personas.md`) y A5 (`03-preparacion-A5-bureau-streaming.md`).
 >
 > **Qué no es:** no implementa `preprocessing.py` (D1–D3, después de G1) ni fija la lista de columnas (B6/G2). Es la especificación que G1 debe congelar.
 
@@ -17,13 +17,13 @@
 
 ## 2. Faltantes (D2)
 
-| Tipo | Regla |
-| --- | --- |
-| Numérica agregada | Indicador `<feat>__missing` (1 si el agregado no tuvo observaciones válidas) + `source_present` por familia. Imputación solo con estadístico de train (mediana por defecto); el valor imputado y la mediana quedan registrados en `preprocessing_spec`. |
-| Categórica agregada | Ausencia = categoría `__missing__` antes de codificar, distinta de `__UNKNOWN__`. Proporciones se calculan sobre observaciones válidas; el denominador cero da proporciones nulas + `__missing=1`. |
-| Booleana agregada | Proporción verdadera sobre válidos + conteo de válidos. Sin válidos → nulo + `__missing=1`. |
-| Fecha interna | Valor posterior a `date_decision` = nulo (misma regla que A4 §2 y A5 §3.4). El conteo de anulados va solo al manifiesto, nunca como característica por caso. |
-| Sin cobertura de familia | El ensamblador completa `n_records=0`, `source_present=False`; el resto queda nulo para que D2 lo trate (propuesta pendiente de confirmar en G1, coherente con A4 §8.3). |
+| Tipo                     | Regla                                                                                                                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Numérica agregada        | Indicador `<feat>__missing` (1 si el agregado no tuvo observaciones válidas) + `source_present` por familia. Imputación solo con estadístico de train (mediana por defecto); el valor imputado y la mediana quedan registrados en `preprocessing_spec`. |
+| Categórica agregada      | Ausencia = categoría `__missing__` antes de codificar, distinta de `__UNKNOWN__`. Proporciones se calculan sobre observaciones válidas; el denominador cero da proporciones nulas + `__missing=1`.                                                      |
+| Booleana agregada        | Proporción verdadera sobre válidos + conteo de válidos. Sin válidos → nulo + `__missing=1`.                                                                                                                                                             |
+| Fecha interna            | Valor posterior a `date_decision` = nulo (misma regla que A4 §2 y A5 §3.4). El conteo de anulados va solo al manifiesto, nunca como característica por caso.                                                                                            |
+| Sin cobertura de familia | El ensamblador completa `n_records=0`, `source_present=False`; el resto queda nulo para que D2 lo trate (propuesta pendiente de confirmar en G1, coherente con A4 §8.3).                                                                                |
 
 `NaN` se trata como ausente (ya lo hace `coercion.py`). Infinito es error, nunca ausente.
 
@@ -113,7 +113,7 @@ Pruebas en `tests/test_preparation_a6.py`: cada fila de las secciones 2–6 tien
 
 ## 9. Compatibilidad con A1/A2 y decisiones para G1
 
-Coincide con `03-preparation-contracts.md`: partición 74, `RESERVED = baseline.RESERVED`, `target` binario solo train/OOT, una fila por `case_id`, esquema idéntico salvo `target`, `CoercionError`/`DomainViolationError` como errores de entrada/datos, manifiestos sin muestras sensibles.
+Coincide con `03-preparation-A1-A2-contracts.md`: partición 74, `RESERVED = baseline.RESERVED`, `target` binario solo train/OOT, una fila por `case_id`, esquema idéntico salvo `target`, `CoercionError`/`DomainViolationError` como errores de entrada/datos, manifiestos sin muestras sensibles.
 
 Pide a G1 (orden del día §13 del backlog, puntos 2/5/6/12):
 

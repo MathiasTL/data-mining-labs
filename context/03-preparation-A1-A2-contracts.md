@@ -19,7 +19,7 @@ La validación de disponibilidad temporal y la comparación del esquema entre pa
 
 ## A2 — propuesta de interfaces compartidas
 
-Estado: propuesta para revisión en G1; no constituye todavía una API congelada.
+Estado: propuesta revisada a partir de la evidencia de A4/A5 para revisión en G1; no constituye todavía una API congelada.
 
 ### Artefacto de familia y manifiesto
 
@@ -39,6 +39,7 @@ class FamilyFeatureArtifact:
 
 def build_family_features(
     family: str,
+    base: pl.DataFrame,  # vista mínima del split: case_id, WEEK_NUM, date_decision
     split: Literal["train", "oot", "test"],
     *,
     cutoff_week: int = 74,
@@ -46,7 +47,11 @@ def build_family_features(
 ) -> FamilyFeatureArtifact: ...
 ```
 
-La función resuelve sus shards mediante el inventario o patrón documentado, usa la capa de lectura compartida y mantiene dentro del módulo la lógica de fechas, agregación y streaming. No recibe ni devuelve tablas de otras familias. El `case_id` del agregado debe ser no nulo y único. Para una familia vacía (p. ej. shard vacío), devuelve un Parquet vacío pero tipado, con el esquema acordado, más manifiesto válido.
+`family` es una unidad lógica, no necesariamente una tabla física: `applprev` reúne `applprev_1/_2`, `person` reúne `person_1/_2`, y bureau A/B reúnen sus respectivas tablas `_1/_2`. Dentro de esa unidad el adaptador valida el padre temporalmente antes de utilizar hijos; no recibe ni une tablas de **otras** familias. A4 documenta hijos de `applprev_2` que deben descartarse cuando su padre es posterior a la decisión; A5 documenta 188 298 452 filas de `credit_bureau_a_2` que requieren lectura acotada.
+
+El llamador aporta una base mínima ya particionada y validada, con `case_id`, `WEEK_NUM` y `date_decision` no nulos, `case_id` único y semanas `< cutoff_week` para train o `>= cutoff_week` para OOT; test es separado. El adaptador no usa `target`. Train/OOT leen los shards físicos de train pero emiten artefactos separados. Una familia pesada puede reutilizar parciales **por caso**, sin aprendizaje entre casos, si coinciden reglas y huellas de shards, base de referencia y corte; no se reutiliza un parcial tras cambios que afecten a `date_decision` o pertenencia de casos al split.
+
+La función descubre shards mediante inventario o patrón documentado, usa la capa de lectura compartida y mantiene dentro del módulo las fechas, agregaciones y streaming. Para bureau se necesita ampliar `dm_credit.io` con iteración por row group y proyección: `io.load_parquet` actual lee todo en memoria. El agregado tiene `case_id` no nulo y único. Un shard existente vacío se procesa sin error y produce el esquema lógico acordado; si la familia no tiene registros válidos, devuelve un agregado vacío tipado y manifiesto válido. Un shard requerido ausente sí es error.
 
 ### Ensamblado
 
@@ -72,7 +77,7 @@ El ensamblador valida que cada artefacto corresponda al mismo split, que cada ag
 
 ### Decisiones abiertas para G1
 
-Aprobar (o cambiar) dataclasses y nombres, JSON como formato del manifiesto, definición de `FeatureDefinition`/`FeatureMatrixArtifact`, si `base` se entrega como DataFrame o se resuelve por el seam IO, semántica de orden de casos y estrategia de publicación atómica/checkpoint. El contrato no prescribe biblioteca de streaming ni fuerza una API de preprocesamiento; esta última ya tiene su seam conceptual en el backlog.
+La evidencia de A4/A5 favorece pasar la vista mínima `base` explícitamente y agrupar padre e hijo en la misma familia lógica; G1 debe ratificarlo. Queda acordar la forma definitiva de las dataclasses, el formato JSON del manifiesto, `FeatureDefinition`/`FeatureMatrixArtifact`, el orden de casos y la publicación atómica/checkpoints. El contrato no prescribe biblioteca de streaming ni fuerza una API de preprocesamiento; esta última ya tiene su seam conceptual en el backlog.
 
 ## Pendientes para G1
 

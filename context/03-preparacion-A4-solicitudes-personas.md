@@ -10,31 +10,31 @@ Cifras producidas por `src/dm_credit/preparation/applications_people_evidence.py
 
 ### Solicitudes previas
 
-| Hecho | Valor |
-| --- | ---: |
-| Filas de `applprev_1` / casos cubiertos | 6 525 979 / 1 221 522 |
-| Filas con `creationdate_885D` **posterior** a `date_decision` | 140 040 (2,15 %) |
-| Anticipación máxima de esas filas † | 14 días después de la decisión |
-| Filas con `creationdate_885D` nula | 66 |
-| Casos que conservan al menos una fila tras el filtro `<= date_decision` | 1 208 039 (se pierden 13 483 casos, 1,1 %) |
-| Hijos de `applprev_2` sin padre en `applprev_1` | 0 |
-| Hijos de `applprev_2` totales / con padre temporalmente válido | 14 075 487 / 13 862 275 (se descartan 213 212, 1,5 %) |
-| Filas de `applprev_1` con otras fechas posteriores a la decisión † | `approvaldate_319D` 37 383; `dateactivated_425D` 16 669; `dtlastpmt_581D` 42 009; `firstnonzeroinstldate_307D` 212 957 |
+| Hecho                                                                   |                                                                                                                  Valor |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------: |
+| Filas de `applprev_1` / casos cubiertos                                 |                                                                                                  6 525 979 / 1 221 522 |
+| Filas con `creationdate_885D` **posterior** a `date_decision`           |                                                                                                       140 040 (2,15 %) |
+| Anticipación máxima de esas filas †                                     |                                                                                         14 días después de la decisión |
+| Filas con `creationdate_885D` nula                                      |                                                                                                                     66 |
+| Casos que conservan al menos una fila tras el filtro `<= date_decision` |                                                                             1 208 039 (se pierden 13 483 casos, 1,1 %) |
+| Hijos de `applprev_2` sin padre en `applprev_1`                         |                                                                                                                      0 |
+| Hijos de `applprev_2` totales / con padre temporalmente válido          |                                                                  14 075 487 / 13 862 275 (se descartan 213 212, 1,5 %) |
+| Filas de `applprev_1` con otras fechas posteriores a la decisión †      | `approvaldate_319D` 37 383; `dateactivated_425D` 16 669; `dtlastpmt_581D` 42 009; `firstnonzeroinstldate_307D` 212 957 |
 
 El filtro temporal **no es un detalle**: sin él entran 140 040 filas del futuro y 213 212 hijos colgados de padres que no existían.
 
 ### Personas
 
-| Hecho | Valor |
-| --- | ---: |
-| Filas de `person_1` / casos | 2 973 991 / 1 526 659 (cobertura 100 %) |
-| Casos con una fila `num_group1 = 0` | 1 526 659 (todos) |
-| `num_group1 = 0`: ingresos, sexo y nacimiento informados † | 100 % |
-| `num_group1 >= 1`: ingresos, sexo y nacimiento informados † | 0 % |
-| `empl_employedfrom_271D` posterior a la decisión | 316 filas |
-| `birth_259D` posterior a la decisión | 0 |
-| Hijos de `person_2` sin padre en `person_1` | 0 |
-| `person_2`: filas con inicio de empleo informado † / posterior a la decisión † | 5 757 (0,35 %) / 0 |
+| Hecho                                                                          |                                   Valor |
+| ------------------------------------------------------------------------------ | --------------------------------------: |
+| Filas de `person_1` / casos                                                    | 2 973 991 / 1 526 659 (cobertura 100 %) |
+| Casos con una fila `num_group1 = 0`                                            |                       1 526 659 (todos) |
+| `num_group1 = 0`: ingresos, sexo y nacimiento informados †                     |                                   100 % |
+| `num_group1 >= 1`: ingresos, sexo y nacimiento informados †                    |                                     0 % |
+| `empl_employedfrom_271D` posterior a la decisión                               |                               316 filas |
+| `birth_259D` posterior a la decisión                                           |                                       0 |
+| Hijos de `person_2` sin padre en `person_1`                                    |                                       0 |
+| `person_2`: filas con inicio de empleo informado † / posterior a la decisión † |                      5 757 (0,35 %) / 0 |
 
 Casos por número de personas †: 1 → 769 339; 2 → 273 106; 3 → 302 446; 4 → 159 315; 5 → 20 987; 6 o más → 1 466.
 
@@ -55,44 +55,44 @@ Convención: `<familia>__<columna>__<agregación>`. Una característica entra so
 
 ### 3.1 `applprev_1` (filtrada, una fila por caso)
 
-| Fuente | Regla | Característica | Justificación temporal |
-| --- | --- | --- | --- |
-| todas las filas válidas | conteo | `applprev_1__n_records` | filas con `creationdate_885D <= date_decision` |
-| presencia | indicador | `applprev_1__source_present` | distingue "sin historial" (80,01 % de cobertura previa al filtro) de "historial vacío" |
-| `creationdate_885D` | recencia y antigüedad | `__days_since_last_creation`, `__days_since_first_creation` | fecha filtrada; nunca futura |
-| `credamount_590A`, `annuity_853A` | conteo válido, mínimo, máximo, media, suma | `__credamount__{count,min,max,mean,sum}` y análogas | importes del contrato previo ya creado |
-| `tenor_203L`, `mainoccupationinc_437A`, `byoccupationinc_3656910L`, `childnum_21L` | conteo válido, mínimo, máximo, media | `__tenor__*`, etc. | atributos de la solicitud previa |
-| `credtype_587L`, `inittransactioncode_279L`, `education_1138M`, `familystate_726L` | conteo de categorías distintas y proporción de categorías aprobadas | `__credtype__n_distinct`, `__credtype__share_<cat>` | categorías con vocabulario ajustado solo en train |
-| `isbidproduct_390L`, `isdebitcard_527L` | conteo y proporción verdadera | `__isbidproduct__share_true` | indicadores de la solicitud previa |
-| `approvaldate_319D`, `dateactivated_425D`, `dtlastpmt_581D`, `dtlastpmtallstes_3545839D`, `employedfrom_700D` | recencia del máximo válido | `__days_since_last_<campo>` | valor `<= date_decision`; el resto se anula. Los anulados se cuentan solo en el manifiesto: una característica que cuente fechas futuras usaría información posterior a la decisión |
+| Fuente                                                                                                        | Regla                                                               | Característica                                              | Justificación temporal                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| todas las filas válidas                                                                                       | conteo                                                              | `applprev_1__n_records`                                     | filas con `creationdate_885D <= date_decision`                                                                                                                                      |
+| presencia                                                                                                     | indicador                                                           | `applprev_1__source_present`                                | distingue "sin historial" (80,01 % de cobertura previa al filtro) de "historial vacío"                                                                                              |
+| `creationdate_885D`                                                                                           | recencia y antigüedad                                               | `__days_since_last_creation`, `__days_since_first_creation` | fecha filtrada; nunca futura                                                                                                                                                        |
+| `credamount_590A`, `annuity_853A`                                                                             | conteo válido, mínimo, máximo, media, suma                          | `__credamount__{count,min,max,mean,sum}` y análogas         | importes del contrato previo ya creado                                                                                                                                              |
+| `tenor_203L`, `mainoccupationinc_437A`, `byoccupationinc_3656910L`, `childnum_21L`                            | conteo válido, mínimo, máximo, media                                | `__tenor__*`, etc.                                          | atributos de la solicitud previa                                                                                                                                                    |
+| `credtype_587L`, `inittransactioncode_279L`, `education_1138M`, `familystate_726L`                            | conteo de categorías distintas y proporción de categorías aprobadas | `__credtype__n_distinct`, `__credtype__share_<cat>`         | categorías con vocabulario ajustado solo en train                                                                                                                                   |
+| `isbidproduct_390L`, `isdebitcard_527L`                                                                       | conteo y proporción verdadera                                       | `__isbidproduct__share_true`                                | indicadores de la solicitud previa                                                                                                                                                  |
+| `approvaldate_319D`, `dateactivated_425D`, `dtlastpmt_581D`, `dtlastpmtallstes_3545839D`, `employedfrom_700D` | recencia del máximo válido                                          | `__days_since_last_<campo>`                                 | valor `<= date_decision`; el resto se anula. Los anulados se cuentan solo en el manifiesto: una característica que cuente fechas futuras usaría información posterior a la decisión |
 
 ### 3.2 `applprev_2` (solo vía padre válido)
 
-| Fuente | Regla | Característica | Justificación temporal |
-| --- | --- | --- | --- |
+| Fuente                 | Regla                                         | Característica                                               | Justificación temporal                         |
+| ---------------------- | --------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------- |
 | hijos con padre válido | conteo total, hijos por padre (media, máximo) | `applprev_2__n_children`, `__children_per_parent_{mean,max}` | el padre pasó el filtro de `creationdate_885D` |
-| `conts_type_509L` | proporción de categorías aprobadas | `__conts_type__share_<cat>` | **bloqueada hasta G2**: sin fecha propia |
+| `conts_type_509L`      | proporción de categorías aprobadas            | `__conts_type__share_<cat>`                                  | **bloqueada hasta G2**: sin fecha propia       |
 
 `credacc_cards_status_52L` queda excluida (estado sin linaje); `cacccardblochreas_147M` queda bloqueada hasta G2, igual que `conts_type_509L`.
 
 ### 3.3 `person_1`
 
-| Fuente | Regla | Característica | Justificación temporal |
-| --- | --- | --- | --- |
-| fila `num_group1 = 0` (persona principal) | valor directo de cada atributo aprobado en B4 | `person_1__main__education`, `__main__incometype`, `__main__mainoccupationinc`, etc. | atributos de la solicitud actual; sin fecha por fila |
-| `birth_259D` (principal) | edad en años a `date_decision` | `person_1__main__age_years` | fecha de nacimiento nunca posterior a la decisión (0 casos) |
-| `empl_employedfrom_271D` (principal) | antigüedad laboral en días; anulada si es posterior | `person_1__main__employment_days` | 316 filas posteriores se anulan |
-| personas con `num_group1 >= 1` | conteo de contactos, conteo por rol/tipo aprobado | `person_1__n_contacts`, `__contacts__share_role_<cat>` | atributos de la solicitud actual |
+| Fuente                                    | Regla                                               | Característica                                                                       | Justificación temporal                                      |
+| ----------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| fila `num_group1 = 0` (persona principal) | valor directo de cada atributo aprobado en B4       | `person_1__main__education`, `__main__incometype`, `__main__mainoccupationinc`, etc. | atributos de la solicitud actual; sin fecha por fila        |
+| `birth_259D` (principal)                  | edad en años a `date_decision`                      | `person_1__main__age_years`                                                          | fecha de nacimiento nunca posterior a la decisión (0 casos) |
+| `empl_employedfrom_271D` (principal)      | antigüedad laboral en días; anulada si es posterior | `person_1__main__employment_days`                                                    | 316 filas posteriores se anulan                             |
+| personas con `num_group1 >= 1`            | conteo de contactos, conteo por rol/tipo aprobado   | `person_1__n_contacts`, `__contacts__share_role_<cat>`                               | atributos de la solicitud actual                            |
 
 `gender_992L` y `sex_738L` son atributos **sensibles**: B4 los deja como `candidato_G2` con una nota, y no deben entrar al catálogo de características hasta que el equipo decida (sección 6).
 
 ### 3.4 `person_2`
 
-| Fuente | Regla | Característica | Justificación temporal |
-| --- | --- | --- | --- |
-| hijos con padre en `person_1` | conteo | `person_2__n_records` | atributos de la solicitud actual |
-| `conts_role_79M`, `relatedpersons_role_762T` | proporción de categorías aprobadas | `person_2__conts_role__share_<cat>` | vocabulario ajustado solo en train |
-| `empls_employedfrom_796D` | antigüedad máxima si es `<= date_decision` | `person_2__max_employment_days` | 0 valores posteriores observados |
+| Fuente                                       | Regla                                      | Característica                      | Justificación temporal             |
+| -------------------------------------------- | ------------------------------------------ | ----------------------------------- | ---------------------------------- |
+| hijos con padre en `person_1`                | conteo                                     | `person_2__n_records`               | atributos de la solicitud actual   |
+| `conts_role_79M`, `relatedpersons_role_762T` | proporción de categorías aprobadas         | `person_2__conts_role__share_<cat>` | vocabulario ajustado solo en train |
+| `empls_employedfrom_796D`                    | antigüedad máxima si es `<= date_decision` | `person_2__max_employment_days`     | 0 valores posteriores observados   |
 
 Quedan excluidos todos los cuasi-identificadores (direcciones, distritos, códigos postales, nombre del empleador).
 
@@ -104,13 +104,13 @@ Quedan excluidos todos los cuasi-identificadores (direcciones, distritos, códig
 
 ## 5. Qué ya está listo
 
-| Entregable | Dónde | Estado |
-| --- | --- | --- |
-| Fixtures padre-hijo con eventos posteriores, nulos y borde del mismo día | `tests/preparation_fixtures.py` y `tests/test_preparation_fixtures.py` | Hecho |
-| Evidencia reproducible de esta propuesta | `src/dm_credit/preparation/applications_people_evidence.py` | Hecho, con pruebas |
-| Selección de columnas B4 (borrador) | `results/preparation/B4_applications_people_columns.csv`, generado con `uv run -m dm_credit.preparation.applications_people_selection` | Borrador a aprobar en G2 |
-| Coerción estricta D4 | `src/dm_credit/preparation/coercion.py` | Hecho, con pruebas |
-| Política de extremos D5 | `src/dm_credit/preparation/outliers.py` | Hecho, con pruebas |
+| Entregable                                                               | Dónde                                                                                                                                  | Estado                   |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| Fixtures padre-hijo con eventos posteriores, nulos y borde del mismo día | `tests/preparation_fixtures.py` y `tests/test_preparation_fixtures.py`                                                                 | Hecho                    |
+| Evidencia reproducible de esta propuesta                                 | `src/dm_credit/preparation/applications_people_evidence.py`                                                                            | Hecho, con pruebas       |
+| Selección de columnas B4 (borrador)                                      | `results/preparation/B4_applications_people_columns.csv`, generado con `uv run -m dm_credit.preparation.applications_people_selection` | Borrador a aprobar en G2 |
+| Coerción estricta D4                                                     | `src/dm_credit/preparation/coercion.py`                                                                                                | Hecho, con pruebas       |
+| Política de extremos D5                                                  | `src/dm_credit/preparation/outliers.py`                                                                                                | Hecho, con pruebas       |
 
 Resultado de B4 para las 95 columnas: 43 candidatas a G2, 19 bloqueadas hasta G2, 22 excluidas, 10 fechas para transformar en antigüedad/recencia y 1 fecha de referencia (`creationdate_885D`).
 
@@ -132,7 +132,7 @@ uv run -m dm_credit.preparation.applications_people_selection                   
 uv run --extra dev pytest -q tests/test_preparation_*.py
 ```
 
-## 8. Compatibilidad con los contratos A1/A2 (`03-preparation-contracts.md`)
+## 8. Compatibilidad con los contratos A1/A2 (`03-preparation-A1-A2-contracts.md`)
 
 Revisión del 12/10/2026 contra la decisión A1 y la propuesta de interfaces A2. Este documento es compatible con ambos; quedan estos puntos para G1.
 

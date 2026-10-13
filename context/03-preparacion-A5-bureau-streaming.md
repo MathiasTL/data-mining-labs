@@ -6,7 +6,7 @@
 >
 > **Estado:** propuesta para la compuerta G1. Nada de lo descrito aquí está congelado.
 >
-> **Documentos relacionados:** contratos A1/A2 (`context/03-preparation-contracts.md`) y propuesta A4 (`context/03-preparacion-A4-solicitudes-personas.md`).
+> **Documentos relacionados:** contratos A1/A2 (`context/03-preparation-A1-A2-contracts.md`) y propuesta A4 (`context/03-preparacion-A4-solicitudes-personas.md`).
 >
 > **Alcance:** `credit_bureau_a_1`, `credit_bureau_a_2`, `credit_bureau_b_1` y `credit_bureau_b_2`. Cubre cómo leer, filtrar, agregar y recuperar; no fija todavía la lista de columnas (B5) ni la interfaz del adaptador (G1).
 
@@ -18,7 +18,7 @@ Las cuatro fuentes de bureau son `1:N` respecto de `case_id` y suman más de 205
 
 Las cifras de filas y cobertura proceden de `results/integration_analysis/family_cardinality.csv`. Las de grupos de filas y rangos de `case_id` se obtuvieron el 12/10/2026 leyendo únicamente el pie de cada Parquet (metadatos y estadísticas), sin leer datos.
 
-| Fuente              | Shards train | Filas       | Casos distintos | Cobertura base | Filas por caso (mediana / p99 / máx.) | Columnas |
+| Fuente              | Shards train |       Filas | Casos distintos | Cobertura base | Filas por caso (mediana / p99 / máx.) | Columnas |
 | ------------------- | -----------: | ----------: | --------------: | -------------: | ------------------------------------- | -------: |
 | `credit_bureau_a_1` |            4 |  15 940 537 |       1 386 273 |        90,80 % | 10 / 31 / 529                         |       79 |
 | `credit_bureau_a_2` |           11 | 188 298 452 |       1 385 288 |        90,74 % | 96 / 588 / 9 404                      |       19 |
@@ -47,16 +47,16 @@ El orden interno por `case_id` garantiza que un caso solo puede quedar partido e
 
 Como un `case_id` puede aparecer en varios lotes y, potencialmente, en varios shards, cada lote no produce el agregado final sino un **parcial** por `case_id` con estadísticos que se pueden combinar sin pérdida:
 
-| Estadístico parcial | Regla de combinación | Característica final derivada |
-| ------------------- | -------------------- | ----------------------------- |
-| `n` (filas válidas) | suma                 | conteo                        |
-| `n_null`            | suma                 | nulos                         |
-| `sum`               | suma                 | suma; media = `sum / n`       |
-| `sum_sq`            | suma                 | desviación estándar           |
-| `min`               | mínimo               | mínimo                        |
-| `max`               | máximo               | máximo                        |
-| `n_true`            | suma                 | proporción verdadera          |
-| conteo por categoría aprobada | suma       | frecuencia y proporción       |
+| Estadístico parcial           | Regla de combinación | Característica final derivada |
+| ----------------------------- | -------------------- | ----------------------------- |
+| `n` (filas válidas)           | suma                 | conteo                        |
+| `n_null`                      | suma                 | nulos                         |
+| `sum`                         | suma                 | suma; media = `sum / n`       |
+| `sum_sq`                      | suma                 | desviación estándar           |
+| `min`                         | mínimo               | mínimo                        |
+| `max`                         | máximo               | máximo                        |
+| `n_true`                      | suma                 | proporción verdadera          |
+| conteo por categoría aprobada | suma                 | frecuencia y proporción       |
 
 Este conjunto cubre la estrategia mínima de características de la sección 8 del backlog. Quedan **fuera** de la primera versión los estadísticos no combinables de forma exacta: mediana, percentiles y conteo distinto exacto. Si el equipo los necesita, requieren una decisión explícita en G1 (aproximación o segunda pasada).
 
@@ -76,12 +76,12 @@ El filtro se aplica a cada lote, antes de calcular el parcial, uniendo el lote c
 
 Propuesta por fuente, a confirmar en B5 y G2:
 
-| Fuente | Referencia temporal disponible | Regla propuesta |
-| ------ | ------------------------------ | --------------- |
-| `a_1`  | Fechas `D` por contrato (`dateofcredstart_*`, `lastupdate_*`, `refreshdate_3813885D`, entre otras) | Fecha aplicable `<= date_decision`; regla por campo en B5. |
-| `a_2`  | Solo año y mes de pago | Conservadora: el mes del pago debe ser **estrictamente anterior** al mes de `date_decision`. |
-| `b_1`  | `contractdate_551D`, `lastupdate_260D` | Fecha aplicable `<= date_decision`. |
-| `b_2`  | `pmts_date_1107D` | `pmts_date_1107D <= date_decision`. |
+| Fuente | Referencia temporal disponible                                                                     | Regla propuesta                                                                              |
+| ------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `a_1`  | Fechas `D` por contrato (`dateofcredstart_*`, `lastupdate_*`, `refreshdate_3813885D`, entre otras) | Fecha aplicable `<= date_decision`; regla por campo en B5.                                   |
+| `a_2`  | Solo año y mes de pago                                                                             | Conservadora: el mes del pago debe ser **estrictamente anterior** al mes de `date_decision`. |
+| `b_1`  | `contractdate_551D`, `lastupdate_260D`                                                             | Fecha aplicable `<= date_decision`.                                                          |
+| `b_2`  | `pmts_date_1107D`                                                                                  | `pmts_date_1107D <= date_decision`.                                                          |
 
 Criterios comunes, alineados con la propuesta A4:
 
@@ -120,13 +120,13 @@ Los shards se descubren por patrón de nombre o por `results/parquet_inventory.c
 
 Estimaciones para la ejecución real con un solo hilo (`POLARS_MAX_THREADS=1`). Son cotas de diseño que el prototipo y la ejecución E4 deben confirmar con medición.
 
-| Componente | Estimación |
-| ---------- | ---------- |
-| Lote de `a_2` en memoria (un grupo de filas, 19 columnas) | ~160 MB |
-| Claves de padres válidos de `a_1` | ≤ 255 MB |
-| `date_decision` de la base para el filtro (1 526 659 casos, dos columnas) | ~25 MB |
-| Parcial acumulado de un shard (casos del shard × estadísticos) | depende de B5; ver nota |
-| **Objetivo de pico por proceso** | **≤ 2 GB** |
+| Componente                                                                | Estimación              |
+| ------------------------------------------------------------------------- | ----------------------- |
+| Lote de `a_2` en memoria (un grupo de filas, 19 columnas)                 | ~160 MB                 |
+| Claves de padres válidos de `a_1`                                         | ≤ 255 MB                |
+| `date_decision` de la base para el filtro (1 526 659 casos, dos columnas) | ~25 MB                  |
+| Parcial acumulado de un shard (casos del shard × estadísticos)            | depende de B5; ver nota |
+| **Objetivo de pico por proceso**                                          | **≤ 2 GB**              |
 
 Nota: el parcial crece con el número de columnas aprobadas. Con 1 385 288 casos y, por ejemplo, 60 estadísticos `Float64`, el parcial completo de `a_2` ocupa unos 665 MB. Si B5 aprueba un conjunto mayor, el parcial del shard se vuelca a disco por tramos de `case_id` en lugar de mantenerse en memoria.
 
@@ -143,22 +143,22 @@ Bureau B sirve como ensayo de extremo a extremo del mismo código antes de lanza
 
 ## 6. Verificaciones previstas
 
-| ID | Verificación | Cuándo |
-| -- | ------------ | ------ |
-| V1 | Medir si algún `case_id` aparece en más de un shard de `a_1` o `a_2` (lectura de la columna `case_id` únicamente). No cambia el diseño; documenta si la combinación entre shards es necesaria o solo defensiva. | Antes de E4 |
-| V2 | Pruebas sintéticas: caso partido entre dos lotes y entre dos shards; fecha anterior, igual, posterior y nula respecto de `date_decision`; hijo con padre inválido; train y OOT derivados de los mismos parciales; caso sin cobertura; reanudación tras interrupción; resultado independiente del orden de los shards. | Prototipo (antes de G1) |
-| V3 | Casos distintos del agregado real iguales a los de `family_cardinality.csv` cuando no hay filtro temporal; con filtro, la diferencia queda explicada por los conteos de exclusión. | E4 |
-| V4 | Pico de memoria y duración por shard registrados en el manifiesto. | E4 |
+| ID  | Verificación                                                                                                                                                                                                                                                                                                          | Cuándo                  |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| V1  | Medir si algún `case_id` aparece en más de un shard de `a_1` o `a_2` (lectura de la columna `case_id` únicamente). No cambia el diseño; documenta si la combinación entre shards es necesaria o solo defensiva.                                                                                                       | Antes de E4             |
+| V2  | Pruebas sintéticas: caso partido entre dos lotes y entre dos shards; fecha anterior, igual, posterior y nula respecto de `date_decision`; hijo con padre inválido; train y OOT derivados de los mismos parciales; caso sin cobertura; reanudación tras interrupción; resultado independiente del orden de los shards. | Prototipo (antes de G1) |
+| V3  | Casos distintos del agregado real iguales a los de `family_cardinality.csv` cuando no hay filtro temporal; con filtro, la diferencia queda explicada por los conteos de exclusión.                                                                                                                                    | E4                      |
+| V4  | Pico de memoria y duración por shard registrados en el manifiesto.                                                                                                                                                                                                                                                    | E4                      |
 
 ## 7. Puntos abiertos para G1 y G2
 
-| ID | Decisión | Propuesta | Compuerta |
-| -- | -------- | --------- | --------- |
-| D1 | Regla temporal de `a_2` con granularidad mensual. | Mes estrictamente anterior al de `date_decision`. | G2 |
-| D2 | Lector por lotes en `dm_credit.io`. El seam actual solo lee en memoria; la regla 2.2.4 del backlog prohíbe lectores propios y el contrato A2 exige usar la capa de lectura compartida. | Añadir una función de iteración por grupo de filas con proyección de columnas; definir quién la implementa, porque `io.py` es compartido. | G1 |
-| D3 | Estadísticos no combinables (mediana, percentiles, conteo distinto exacto). | Excluirlos del primer corte. | G1 |
-| D4 | Ventanas retrospectivas (A7). Cada ventana multiplica el número de estadísticos del parcial. | Acotar el número de ventanas para bureau; impacta el presupuesto de memoria. | G1 |
-| D5 | Definición de "familia" y exclusión de hijos con padre temporalmente inválido. | Familia = grupo padre-hijo (`credit_bureau_a`, `credit_bureau_b`), como propone A4; excluir hijos de padres inválidos, igual que en solicitudes previas (C2). | G1 (familia), G2 (regla) |
-| D6 | Emparejamiento activo/cerrado de las columnas año/mes de `a_2`. | Confirmar con las definiciones oficiales y con los datos. | G2 (B5) |
-| D7 | Ubicación de parciales y manifiestos, fuera de git. | Un directorio por familia bajo la ruta de artefactos grandes que fije G1. | G1 |
-| D8 | Reutilización de parciales entre los splits `train` y `oot` (sección 3.3). | Una sola pasada sobre los archivos `train_*`; el split se aplica al finalizar. | G1 |
+| ID  | Decisión                                                                                                                                                                               | Propuesta                                                                                                                                                     | Compuerta                |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| D1  | Regla temporal de `a_2` con granularidad mensual.                                                                                                                                      | Mes estrictamente anterior al de `date_decision`.                                                                                                             | G2                       |
+| D2  | Lector por lotes en `dm_credit.io`. El seam actual solo lee en memoria; la regla 2.2.4 del backlog prohíbe lectores propios y el contrato A2 exige usar la capa de lectura compartida. | Añadir una función de iteración por grupo de filas con proyección de columnas; definir quién la implementa, porque `io.py` es compartido.                     | G1                       |
+| D3  | Estadísticos no combinables (mediana, percentiles, conteo distinto exacto).                                                                                                            | Excluirlos del primer corte.                                                                                                                                  | G1                       |
+| D4  | Ventanas retrospectivas (A7). Cada ventana multiplica el número de estadísticos del parcial.                                                                                           | Acotar el número de ventanas para bureau; impacta el presupuesto de memoria.                                                                                  | G1                       |
+| D5  | Definición de "familia" y exclusión de hijos con padre temporalmente inválido.                                                                                                         | Familia = grupo padre-hijo (`credit_bureau_a`, `credit_bureau_b`), como propone A4; excluir hijos de padres inválidos, igual que en solicitudes previas (C2). | G1 (familia), G2 (regla) |
+| D6  | Emparejamiento activo/cerrado de las columnas año/mes de `a_2`.                                                                                                                        | Confirmar con las definiciones oficiales y con los datos.                                                                                                     | G2 (B5)                  |
+| D7  | Ubicación de parciales y manifiestos, fuera de git.                                                                                                                                    | Un directorio por familia bajo la ruta de artefactos grandes que fije G1.                                                                                     | G1                       |
+| D8  | Reutilización de parciales entre los splits `train` y `oot` (sección 3.3).                                                                                                             | Una sola pasada sobre los archivos `train_*`; el split se aplica al finalizar.                                                                                | G1                       |
