@@ -1,0 +1,867 @@
+{
+  "format_version": 1,
+  "rules_version": "A4-v1",
+  "family": "applprev",
+  "split": "train",
+  "data_path": "applprev__train.parquet",
+  "data_sha256": "143adb500f746a506224bb55d93015b154814617feba8660e30163ecd657acc3",
+  "row_count": 1332001,
+  "case_count": 1332001,
+  "features": [
+    {
+      "name": "applprev_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_records en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "applprev_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "source_present en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__creationdate_885d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "creationdate_885D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de creationdate_885d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__creationdate_885d__days_since_first__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "creationdate_885D"
+      ],
+      "aggregation": "days_since_first",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_first de creationdate_885d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__profession_152m__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "profession_152M"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de profession_152m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__share_col__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "share_col",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_col de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__share_cal__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "share_cal",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_cal de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__share_rel__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "share_rel",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_rel de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__share_a55475b1__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "share_a55475b1",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_a55475b1 de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__share_p97_36_170__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "share_p97_36_170",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_p97_36_170 de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__share_p33_146_175__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "share_p33_146_175",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_p33_146_175 de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_married__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_married",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_married de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_single__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_single",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_single de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_widowed__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_widowed",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_widowed de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_divorced__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_divorced",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_divorced de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_living_with_partner__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_living_with_partner",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_living_with_partner de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__share_pos__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "share_pos",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_pos de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__share_cash__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "share_cash",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_cash de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__share_ndf__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "share_ndf",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_ndf de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__isbidproduct_390l__share_true__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "isbidproduct_390L"
+      ],
+      "aggregation": "share_true",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_true de isbidproduct_390l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__isdebitcard_527l__share_true__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "isdebitcard_527L"
+      ],
+      "aggregation": "share_true",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_true de isdebitcard_527l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__approvaldate_319d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "approvaldate_319D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de approvaldate_319d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__dateactivated_425d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "dateactivated_425D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de dateactivated_425d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__dtlastpmt_581d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "dtlastpmt_581D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de dtlastpmt_581d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__employedfrom_700d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "employedfrom_700D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de employedfrom_700d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_2__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_records en applprev_2 (ventana all)"
+    },
+    {
+      "name": "applprev_2__children_per_parent_mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "children_per_parent_mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "children_per_parent_mean en applprev_2 (ventana all)"
+    },
+    {
+      "name": "applprev_2__children_per_parent_max__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "children_per_parent_max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "children_per_parent_max en applprev_2 (ventana all)"
+    },
+    {
+      "name": "applprev_2__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "source_present en applprev_2 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "applprev_1_rows_null_decision": 0,
+    "applprev_1_rows_after_decision": 117977,
+    "applprev_1_rows_null_creation": 65,
+    "approvaldate_319D_values_after_decision": 89,
+    "dateactivated_425D_values_after_decision": 10491,
+    "dtlastpmt_581D_values_after_decision": 35089,
+    "employedfrom_700D_values_after_decision": 0,
+    "applprev_2_rows_invalid_parent": 178626
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961",
+    "shards": "train_applprev_1_0.parquet:106951598:1790997776665063009;train_applprev_1_1.parquet:72860971:1790997776698062960;train_applprev_2.parquet:28484608:1790997776882062683"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}
