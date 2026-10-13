@@ -52,11 +52,13 @@ Como un `case_id` puede aparecer en varios lotes y, potencialmente, en varios sh
 | `n` (filas válidas)           | suma                 | conteo                        |
 | `n_null`                      | suma                 | nulos                         |
 | `sum`                         | suma                 | suma; media = `sum / n`       |
-| `sum_sq`                      | suma                 | desviación estándar           |
+| `m2` (suma de cuadrados de las desviaciones respecto de la media del parcial) | suma de los `m2` más `n_i × (media_i − media_global)²` | desviación estándar |
 | `min`                         | mínimo               | mínimo                        |
 | `max`                         | máximo               | máximo                        |
 | `n_true`                      | suma                 | proporción verdadera          |
 | conteo por categoría aprobada | suma                 | frecuencia y proporción       |
+
+Se guarda `m2` en lugar de la suma de cuadrados porque `sum_sq − sum²/n` pierde toda la precisión por cancelación con importes grandes: el prototipo devolvía desviación 0 para los valores `1e9`, `1e9 + 1` y `1e9 + 2`, cuya desviación es 1. `credit_bureau_a_2` contiene garantías del orden de `9,9e10`.
 
 Este conjunto cubre la estrategia mínima de características de la sección 8 del backlog. Quedan **fuera** de la primera versión los estadísticos no combinables de forma exacta: mediana, percentiles y conteo distinto exacto. Si el equipo los necesita, requieren una decisión explícita en G1 (aproximación o segunda pasada).
 
