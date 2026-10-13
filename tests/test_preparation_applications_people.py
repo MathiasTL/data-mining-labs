@@ -7,7 +7,7 @@ import preparation_fixtures as fx
 from dm_credit.baseline import RESERVED
 from dm_credit.preparation.families import applications_people as ap
 
-NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,3}$")  # convención de nombres de A6
+NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,4}$")  # gramática de G1: hasta 4 segmentos tras la fuente
 
 APP_CONFIG = ap.ApplicationsConfig(
     numeric={"credamount_590A": ("count", "min", "max", "mean", "sum")},
@@ -55,12 +55,12 @@ def test_counts_use_only_rows_available_at_decision(apps):
 
 def test_same_day_is_kept_and_null_creation_date_is_dropped(apps):
     assert get(apps, 4, "applprev_1__n_records") == 1  # g0 mismo día se conserva; g1 con fecha nula se descarta
-    assert get(apps, 4, "applprev_1__days_since_last_creationdate_885d__all") == 0
+    assert get(apps, 4, "applprev_1__creationdate_885d__days_since_last__all") == 0
 
 
 def test_creation_recency_and_age(apps):
-    c = "applprev_1__days_since_last_creationdate_885d__all"
-    f = "applprev_1__days_since_first_creationdate_885d__all"
+    c = "applprev_1__creationdate_885d__days_since_last__all"
+    f = "applprev_1__creationdate_885d__days_since_first__all"
     assert (get(apps, 1, c), get(apps, 1, f)) == (1, 143)
     assert (get(apps, 2, c), get(apps, 2, f)) == (121, 121)
 
@@ -89,7 +89,7 @@ def test_bool_share_is_over_valid_observations_only(apps):
 
 
 def test_future_dates_become_null_not_features(apps):
-    a = "applprev_1__days_since_last_approvaldate_319d__all"
+    a = "applprev_1__approvaldate_319d__days_since_last__all"
     assert get(apps, 1, a) == 138  # la aprobación del 2020-06-20 se anula
     assert get(apps, 2, a) == 112
     assert get(apps, 4, a) is None
@@ -184,7 +184,7 @@ def test_age_in_completed_years_at_decision(people):
 
 
 def test_employment_days_nulls_future_and_missing(people):
-    e = "person_1__empl_employedfrom_271d__days_since__all"
+    e = "person_1__empl_employedfrom_271d__days_since_last__all"
     assert get(people, 1, e) == 517
     assert get(people, 2, e) is None  # 2020-07-01 es posterior a la decisión
     assert get(people, 3, e) == 758

@@ -28,7 +28,7 @@ from dm_credit.preparation.coercion import coerce_to_logical
 KEY = "case_id"
 WINDOW = "all"
 AGGREGATIONS = ("count", "min", "max", "mean", "sum", "std")
-NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,3}$")  # convención de nombres de A6
+NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,4}$")  # gramática de G1: hasta 4 segmentos tras la fuente
 
 
 @dataclass(frozen=True)
@@ -238,12 +238,12 @@ def aggregate_applications_with_exclusions(
     for col in cfg.date_cols:
         valid = _null_if_after(col, f"{col}_values_after_decision", valid, exclusions)
 
-    # recencia y antigüedad: <familia>__days_since_last_<campo>__<ventana> (A6)
+    # recencia y antigüedad: <fuente>__<campo>__days_since_last|first__<ventana> (gramática de G1)
     exprs = [
         pl.len().alias(f"{f1}__n_records"),
         pl.lit(True).alias(f"{f1}__source_present"),
-        _days_since(create, "max").alias(f"{f1}__days_since_last_{_norm(create)}__{WINDOW}"),
-        _days_since(create, "min").alias(f"{f1}__days_since_first_{_norm(create)}__{WINDOW}"),
+        _days_since(create, "max").alias(_name(f1, create, "days_since_last")),
+        _days_since(create, "min").alias(_name(f1, create, "days_since_first")),
     ]
     exprs += _numeric_exprs(f1, cfg.numeric)
     exprs += [pl.col(c).drop_nulls().n_unique().alias(_name(f1, c, "n_distinct")) for c in cfg.categorical_distinct]
@@ -251,7 +251,7 @@ def aggregate_applications_with_exclusions(
     for c in cfg.bool_cols:
         col = pl.col(c)
         exprs.append(pl.when(col.count() > 0).then(col.sum() / col.count()).cast(pl.Float64).alias(_name(f1, c, "share_true")))
-    exprs += [_days_since(c, "max").alias(f"{f1}__days_since_last_{_norm(c)}__{WINDOW}") for c in cfg.date_cols]
+    exprs += [_days_since(c, "max").alias(_name(f1, c, "days_since_last")) for c in cfg.date_cols]
     features = valid.group_by(KEY).agg(exprs)
 
     # profundidad 2: se valida el padre antes de agregar los hijos
@@ -333,7 +333,7 @@ def aggregate_people_with_exclusions(
         main_exprs.append((d.dt.year() - b.dt.year() - birthday_pending.cast(pl.Int32)).cast(pl.Int64).alias(_name(f1, cfg.birth_col, "age_years")))
     if cfg.employment_col:
         main_exprs.append(
-            (pl.col("decision") - pl.col(cfg.employment_col)).dt.total_days().alias(_name(f1, cfg.employment_col, "days_since"))
+            (pl.col("decision") - pl.col(cfg.employment_col)).dt.total_days().alias(_name(f1, cfg.employment_col, "days_since_last"))
         )
     features = main.select(main_exprs)
 
