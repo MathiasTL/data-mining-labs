@@ -1,6 +1,6 @@
 # C6 — Adaptadores de productos con cobertura y cero predictores
 
-> **Responsable:** Gabriel (P5). **Estado:** implementado con sintéticos; sin ejecución real (no hay Parquet locales).
+> **Responsable:** Gabriel (P5). **Estado:** implementado con sintéticos; ejecución real pendiente de la cola pesada (E4).
 > **Alcance:** `debitcard_1`, `deposit_1`, `other_1` (tarea C6 del [backlog](03-preparacion-datos-backlog.md)).
 > **Insumos:** B6 (`results/preparation/B6_products_registry_columns.csv`), G2 (`results/preparation/G2_products_registry_columns.csv`, 0 aprobadas), contratos G1 (`contracts.py`), lector `dm_credit.io`.
 > **Código:** `src/dm_credit/preparation/families/products_registry.py`. **Pruebas:** `tests/test_preparation_c6.py` (13 casos, resultados a mano).
@@ -30,7 +30,7 @@ Bloqueado en B6/G2 por falta de linaje temporal (`insufficient_temporal_evidence
 
 ```bash
 uv run --extra dev pytest -q tests/test_preparation_c6.py
-uv run -m dm_credit.preparation.families.products_registry --splits train oot test  # requiere Parquet reales ([R], POLARS_MAX_THREADS=1)
+uv run -m dm_credit.preparation.families.products_registry --splits train oot test  # ejecución real E4 en cola pesada ([R], POLARS_MAX_THREADS=1)
 ```
 
-La ejecución real E4 queda pendiente de datos y de la cola pesada; el catálogo C8 sale de `contracts.write_feature_catalog` sobre los artefactos (probado en sintético: 6 filas, rol `cobertura`).
+La ejecución real E4 va en la cola pesada compartida tras G3; el catálogo C8 sale de `contracts.write_feature_catalog` sobre los artefactos (probado en sintético: 6 filas, rol `cobertura`).

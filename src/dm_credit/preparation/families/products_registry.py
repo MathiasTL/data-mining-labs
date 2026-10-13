@@ -1,4 +1,4 @@
-"""C6 — Cobertura de productos (debitcard_1, deposit_1, other_1).
+"""C6/C7 — Cobertura de productos y registros fiscales.
 
 Primer corte autorizado por G2: solo métricas de cobertura (`n_records`,
 `source_present`) y **cero predictores** (`G2_products_registry_columns.csv`
@@ -30,7 +30,14 @@ from dm_credit.preparation.split import partition_base
 
 KEY = contracts.KEY
 RULES_VERSION = "products-v1"
-SOURCES = ("debitcard_1", "deposit_1", "other_1")
+SOURCES = (
+    "debitcard_1",
+    "deposit_1",
+    "other_1",
+    "tax_registry_a_1",
+    "tax_registry_b_1",
+    "tax_registry_c_1",
+)
 # debitcard_1 y deposit_1 son 1:N (clave candidata case_id+num_group1);
 # other_1 es 1:0..1 (como máximo una fila por caso).
 SINGLE_ROW_SOURCES = ("other_1",)
@@ -165,7 +172,7 @@ def aggregate_coverage(
         base_cases.select(KEY)
         .join(counts, on=KEY, how="left")
         .with_columns(
-            pl.col(f"{source}__n_records").fill_null(0),
+            pl.col(f"{source}__n_records").fill_null(0).cast(pl.Int64),
             (pl.col(f"{source}__n_records").fill_null(0) > 0).alias(
                 f"{source}__source_present"
             ),
@@ -193,18 +200,29 @@ def _shard_fingerprint(file_split: str, source: str) -> str:
 
 
 def _read_source(file_split: str, source: str, cases: pl.DataFrame) -> pl.DataFrame:
-    """Lee una fuente con proyección mínima y solo los casos de la base."""
+    """Lee una fuente con proyección mínima y solo los casos de la base.
+
+    Un shard vacío con columnas físicas ``Null`` (caso ``test_tax_registry_c_1``)
+    se convierte a ``Int64`` antes del join: la conversión es exacta porque una
+    columna ``Null`` no tiene valores. Otro tipo no entero en la clave es error.
+    """
     available = set(
         io.scan_parquet_shards(file_split, source).collect_schema().names()
     )
     if KEY not in available:
         raise ValueError(f"source {source!r}: missing required column {KEY!r}")
     columns = [KEY] + (["num_group1"] if "num_group1" in available else [])
-    frame = (
-        io.scan_parquet_shards(file_split, source, columns=columns)
-        .join(cases.lazy(), on=KEY, how="semi")
-        .collect()
-    )
+    scan = io.scan_parquet_shards(file_split, source, columns=columns)
+    key_schema = scan.collect_schema()
+    if key_schema[KEY] == pl.Null:
+        scan = scan.with_columns(
+            pl.col(c).cast(pl.Int64) for c in columns if key_schema[c] == pl.Null
+        )
+    elif not key_schema[KEY].is_integer():
+        raise ValueError(
+            f"source {source!r}: {KEY} has non-integer dtype {key_schema[KEY]}"
+        )
+    frame = scan.join(cases.lazy(), on=KEY, how="semi").collect()
     schema = {KEY: "int"}
     if "num_group1" in frame.columns:
         schema["num_group1"] = "int"
@@ -303,10 +321,61 @@ def build_other_1_features(
     )
 
 
+def build_tax_registry_a_1_features(
+    base: pl.DataFrame,
+    split: str,
+    *,
+    cutoff_week: int = 74,
+    output_dir: Path,
+    selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path = DEFAULT_G2_PATH,
+) -> contracts.FamilyFeatureArtifact:
+    """Cobertura de ``tax_registry_a_1`` (1:N): conteo físico y presencia por caso."""
+    return _build_source_features(
+        base, split, "tax_registry_a_1", cutoff_week=cutoff_week,
+        output_dir=output_dir, selection_path=selection_path, g2_path=g2_path,
+    )
+
+
+def build_tax_registry_b_1_features(
+    base: pl.DataFrame,
+    split: str,
+    *,
+    cutoff_week: int = 74,
+    output_dir: Path,
+    selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path = DEFAULT_G2_PATH,
+) -> contracts.FamilyFeatureArtifact:
+    """Cobertura de ``tax_registry_b_1`` (1:N): conteo físico y presencia por caso."""
+    return _build_source_features(
+        base, split, "tax_registry_b_1", cutoff_week=cutoff_week,
+        output_dir=output_dir, selection_path=selection_path, g2_path=g2_path,
+    )
+
+
+def build_tax_registry_c_1_features(
+    base: pl.DataFrame,
+    split: str,
+    *,
+    cutoff_week: int = 74,
+    output_dir: Path,
+    selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path = DEFAULT_G2_PATH,
+) -> contracts.FamilyFeatureArtifact:
+    """Cobertura de ``tax_registry_c_1`` (1:N en train; vacía con columnas ``Null`` en test)."""
+    return _build_source_features(
+        base, split, "tax_registry_c_1", cutoff_week=cutoff_week,
+        output_dir=output_dir, selection_path=selection_path, g2_path=g2_path,
+    )
+
+
 BUILDERS = {
     "debitcard_1": build_debitcard_1_features,
     "deposit_1": build_deposit_1_features,
     "other_1": build_other_1_features,
+    "tax_registry_a_1": build_tax_registry_a_1_features,
+    "tax_registry_b_1": build_tax_registry_b_1_features,
+    "tax_registry_c_1": build_tax_registry_c_1_features,
 }
 
 
@@ -333,6 +402,9 @@ def run_real_data(
             ("debitcard_1", build_debitcard_1_features),
             ("deposit_1", build_deposit_1_features),
             ("other_1", build_other_1_features),
+            ("tax_registry_a_1", build_tax_registry_a_1_features),
+            ("tax_registry_b_1", build_tax_registry_b_1_features),
+            ("tax_registry_c_1", build_tax_registry_c_1_features),
         ):
             artifacts.append(
                 builder(
