@@ -82,7 +82,31 @@ POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.leakage_screen \
     <ruta>/<familia>__train.manifest.json --out results/preparation/G2_<familia>_screen.csv
 ```
 
-**Pendientes de sus responsables:** Giancarlo (profundidad 0) y Gabriel (productos y registros) ejecutan el filtro sobre sus artefactos de train y dejan su lista final de aprobadas. **Bureau** no entra al primer corte: no existe todavía la selección B5 de Mathias. Cuando exista, se le aplica esta misma política.
+### 3.1 Profundidad 0 (B3, Giancarlo): decidido
+
+Se construyeron los artefactos de train de `static_0` y `static_cb_0` con el constructor de Giancarlo y se les aplicó el filtro (`results/preparation/G2_depth0_screen.csv`).
+
+| Resultado | Valor |
+| --- | ---: |
+| Características evaluadas | 61 (42 de `static_0`, 19 de `static_cb_0`) |
+| `ok` | 49 |
+| Texto, sin medición de Gini | 11 |
+| Sin evidencia suficiente | 1 |
+| Con bandera de fuga o inestabilidad | **0** |
+| |Gini| máximo | 0,269 |
+| |Gini| máximo del indicador de ausencia | 0,075 |
+
+**Decisión:** se aprueban las candidatas provisionales de B3, **salvo `contractssum_5085716L`** de `static_cb_0`: está 100 % nula en train y no cumple la cobertura mínima de la regla 4 (queda **excluida**). Las candidatas de texto se aprueban por regla, sin evidencia empírica.
+
+**Acción de Giancarlo:** su constructor aún incluye `contractssum_5085716L` porque toma todas las candidatas de `B3_depth0_columns.csv`. Debe pasar esa columna a `exclude_predictor` (o equivalente) en su selección. Las demás columnas de profundidad 0 no cambian.
+
+### 3.2 Productos y registros (B6, Gabriel) y bureau (B5, Mathias): reglas fijadas, falta el artefacto
+
+Las selecciones existen (`B6_products_registry_columns.csv` y `B5_bureau_columns.csv`), pero **todavía no hay adaptadores** que construyan sus características, así que el filtro de fuga no puede ejecutarse. Hasta entonces:
+
+- Las columnas `bloquear_hasta_G2` y `excluir` quedan **bloqueadas y excluidas** (decisión final del primer corte).
+- Las `candidato_G2` y `transformar_as_of` **no se aprueban todavía**: se aprueban cuando exista el artefacto de train y el filtro las deje pasar. Se ejecuta con el comando de arriba.
+- Bureau mantiene su regla propia de A5 (por ejemplo, el mes de pago estrictamente anterior al de la decisión en `credit_bureau_a_2`).
 
 ## 4. Reproducir
 
