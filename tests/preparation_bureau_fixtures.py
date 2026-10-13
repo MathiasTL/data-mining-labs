@@ -1,5 +1,9 @@
 """Synthetic bureau fixtures (C4/C5, E3) with hand-computed expectations. Never read real bureau files.
 
+``selection`` is a small B5 file (dtype and B5 action); ``decisions`` is the matching G2 file. By default G2
+approves every B5 candidate (``APPROVED``) so the expectations below hold; anchors are ``excluida`` as predictors,
+as in the real G2 file, and must still filter rows.
+
 Five base cases, all decided on 2020-06-01. ``WEEK_NUM`` = 10, 10, 11, 11, 12, so with ``CUTOFF = 11``
 train = cases 1 and 2 and OOT = cases 3 to 5. Test files reuse the rows with ``case_id + 100``.
 
@@ -88,6 +92,43 @@ def selection(*, approve_a2: bool = False) -> pl.DataFrame:
 def write_selection(path: Path, *, approve_a2: bool = False) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     selection(approve_a2=approve_a2).write_csv(path)
+    return path
+
+
+APPROVED = frozenset(c for _, c, _, a in SELECTION_ROWS if a in ("candidato_G2", "transformar_as_of"))
+G2_HEADER = ["family", "column", "b5_action", "g2_decision", "motivo", "regla_temporal", "evidencia", "cobertura", "estado_filtro", "responsable"]
+PENDING = "no_ejecutado: falta agregado/manifiesto"
+
+
+def decisions(
+    *, approved: frozenset[str] | set[str] = APPROVED, pending: frozenset[str] | set[str] = frozenset(), approve_a2: bool = False
+) -> pl.DataFrame:
+    """G2-like decision for ``selection(approve_a2=...)``. ``pending`` columns are ``pendiente_filtro`` (temporal
+    availability documented, waiting for the screen); other unapproved B5 candidates are ``bloqueada``."""
+    if approve_a2:
+        approved = {*approved, "pmts_overdue_1140A"}
+    rows = []
+    for r in selection(approve_a2=approve_a2).iter_rows(named=True):
+        family, column, action = r["family"], r["column"], r["action"]
+        if action == "referencia_as_of":
+            decision, state = "excluida", "no_aplica: ancla temporal, no predictor"
+        elif column in approved:
+            decision, state = "aprobada", "ok"
+        elif column in pending:
+            decision, state = "pendiente_filtro", PENDING
+        elif action in ("candidato_G2", "transformar_as_of"):
+            decision, state = "bloqueada", PENDING
+        elif action == "bloquear_hasta_G2":
+            decision, state = "bloqueada", "no_aplica_para_aprobación"
+        else:
+            decision, state = "excluida", "no_aplica_para_aprobación"
+        rows.append((family, column, action, decision, "", "", "", "", state, "P4"))
+    return pl.DataFrame(rows, schema=G2_HEADER, orient="row")
+
+
+def write_decisions(path: Path, **kw) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    decisions(**kw).write_csv(path)
     return path
 
 

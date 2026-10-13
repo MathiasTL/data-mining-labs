@@ -48,7 +48,7 @@ def write_sample_data(root: Path, *, write_base: bool = True) -> None:
     _write_shards(shifted(bfx.credit_bureau_b_2(), bfx.TEST_OFFSET), te, "test_credit_bureau_b_2", [])
 
 
-def build_small_artifacts(output_dir: Path, selection_path: Path):
+def build_small_artifacts(output_dir: Path, selection_path: Path, g2_path: Path):
     """Bureau artifacts for train, OOT and test (requires ``DM_DATA_DIR`` pointing to the sample data)."""
     from dm_credit import io
     from dm_credit.preparation.split import partition_base
@@ -61,7 +61,7 @@ def build_small_artifacts(output_dir: Path, selection_path: Path):
             out.append(
                 build(
                     base, split, cutoff_week=bfx.CUTOFF, output_dir=output_dir / family / split,
-                    selection_path=selection_path, category_shares=bfx.CATEGORY_SHARES if family == "credit_bureau_a" else None,
+                    selection_path=selection_path, g2_path=g2_path, category_shares=bfx.CATEGORY_SHARES if family == "credit_bureau_a" else None,
                 )
             )
     return out

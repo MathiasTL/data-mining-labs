@@ -4,16 +4,25 @@ Families (G1 point 2): ``credit_bureau_a`` = ``credit_bureau_a_1`` + ``credit_bu
 ``credit_bureau_b`` = ``credit_bureau_b_1`` + ``credit_bureau_b_2``. A family never joins another one.
 
 Design:
-    - The B5 selection (``results/preparation/B5_bureau_columns.csv``) drives everything. Only columns whose
-      action is in ``INCLUDED_ACTIONS`` produce features; ``bloquear_hasta_G2`` and ``excluir`` columns are
-      never read. ``referencia_as_of`` columns are temporal anchors (they filter rows, they are not predictors).
-      Approving a blocked column at G2 only changes the selection file, not this code.
-    - A table is processed only if at least one of its anchors (``ANCHORS``) is fully approved as
-      ``referencia_as_of``; a child table also needs its parent. With the current B5 file ``credit_bureau_a_2``
-      has no approved anchor (A5 D1/D6), so it is skipped and never read.
+    - The G2 decision (``results/preparation/G2_bureau_columns.csv``) decides which columns are predictors;
+      the B5 selection (``B5_bureau_columns.csv``) only supplies the dtype and the B5 action (provenance). Without
+      the G2 file the build fails: there are no unapproved defaults (G2 §4).
+    - ``mode="approved"`` (default): only ``g2_decision == "aprobada"`` columns produce features. With the
+      current G2 file that is zero predictors: the artifact carries only ``n_records``/``source_present``.
+    - ``mode="screening"`` (explicit, train only): builds the isolated evaluation artifact for the leakage screen
+      (G2 §6) only from ``pendiente_filtro`` columns (B5 ``candidato_G2``/``transformar_as_of``), i.e. columns whose
+      temporal availability is already documented. ``bloqueada`` columns are never screened. If a family has no
+      ``pendiente_filtro`` column (the current G2 file) the build fails instead of writing an empty artifact.
+      The artifact is published as ``<family>__screening`` under ``<output_dir>/_screening`` with rules version
+      ``C4-C5-v2-screening``, so it cannot be mistaken for an approved family artifact. It never approves
+      anything; only a new explicit G2 decision does. OOT and test are refused.
+    - Temporal anchors are the B5 ``referencia_as_of`` columns. G2 marks them ``excluida`` *as predictors*; they
+      are still read and filter rows ("excluded as predictor" is not "not read"). A table is processed only if at
+      least one of its anchors (``ANCHORS``) is fully present; a child table also needs its parent. With the
+      current B5 file ``credit_bureau_a_2`` has no anchor (A5 D1/D6), so it is skipped and never read.
     - Rows are read one row group at a time (``io.iter_row_groups``) and filtered temporally BEFORE aggregating.
-      A row is kept only if it has at least one non-null approved anchor and every non-null approved anchor
-      satisfies its rule (conservative row-level reading of B5's per-side rule for ``credit_bureau_a_1``).
+      A row is kept only if it has at least one non-null anchor and every non-null anchor satisfies its rule
+      (conservative row-level reading of B5's per-side rule for ``credit_bureau_a_1``).
       Children are kept only if their parent ``(case_id, num_group1)`` is valid (semi-join, same family).
     - Each batch yields a mergeable partial per ``case_id`` (count, sum, M2, min, max, true and category
       counts); partials merge with the stable parallel-variance formula (A5 §3.2: M2, not sum of squares).
@@ -29,6 +38,7 @@ dates. No ``n_distinct``, median or percentiles in bureau.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -41,17 +51,27 @@ import polars as pl
 from dm_credit import io
 from dm_credit.preparation import coercion, contracts
 from dm_credit.preparation.families import applications_people as ap
+from dm_credit.preparation.split import partition_base
 
 KEY = contracts.KEY
 PARENT_KEY = (KEY, "num_group1")
 WINDOW = "all"
-RULES_VERSION = "C4-C5-v1"
-DEFAULT_SELECTION_PATH = Path(__file__).resolve().parents[4] / "results" / "preparation" / "B5_bureau_columns.csv"
-INCLUDED_ACTIONS = ("candidato_G2", "transformar_as_of")
+RULES_VERSION = "C4-C5-v2"
+RESULTS = Path(__file__).resolve().parents[4] / "results" / "preparation"
+DEFAULT_SELECTION_PATH = RESULTS / "B5_bureau_columns.csv"
+DEFAULT_G2_PATH = RESULTS / "G2_bureau_columns.csv"
 ANCHOR_ACTION = "referencia_as_of"
+APPROVED = "aprobada"
+G2_DECISIONS = ("aprobada", "excluida", "bloqueada", "aplazada", "pendiente_filtro")
+MODES = ("approved", "screening")
+SCREEN_ACTIONS = ("candidato_G2", "transformar_as_of")  # B5 actions that may enter the leakage screen
+SCREEN_DECISION = "pendiente_filtro"  # G2 §6: temporal availability documented, only the empirical screen remains
+SCREENING_SUFFIX = "__screening"  # family name and folder of screening artifacts: never an approved family
+SCREENING_SUBDIR = "_screening"
 RESERVED = {KEY, "num_group1", "num_group2"}
 NUMERIC_AGGS = ("count", "min", "max", "mean", "sum", "std")
 SELECTION_COLUMNS = {"family", "column", "dtype", "action"}
+G2_COLUMNS = {"family", "column", "b5_action", "g2_decision", "estado_filtro"}
 
 FAMILIES = {
     "credit_bureau_a": ("credit_bureau_a_1", "credit_bureau_a_2"),
@@ -132,8 +152,9 @@ class FamilyPlan:
         return hashlib.sha256(json.dumps(payload, sort_keys=True, default=list).encode()).hexdigest()
 
 
-# ------------------------------------------------------------------------- selection -> plan
+# ------------------------------------------------------------------- B5 + G2 -> resolved columns
 def load_selection(path: Path = DEFAULT_SELECTION_PATH) -> pl.DataFrame:
+    """B5 selection: dtype and B5 action (provenance) of every bureau column."""
     path = Path(path)
     if not path.is_file():
         raise FileNotFoundError(f"B5 selection not found: {path}")
@@ -146,6 +167,51 @@ def load_selection(path: Path = DEFAULT_SELECTION_PATH) -> pl.DataFrame:
     return selection
 
 
+def load_g2_decisions(path: Path | None = None) -> pl.DataFrame:
+    """G2 bureau decision. Missing file is an error: there are no unapproved defaults (G2 §4)."""
+    path = Path(path or DEFAULT_G2_PATH)
+    if not path.is_file():
+        raise FileNotFoundError(f"G2 bureau decision not found: {path} (the G2 decision must exist before building features)")
+    decisions = pl.read_csv(path, infer_schema=False)
+    missing = sorted(G2_COLUMNS - set(decisions.columns))
+    if missing:
+        raise ValueError(f"G2 bureau decision is missing columns {missing}")
+    if decisions.select("family", "column").is_duplicated().any():
+        raise ValueError("G2 bureau decision has repeated (family, column) rows")
+    unknown = sorted(set(decisions["g2_decision"].to_list()) - set(G2_DECISIONS))
+    if unknown:
+        raise ValueError(f"G2 bureau decision has unknown g2_decision values {unknown}; expected {list(G2_DECISIONS)}")
+    return decisions
+
+
+def resolve_columns(selection: pl.DataFrame, decisions: pl.DataFrame, *, mode: str = "approved") -> pl.DataFrame:
+    """One row per bureau column with its ``use``: ``anchor``, ``predictor`` or ``none``.
+
+    Anchors come from the B5 action ``referencia_as_of`` whatever their G2 decision: G2 excludes them as
+    predictors, but they are always read to filter rows. Predictors depend on ``mode`` (see module docstring).
+    """
+    if mode not in MODES:
+        raise ValueError(f"unknown mode {mode!r}; available: {list(MODES)}")
+    joined = selection.select("family", "column", "dtype", "action").join(
+        decisions.select("family", "column", "b5_action", "g2_decision", "estado_filtro"),
+        on=["family", "column"], how="full", coalesce=True,
+    )
+    unmatched = joined.filter(pl.col("action").is_null() | pl.col("g2_decision").is_null())
+    if unmatched.height:
+        raise ValueError(f"B5 selection and G2 decision cover different columns: {unmatched.select('family', 'column').rows()[:5]}")
+    drift = joined.filter(pl.col("action") != pl.col("b5_action"))
+    if drift.height:
+        raise ValueError(f"G2 b5_action differs from the B5 selection: {drift.select('family', 'column').rows()[:5]}")
+    anchor = pl.col("action") == ANCHOR_ACTION
+    if mode == "approved":
+        predictor = pl.col("g2_decision") == APPROVED
+    else:
+        predictor = pl.col("action").is_in(SCREEN_ACTIONS) & (pl.col("g2_decision") == SCREEN_DECISION)
+    return joined.with_columns(
+        use=pl.when(anchor).then(pl.lit("anchor")).when(predictor).then(pl.lit("predictor")).otherwise(pl.lit("none"))
+    ).sort("family", "column")
+
+
 def _logical(column: str, dtype: str) -> str:
     physical = getattr(pl, dtype, None)
     if physical is None:
@@ -153,19 +219,15 @@ def _logical(column: str, dtype: str) -> str:
     return coercion.logical_type_for(column, physical)
 
 
-def plan_from_selection(
+def plan_from_decisions(
     family: str,
-    selection: pl.DataFrame,
+    resolved: pl.DataFrame,
     *,
-    included_actions: Iterable[str] = INCLUDED_ACTIONS,
     category_shares: Mapping[str, Mapping[str, Iterable[str]]] | None = None,
 ) -> FamilyPlan:
-    """Build the aggregation plan of a family from the B5 selection (data-driven, no fixed column lists)."""
+    """Build the aggregation plan of a family from ``resolve_columns`` (data-driven, no fixed column lists)."""
     if family not in FAMILIES:
         raise ValueError(f"unknown bureau family {family!r}; available: {sorted(FAMILIES)}")
-    included_actions = set(included_actions)
-    if ANCHOR_ACTION in included_actions:
-        raise ValueError(f"{ANCHOR_ACTION} columns are anchors, not predictors")
     shares = {t: {c: tuple(v) for c, v in cols.items()} for t, cols in (category_shares or {}).items()}
     unknown = sorted(set(shares) - set(FAMILIES[family]))
     if unknown:
@@ -174,26 +236,29 @@ def plan_from_selection(
     skipped: dict[str, str] = {}
     without_vocabulary: list[str] = []
     for table in FAMILIES[family]:
-        rows = selection.filter(pl.col("family") == table)
+        rows = resolved.filter(pl.col("family") == table)
         if rows.is_empty():
-            raise ValueError(f"B5 selection has no rows for {table}")
-        refs = set(rows.filter(pl.col("action") == ANCHOR_ACTION)["column"])
+            raise ValueError(f"B5/G2 columns have no rows for {table}")
+        refs = set(rows.filter(pl.col("use") == "anchor")["column"])
         known = {c for a in ANCHORS[table] for c in a.columns}
         if refs - known:
             raise ValueError(f"{table}: {sorted(refs - known)} marked {ANCHOR_ACTION} but no anchor rule exists for them")
         anchors = tuple(a for a in ANCHORS[table] if set(a.columns) <= refs)
         parent = PARENTS.get(table)
         if not anchors:
-            skipped[table] = "sin ancla temporal aprobada (referencia_as_of) en B5: la tabla no se lee"
+            skipped[table] = "sin ancla temporal (referencia_as_of) en B5: la tabla no se lee"
         elif parent and parent in skipped:
             skipped[table] = f"su tabla padre {parent} no se procesa"
         table_shares = shares.get(table, {})
+        predictors = rows.filter(pl.col("use") == "predictor").sort("column")
         if table in skipped:
             if table_shares:
                 raise ValueError(f"category_shares given for skipped table {table}")
+            if predictors.height:
+                raise ValueError(f"{table}: predictors {predictors['column'].to_list()} in a table that is not processed")
             continue
         numeric, bools, dates, categories = [], [], [], {}
-        for r in rows.filter(pl.col("action").is_in(sorted(included_actions))).sort("column").iter_rows(named=True):
+        for r in predictors.iter_rows(named=True):
             column, logical = r["column"], _logical(r["column"], r["dtype"])
             if column in RESERVED or column in known:
                 raise ValueError(f"{table}: {column} is a key or an anchor and cannot be a predictor")
@@ -465,6 +530,26 @@ class ShardCache:
         os.replace(tmp, meta_path)  # the metadata is written last: a visible checkpoint is complete
 
 
+def _require_screenable(family: str, resolved: pl.DataFrame, plan: FamilyPlan) -> None:
+    """Screening never builds an empty artifact: it needs at least one aggregated ``pendiente_filtro`` column."""
+    pending = resolved.filter(pl.col("family").is_in(FAMILIES[family]) & (pl.col("use") == "predictor"))
+    if pending.is_empty():
+        raise ValueError(
+            f"{family}: no column is {SCREEN_DECISION!r} in the G2 decision, so there is nothing to screen. "
+            "P4 must first document the temporal availability of each candidate and G2 must mark it "
+            f"{SCREEN_DECISION!r} (G2 §6); bloqueada columns are never screened"
+        )
+    if not _plan_predictors(plan):
+        raise ValueError(
+            f"{family}: the {SCREEN_DECISION!r} columns {pending['column'].to_list()} produce no aggregated feature "
+            "(categorical columns need an approved vocabulary in category_shares)"
+        )
+
+
+def _plan_predictors(plan: FamilyPlan) -> list[str]:
+    return [c for t in plan.tables for c in (*t.numeric, *t.bools, *t.dates, *t.categories)]
+
+
 def _build_family(
     family: str,
     base: pl.DataFrame,
@@ -473,14 +558,24 @@ def _build_family(
     cutoff_week: int,
     output_dir: Path,
     selection_path: Path,
+    g2_path: Path | None,
+    mode: str,
     category_shares: Mapping[str, Mapping[str, Iterable[str]]] | None,
-    included_actions: Iterable[str],
     cache_dir: Path | None,
 ) -> contracts.FamilyFeatureArtifact:
+    if mode not in MODES:
+        raise ValueError(f"unknown mode {mode!r}; available: {list(MODES)}")
+    if mode == "screening" and split != "train":
+        raise ValueError(f"screening mode builds only the train artifact for the leakage screen, got split {split!r}")
     contracts.validate_base(base, split, cutoff_week)
-    plan = plan_from_selection(
-        family, load_selection(selection_path), included_actions=included_actions, category_shares=category_shares
-    )
+    g2_path = Path(g2_path or DEFAULT_G2_PATH)
+    resolved = resolve_columns(load_selection(selection_path), load_g2_decisions(g2_path), mode=mode)
+    plan = plan_from_decisions(family, resolved, category_shares=category_shares)
+    rules_version = RULES_VERSION if mode == "approved" else f"{RULES_VERSION}-screening"
+    published_family, publish_dir = family, Path(output_dir)
+    if mode == "screening":
+        _require_screenable(family, resolved, plan)
+        published_family, publish_dir = family + SCREENING_SUFFIX, publish_dir / SCREENING_SUBDIR
     file_split = "test" if split == "test" else "train"
     decision = _decision(base)
     base_fp = ap._base_fingerprint(base)
@@ -495,7 +590,7 @@ def _build_family(
         partial, exclusions, keys = empty_partial(tp), {}, []
         for shard in shards:
             key = {
-                "rules_version": RULES_VERSION,
+                "rules_version": rules_version,
                 "plan": plan.fingerprint(),
                 "shard": _file_fingerprint(shard),
                 "parent_shards": shard_fps[tp.parent] if tp.parent else "",
@@ -528,6 +623,8 @@ def _build_family(
         "base_sha256": base_fp,
         "shards": ";".join(shard_fps[tp.table] for tp in plan.tables),
         "selection_manifest": Path(selection_path).name,
+        "g2_decision": g2_path.name,
+        "g2_mode": mode,
         "plan_sha256": plan.fingerprint(),
     }
     inputs.update({f"skipped_table:{t}": reason for t, reason in plan.skipped.items()})
@@ -536,11 +633,11 @@ def _build_family(
     return contracts.write_family_features(
         result.features,
         definitions,
-        family=family,
+        family=published_family,
         split=split,
-        output_dir=output_dir,
+        output_dir=publish_dir,
         exclusions=result.exclusions,
-        rules_version=RULES_VERSION,
+        rules_version=rules_version,
         inputs=inputs,
     )
 
@@ -567,14 +664,18 @@ def build_credit_bureau_a_features(
     cutoff_week: int = 74,
     output_dir: Path,
     selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path | None = None,
+    mode: str = "approved",
     category_shares: Mapping[str, Mapping[str, Iterable[str]]] | None = None,
-    included_actions: Iterable[str] = INCLUDED_ACTIONS,
     cache_dir: Path | None = None,
 ) -> contracts.FamilyFeatureArtifact:
-    """Family ``credit_bureau_a`` (C4): one row per base case, streamed by row group with shard checkpoints."""
+    """Family ``credit_bureau_a`` (C4): one row per base case, streamed by row group with shard checkpoints.
+
+    ``g2_path`` defaults to ``DEFAULT_G2_PATH`` (resolved at call time); ``mode="screening"`` is train only.
+    """
     return _build_family(
         "credit_bureau_a", base, split, cutoff_week=cutoff_week, output_dir=output_dir, selection_path=selection_path,
-        category_shares=category_shares, included_actions=included_actions, cache_dir=cache_dir,
+        g2_path=g2_path, mode=mode, category_shares=category_shares, cache_dir=cache_dir,
     )
 
 
@@ -585,15 +686,47 @@ def build_credit_bureau_b_features(
     cutoff_week: int = 74,
     output_dir: Path,
     selection_path: Path = DEFAULT_SELECTION_PATH,
+    g2_path: Path | None = None,
+    mode: str = "approved",
     category_shares: Mapping[str, Mapping[str, Iterable[str]]] | None = None,
-    included_actions: Iterable[str] = INCLUDED_ACTIONS,
     cache_dir: Path | None = None,
 ) -> contracts.FamilyFeatureArtifact:
     """Family ``credit_bureau_b`` (C5): children only with a temporally valid parent, no cross-family joins."""
     return _build_family(
         "credit_bureau_b", base, split, cutoff_week=cutoff_week, output_dir=output_dir, selection_path=selection_path,
-        category_shares=category_shares, included_actions=included_actions, cache_dir=cache_dir,
+        g2_path=g2_path, mode=mode, category_shares=category_shares, cache_dir=cache_dir,
     )
 
 
 BUILDERS = {"credit_bureau_a": build_credit_bureau_a_features, "credit_bureau_b": build_credit_bureau_b_features}
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--families", nargs="+", choices=sorted(BUILDERS), default=sorted(BUILDERS))
+    parser.add_argument("--splits", nargs="+", choices=["train", "oot", "test"], default=["train"])
+    parser.add_argument("--mode", choices=MODES, default="approved")
+    parser.add_argument("--cutoff-week", type=int, default=74)
+    parser.add_argument("--selection", type=Path, default=DEFAULT_SELECTION_PATH)
+    parser.add_argument("--g2-decision", type=Path, default=DEFAULT_G2_PATH)
+    parser.add_argument("--output-dir", type=Path, default=None, help="default: <data>/artifacts/preparation/C4-C5-v2 (approved) or G2-screen-bureau (screening)")
+    parser.add_argument("--cache-dir", type=Path, default=None)
+    args = parser.parse_args()
+    if args.mode == "screening" and args.splits != ["train"]:
+        parser.error("--mode screening builds only the train split (OOT and test never select columns)")
+    default_dir = "G2-screen-bureau" if args.mode == "screening" else "C4-C5-v2"
+    output_dir = args.output_dir or io.data_dir() / "artifacts" / "preparation" / default_dir
+    parts = partition_base(io.load_base("train"), io.load_base("test"), cutoff_week=args.cutoff_week)
+    bases = {"train": parts.train, "oot": parts.oot, "test": parts.test}
+    for family in args.families:
+        for split in args.splits:
+            art = BUILDERS[family](
+                bases[split].select(KEY, "WEEK_NUM", "date_decision"), split, cutoff_week=args.cutoff_week,
+                output_dir=output_dir / family, selection_path=args.selection, g2_path=args.g2_decision,
+                mode=args.mode, cache_dir=args.cache_dir,
+            )
+            print(f"{family} {split}: {art.row_count} rows, {len(art.feature_schema)} features -> {art.manifest_path}")
+
+
+if __name__ == "__main__":
+    main()

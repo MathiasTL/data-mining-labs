@@ -7,23 +7,34 @@ import pytest
 import preparation_bureau_artifacts as bart
 import preparation_bureau_fixtures as bfx
 from dm_credit import io
-from dm_credit.preparation import build
+from dm_credit.preparation import build, leakage_screen
+from dm_credit.preparation.assembly import assemble_feature_matrix
 from dm_credit.preparation import contracts as ct
 from dm_credit.preparation.families import bureau
 from dm_credit.preparation.families.applications_people_run import assert_same_feature_schema
 
 
-def plan(family, *, approve_a2=False, shares=bfx.CATEGORY_SHARES):
+def resolved(*, approve_a2=False, approved=bfx.APPROVED, pending=frozenset(), mode="approved"):
+    return bureau.resolve_columns(
+        bfx.selection(approve_a2=approve_a2),
+        bfx.decisions(approved=approved, pending=pending, approve_a2=approve_a2),
+        mode=mode,
+    )
+
+
+def plan(family, *, approve_a2=False, shares=bfx.CATEGORY_SHARES, approved=bfx.APPROVED, pending=frozenset(), mode="approved"):
     shares = shares if family == "credit_bureau_a" else None
-    return bureau.plan_from_selection(family, bfx.selection(approve_a2=approve_a2), category_shares=shares)
+    return bureau.plan_from_decisions(
+        family, resolved(approve_a2=approve_a2, approved=approved, pending=pending, mode=mode), category_shares=shares
+    )
 
 
 def batches_of(frame, size):
     return [frame.slice(i, size) for i in range(0, frame.height, size)] or [frame]
 
 
-def aggregate(family, *, size=1000, approve_a2=False, base=None):
-    p = plan(family, approve_a2=approve_a2)
+def aggregate(family, *, size=1000, approve_a2=False, base=None, approved=bfx.APPROVED, shares=bfx.CATEGORY_SHARES):
+    p = plan(family, approve_a2=approve_a2, approved=approved, shares=shares)
     tables = {t.table: batches_of(bfx.TABLES[t.table](), size) for t in p.tables}
     return bureau.aggregate_family(bfx.base() if base is None else base, p, tables)
 
@@ -68,19 +79,93 @@ def test_blocked_columns_are_not_even_read():
     assert "credit_bureau_a_2" in p.skipped  # no approved anchor: never read
 
 
-def test_real_b5_selection_only_includes_allowed_actions():
-    selection = bureau.load_selection()
-    allowed = selection.filter(pl.col("action").is_in(bureau.INCLUDED_ACTIONS))
+def _used(p):
+    return {(t.table, c) for t in p.tables for c in (*t.numeric, *t.bools, *t.dates, *t.categories)}
+
+
+def test_real_g2_decision_gives_zero_predictors_but_keeps_anchors():
+    real = bureau.resolve_columns(bureau.load_selection(), bureau.load_g2_decisions())
+    approved = real.filter(pl.col("g2_decision") == bureau.APPROVED)
     for family in bureau.FAMILIES:
-        p = bureau.plan_from_selection(family, selection)
-        used = {(t.table, c) for t in p.tables for c in (*t.numeric, *t.bools, *t.dates, *t.categories)}
-        assert used <= set(zip(allowed["family"], allowed["column"]))
-        # without an approved vocabulary, categorical candidates are deferred, not invented
-        assert all(not t.categories for t in p.tables)
-    assert "credit_bureau_a_2" in bureau.plan_from_selection("credit_bureau_a", selection).skipped
+        p = bureau.plan_from_decisions(family, real)
+        assert _used(p) <= set(zip(approved["family"], approved["column"]))  # today: empty
+        assert all(t.anchor_columns for t in p.tables)  # G2-excluded anchors are still read
+    a, b = (bureau.plan_from_decisions(f, real) for f in ("credit_bureau_a", "credit_bureau_b"))
+    assert {t.table for t in a.tables} == {"credit_bureau_a_1"} and "credit_bureau_a_2" in a.skipped
+    assert {t.table for t in b.tables} == {"credit_bureau_b_1", "credit_bureau_b_2"}
+    assert set(a.tables[0].anchor_columns) == {"lastupdate_1112D", "lastupdate_388D"}
 
 
-def test_approving_a2_at_g2_needs_only_a_selection_change():
+def test_real_g2_screening_selects_only_pendiente_filtro_columns():
+    real = bureau.resolve_columns(bureau.load_selection(), bureau.load_g2_decisions(), mode="screening")
+    eligible = real.filter(pl.col("use") == "predictor")
+    expected = real.filter(pl.col("action").is_in(bureau.SCREEN_ACTIONS) & (pl.col("g2_decision") == "pendiente_filtro"))
+    assert eligible.select("family", "column").equals(expected.select("family", "column"))
+    assert real.filter(pl.col("g2_decision") == "pendiente_filtro").is_empty()  # today: nothing to screen
+
+
+def test_only_aprobada_columns_are_predictors():
+    p = plan("credit_bureau_b", approved={"amount_1115A"})
+    assert _used(p) == {("credit_bureau_b_1", "amount_1115A")}
+    none = plan("credit_bureau_a", approved=set(), shares=None)
+    assert not _used(none) and not none.without_vocabulary
+
+
+def test_g2_excluded_anchors_still_filter_rows_with_zero_predictors():
+    sel = resolved(approved=set())
+    assert set(sel.filter(pl.col("use") == "anchor")["g2_decision"]) == {"excluida"}
+    a = aggregate("credit_bureau_a", approved=set(), shares=None)
+    b = aggregate("credit_bureau_b", approved=set(), shares=None)
+    assert a.features.columns == ["case_id", "credit_bureau_a_1__n_records", "credit_bureau_a_1__source_present"]
+    # (1,2) after the decision, (1,3) null anchors and (4,0) one anchor after are dropped
+    assert a.features["credit_bureau_a_1__n_records"].to_list() == bfx.EXPECTED_A1["credit_bureau_a_1__n_records"]
+    assert a.exclusions == {"credit_bureau_a_1_rows_null_anchor": 1, "credit_bureau_a_1_rows_after_decision": 2}
+    assert b.features["credit_bureau_b_1__n_records"].to_list() == bfx.EXPECTED_B["credit_bureau_b_1__n_records"]
+    assert b.features["credit_bureau_b_2__n_records"].to_list() == bfx.EXPECTED_B["credit_bureau_b_2__n_records"]
+    assert b.exclusions == {k: v for k, v in bfx.EXPECTED_B_EXCLUSIONS.items() if "contractdate" not in k}
+
+
+def test_screening_mode_uses_only_pendiente_filtro_not_approved_or_blocked():
+    # amount approved, contractdate pendiente_filtro, isbidproduct bloqueada with estado_filtro no_ejecutado
+    p = plan("credit_bureau_b", approved={"amount_1115A"}, pending={"contractdate_551D"}, mode="screening")
+    assert _used(p) == {("credit_bureau_b_1", "contractdate_551D")}
+    read = {c for t in p.tables for c in t.columns}
+    assert not read & (bfx.BLOCKED_OR_EXCLUDED | {"isbidproduct_1L", "amount_1115A"})
+
+
+def test_g2_must_match_the_b5_selection():
+    b5 = bfx.selection()
+    with pytest.raises(ValueError, match="b5_action differs"):
+        bureau.resolve_columns(b5, bfx.decisions(approve_a2=True))
+    with pytest.raises(ValueError, match="different columns"):
+        bureau.resolve_columns(b5, bfx.decisions().filter(pl.col("column") != "credlmt_935A"))
+    with pytest.raises(ValueError, match="unknown mode"):
+        bureau.resolve_columns(b5, bfx.decisions(), mode="b5")
+
+
+def test_g2_file_errors(tmp_path):
+    with pytest.raises(FileNotFoundError, match="G2 bureau decision"):
+        bureau.load_g2_decisions(tmp_path / "missing.csv")
+    bad = bfx.decisions().with_columns(g2_decision=pl.lit("aprobado"))
+    bad.write_csv(tmp_path / "bad.csv")
+    with pytest.raises(ValueError, match="unknown g2_decision"):
+        bureau.load_g2_decisions(tmp_path / "bad.csv")
+
+
+def test_approving_an_anchor_or_key_never_makes_it_a_predictor():
+    g2 = bfx.decisions().with_columns(
+        g2_decision=pl.when(pl.col("column") == "lastupdate_260D").then(pl.lit("aprobada")).otherwise("g2_decision")
+    )
+    p = bureau.plan_from_decisions("credit_bureau_b", bureau.resolve_columns(bfx.selection(), g2))
+    assert ("credit_bureau_b_1", "lastupdate_260D") not in _used(p)
+    g2 = bfx.decisions().with_columns(
+        g2_decision=pl.when(pl.col("column") == "num_group1").then(pl.lit("aprobada")).otherwise("g2_decision")
+    )
+    with pytest.raises(ValueError, match="key or an anchor"):
+        bureau.plan_from_decisions("credit_bureau_b", bureau.resolve_columns(bfx.selection(), g2))
+
+
+def test_approving_a2_needs_only_a_selection_and_decision_change():
     result = aggregate("credit_bureau_a", approve_a2=True)
     assert_columns(result.features, bfx.EXPECTED_A1 | bfx.EXPECTED_A2_APPROVED)
     assert {k: result.exclusions[k] for k in bfx.EXPECTED_A2_EXCLUSIONS} == bfx.EXPECTED_A2_EXCLUSIONS
@@ -148,11 +233,12 @@ def test_category_shares_for_a_blocked_column_are_rejected():
 
 
 def test_unknown_anchor_in_selection_is_an_error():
-    sel = bfx.selection().with_columns(
-        action=pl.when(pl.col("column") == "credlmt_935A").then(pl.lit("referencia_as_of")).otherwise("action")
-    )
+    def mark(df, col):
+        return df.with_columns(pl.when(pl.col("column") == "credlmt_935A").then(pl.lit("referencia_as_of")).otherwise(col).alias(col))
+
+    sel = bureau.resolve_columns(mark(bfx.selection(), "action"), mark(bfx.decisions(), "b5_action"))
     with pytest.raises(ValueError, match="no anchor rule"):
-        bureau.plan_from_selection("credit_bureau_a", sel)
+        bureau.plan_from_decisions("credit_bureau_a", sel)
 
 
 # ----------------------------------------------------------------------- builder and cache
@@ -169,6 +255,11 @@ def selection_path(tmp_path):
     return bfx.write_selection(tmp_path / "B5.csv")
 
 
+@pytest.fixture
+def g2_path(tmp_path):
+    return bfx.write_decisions(tmp_path / "G2.csv")
+
+
 def base_for(split, cutoff=bfx.CUTOFF):
     b = bfx.base().select("case_id", "WEEK_NUM", "date_decision")
     if split == "test":
@@ -176,10 +267,10 @@ def base_for(split, cutoff=bfx.CUTOFF):
     return b.filter(pl.col("WEEK_NUM") < cutoff) if split == "train" else b.filter(pl.col("WEEK_NUM") >= cutoff)
 
 
-def build_a(split, out, selection_path, **kw):
+def build_a(split, out, selection_path, g2_path, **kw):
+    kw.setdefault("category_shares", bfx.CATEGORY_SHARES)
     return bureau.build_credit_bureau_a_features(
-        base_for(split), split, cutoff_week=bfx.CUTOFF, output_dir=out, selection_path=selection_path,
-        category_shares=bfx.CATEGORY_SHARES, **kw,
+        base_for(split), split, cutoff_week=bfx.CUTOFF, output_dir=out, selection_path=selection_path, g2_path=g2_path, **kw,
     )
 
 
@@ -193,27 +284,103 @@ def test_shards_and_row_groups_are_streamed(data):
 
 
 @pytest.mark.parametrize("split", ["train", "oot"])
-def test_builder_matches_the_pure_core(data, tmp_path, selection_path, split):
-    art = build_a(split, tmp_path / "out", selection_path)
+def test_builder_matches_the_pure_core(data, tmp_path, selection_path, g2_path, split):
+    art = build_a(split, tmp_path / "out", selection_path, g2_path)
     expected = aggregate("credit_bureau_a").features.join(base_for(split).select("case_id"), on="case_id", how="semi")
     assert _close(pl.read_parquet(art.data_path), expected)
     assert art.case_count == base_for(split).height and art.row_count == art.case_count
 
 
-def test_manifest_records_rules_inputs_and_skipped_tables(data, tmp_path, selection_path):
-    art = build_a("train", tmp_path / "out", selection_path)
+def test_manifest_records_rules_inputs_and_skipped_tables(data, tmp_path, selection_path, g2_path):
+    art = build_a("train", tmp_path / "out", selection_path, g2_path)
     m = json.loads(art.manifest_path.read_text())
     assert m["rules_version"] == bureau.RULES_VERSION and m["inputs"]["cutoff_week"] == str(bfx.CUTOFF)
     assert "train_credit_bureau_a_1_1.parquet" in m["inputs"]["shards"] and "a_2" not in m["inputs"]["shards"]
     assert "skipped_table:credit_bureau_a_2" in m["inputs"]
     assert m["exclusions"]["credit_bureau_a_1_rows_after_decision"] == 1  # train cases only: (1,2)
+    assert m["inputs"]["g2_decision"] == "G2.csv" and m["inputs"]["g2_mode"] == "approved"
     roles = {f["name"]: f["role"] for f in m["features"]}
     assert roles["credit_bureau_a_1__n_records"] == "cobertura" and roles["credit_bureau_a_1__credlmt_935a__std__all"] == "predictor"
 
 
-def test_bureau_b_builder_and_dispatch(data, tmp_path, selection_path):
+def test_default_dispatch_reads_the_real_g2_file_and_builds_coverage_only(data, tmp_path):
+    for family in ("credit_bureau_a", "credit_bureau_b"):
+        art = build.build_family_features(family, base_for("train"), "train", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / family)
+        assert {d.role for d in art.feature_schema} == {"cobertura"}  # real G2 approves no bureau column yet
+        m = json.loads(art.manifest_path.read_text())
+        assert m["inputs"]["g2_decision"] == "G2_bureau_columns.csv" and m["inputs"]["g2_mode"] == "approved"
+    got = pl.read_parquet(art.data_path)
+    assert got["credit_bureau_b_1__n_records"].to_list() == [1, 2]  # anchors excluded as predictors still filter
+    assert m["exclusions"]["credit_bureau_b_1_rows_after_decision"] == 1
+
+
+def test_missing_g2_decision_is_an_error_for_the_default_dispatch(data, tmp_path, monkeypatch):
+    monkeypatch.setattr(bureau, "DEFAULT_G2_PATH", tmp_path / "missing" / "G2_bureau_columns.csv")
+    for family in ("credit_bureau_a", "credit_bureau_b"):
+        with pytest.raises(FileNotFoundError, match="G2 bureau decision"):
+            build.build_family_features(family, base_for("train"), "train", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / family)
+    assert not (tmp_path / "credit_bureau_a").exists()
+
+
+def test_screening_artifact_is_isolated_train_only_and_feeds_the_leakage_screen(data, tmp_path, selection_path):
+    g2 = bfx.write_decisions(tmp_path / "G2_pending.csv", approved=set(), pending=bfx.APPROVED)
+    for split in ("oot", "test"):
+        with pytest.raises(ValueError, match="screening"):
+            build_a(split, tmp_path / split, selection_path, g2, mode="screening")
+        assert not (tmp_path / split).exists()
+    approved = build_a("train", tmp_path / "out", selection_path, g2, category_shares=None)
+    assert {d.role for d in approved.feature_schema} == {"cobertura"}  # default mode: pendiente_filtro is not approval
+    art = build_a("train", tmp_path / "out", selection_path, g2, mode="screening")
+    assert art.family == "credit_bureau_a__screening"
+    assert art.manifest_path == tmp_path / "out" / "_screening" / "credit_bureau_a__screening__train.manifest.json"
+    assert approved.manifest_path.is_file() and art.data_path != approved.data_path  # never overwrites the approved one
+    m = json.loads(art.manifest_path.read_text())
+    assert m["rules_version"] == f"{bureau.RULES_VERSION}-screening" and m["inputs"]["g2_mode"] == "screening"
+    expected = aggregate("credit_bureau_a").features.join(base_for("train").select("case_id"), on="case_id", how="semi")
+    assert _close(pl.read_parquet(art.data_path), expected)  # pending candidates, same aggregation as approved
+    screen = leakage_screen.screen_artifacts([art.manifest_path], bfx.base(), cutoff_week=bfx.CUTOFF)
+    predictors = {d.name for d in art.feature_schema if d.role == "predictor"}
+    assert predictors and predictors <= set(screen["feature"])
+
+
+def test_screening_without_pendiente_filtro_columns_is_an_error(data, tmp_path, selection_path):
+    g2 = bfx.write_decisions(tmp_path / "G2_blocked.csv", approved=set())  # candidates only bloqueada / no_ejecutado
+    for build_fn in bureau.BUILDERS.values():
+        with pytest.raises(ValueError, match="no column is 'pendiente_filtro'.*P4.*G2 §6"):
+            build_fn(
+                base_for("train"), "train", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / "out",
+                selection_path=selection_path, g2_path=g2, mode="screening",
+            )
+    assert not list((tmp_path / "out").rglob("*.manifest.json"))
+
+
+def test_screening_artifact_cannot_join_a_matrix_with_the_approved_one(data, tmp_path, selection_path, g2_path):
+    g2 = bfx.write_decisions(tmp_path / "G2_pending.csv", approved=set(), pending=bfx.APPROVED)
+    approved = build_a("train", tmp_path / "out", selection_path, g2_path)
+    screening = build_a("train", tmp_path / "out", selection_path, g2, mode="screening")
+    base = bfx.base().filter(pl.col("WEEK_NUM") < bfx.CUTOFF)
+    with pytest.raises(ValueError, match="duplicate or reserved feature names"):
+        assemble_feature_matrix(base, [approved, screening], "train", output_dir=tmp_path / "matrix")
+    # alone, the assembler (not owned here) does not check the mode: it stays recognisable by name and manifest
+    assert screening.family.endswith(bureau.SCREENING_SUFFIX) and bureau.SCREENING_SUBDIR in screening.manifest_path.parts
+
+
+@pytest.mark.parametrize("split", ["train", "oot", "test"])
+def test_bureau_artifacts_are_accepted_by_the_assembler(data, tmp_path, selection_path, g2_path, split):
+    arts = [a for a in bart.build_small_artifacts(tmp_path / "out", selection_path, g2_path) if a.split == split]
+    base = base_for(split).join(bfx.base().select("case_id", "MONTH", "target"), on="case_id", how="left")
+    if split == "test":
+        base = base.drop("target").with_columns(MONTH=pl.lit(202006))
+    matrix = assemble_feature_matrix(base, arts, split, output_dir=tmp_path / "matrix")
+    got = pl.read_parquet(matrix.data_path)
+    assert got["case_id"].to_list() == base["case_id"].to_list()
+    assert {"credit_bureau_a_1__n_records", "credit_bureau_b_2__source_present"} <= set(got.columns)
+
+
+def test_bureau_b_builder_and_dispatch(data, tmp_path, selection_path, g2_path):
     art = build.build_family_features(
-        "credit_bureau_b", base_for("train"), "train", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / "b", selection_path=selection_path
+        "credit_bureau_b", base_for("train"), "train", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / "b",
+        selection_path=selection_path, g2_path=g2_path,
     )
     assert isinstance(art, ct.FamilyFeatureArtifact) and art.family == "credit_bureau_b"
     got = pl.read_parquet(art.data_path)
@@ -221,8 +388,8 @@ def test_bureau_b_builder_and_dispatch(data, tmp_path, selection_path):
     assert {"credit_bureau_a", "credit_bureau_b"} <= set(build.BUILDERS)
 
 
-def test_identical_feature_set_across_train_oot_and_test(data, tmp_path, selection_path):
-    arts = bart.build_small_artifacts(tmp_path / "out", selection_path)
+def test_identical_feature_set_across_train_oot_and_test(data, tmp_path, selection_path, g2_path):
+    arts = bart.build_small_artifacts(tmp_path / "out", selection_path, g2_path)
     assert len(arts) == 6
     assert_same_feature_schema(arts)
     for a in arts:
@@ -231,11 +398,12 @@ def test_identical_feature_set_across_train_oot_and_test(data, tmp_path, selecti
     assert catalog["name"].n_unique() == catalog.height and "credit_bureau_b_2__n_records" in catalog["name"].to_list()
 
 
-def test_test_split_with_empty_null_typed_shard(data, tmp_path, selection_path):
+def test_test_split_with_empty_null_typed_shard(data, tmp_path, selection_path, g2_path):
     te = data / "parquet_files" / "test"
     pl.DataFrame(schema={c: pl.Null for c in bfx.credit_bureau_b_1().columns}).write_parquet(te / "test_credit_bureau_b_1.parquet")
     art = bureau.build_credit_bureau_b_features(
-        base_for("test"), "test", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / "t", selection_path=selection_path
+        base_for("test"), "test", cutoff_week=bfx.CUTOFF, output_dir=tmp_path / "t", selection_path=selection_path,
+        g2_path=g2_path,
     )
     got = pl.read_parquet(art.data_path)
     assert got.height == 5 and got["credit_bureau_b_1__n_records"].sum() == 0
@@ -246,8 +414,8 @@ def m_exclusion(art, key):
     return json.loads(art.manifest_path.read_text())["exclusions"][key]
 
 
-def test_cache_resume_gives_identical_output(data, tmp_path, selection_path, monkeypatch):
-    fresh = build_a("train", tmp_path / "fresh", selection_path)
+def test_cache_resume_gives_identical_output(data, tmp_path, selection_path, g2_path, monkeypatch):
+    fresh = build_a("train", tmp_path / "fresh", selection_path, g2_path)
     cache = tmp_path / "cache"
     real = io.iter_row_groups
 
@@ -258,7 +426,7 @@ def test_cache_resume_gives_identical_output(data, tmp_path, selection_path, mon
 
     monkeypatch.setattr(io, "iter_row_groups", fail_on_second_shard)
     with pytest.raises(RuntimeError, match="interrupted"):
-        build_a("train", tmp_path / "resumed", selection_path, cache_dir=cache)
+        build_a("train", tmp_path / "resumed", selection_path, g2_path, cache_dir=cache)
     assert not (tmp_path / "resumed" / "credit_bureau_a__train.parquet").exists()
     assert len(list((cache / "credit_bureau_a_1").glob("*_0.*.json"))) == 1  # first shard checkpointed
 
@@ -268,39 +436,40 @@ def test_cache_resume_gives_identical_output(data, tmp_path, selection_path, mon
         return real(path, columns)
 
     monkeypatch.setattr(io, "iter_row_groups", fail_on_first_shard)
-    resumed = build_a("train", tmp_path / "resumed", selection_path, cache_dir=cache)
+    resumed = build_a("train", tmp_path / "resumed", selection_path, g2_path, cache_dir=cache)
     assert pl.read_parquet(resumed.data_path).equals(pl.read_parquet(fresh.data_path))
     assert json.loads(resumed.manifest_path.read_text()) == json.loads(fresh.manifest_path.read_text())
 
 
-def test_cache_is_invalidated_by_base_or_corruption(data, tmp_path, selection_path, monkeypatch):
+def test_cache_is_invalidated_by_base_or_corruption(data, tmp_path, selection_path, g2_path, monkeypatch):
     cache = tmp_path / "cache"
-    build_a("train", tmp_path / "a", selection_path, cache_dir=cache)
+    build_a("train", tmp_path / "a", selection_path, g2_path, cache_dir=cache)
     calls = []
     real = io.iter_row_groups
     monkeypatch.setattr(io, "iter_row_groups", lambda path, columns=None: calls.append(path.name) or real(path, columns))
-    build_a("oot", tmp_path / "b", selection_path, cache_dir=cache)  # other base: new key, shards are read
+    build_a("oot", tmp_path / "b", selection_path, g2_path, cache_dir=cache)  # other base: new key, shards are read
     assert len(calls) == 2
     calls.clear()
     for f in (cache / "credit_bureau_a_1").glob("*.partial.parquet"):
         f.write_bytes(b"corrupt")
-    build_a("train", tmp_path / "c", selection_path, cache_dir=cache)
+    build_a("train", tmp_path / "c", selection_path, g2_path, cache_dir=cache)
     assert len(calls) == 2
 
 
-def test_failed_build_does_not_overwrite_a_valid_artifact(data, tmp_path, selection_path):
+def test_failed_build_does_not_overwrite_a_valid_artifact(data, tmp_path, selection_path, g2_path):
     out = tmp_path / "out"
-    good = build_a("train", out, selection_path)
+    good = build_a("train", out, selection_path, g2_path)
     before = good.data_path.read_bytes()
     with pytest.raises(ValueError):
-        build_a("train", out, selection_path, included_actions=("candidato_G2", "referencia_as_of"))
+        build_a("train", out, selection_path, g2_path, category_shares={"credit_bureau_a_1": {"financialinstitution_382M": ("X",)}})
     assert good.data_path.read_bytes() == before
 
 
 def test_child_uses_cached_parent_keys_when_a2_is_approved(data, tmp_path, monkeypatch):
-    sel = bfx.write_selection(tmp_path / "B5_g2.csv", approve_a2=True)
+    sel = bfx.write_selection(tmp_path / "B5_a2.csv", approve_a2=True)
+    g2 = bfx.write_decisions(tmp_path / "G2_a2.csv", approve_a2=True)
     cache = tmp_path / "cache"
-    first = build_a("train", tmp_path / "a", sel, cache_dir=cache)
+    first = build_a("train", tmp_path / "a", sel, g2, cache_dir=cache)
     got = pl.read_parquet(first.data_path)
     assert got["credit_bureau_a_2__n_records"].to_list() == [2, 1]
     assert got["credit_bureau_a_2__pmts_overdue_1140a__sum__all"].to_list() == [40.0, 60.0]
@@ -310,5 +479,5 @@ def test_child_uses_cached_parent_keys_when_a2_is_approved(data, tmp_path, monke
         raise AssertionError("every shard is checkpointed")
 
     monkeypatch.setattr(io, "iter_row_groups", no_reads)
-    again = build_a("train", tmp_path / "b", sel, cache_dir=cache)
+    again = build_a("train", tmp_path / "b", sel, g2, cache_dir=cache)
     assert pl.read_parquet(again.data_path).equals(got)
