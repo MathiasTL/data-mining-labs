@@ -1,7 +1,7 @@
 split,family,base_cases,source_rows_for_base,cases_with_source,cases_without_source,predictor_features,coverage_features
-oot,static_0,194658,194658,194658,0,40,2
-oot,static_cb_0,194658,194370,194370,288,17,2
-test,static_0,10,10,10,0,40,2
-test,static_cb_0,10,10,10,0,17,2
-train,static_0,1332001,1332001,1332001,0,40,2
-train,static_cb_0,1332001,1306106,1306106,25895,17,2
+oot,static_0,194658,194658,194658,0,0,2
+oot,static_cb_0,194658,194370,194370,288,0,2
+test,static_0,10,10,10,0,0,2
+test,static_cb_0,10,10,10,0,0,2
+train,static_0,1332001,1332001,1332001,0,0,2
+train,static_cb_0,1332001,1306106,1306106,25895,0,2
