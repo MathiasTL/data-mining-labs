@@ -21,8 +21,8 @@ from typing import Literal, Mapping
 
 import polars as pl
 
-from dm_credit.baseline import RESERVED
-from dm_credit.preparation.coercion import LOGICAL_TYPES
+from dm_credit.preparation.coercion import LOGICAL_TYPES, coerce_to_logical
+from dm_credit.preparation.columns import validate_predictor_columns
 
 KEY = "case_id"
 FORMAT_VERSION = 1
@@ -43,21 +43,42 @@ DTYPE_TO_LOGICAL = {
 def parse_feature_name(name: str) -> dict[str, str]:
     """Descompone un nombre de característica según la gramática de G1."""
     if not NAME_RE.match(name):
-        raise ValueError(f"invalid feature name {name!r}: does not follow the G1 grammar")
+        raise ValueError(
+            f"invalid feature name {name!r}: does not follow the G1 grammar"
+        )
     parts = name.split("__")
     source, rest = parts[0], parts[1:]
     if rest[-1] == "missing" and len(rest) >= 3:  # sufijo de ausencia (D2)
         rest = rest[:-1]
     if len(rest) == 1:
         if rest[0] not in COVERAGE:
-            raise ValueError(f"invalid feature name {name!r}: two-segment names must be coverage ({list(COVERAGE)})")
-        return {"source_table": source, "variable": "", "aggregation": rest[0], "window": "all"}
+            raise ValueError(
+                f"invalid feature name {name!r}: two-segment names must be coverage ({list(COVERAGE)})"
+            )
+        return {
+            "source_table": source,
+            "variable": "",
+            "aggregation": rest[0],
+            "window": "all",
+        }
     if rest[-1] not in WINDOWS:
-        raise ValueError(f"invalid feature name {name!r}: last segment must be a window {list(WINDOWS)}")
+        raise ValueError(
+            f"invalid feature name {name!r}: last segment must be a window {list(WINDOWS)}"
+        )
     if len(rest) == 2:  # fuente__metrica__ventana
-        return {"source_table": source, "variable": "", "aggregation": rest[0], "window": rest[1]}
+        return {
+            "source_table": source,
+            "variable": "",
+            "aggregation": rest[0],
+            "window": rest[1],
+        }
     if len(rest) == 3:
-        return {"source_table": source, "variable": rest[0], "aggregation": rest[1], "window": rest[2]}
+        return {
+            "source_table": source,
+            "variable": rest[0],
+            "aggregation": rest[1],
+            "window": rest[2],
+        }
     raise ValueError(f"invalid feature name {name!r}: too many segments")
 
 
@@ -77,7 +98,9 @@ class FeatureDefinition:
         if self.role not in ROLES:
             raise ValueError(f"role must be one of {list(ROLES)}, got {self.role!r}")
         if self.logical_type not in LOGICAL_TYPES:
-            raise ValueError(f"logical_type must be one of {sorted(LOGICAL_TYPES)}, got {self.logical_type!r}")
+            raise ValueError(
+                f"logical_type must be one of {sorted(LOGICAL_TYPES)}, got {self.logical_type!r}"
+            )
         parse_feature_name(self.name)
 
 
@@ -123,8 +146,14 @@ def describe_features(
     for name in (c for c in frame.columns if c != KEY):
         p = parse_feature_name(name)
         is_coverage = p["aggregation"] in COVERAGE or name.endswith("__missing")
-        cols = (source_columns.get(p["variable"], p["variable"]),) if p["variable"] else ()
-        what = f"{p['aggregation']} de {p['variable']}" if p["variable"] else p["aggregation"]
+        cols = (
+            (source_columns.get(p["variable"], p["variable"]),) if p["variable"] else ()
+        )
+        what = (
+            f"{p['aggregation']} de {p['variable']}"
+            if p["variable"]
+            else p["aggregation"]
+        )
         out.append(
             FeatureDefinition(
                 name=name,
@@ -141,8 +170,31 @@ def describe_features(
     return tuple(out)
 
 
+def validate_base_keys(base: pl.DataFrame) -> None:
+    """Valida las claves antes de cualquier filtro o join de la base."""
+    if KEY not in base.columns:
+        raise ValueError(f"base: missing required column {KEY}")
+    keys = base[KEY]
+    if keys.null_count() or (keys.dtype.is_float() and keys.is_nan().any()):
+        raise ValueError(f"base: {KEY} contains nulls")
+    if keys.n_unique() != base.height:
+        raise ValueError(f"base: {KEY} is not unique")
+
+
+def validate_decision_date(base: pl.DataFrame) -> None:
+    """Comprueba que la fecha de decisión sea una fecha válida, sin convertir la base."""
+    if "date_decision" not in base.columns:
+        raise ValueError("base: missing required column date_decision")
+    if base["date_decision"].null_count():
+        raise ValueError("base: date_decision contains nulls")
+    coerce_to_logical(base.select("date_decision"), {"date_decision": "date"})
+
+
 def validate_base(base: pl.DataFrame, split: str, cutoff_week: int = 74) -> None:
-    """Valida la base mínima que recibe cada familia (decisión G1, punto 1)."""
+    """Valida la base mínima sin target que recibe cada familia (G1, punto 1).
+
+    Una matriz etiquetada train/OOT se valida aparte: esta base puede no tener target.
+    """
     if split not in SPLITS:
         raise ValueError(f"split must be one of {SPLITS}, got {split!r}")
     required = [KEY, "WEEK_NUM", "date_decision"]
@@ -150,11 +202,15 @@ def validate_base(base: pl.DataFrame, split: str, cutoff_week: int = 74) -> None
     if missing:
         raise ValueError(f"base: missing required columns {missing}")
     for col in required:
-        nan = int(base[col].is_nan().sum()) if base.schema[col].is_float() else 0  # NaN también es ausencia
+        nan = (
+            int(base[col].is_nan().sum()) if base.schema[col].is_float() else 0
+        )  # NaN también es ausencia
         if base[col].null_count() or nan:
-            raise ValueError(f"base: {col} contains nulls (explicit failure, no implicit partition)")
-    if base[KEY].n_unique() != base.height:
-        raise ValueError(f"base: {KEY} is not unique")
+            raise ValueError(
+                f"base: {col} contains nulls (explicit failure, no implicit partition)"
+            )
+    validate_decision_date(base)
+    validate_base_keys(base)
     if split == "test":
         if "target" in base.columns:
             raise ValueError("base: the test split must not include target")
@@ -165,7 +221,9 @@ def validate_base(base: pl.DataFrame, split: str, cutoff_week: int = 74) -> None
             raise ValueError(f"base: oot split has WEEK_NUM < {cutoff_week}")
 
 
-def _validate(features: pl.DataFrame, definitions: tuple[FeatureDefinition, ...], split: str) -> None:
+def _validate(
+    features: pl.DataFrame, definitions: tuple[FeatureDefinition, ...], split: str
+) -> None:
     if split not in SPLITS:
         raise ValueError(f"split must be one of {SPLITS}, got {split!r}")
     if KEY not in features.columns:
@@ -173,12 +231,14 @@ def _validate(features: pl.DataFrame, definitions: tuple[FeatureDefinition, ...]
     if features[KEY].null_count():
         raise ValueError(f"{KEY} contains nulls")
     if features[KEY].n_unique() != features.height:
-        raise ValueError(f"{KEY} is not unique: an aggregate must have one row per case")
-    reserved = [c for c in features.columns if c in RESERVED and c != KEY]
-    if reserved:
-        raise ValueError(f"reserved columns cannot be features: {reserved}")
+        raise ValueError(
+            f"{KEY} is not unique: an aggregate must have one row per case"
+        )
+    validate_predictor_columns(features.columns[1:])
     if features.columns != [KEY, *(d.name for d in definitions)]:
-        raise ValueError("schema mismatch: columns must be case_id followed by the definitions in the same order")
+        raise ValueError(
+            "schema mismatch: columns must be case_id followed by the definitions in the same order"
+        )
     if not features[KEY].is_sorted():
         raise ValueError(f"{KEY} must be sorted ascending (G1: ordered aggregates)")
 
@@ -214,7 +274,9 @@ def write_family_features(
     output_dir.mkdir(parents=True, exist_ok=True)
     data_path = output_dir / f"{family}__{split}.parquet"
     manifest_path = output_dir / f"{family}__{split}.manifest.json"
-    tmp_data, tmp_manifest = (p.with_name(p.name + ".tmp") for p in (data_path, manifest_path))
+    tmp_data, tmp_manifest = (
+        p.with_name(p.name + ".tmp") for p in (data_path, manifest_path)
+    )
     try:
         features.write_parquet(tmp_data)
         manifest = {
@@ -237,7 +299,9 @@ def write_family_features(
                 "ordenado por case_id",
             ],
         }
-        tmp_manifest.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))  # puede fallar: aún nada publicado
+        tmp_manifest.write_text(
+            json.dumps(manifest, indent=2, ensure_ascii=False)
+        )  # puede fallar: aún nada publicado
         os.replace(tmp_data, data_path)
         os.replace(tmp_manifest, manifest_path)
     finally:
@@ -259,10 +323,15 @@ def load_family_artifact(manifest_path: Path) -> FamilyFeatureArtifact:
     manifest_path = Path(manifest_path)
     try:
         m = json.loads(manifest_path.read_text())
-        schema = tuple(FeatureDefinition(**{**f, "source_columns": tuple(f["source_columns"])}) for f in m["features"])
+        schema = tuple(
+            FeatureDefinition(**{**f, "source_columns": tuple(f["source_columns"])})
+            for f in m["features"]
+        )
         data_path = manifest_path.parent / m["data_path"]
         if _sha256(data_path) != m["data_sha256"]:
-            raise ValueError(f"{data_path} does not match its manifest (sha256 mismatch): incoherent pair")
+            raise ValueError(
+                f"{data_path} does not match its manifest (sha256 mismatch): incoherent pair"
+            )
         return FamilyFeatureArtifact(
             family=m["family"],
             split=m["split"],
@@ -273,4 +342,6 @@ def load_family_artifact(manifest_path: Path) -> FamilyFeatureArtifact:
             feature_schema=schema,
         )
     except (OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
-        raise ValueError(f"manifest {manifest_path} is missing or malformed: {exc}") from exc
+        raise ValueError(
+            f"manifest {manifest_path} is missing or malformed: {exc}"
+        ) from exc
