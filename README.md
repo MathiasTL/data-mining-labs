@@ -28,11 +28,10 @@ La fase de **Comprensión del negocio** corresponde a [`context/01-entendimiento
 
 ## Entorno y herramientas
 
-Requiere Python 3.11+. Los datos viven fuera de git (`data/` está ignorado); colócalos en `data/` o apunta `DM_DATA_DIR` a tu copia local.
+Requiere Python 3.11+ y [uv](https://docs.astral.sh/uv/) (`brew install uv` o `pip install uv`). Los datos viven fuera de git (`data/` está ignorado); colócalos en `data/` o apunta `DM_DATA_DIR` a tu copia local.
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"              # polars, pyarrow, numpy, scikit-learn, pytest
+uv sync --extra dev                   # crea .venv con las versiones fijadas en uv.lock
 uv run --extra dev pytest -q          # suite completa: 81 pruebas al cerrar el capítulo 02
 ```
 
