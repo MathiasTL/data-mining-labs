@@ -79,7 +79,7 @@ Convención (a congelar en G1, coherente con A4 §3):
 - Recencia/antigüedad: `<familia>__days_since_last_<campo>`, `<familia>__days_since_first_<campo>`.
 - Proporciones categóricas: `<familia>__<col>__share_<cat>` con `<cat>` normalizada (minúsculas, no alfanumérico → `_`).
 - Prohibido colisionar con `dm_credit.baseline.RESERVED` (`case_id`, `WEEK_NUM`, `target`, `date_decision`, `MONTH`, `num_group1`, `num_group2`) y duplicar nombres entre familias (lo valida el ensamblador A2).
-- Expresión de validación: `^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,3}$` más minúsculas obligatorias y prohibición de `__unknown__`/`__missing__` como segmento natural en train.
+- Expresión de validación: `^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,4}$` más minúsculas obligatorias y prohibición de `__unknown__`/`__missing__` como segmento natural en train. El cuarto segmento cubre el sufijo `__missing` que crea D2 (p. ej. `...__all__missing`).
 
 ## 7. Seam `fit`/`transform` (D1, propuesta para G1)
 

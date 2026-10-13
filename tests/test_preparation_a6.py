@@ -14,7 +14,7 @@ from dm_credit.preparation import coercion, outliers
 from dm_credit.preparation.coercion import CoercionError
 from dm_credit.preparation.outliers import DomainViolationError, RangeWarning
 
-NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,3}$")
+NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,4}$")
 RESERVED = {"case_id", "num_group1", "num_group2", "date_decision", "MONTH", "WEEK_NUM", "target"}
 
 

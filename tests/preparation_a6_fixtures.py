@@ -106,6 +106,7 @@ VALID_NAMES = [
     "deposit_1__amt__mean__all",
     "applprev_1__n_records",
     "tax_registry_a_1__amt__sum__all",
+    "applprev_1__credamount_590a__mean__all__missing",  # sufijo __missing de D2: 4 segmentos
 ]
 
 INVALID_NAMES = [
