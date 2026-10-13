@@ -1,0 +1,56 @@
+{
+  "format_version": 1,
+  "rules_version": "products-v1",
+  "family": "tax_registry_c_1",
+  "split": "train",
+  "data_path": "tax_registry_c_1__train.parquet",
+  "data_sha256": "ca129972ac6b70a031c62e82b5083ef8debbf0290a4f59570f354b9300943152",
+  "row_count": 1332001,
+  "case_count": 1332001,
+  "features": [
+    {
+      "name": "tax_registry_c_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "tax_registry_c_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en tax_registry_c_1 (ventana all)"
+    },
+    {
+      "name": "tax_registry_c_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "tax_registry_c_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en tax_registry_c_1 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "b6_excluded": 3,
+    "b6_blocked": 1,
+    "b6_candidates": 0,
+    "b6_transform_as_of": 1,
+    "g2_approved": 0,
+    "source_rows_outside_base": 0
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961",
+    "shards": "train_tax_registry_c_1.parquet:29825347:1790997776620063077",
+    "selection_manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
+    "g2_decision": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}

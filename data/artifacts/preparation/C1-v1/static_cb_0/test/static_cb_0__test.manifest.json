@@ -1,0 +1,53 @@
+{
+  "format_version": 1,
+  "rules_version": "depth0-v3",
+  "family": "static_cb_0",
+  "split": "test",
+  "data_path": "static_cb_0__test.parquet",
+  "data_sha256": "ee50deff14a6bafa66d3b96cd173f31ad894608b9b5ba76236b4804cf535d36f",
+  "row_count": 10,
+  "case_count": 10,
+  "features": [
+    {
+      "name": "static_cb_0__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "static_cb_0",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "n_records en static_cb_0 (ventana all)"
+    },
+    {
+      "name": "static_cb_0__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "static_cb_0",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "source_present en static_cb_0 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "manual_review": 34,
+    "exclude_predictor": 2,
+    "not_selected_from_source": 52
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
+    "shards": "test_static_cb_0.parquet:34849:1790997776400000760",
+    "selection_manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B3_depth0_columns.csv",
+    "g2_decision": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_depth0_columns.csv"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}

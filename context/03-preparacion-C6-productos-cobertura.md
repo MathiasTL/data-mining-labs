@@ -1,6 +1,6 @@
 # C6 — Adaptadores de productos con cobertura y cero predictores
 
-> **Responsable:** Gabriel (P5). **Estado:** implementado con sintéticos; ejecución real pendiente de la cola pesada (E4).
+> **Responsable:** Gabriel (P5). **Estado:** implementado y ejecutado con Parquet reales en train, OOT y test (13/10/2026).
 > **Alcance:** `debitcard_1`, `deposit_1`, `other_1` (tarea C6 del [backlog](03-preparacion-datos-backlog.md)).
 > **Insumos:** B6 (`results/preparation/B6_products_registry_columns.csv`), G2 (`results/preparation/G2_products_registry_columns.csv`, 0 aprobadas), contratos G1 (`contracts.py`), lector `dm_credit.io`.
 > **Código:** `src/dm_credit/preparation/families/products_registry.py`. **Pruebas:** `tests/test_preparation_c6.py` (13 casos, resultados a mano).
@@ -33,4 +33,4 @@ uv run --extra dev pytest -q tests/test_preparation_c6.py
 uv run -m dm_credit.preparation.families.products_registry --splits train oot test  # ejecución real E4 en cola pesada ([R], POLARS_MAX_THREADS=1)
 ```
 
-La ejecución real E4 va en la cola pesada compartida tras G3; el catálogo C8 sale de `contracts.write_feature_catalog` sobre los artefactos (probado en sintético: 6 filas, rol `cobertura`).
+Ejecución real completada con `POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.families.products_registry --splits train oot test`. El reporte `results/preparation/C6_products_run.csv` registra los seis orígenes en los tres splits, una fila por caso y dos características de cobertura por familia; no se generaron predictores. El catálogo de C6/C7 se escribió en `results/preparation/products_feature_catalog.csv` (12 filas, rol `cobertura`). Los artefactos y manifiestos están bajo `data/artifacts/preparation/C6-v1/` (ruta por defecto del módulo). La ejecución también verificó `tax_registry_c_1` vacío en test y produjo cobertura cero sin fallo.
