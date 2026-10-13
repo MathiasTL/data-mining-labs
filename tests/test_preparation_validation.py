@@ -1,13 +1,15 @@
 """F3/F4/F7: validaciones sobre artefactos publicados, resultados por familia e informe de fuga."""
 
+import datetime
 import json
+from pathlib import Path
 
 import polars as pl
 import pytest
 import test_preparation_e3_integration as e3
 import test_preparation_g3_integration as g3
 
-from dm_credit.preparation import e5
+from dm_credit.preparation import contracts, e5
 from dm_credit.preparation import validation as val
 
 SPLITS = ("train", "oot", "test")
@@ -112,7 +114,10 @@ def test_leakage_report_collects_exclusions_per_family_and_split(published):
 
 
 def test_family_results_report_cases_coverage_and_roles(published):
-    res = val.family_results(published["artifacts"]["oot"], published["bases"]["oot"])
+    day = datetime.date(2026, 1, 2)
+    res = val.family_results(
+        published["artifacts"]["oot"], published["bases"]["oot"], run_date=day
+    )
     assert res.columns == [
         "split",
         "family",
@@ -122,7 +127,15 @@ def test_family_results_report_cases_coverage_and_roles(published):
         "coverage_pct",
         "predictor_features",
         "coverage_features",
+        "report",
+        "command",
+        "date",
     ]
+    assert (res["command"] == contracts.REPRODUCE_COMMAND).all()
+    assert (res["date"] == "2026-01-02").all()
+    assert all(
+        not Path(r).is_absolute() and r.endswith(".manifest.json") for r in res["report"]
+    )
     row = res.filter(pl.col("family") == "applprev").row(0, named=True)
     assert (row["cases"], row["cases_with_source"]) == (
         4,
@@ -219,3 +232,19 @@ def test_run_real_writes_the_three_reports(published, monkeypatch):
         .filter(pl.col("status") != "ok")
         .is_empty()
     )
+
+
+def test_family_results_csv_carries_a_single_run_date(published):
+    out = published["tmp"] / "reports_dated"
+    val.write_reports(
+        published["bases"],
+        published["artifacts"],
+        out_dir=out,
+        work_dir=published["tmp"] / "work_dated",
+        cutoff_week=g3.CUTOFF,
+        run_date=datetime.date(2026, 3, 4),
+    )
+    res = pl.read_csv(out / "family_results.csv")
+    assert set(res["split"]) == set(SPLITS)
+    assert res["date"].unique().to_list() == ["2026-03-04"]
+    assert res["command"].unique().to_list() == [contracts.REPRODUCE_COMMAND]

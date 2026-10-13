@@ -30,7 +30,7 @@ from typing import Callable
 
 import polars as pl
 
-from dm_credit.preparation.contracts import FamilyFeatureArtifact
+from dm_credit.preparation.contracts import REPRODUCE_COMMAND, FamilyFeatureArtifact
 from dm_credit.preparation.families import (
     applications_people,
     applications_people_g2,
@@ -234,7 +234,7 @@ def final_manifest(*, config_path: Path, bases, e4_artifacts, e5_report: pl.Data
             },
         },
         "steps": steps,
-        "regenerate": "POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch",
+        "regenerate": REPRODUCE_COMMAND,
     }
 
 

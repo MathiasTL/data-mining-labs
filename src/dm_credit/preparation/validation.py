@@ -15,6 +15,7 @@ Uso con los artefactos reales:
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import json
 import warnings
@@ -37,7 +38,8 @@ SPLITS = ("train", "oot", "test")
 CONTROLS = ("case_id", "WEEK_NUM", "date_decision", "MONTH", "target")
 # Cifras documentadas del capítulo 02 y del backlog (§9): casos y positivos con el corte 74.
 EXPECTED_REAL = {"train": (1_332_001, 43_734), "oot": (194_658, 4_260)}
-RESULTS = Path(__file__).resolve().parents[3] / "results" / "preparation"
+ROOT = Path(__file__).resolve().parents[3]
+RESULTS = ROOT / "results" / "preparation"
 ARTIFACT_SETS = ("E4-v1",)  # piezas oficiales de la ejecución real E4
 
 
@@ -85,10 +87,27 @@ def leakage_report(
     )
 
 
+def _report_path(art: contracts.FamilyFeatureArtifact) -> str:
+    """Manifiesto de la familia relativo a la raíz del repositorio; si está fuera, solo su nombre."""
+    manifest = Path(art.manifest_path).resolve()
+    try:
+        return manifest.relative_to(ROOT).as_posix()
+    except ValueError:
+        return manifest.name
+
+
 def family_results(
-    artifacts: Sequence[contracts.FamilyFeatureArtifact], base: pl.DataFrame
+    artifacts: Sequence[contracts.FamilyFeatureArtifact],
+    base: pl.DataFrame,
+    *,
+    run_date: datetime.date | None = None,
 ) -> pl.DataFrame:
-    """F4: casos, casos con fuente, roles y versión de reglas de cada familia en un split."""
+    """F4: casos, casos con fuente, roles y versión de reglas de cada familia en un split.
+
+    Cada fila trae su evidencia: ``report`` (manifiesto de la familia), ``command`` (comando de
+    reproducción) y ``date`` (fecha ISO de esta validación; por defecto hoy).
+    """
+    run_date = (run_date or datetime.date.today()).isoformat()
     rows = []
     for art in artifacts:
         frame = pl.read_parquet(art.data_path)
@@ -109,6 +128,9 @@ def family_results(
                 else 0.0,
                 "predictor_features": predictors,
                 "coverage_features": len(art.feature_schema) - predictors,
+                "report": _report_path(art),
+                "command": contracts.REPRODUCE_COMMAND,
+                "date": run_date,
             }
         )
     return pl.DataFrame(rows).sort(["split", "family"])
@@ -424,8 +446,13 @@ def write_reports(
     work_dir: Path,
     cutoff_week: int = 74,
     expected=None,
+    run_date: datetime.date | None = None,
 ) -> pl.DataFrame:
-    """Escribe ``integration_checks.csv``, ``temporal_leakage_report.csv`` y ``family_results.csv``."""
+    """Escribe ``integration_checks.csv``, ``temporal_leakage_report.csv`` y ``family_results.csv``.
+
+    ``run_date`` fija la fecha de F4 para los tres splits; por defecto, hoy (resuelta una sola vez).
+    """
+    run_date = run_date or datetime.date.today()
     checks = validate_pipeline(
         bases,
         artifacts,
@@ -434,7 +461,9 @@ def write_reports(
         expected=expected,
     )
     all_arts = [a for s in SPLITS for a in artifacts[s]]
-    results = pl.concat([family_results(artifacts[s], bases[s]) for s in SPLITS])
+    results = pl.concat(
+        [family_results(artifacts[s], bases[s], run_date=run_date) for s in SPLITS]
+    )
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     checks.write_csv(out_dir / "integration_checks.csv")

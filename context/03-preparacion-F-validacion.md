@@ -1,6 +1,6 @@
 # Épica F — Validación, documentación y cierre
 
-> **Estado (13/10/2026):** E4–E7 están cerradas según sus actas. F1 y F2 tienen pruebas; F3 está cerrada tras repetir el comando E7 con cotejo de E5 y verificar las salidas de E6. F4, F5 y F7 requieren contrastar su evidencia con los criterios del backlog. F6 tiene una revisión de Andre y una revisión adicional de integración/documentación (abajo); faltan las revisiones asignadas al resto del equipo. G4 sigue pendiente.
+> **Estado (13/10/2026):** E4–E7 están cerradas según sus actas. F1 y F2 tienen pruebas; F3 está cerrada tras repetir el comando E7 con cotejo de E5 y verificar las salidas de E6. F4 está cerrada con comando, informe y fecha por fuente. F5 y F7 requieren contrastar su evidencia con los criterios del backlog. F6 tiene una revisión de Andre y una revisión adicional de integración/documentación (abajo); faltan las revisiones asignadas al resto del equipo. G4 sigue pendiente.
 
 ## Resumen
 
@@ -9,7 +9,7 @@
 | **F1** Pruebas de adaptadores y catálogos   | Hecho               | Auditoría de las cinco familias; 12 pruebas nuevas en `tests/test_preparation_f1_gaps.py` (una marcada como fallo esperado, ver abajo)                                                             |
 | **F2** Pruebas end-to-end sintéticas        | Hecho               | `tests/test_preparation_g3_integration.py` comprueba partición, descartes y agregados contra valores conocidos, join, ajuste/transformación y manifiestos de familias y matrices                   |
 | **F3** Validaciones sobre artefactos reales | Hecho               | E7 ejecutado localmente: 29/29 controles, incluidos los 3 cotejos E5; evidencia archivada en `F3_final_checks.csv` y `F3_final_run_manifest.json`                                                  |
-| **F4** Resultados por fuente                | Evidencia parcial   | `results/preparation/family_results.csv` reúne casos, cobertura y roles por familia y split; no incluye comando ni fecha por fuente como exige el backlog                                          |
+| **F4** Resultados por fuente                | Hecho               | `results/preparation/family_results.csv` reúne casos, cobertura y roles por familia y split, con comando, informe y fecha por fuente; ver `context/03-preparacion-F4-resultados.md`                |
 | **F5** Capítulo del informe                 | Borrador adelantado | `development/03-preparacion-datos.md` tiene 3.1–3.5; debe contrastarse con E6/E7 y con el cierre de F3, F4 y F7                                                                                    |
 | **F6** Revisión cruzada                     | Parcial             | Revisión de Andre al frente de bureau y revisión adicional de integración/documentación (abajo); faltan las revisiones del resto del equipo                                                        |
 | **F7** Informe de fuga temporal             | Evidencia parcial   | `results/preparation/temporal_leakage_report.csv` contiene métricas de exclusiones por familia y split; falta explicitar reglas de disponibilidad, columnas excluidas y evidencia según el backlog |
@@ -68,11 +68,11 @@ Revisión independiente del ensamblado E5 (`e5.py`, `assembly.py`, `schema.py`, 
 - **Correcto:** E5 exige las 12 familias, conserva los casos y el orden tras cada join, verifica las sumas de las piezas y comprueba la paridad de esquema entre splits. Las pruebas de E5, F1 y G3/F2 pasan: 34 correctas y 1 fallo esperado (`uv run --extra dev pytest -q tests/test_preparation_e5.py tests/test_preparation_f1_gaps.py tests/test_preparation_g3_integration.py`).
 - **Publicación antes de validación global (a resolver en E5/E7):** `assemble_master_tables` publica cada Parquet y manifiesto dentro de `assemble_feature_matrix`, y solo después llama a `validate_matrix_schemas`. Si falla la paridad entre splits, quedan tablas aparentemente publicadas sin informe E5 válido. Validar antes de publicar o publicar el conjunto como una unidad; agregar prueba de fallo tardío.
 - **Portabilidad del informe E5 (a documentar o corregir):** `results/preparation/E5_master_tables.csv` contiene rutas absolutas de la computadora donde se generó (`/Users/andre/...`), no válidas en otras máquinas. Las sumas sí permiten comprobar el contenido; los consumidores no deberían depender de esas rutas.
-- **Dependencias F (al momento de la revisión):** F3 solo comprobaba piezas E4 y una matriz temporal; eso se resolvió con la ejecución F3 descrita arriba. F5 debe contrastarse con los resultados finales de E6/E7, y F4/F7 aún no contienen todos los campos pedidos en el backlog.
+- **Dependencias F (al momento de la revisión):** F3 solo comprobaba piezas E4 y una matriz temporal; eso se resolvió con la ejecución F3 descrita arriba. F5 debe contrastarse con los resultados finales de E6/E7, y F7 aún no contiene todos los campos pedidos en el backlog; F4 se completó después (ver `context/03-preparacion-F4-resultados.md`).
 
 ## Qué falta para G4
 
 1. F3 completada: conservar y revisar la evidencia de la ejecución E7 local (29/29 controles y 11 hashes verificados).
 2. F6: las revisiones cruzadas de Nick, Giancarlo, Mathias y Gabriel; resolver o documentar los hallazgos de la revisión adicional.
 3. Los arreglos pendientes: columnas constantes (Gabriel), `pl.concat` en `views.py` (Giancarlo) y claves repetidas en bureau (Mathias).
-4. Completar la evidencia F4/F7, actualizar F5 con resultados efectivos y cerrar G4 con la suite completa y `git diff --check`.
+4. Completar la evidencia F7, actualizar F5 con resultados efectivos y cerrar G4 con la suite completa y `git diff --check`.

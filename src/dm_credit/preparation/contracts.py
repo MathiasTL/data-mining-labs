@@ -26,6 +26,8 @@ from dm_credit.preparation.columns import validate_predictor_columns
 
 KEY = "case_id"
 FORMAT_VERSION = 1
+# Único comando de reproducción del pipeline de preparación (E7); lo usan build y validation.
+REPRODUCE_COMMAND = "POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch"
 SPLITS = ("train", "oot", "test")
 ROLES = ("predictor", "cobertura")
 WINDOWS = ("all", "3m", "6m", "12m", "source_defined")
