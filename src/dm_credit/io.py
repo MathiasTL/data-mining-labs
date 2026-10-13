@@ -6,6 +6,7 @@ las rutas y la forma de lectura sean idénticas en todo el equipo.
 
 from __future__ import annotations
 
+import hashlib
 import os
 import re
 from pathlib import Path
@@ -105,3 +106,23 @@ def iter_row_groups(path: str | Path, columns: list[str] | None = None) -> Itera
     pf = pq.ParquetFile(path)
     for i in range(pf.num_row_groups):
         yield pl.from_arrow(pf.read_row_group(i, columns=columns))
+
+
+def file_fingerprint(path: str | Path) -> str:
+    """Huella portable de un archivo: ``nombre:tamaño:sha256:<hash del contenido>``.
+
+    No usa la fecha de modificación: cada integrante copió los datos en un momento distinto, y una
+    huella con fecha solo coincidiría en la computadora que construyó el artefacto.
+    """
+    path = Path(path)
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            digest.update(chunk)
+    return f"{path.name}:{path.stat().st_size}:sha256:{digest.hexdigest()}"
+
+
+def shards_fingerprint(split: str, sources, *, ordered: bool = False) -> str:
+    """Huella de todos los shards de varias fuentes; ``ordered`` conserva el orden numérico de los shards."""
+    parts = [file_fingerprint(p) for s in sources for p in shard_paths(split, s)]
+    return ";".join(parts if ordered else sorted(parts))

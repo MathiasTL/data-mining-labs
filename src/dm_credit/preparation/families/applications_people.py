@@ -421,7 +421,7 @@ def _base_fingerprint(base: pl.DataFrame) -> str:
 
 
 def _shard_fingerprint(file_split: str, sources: list[str]) -> str:
-    return ";".join(sorted(f"{p.name}:{p.stat().st_size}:{p.stat().st_mtime_ns}" for s in sources for p in io.shard_paths(file_split, s)))
+    return io.shards_fingerprint(file_split, sources)  # contenido, no fecha: portable entre computadoras
 
 
 def _read(file_split: str, source: str, columns: list[str], cases: pl.LazyFrame) -> pl.DataFrame:

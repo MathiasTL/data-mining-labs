@@ -98,3 +98,39 @@ def test_mixing_unindexed_and_indexed_files_of_one_source_is_ambiguous(data_dir)
     write(data_dir, "train", "train_applprev_1_0.parquet", {"case_id": [2], "x": [1.0]})
     with pytest.raises(ValueError, match="ambiguous"):
         io.shard_paths("train", "applprev_1")
+
+
+# --------------------------------------------------------------- huella por contenido (portable)
+def test_file_fingerprint_ignores_modification_time(data_dir):
+    import os
+
+    write(data_dir, "train", "train_p.parquet", {"case_id": [1, 2], "x": [1.0, 2.0]})
+    path = data_dir / "parquet_files" / "train" / "train_p.parquet"
+    before = io.file_fingerprint(path)
+    st = path.stat()
+    os.utime(path, ns=(st.st_atime_ns, st.st_mtime_ns + 7_000_000_000))  # otra computadora, otra fecha
+    assert io.file_fingerprint(path) == before
+    assert before.startswith(f"train_p.parquet:{st.st_size}:sha256:")
+
+
+def test_file_fingerprint_changes_with_content_of_the_same_size(tmp_path):
+    a, b = tmp_path / "a.bin", tmp_path / "b.bin"
+    a.write_bytes(b"0123456789")
+    b.write_bytes(b"0123456780")
+    assert io.file_fingerprint(a).split(":", 1)[1] != io.file_fingerprint(b).split(":", 1)[1]
+
+
+def test_file_fingerprint_is_recomputed_when_the_file_changes(tmp_path):
+    p = tmp_path / "f.bin"
+    p.write_bytes(b"aaaa")
+    first = io.file_fingerprint(p)
+    p.write_bytes(b"bbbb")
+    assert io.file_fingerprint(p) != first  # la caché no debe devolver el valor viejo
+
+
+def test_shards_fingerprint_sorted_and_ordered(data_dir):
+    for n in (0, 1, 10, 2):
+        write(data_dir, "train", f"train_q_{n}.parquet", {"case_id": [n], "x": [1.0]})
+    parts = [io.file_fingerprint(p) for p in io.shard_paths("train", "q")]
+    assert io.shards_fingerprint("train", ["q"]) == ";".join(sorted(parts))
+    assert io.shards_fingerprint("train", ["q"], ordered=True) == ";".join(parts)

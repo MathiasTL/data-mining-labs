@@ -36,7 +36,7 @@ EXPECTED_ROWS = {"train": 1332001, "oot": 194658, "test": 10}
 A2 = "credit_bureau_a_2"
 LIMITATIONS = [
     "Los manifiestos no capturan commit ni hash de configuración del build; los hashes E4 son actuales, no históricos.",
-    "No hay tiempos ni recursos históricos de build verificables: se informan null, sin inferirlos de mtimes.",
+    "No hay tiempos ni recursos históricos de build verificables para artefactos reutilizados: se informan null.",
     "ru_maxrss es el máximo acumulado del proceso auditor (KiB en Linux), no memoria por familia ni del build.",
     "La conciliación usa family_cardinality histórico; no recalcula filtros temporales ni demuestra equivalencia de valores con un rebuild.",
     "Las exclusiones de valores y columnas no se suman como filas; A2 no se lee ni se incluyen sus shards en fingerprints.",
@@ -109,15 +109,10 @@ def base_fingerprint(base: pl.DataFrame) -> str:
 def shard_fingerprint(
     split: str, tables: tuple[str, ...], *, ordered: bool = False
 ) -> str:
-    """Stat actual nombre:size:mtime_ns; bureau conserva orden numérico de io."""
+    """Huella actual por contenido (``io.shards_fingerprint``); bureau conserva el orden numérico de io."""
     if A2 in tables:
         raise ValueError("E4 no debe consultar shards de credit_bureau_a_2")
-    parts = []
-    for table in tables:
-        for path in io.shard_paths("test" if split == "test" else "train", table):
-            stat = path.stat()
-            parts.append(f"{path.name}:{stat.st_size}:{stat.st_mtime_ns}")
-    return ";".join(parts if ordered else sorted(parts))
+    return io.shards_fingerprint("test" if split == "test" else "train", tables, ordered=ordered)
 
 
 def require(condition: bool, message: str) -> None:

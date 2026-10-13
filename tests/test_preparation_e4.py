@@ -6,6 +6,8 @@ from datetime import date
 from types import SimpleNamespace
 
 import polars as pl
+
+from dm_credit import io
 import pytest
 
 from dm_credit.preparation import contracts, e4
@@ -389,7 +391,7 @@ def test_shard_fingerprint_order_and_split_without_real_data(
         return paths
 
     monkeypatch.setattr(e4.io, "shard_paths", shard_paths)
-    parts = [f"{p.name}:{p.stat().st_size}:{p.stat().st_mtime_ns}" for p in paths]
+    parts = [io.file_fingerprint(p) for p in paths]  # contenido, no fecha
     assert e4.shard_fingerprint(split, ("synthetic",)) == ";".join(sorted(parts))
     assert e4.shard_fingerprint(split, ("synthetic",), ordered=True) == ";".join(parts)
     assert calls == [(source_split, "synthetic")] * 2

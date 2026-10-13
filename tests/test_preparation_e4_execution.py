@@ -81,6 +81,7 @@ def test_select_jobs_skips_valid_outputs_and_orders_test_first():
 def test_process_tree_rss_sums_descendants_and_handles_disappearing_processes(
     monkeypatch, gone
 ):
+    monkeypatch.setattr(rebuild, "HAS_PROC", True)  # simula Linux también al correr en macOS
     files = {
         "/proc/10/status": "Name:\tworker\nVmRSS:\t100 kB\n",
         "/proc/10/task/10/children": "11 12 13",

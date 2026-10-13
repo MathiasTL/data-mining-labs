@@ -468,8 +468,7 @@ def _assemble(plan: FamilyPlan, states: Mapping[str, TableState], decision: pl.D
 
 # ------------------------------------------------------------------- shards and checkpoints
 def _file_fingerprint(path: Path) -> str:
-    stat = path.stat()
-    return f"{path.name}:{stat.st_size}:{stat.st_mtime_ns}"
+    return io.file_fingerprint(path)  # contenido, no fecha: portable entre computadoras
 
 
 def _read_shard(path: Path, columns: list[str]) -> Iterable[pl.DataFrame]:

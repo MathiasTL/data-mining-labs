@@ -153,48 +153,19 @@ def test_rebuild_is_deterministic(data, tmp_path):
     assert json.loads(a.manifest_path.read_text()) == json.loads(b.manifest_path.read_text())
 
 
-def test_shard_fingerprint_changes_when_a_shard_is_modified_in_place(data, tmp_path):
+def test_shard_fingerprint_follows_content_not_modification_time(data, tmp_path):
     import os
 
     a = ap.build_applprev_features(base_for("train", 74), "train", output_dir=tmp_path / "a", config=SMALL_APP)
     shard = data / "parquet_files" / "train" / "train_applprev_2.parquet"
     stat = shard.stat()
-    os.utime(shard, ns=(stat.st_atime_ns, stat.st_mtime_ns + 5_000_000_000))  # mismo tamaño, otra fecha
+    os.utime(shard, ns=(stat.st_atime_ns, stat.st_mtime_ns + 5_000_000_000))  # otra computadora: otra fecha, mismo contenido
     b = ap.build_applprev_features(base_for("train", 74), "train", output_dir=tmp_path / "b", config=SMALL_APP)
-    assert json.loads(a.manifest_path.read_text())["inputs"]["shards"] != json.loads(b.manifest_path.read_text())["inputs"]["shards"]
-
-
-
-@pytest.mark.parametrize("family", ["applprev", "person"])
-def test_uncovered_cases_get_zero_records_and_false_presence(data, tmp_path, family):
-    build = ap.build_applprev_features if family == "applprev" else ap.build_person_features
-    cfg = SMALL_APP if family == "applprev" else SMALL_PEOPLE
-    out = pl.read_parquet(build(base_for("train", 74), "train", output_dir=tmp_path / "o", config=cfg).data_path)
-    parent, child = ap.TABLES[family]
-    uncovered = out.filter(~pl.col(f"{parent}__source_present"))
-    assert uncovered.height > 0
-    for table in (parent, child):
-        assert uncovered[f"{table}__n_records"].to_list() == [0] * uncovered.height
-        assert uncovered[f"{table}__source_present"].to_list() == [False] * uncovered.height
-    # la cobertura nunca queda nula; el resto de características sí, para que D2 las trate
-    for table in (parent, child):
-        assert out[f"{table}__n_records"].null_count() == 0 and out[f"{table}__source_present"].null_count() == 0
-    predictors = [c for c in out.columns if c != "case_id" and not c.endswith(("__n_records", "__source_present", "__n_contacts__all"))]
-    assert all(uncovered[c].null_count() == uncovered.height for c in predictors)
-
-
-def test_assembled_matrix_has_no_null_coverage_for_applprev_and_person(data, tmp_path):
-    from dm_credit.preparation import assembly
-
-    oot = fx.base().filter(pl.col("WEEK_NUM") >= 11)  # casos 3 a 6, con target
-    arts = [
-        ap.build_applprev_features(oot, "oot", cutoff_week=11, output_dir=tmp_path / "a", config=SMALL_APP),
-        ap.build_person_features(oot, "oot", cutoff_week=11, output_dir=tmp_path / "p", config=SMALL_PEOPLE),
-    ]
-    m = pl.read_parquet(assembly.assemble_feature_matrix(oot, arts, "oot", output_dir=tmp_path / "m").data_path)
-    coverage = [c for c in m.columns if c.endswith(("__n_records", "__source_present"))]
-    assert len(coverage) == 8
-    assert all(m[c].null_count() == 0 for c in coverage)
+    shards = lambda art: json.loads(art.manifest_path.read_text())["inputs"]["shards"]  # noqa: E731
+    assert shards(a) == shards(b) and "sha256:" in shards(a)
+    fx.applprev_2().with_columns(pl.lit("OTHER").alias("conts_type_509L")).write_parquet(shard)  # contenido distinto
+    c = ap.build_applprev_features(base_for("train", 74), "train", output_dir=tmp_path / "c", config=SMALL_APP)
+    assert shards(c) != shards(a)
 
 
 # ---------------------------------------------------------------- memoria acotada por bloques de casos

@@ -1,8 +1,9 @@
-"""Regeneración E4 selectiva de C2/C3 obsoletos, serial y con presupuesto explícito.
+"""Regeneración E4 serial y con presupuesto explícito.
 
-Solo repara el caso observado: fingerprints de shards distintos. Otras causas o
-familias requieren revisar su presupuesto, no habilitan una reconstrucción ciega.
-Publica en E4-v1; conserva todos los artefactos anteriores. Nunca ejecuta E5/E6.
+Por defecto solo repara C2/C3 obsoletos por huella de shards. Con ``--all`` reconstruye las 12
+familias en el orden del backlog (§7): la prueba pequeña de cada familia, profundidad 0, productos,
+solicitudes y personas, bureau B, registros fiscales y bureau A al final. Funciona en Linux (``/proc``
+y GNU time) y en macOS (``ps``, ``vm_stat`` y ``/usr/bin/time -l``). Publica en E4-v1. Nunca ejecuta E5/E6.
 """
 
 from __future__ import annotations
@@ -10,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -19,14 +21,69 @@ from pathlib import Path
 import polars as pl
 
 from dm_credit import io
-from dm_credit.preparation.build import build_family_features
+from dm_credit.preparation.build import BUILDERS, build_family_features
 from dm_credit.preparation.e4 import EXPECTED_ROWS, ROOT, require, sha256_file
 from dm_credit.preparation.families import applications_people as ap
+from dm_credit.preparation.families import bureau
 from dm_credit.preparation.split import partition_base
 
 
+A2 = "credit_bureau_a_2"
+# Orden de ejecución real del backlog §7: de lo pequeño a lo pesado, bureau A al final.
+FAMILY_ORDER = (
+    "static_0", "static_cb_0", "debitcard_1", "deposit_1", "other_1", "applprev", "person",
+    "credit_bureau_b", "tax_registry_a_1", "tax_registry_b_1", "tax_registry_c_1", "credit_bureau_a",
+)
+HAS_PROC = Path("/proc/meminfo").exists()
+
+
+def family_tables(family: str) -> tuple[str, ...]:
+    """Tablas físicas que lee una familia (sin ``credit_bureau_a_2``, que G2 deja fuera)."""
+    if family in ap.TABLES:
+        return ap.TABLES[family]
+    if family in bureau.FAMILIES:
+        return tuple(t for t in bureau.FAMILIES[family] if t != A2)
+    return (family,)
+
+
+def all_jobs() -> list[tuple[str, str]]:
+    """Las 36 construcciones: primero test de cada familia, luego OOT y train en el orden del backlog."""
+    missing = sorted(set(BUILDERS) - set(FAMILY_ORDER))
+    require(not missing, f"familias sin lugar en el orden E4: {missing}")
+    small = [(f, "test") for f in FAMILY_ORDER]
+    heavy = [(f, s) for f in FAMILY_ORDER for s in ("oot", "train")]
+    return small + heavy
+
+
+def parse_bsd_time(log: str) -> dict:
+    """Lee el resumen de ``/usr/bin/time -l`` (macOS): segundos reales y máximo RSS en bytes."""
+    real = re.search(r"([\d.]+)\s+real", log)
+    rss = re.search(r"(\d+)\s+maximum resident set size", log)
+    if not (real and rss):
+        raise ValueError("no se encontraron las métricas de /usr/bin/time -l en el log")
+    return {"seconds": float(real.group(1)), "peak_rss_kib": int(rss.group(1)) // 1024}
+
+
+def _ps_tree_rss(pid: int) -> int:
+    out = subprocess.run(["ps", "-A", "-o", "pid=,ppid=,rss="], capture_output=True, text=True).stdout
+    rows = [tuple(int(x) for x in line.split()) for line in out.splitlines() if line.strip()]
+    children: dict[int, list[int]] = {}
+    rss = {}
+    for p, pp, r in rows:
+        children.setdefault(pp, []).append(p)
+        rss[p] = r
+    total, stack = 0, [pid]
+    while stack:
+        p = stack.pop()
+        total += rss.get(p, 0)
+        stack += children.get(p, [])
+    return total
+
+
 def process_tree_rss(pid: int) -> int:
-    """RSS externo del proceso y descendientes en KiB (Linux)."""
+    """RSS externo del proceso y descendientes en KiB (``/proc`` en Linux, ``ps`` en otros sistemas)."""
+    if not HAS_PROC:
+        return _ps_tree_rss(pid)
     try:
         status = Path(f"/proc/{pid}/status").read_text()
         rss = next(
@@ -44,6 +101,11 @@ def process_tree_rss(pid: int) -> int:
 
 
 def available_kib() -> int:
+    if not HAS_PROC:  # macOS: páginas libres, inactivas y especulativas de vm_stat
+        out = subprocess.run(["vm_stat"], capture_output=True, text=True).stdout
+        page = int(re.search(r"page size of (\d+) bytes", out).group(1))
+        pages = sum(int(m) for m in re.findall(r"Pages (?:free|inactive|speculative):\s+(\d+)", out))
+        return pages * page // 1024
     return next(
         int(line.split()[1])
         for line in Path("/proc/meminfo").read_text().splitlines()
@@ -87,9 +149,7 @@ def select_jobs(audit: dict) -> list[tuple[str, str]]:
 
 
 def build_one(family: str, split: str, output: Path) -> None:
-    require(
-        family in ap.TABLES and split in EXPECTED_ROWS, "Solo C2/C3 y splits conocidos"
-    )
+    require(family in BUILDERS and split in EXPECTED_ROWS, "Familia o split desconocidos")
     parts = partition_base(io.load_base("train"), io.load_base("test"), cutoff_week=74)
     base = getattr(parts, split)
     require(base.height == EXPECTED_ROWS[split], "Conteo base incorrecto")
@@ -99,7 +159,7 @@ def build_one(family: str, split: str, output: Path) -> None:
     require(artifact.case_count == base.height, "El builder perdió casos")
 
 
-def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[dict]:
+def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int, *, everything: bool = False) -> list[dict]:
     require(
         os.environ.get("POLARS_MAX_THREADS") == "1" and pl.thread_pool_size() == 1,
         "POLARS_MAX_THREADS=1 obligatorio",
@@ -109,8 +169,7 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
         Path("/usr/bin/time").is_file(),
         "Falta GNU time; no ejecutar sin medición externa",
     )
-    audit = json.loads(audit_path.read_text())
-    jobs = select_jobs(audit)
+    jobs = all_jobs() if everything else select_jobs(json.loads(audit_path.read_text()))
     results = ROOT / "results/preparation"
     log_root = io.data_dir() / "artifacts/preparation/E4-v1/logs"
     log_root.mkdir(parents=True, exist_ok=True)
@@ -118,7 +177,7 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
     records = json.loads(records_path.read_text()) if records_path.exists() else []
     for family, split in jobs:
         prior = [r for r in records if (r["family"], r["split"]) == (family, split)]
-        if prior and prior[-1]["status"] == "blocked":
+        if prior and prior[-1]["status"] == "blocked" and not everything:
             print(
                 f"{family}/{split}: bloqueo anterior conservado; no reintentar",
                 flush=True,
@@ -148,7 +207,7 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
             file_split = "test" if split == "test" else "train"
             inputs = [
                 p
-                for table in ap.TABLES[family]
+                for table in family_tables(family)
                 for p in io.shard_paths(file_split, table)
             ]
             inputs += list((ROOT / "src/dm_credit/preparation").rglob("*.py"))
@@ -157,12 +216,13 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
             record["input_sha256"] = {str(p): sha256_file(p) for p in inputs}
             metrics = log_root / f"{family}__{split}.time.json"
             log = log_root / f"{family}__{split}.log"
+            timer = (
+                ["/usr/bin/time", "-f", '{"seconds":%e,"peak_rss_kib":%M}', "-o", str(metrics)]
+                if HAS_PROC
+                else ["/usr/bin/time", "-l"]  # macOS: el resumen va al final del log
+            )
             command = [
-                "/usr/bin/time",
-                "-f",
-                '{"seconds":%e,"peak_rss_kib":%M}',
-                "-o",
-                str(metrics),
+                *timer,
                 sys.executable,
                 "-m",
                 "dm_credit.preparation.e4_rebuild",
@@ -209,6 +269,9 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
                         os.killpg(process.pid, signal.SIGKILL)
                         process.wait()
             record["returncode"] = process.returncode
+            if not HAS_PROC:
+                metrics.write_text(json.dumps(parse_bsd_time(log.read_text()), separators=(",", ":")))
+                record["platform"] = "macOS: /usr/bin/time -l, ps y vm_stat"
             record["external_resources"] = json.loads(metrics.read_text())
             require(process.returncode == 0, f"Builder falló; ver {log}")
             require(
@@ -244,6 +307,7 @@ def main() -> None:
         "--worker", nargs=2, metavar=("FAMILY", "SPLIT"), help=argparse.SUPPRESS
     )
     parser.add_argument("--output", type=Path, help=argparse.SUPPRESS)
+    parser.add_argument("--all", action="store_true", help="reconstruir las 36 piezas en el orden del backlog")
     args = parser.parse_args()
     require(
         os.environ.get("POLARS_MAX_THREADS") == "1", "POLARS_MAX_THREADS=1 obligatorio"
@@ -252,7 +316,7 @@ def main() -> None:
         require(args.output is not None, "worker requiere output")
         build_one(*args.worker, args.output)
     else:
-        records = rebuild(args.audit, args.max_rss_mib, args.timeout_seconds)
+        records = rebuild(args.audit, args.max_rss_mib, args.timeout_seconds, everything=args.all)
         if any(r["status"] == "blocked" for r in records):
             raise SystemExit(1)
 

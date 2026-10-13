@@ -32,7 +32,7 @@ def run_audit(*, root: Path = ROOT, checkpoint_dir: Path | None = None) -> dict:
     artifacts = root / "data/artifacts/preparation/C4-C5-v2"
     cache = ( Path(checkpoint_dir) if checkpoint_dir is not None else artifacts / "checkpoints" )
     checks, rows, expected, totals = Checks(), [], {}, {}
-    report = { "checkpoint_root": str(cache.resolve()), "cutoff_week": 74, "limitations": [ "No hay recursos históricos verificables del build: duración y ru_maxrss son null.", "Raw rows leídas durante el build no disponibles; el auditor no lee raw ni A2.", "ru_maxrss es el máximo acumulado del proceso auditor, en KiB Linux.", "Base/split se confían a current_base_sha256 de E4; no se releen bases.", "Manifiestos sin sumas n_records: filas/casos se contrastan con coverage E4; " "exclusiones y procedencia con manifiestos actuales, sin releer Parquet finales.", "Fingerprint de fuente es stat actual nombre:size:mtime_ns, no hash de contenido.", ], }
+    report = { "checkpoint_root": str(cache.resolve()), "cutoff_week": 74, "limitations": [ "No hay recursos históricos verificables del build: duración y ru_maxrss son null.", "Raw rows leídas durante el build no disponibles; el auditor no lee raw ni A2.", "ru_maxrss es el máximo acumulado del proceso auditor, en KiB Linux.", "Base/split se confían a current_base_sha256 de E4; no se releen bases.", "Manifiestos sin sumas n_records: filas/casos se contrastan con coverage E4; " "exclusiones y procedencia con manifiestos actuales, sin releer Parquet finales.", "Fingerprint de fuente: nombre, tamaño y SHA-256 del contenido (io.file_fingerprint), portable entre computadoras.", ], }
 
     def prepare():
         require(cache.is_dir(), f"No existe directorio de checkpoints: {cache}")
