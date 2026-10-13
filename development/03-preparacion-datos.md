@@ -1,6 +1,6 @@
 # 3. Preparación de datos
 
-> **Estado (13/10/2026):** pipeline implementado y validado. La ejecución real (E4), las tablas maestras (E5) y el ajuste del preprocesador y las vistas (E6) están cerrados; queda el comando único de reproducción (E7). El reparto del trabajo está en el [backlog del capítulo 03](../context/03-preparacion-datos-backlog.md).
+> **Estado (13/10/2026):** pipeline implementado y validado. La ejecución real (E4), las tablas maestras (E5), el ajuste del preprocesador y las vistas (E6) y el comando único de reproducción (E7) están cerrados. El reparto del trabajo está en el [backlog del capítulo 03](../context/03-preparacion-datos-backlog.md).
 
 ## Resumen
 
@@ -184,17 +184,10 @@ Las columnas de control (`case_id`, `WEEK_NUM`, `date_decision`, `MONTH` y `targ
 
 ### Resultado de la fase
 
-Hasta que exista el comando único (E7), la matriz se regenera por familia y se valida así, con `POLARS_MAX_THREADS=1`:
+Toda la preparación se reproduce desde los Parquet originales con **un solo comando** (E7), en unos 100 s:
 
 ```bash
-uv run -m dm_credit.preparation.families.depth0 --splits train oot test
-uv run -m dm_credit.preparation.families.applications_people_run
-uv run -m dm_credit.preparation.families.bureau_run
-uv run -m dm_credit.preparation.families.products_registry --splits train oot test
-uv run -m dm_credit.preparation.c8_catalog
-uv run -m dm_credit.preparation.validation
-uv run -m dm_credit.preparation.e5   # tablas maestras (E5)
-uv run -m dm_credit.preparation.e6   # preprocesador y vistas (E6)
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
 ```
 
-Los artefactos quedan en `data/artifacts/preparation/` (`C1-v1`, `C2-C3-v1`, `C4-C5-v2` y `C6-v1`), cada uno con su manifiesto y su suma de verificación. La integración completa sobre datos sintéticos se prueba en `tests/test_preparation_g3_integration.py`.
+El comando reconstruye las 36 piezas de familia (E4), las audita, ensambla las tablas maestras (E5), ajusta el preprocesador y las vistas con train (E6) y corre las validaciones de F3. Ejecutado desde cero, produjo exactamente los mismos archivos (mismos SHA-256). El manifiesto final (`results/preparation/E7_manifest.json`), `run_metadata.csv` y `final_schema.csv` registran configuración, particiones, rutas y sumas de verificación. La integración completa sobre datos sintéticos se prueba en `tests/test_preparation_g3_integration.py`.

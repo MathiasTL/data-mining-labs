@@ -69,6 +69,14 @@ La tabla de modelado conserva exactamente una fila por `case_id`. La partición 
 
 El esquema lógico se deriva de train y las definiciones, nunca de test. `target` solo se admite en entrenamiento; OOT/test deben contener las variables seleccionadas, que se alinean por nombre y se coercionan explícitamente con error ante valores no convertibles. Una columna física `Null` se considera sin observaciones y adopta el tipo lógico de train. Imputación, escalado, selección y vocabularios se ajustan exclusivamente con `WEEK_NUM < 74`; las categorías nuevas se asignan a `__UNKNOWN__` (o a un mecanismo equivalente) sin ampliar el vocabulario. Los rangos numéricos nuevos generan advertencia salvo restricción de dominio, mientras que infinitos y fallos de coerción generan error. Tras transformar se verifican features, orden, tipos y ausencia de infinitos. Test no decide columnas, umbrales ni tratamientos. El contrato completo y los reportes están en `results/schema_compatibility/`.
 
+### Reproducir la preparación de datos (capítulo 03)
+
+```bash
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
+```
+
+Reconstruye desde los Parquet originales las piezas de familia, las tablas maestras y las vistas, y escribe el manifiesto final en `results/preparation/E7_manifest.json`. Detalle: [`context/03-preparacion-E7-reproduccion.md`](context/03-preparacion-E7-reproduccion.md).
+
 ## Alcance
 
 El proyecto integrará las fuentes del dataset, construirá y comparará modelos de clasificación binaria, aplicará validación fuera de tiempo con `WEEK_NUM`, analizará estabilidad temporal y generará un informe final, código reproducible y un prototipo demostrativo viable. No incluye un despliegue productivo ni decisiones crediticias reales.
