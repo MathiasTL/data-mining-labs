@@ -246,9 +246,9 @@ def test_build_family_features_dispatches_products(b6_selection, g2_decision, tm
 
 def test_products_and_registry_families_are_registered_without_collisions():
     from dm_credit.preparation import build
-    from dm_credit.preparation.families import applications_people, bureau
+    from dm_credit.preparation.families import applications_people, bureau, depth0
 
     assert set(pr.BUILDERS) <= set(build.BUILDERS)
     assert {"tax_registry_a_1", "tax_registry_b_1", "tax_registry_c_1"} <= set(build.BUILDERS)
-    registries = (applications_people.BUILDERS, bureau.BUILDERS, pr.BUILDERS)
+    registries = (applications_people.BUILDERS, bureau.BUILDERS, pr.BUILDERS, depth0.BUILDERS)
     assert len(build.BUILDERS) == sum(len(r) for r in registries)

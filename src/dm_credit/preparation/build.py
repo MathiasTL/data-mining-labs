@@ -16,10 +16,11 @@ from dm_credit.preparation.families import (
     applications_people,
     applications_people_g2,
     bureau,
+    depth0,
     products_registry,
 )
 
-_REGISTRIES = (applications_people.BUILDERS, bureau.BUILDERS, products_registry.BUILDERS)
+_REGISTRIES = (applications_people.BUILDERS, bureau.BUILDERS, products_registry.BUILDERS, depth0.BUILDERS)
 _names = [name for registry in _REGISTRIES for name in registry]
 if len(_names) != len(set(_names)):
     raise RuntimeError(f"family name registered twice: {sorted(n for n in set(_names) if _names.count(n) > 1)}")

@@ -238,6 +238,12 @@ def build_static_cb_0_features(
     )
 
 
+BUILDERS = {
+    "static_0": build_static_0_features,
+    "static_cb_0": build_static_cb_0_features,
+}
+
+
 def feature_catalog(
     artifacts: Sequence[contracts.FamilyFeatureArtifact],
 ) -> pl.DataFrame:
