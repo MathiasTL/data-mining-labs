@@ -184,7 +184,7 @@ Ejecución real con train y OOT: ver la sección 7 del documento de [decisión G
 
 ## 11. Aporte de `applprev` y `person` al informe de fuga temporal (F7)
 
-Totales por regla, producidos por `uv run -m dm_credit.preparation.families.applications_people_run` y escritos en `results/preparation/F7_applications_people_exclusions.csv`. Son solo para el manifiesto y el informe: ninguna característica por caso cuenta fechas futuras. Los conteos de fechas internas se calculan entre filas ya válidas. Con los datos reales:
+Totales por regla, producidos por `uv run -m dm_credit.preparation.families.applications_people_run` y escritos en `results/preparation/F7_applications_people_exclusions.csv`. Son solo para el manifiesto y el informe: ninguna característica por caso cuenta fechas futuras. Los conteos de fechas internas se calculan entre filas ya válidas y solo para las fechas que G2 aprobó: `dtlastpmtallstes_3545839D` (351 803 valores posteriores en train + OOT) quedó **bloqueada** y ya no se construye, por lo que no figura aquí. Con los datos reales:
 
 | Regla (familia) | Train (`< 74`) | OOT (`>= 74`) | Train + OOT |
 | --- | ---: | ---: | ---: |
@@ -194,7 +194,6 @@ Totales por regla, producidos por `uv run -m dm_credit.preparation.families.appl
 | `approvaldate_319D` posterior, anulada | 89 | 5 | 94 |
 | `dateactivated_425D` posterior, anulada | 10 491 | 1 508 | 11 999 |
 | `dtlastpmt_581D` posterior, anulada | 35 089 | 6 595 | 41 684 |
-| `dtlastpmtallstes_3545839D` posterior, anulada | 301 224 | 50 579 | 351 803 |
 | `employedfrom_700D` posterior, anulada | 0 | 0 | 0 |
 | `empl_employedfrom_271D` posterior (`person`), anulada | 312 | 4 | 316 |
 | `birth_259D` posterior (`person`) | 0 | 0 | 0 |
@@ -202,7 +201,7 @@ Totales por regla, producidos por `uv run -m dm_credit.preparation.families.appl
 
 Las sumas train + OOT coinciden con la evidencia de la sección 1 (140 040, 66, 213 212 y 316), de modo que la partición no pierde ni inventa exclusiones.
 
-**Cobertura** (`results/preparation/C2_C3_applications_people_run.csv`):
+**Cobertura** (`results/preparation/C2_C3_applications_people_run.csv`; no cambia con G2, porque depende de las filas válidas y no de las columnas):
 
 | Split | Familia | Casos de la base | Con cobertura | Sin cobertura |
 | --- | --- | ---: | ---: | ---: |
@@ -211,4 +210,4 @@ Las sumas train + OOT coinciden con la evidencia de la sección 1 (140 040, 66, 
 | train | `person` | 1 332 001 | 1 332 001 | 0 |
 | OOT | `person` | 194 658 | 194 658 | 0 |
 
-Los casos sin cobertura se completan en el ensamblador con `n_records = 0` y `source_present = False`. El test local (10 casos) pasó la misma construcción y tiene exactamente las mismas 45 y 10 características que train: la compatibilidad de esquema con el test real queda comprobada.
+Los casos sin cobertura se completan en el ensamblador con `n_records = 0` y `source_present = False`. El test local (10 casos) pasó la misma construcción y tiene exactamente las mismas características que train (65 de `applprev` y 37 de `person` tras G2): la compatibilidad de esquema con el test real queda comprobada.
