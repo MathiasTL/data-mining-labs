@@ -101,7 +101,14 @@ def process_tree_rss(pid: int) -> int:
 
 
 def available_kib() -> int:
-    if not HAS_PROC:  # macOS: páginas libres, inactivas y especulativas de vm_stat
+    if not HAS_PROC:
+        # macOS: porcentaje libre del sistema según memory_pressure (incluye memoria recuperable)
+        pressure = subprocess.run(["memory_pressure"], capture_output=True, text=True).stdout
+        match = re.search(r"free percentage:\s+(\d+)%", pressure)
+        if match:
+            total = int(subprocess.run(["sysctl", "-n", "hw.memsize"], capture_output=True, text=True).stdout)
+            return total * int(match.group(1)) // 100 // 1024
+        # sin memory_pressure: páginas libres, inactivas y especulativas de vm_stat (estimación conservadora)
         out = subprocess.run(["vm_stat"], capture_output=True, text=True).stdout
         page = int(re.search(r"page size of (\d+) bytes", out).group(1))
         pages = sum(int(m) for m in re.findall(r"Pages (?:free|inactive|speculative):\s+(\d+)", out))
