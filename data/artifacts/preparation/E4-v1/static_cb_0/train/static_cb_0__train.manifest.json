@@ -1,0 +1,53 @@
+{
+  "format_version": 1,
+  "rules_version": "depth0-v3",
+  "family": "static_cb_0",
+  "split": "train",
+  "data_path": "static_cb_0__train.parquet",
+  "data_sha256": "09b1d224782fbd7c190c462cd55d64c3ccb335e85d37e43542730f726e1eb65d",
+  "row_count": 1332001,
+  "case_count": 1332001,
+  "features": [
+    {
+      "name": "static_cb_0__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "static_cb_0",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "n_records en static_cb_0 (ventana all)"
+    },
+    {
+      "name": "static_cb_0__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "static_cb_0",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "source_present en static_cb_0 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "manual_review": 34,
+    "exclude_predictor": 2,
+    "not_selected_from_source": 52
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961",
+    "shards": "train_static_cb_0.parquet:30654579:sha256:08a460c7c10b9ebc80597f2c7be636ba15ba68c482f138f7d2a0ebdb592b74e0",
+    "selection_manifest": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B3_depth0_columns.csv",
+    "g2_decision": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_depth0_columns.csv"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}

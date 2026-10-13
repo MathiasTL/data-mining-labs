@@ -4,7 +4,7 @@
   "family": "person",
   "split": "test",
   "data_path": "person__test.parquet",
-  "data_sha256": "266899da5356c790be5b6b9dfb66b6183ff8aa21ed0e6881c4f15c816b98960b",
+  "data_sha256": "3f45d6372da94bac8d92f9c62982721b5566a3cd3e0b21e89f52634123545745",
   "row_count": 10,
   "case_count": 10,
   "features": [
@@ -488,7 +488,7 @@
   "inputs": {
     "cutoff_week": "74",
     "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
-    "shards": "test_person_1.parquet:25868:1790997776400083592;test_person_2.parquet:8401:1790997776402403885"
+    "shards": "test_person_1.parquet:25868:sha256:e8a8b54e6dabbc082ba737370313c2335a4eeacac6d6957e5a27cb3e7b571f74;test_person_2.parquet:8401:sha256:9ab40bd2aeb0ec6306e55963b3b1ce5df52202fe40464a4c14d4141ae07662c0"
   },
   "validations": [
     "case_id no nulo",
