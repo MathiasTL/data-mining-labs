@@ -100,7 +100,7 @@ El perfil de `train_base` no detecta valores nulos en sus cinco columnas. `case_
 | `WEEK_NUM`      | `Int64`        | Variable temporal de validación | Usar para partición OOT y análisis temporal; excluir inicialmente como predictor.                             | Define el eje temporal de evaluación y su uso como predictor podría introducir atajos temporales.      |
 | `target`        | `Int64`        | Variable objetivo               | Usar solo como etiqueta de entrenamiento; no incluir como predictor.                                          | Etiqueta binaria de incumplimiento; no está presente en test.                                          |
 
-Esta clasificación cubre las columnas de `train_base`. El catálogo reproducible que extiende el análisis a las demás tablas se presenta a continuación.
+Esta clasificación cubre las columnas de `train_base`. Lista candidata para el baseline: vacía, la tabla base no aporta predictores propios y las 5 columnas están reservadas (`case_id`, `WEEK_NUM`, `target`, `date_decision`, `MONTH`; `src/dm_credit/baseline.py:39`). Lista excluida como predictores: las 5 anteriores, por los motivos de la tabla. Coordinación paso 5: 0 negativos y 0 nulos en el perfil; ceros solo descriptivos (`WEEK_NUM` 16 735, `case_id` 1); `date_decision` sin categorías raras. El catálogo reproducible que extiende el análisis a las demás tablas se presenta a continuación.
 
 #### Catálogo de variables de todas las fuentes
 
