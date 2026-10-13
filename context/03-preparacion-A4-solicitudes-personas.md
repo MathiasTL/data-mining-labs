@@ -45,8 +45,8 @@ Casos por número de personas †: 1 → 769 339; 2 → 273 106; 3 → 302 446; 
 1. La referencia es `date_decision` de `train_base`.
 2. `applprev_1`: una fila existe para el caso solo si `creationdate_885D <= date_decision`. Fecha nula = se descarta (no se puede demostrar disponibilidad). Igualdad (mismo día) = se conserva.
 3. `applprev_2`: un hijo solo se usa si su padre `(case_id, num_group1)` pasó el filtro anterior. Se valida el padre **antes** de agregar.
-4. `person_1` y `person_2`: no tienen fecha por fila; son atributos de la solicitud actual. No hay filtro por fila. Las fechas internas (`empl_employedfrom_271D`, `empls_employedfrom_796D`, `birth_259D`) se transforman en antigüedad solo si son `<= date_decision`; un valor posterior se anula y se cuenta.
-5. Las otras fechas de `applprev_1` siguen la misma regla por campo: valor posterior a la decisión = nulo y contador de anulados.
+4. `person_1` y `person_2`: no tienen fecha por fila; son atributos de la solicitud actual. No hay filtro por fila. Las fechas internas (`empl_employedfrom_271D`, `empls_employedfrom_796D`, `birth_259D`) se transforman en antigüedad solo si son `<= date_decision`; un valor posterior se anula y solo se registra como total en el manifiesto de la familia (nunca como característica por caso).
+5. Las otras fechas de `applprev_1` siguen la misma regla por campo: valor posterior a la decisión = nulo; el total de anulados va solo al manifiesto.
 6. Ventana retrospectiva: depende de la política común de A7 (Giancarlo). Hasta que G1 la fije, el borrador usa **todo el historial `<= date_decision`**.
 
 ## 3. Catálogo inicial de agregaciones
@@ -64,7 +64,7 @@ Convención: `<familia>__<columna>__<agregación>`. Una característica entra so
 | `tenor_203L`, `mainoccupationinc_437A`, `byoccupationinc_3656910L`, `childnum_21L` | conteo válido, mínimo, máximo, media | `__tenor__*`, etc. | atributos de la solicitud previa |
 | `credtype_587L`, `inittransactioncode_279L`, `education_1138M`, `familystate_726L` | conteo de categorías distintas y proporción de categorías aprobadas | `__credtype__n_distinct`, `__credtype__share_<cat>` | categorías con vocabulario ajustado solo en train |
 | `isbidproduct_390L`, `isdebitcard_527L` | conteo y proporción verdadera | `__isbidproduct__share_true` | indicadores de la solicitud previa |
-| `approvaldate_319D`, `dateactivated_425D`, `dtlastpmt_581D`, `dtlastpmtallstes_3545839D`, `employedfrom_700D` | recencia del máximo válido y conteo de valores anulados por ser posteriores | `__days_since_last_<campo>`, `__n_future_<campo>` | valor `<= date_decision`; el resto se anula |
+| `approvaldate_319D`, `dateactivated_425D`, `dtlastpmt_581D`, `dtlastpmtallstes_3545839D`, `employedfrom_700D` | recencia del máximo válido | `__days_since_last_<campo>` | valor `<= date_decision`; el resto se anula. Los anulados se cuentan solo en el manifiesto: una característica que cuente fechas futuras usaría información posterior a la decisión |
 
 ### 3.2 `applprev_2` (solo vía padre válido)
 
@@ -131,3 +131,21 @@ POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.applications_people_evidenc
 uv run -m dm_credit.preparation.applications_people_selection                      # B4
 uv run --extra dev pytest -q tests/test_preparation_*.py
 ```
+
+## 8. Compatibilidad con los contratos A1/A2 (`03-preparation-contracts.md`)
+
+Revisión del 12/10/2026 contra la decisión A1 y la propuesta de interfaces A2. Este documento es compatible con ambos; quedan estos puntos para G1.
+
+**Coincide:** columnas reservadas idénticas a `dm_credit.baseline.RESERVED`; `FeatureDefinition` (tipo lógico, rol predictor/cobertura, columnas fuente, regla temporal) equivale al catálogo de la sección 3; `source_present` es una característica de cobertura; `coercion.py` encaja como "error de entrada/datos".
+
+**Decisiones que G1 debe tomar:**
+
+1. **Qué es una "familia".** `build_family_features` recibe una sola familia y no recibe tablas de otras. Pero `applprev_2` necesita el padre válido de `applprev_1` y `person_2` el de `person_1`. Propuesta: familia = grupo padre-hijo (`applprev_1`+`applprev_2`, `person_1`+`person_2`, bureau A y B).
+2. **Base en la firma.** El split `"oot"` lee archivos de train y el filtro necesita `date_decision`: el adaptador requiere `case_id`, `WEEK_NUM` y `date_decision`. Propuesta: recibir `base` de forma explícita.
+3. **Casos sin cobertura.** Falta definir quién completa `n_records = 0` y `source_present = False`. Propuesta: el ensamblador, tras el left join; el resto de características quedan nulas. Afecta a 13 483 casos de `applprev_1` que pierden toda su cobertura tras el filtro, además de los casos que nunca tuvieron historial.
+4. **Personas e invariante 5.** `person_*` no tiene fecha por fila; leído estrictamente, el contrato las bloquearía. Se propone aprobar la regla "atributo de la solicitud actual", respaldada por `num_group1 = 0` presente en el 100 % de los casos.
+5. **Excepciones.** Propuesta: `CoercionError` y `DomainViolationError` heredan del error de entrada/datos del contrato.
+6. **Tipos lógicos.** `FeatureDefinition` debe reutilizar `coercion.LOGICAL_TYPES` (`date`, `int`, `float`, `bool`, `string`).
+7. **Orden.** Cada agregado se escribe ordenado por `case_id`.
+
+**Corrección propia:** una versión previa de este documento proponía características `__n_future_<campo>`. Se retiraron: contar fechas posteriores a la decisión es fuga de información.
