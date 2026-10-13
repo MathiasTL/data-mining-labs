@@ -132,7 +132,6 @@ def _bureau_a(a1):
     return bureau.aggregate_family(bfx.base(), p, tables)
 
 
-@pytest.mark.xfail(strict=True, reason="bureau no valida claves: un (case_id, num_group1) repetido se cuenta dos veces. Pendiente de Mathias (C4).")
 def test_bureau_duplicate_parent_key_is_rejected():
     a1 = bfx.TABLES["credit_bureau_a_1"]()
     with pytest.raises(ValueError):

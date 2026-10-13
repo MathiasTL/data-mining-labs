@@ -214,6 +214,21 @@ def test_std_is_stable_for_large_amounts_across_batches():
     assert features.filter(pl.col("case_id") == 1)["credit_bureau_b_1__amount_1115a__std__all"].item() == pytest.approx(1.0)
 
 
+@pytest.mark.parametrize("size", [1, 1000])
+def test_repeated_row_key_is_rejected_within_and_across_batches(size):
+    a1 = bfx.TABLES["credit_bureau_a_1"]()
+    repeated = pl.concat([a1, a1.head(1)])  # same (case_id, num_group1) twice; with size=1 it spans two batches
+    with pytest.raises(ValueError, match="credit_bureau_a_1.*repeated"):
+        bureau.aggregate_family(bfx.base(), plan("credit_bureau_a"), {"credit_bureau_a_1": batches_of(repeated, size)})
+
+
+def test_repeated_child_key_is_rejected():
+    b2 = bfx.TABLES["credit_bureau_b_2"]()  # valid rows already share (case_id, num_group1) with distinct num_group2
+    tables = {"credit_bureau_b_1": [bfx.TABLES["credit_bureau_b_1"]()], "credit_bureau_b_2": [pl.concat([b2, b2.head(1)])]}
+    with pytest.raises(ValueError, match="credit_bureau_b_2.*repeated"):
+        bureau.aggregate_family(bfx.base(), plan("credit_bureau_b"), tables)
+
+
 def test_empty_and_null_typed_input_returns_the_full_schema():
     p = plan("credit_bureau_b")
     full = aggregate("credit_bureau_b")

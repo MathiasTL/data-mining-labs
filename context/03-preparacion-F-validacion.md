@@ -6,7 +6,7 @@
 
 | Tarea                                       | Estado                 | Evidencia                                                                                                                                                                                                                                                 |
 | ------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **F1** Pruebas de adaptadores y catálogos   | Hecho                  | Auditoría de las cinco familias; 12 pruebas nuevas en `tests/test_preparation_f1_gaps.py` (una marcada como fallo esperado, ver abajo)                                                                                                                    |
+| **F1** Pruebas de adaptadores y catálogos   | Hecho                  | Auditoría de las cinco familias; 12 pruebas nuevas en `tests/test_preparation_f1_gaps.py` (el fallo esperado de bureau ya se corrigió)                                                                                                                    |
 | **F2** Pruebas end-to-end sintéticas        | Hecho                  | `tests/test_preparation_g3_integration.py` comprueba partición, descartes y agregados contra valores conocidos, join, ajuste/transformación y manifiestos de familias y matrices                                                                          |
 | **F3** Validaciones sobre artefactos reales | Hecho                  | E7 ejecutado localmente: 29/29 controles, incluidos los 3 cotejos E5; evidencia archivada en `F3_final_checks.csv` y `F3_final_run_manifest.json`                                                                                                         |
 | **F4** Resultados por fuente                | Hecho                  | `results/preparation/family_results.csv` reúne casos, cobertura y roles por familia y split, con comando, informe y fecha por fuente; ver `context/03-preparacion-F4-resultados.md`                                                                       |
@@ -40,6 +40,8 @@ La auditoría revisó, por familia, casos temporales, nulos, claves y agregacion
 
 **Error encontrado:** bureau no valida claves. Un `(case_id, num_group1)` repetido se cuenta dos veces (`n_records` pasa de 2 a 3). La prueba queda como fallo esperado estricto (`xfail`), así que avisará en cuanto se corrija. Los datos reales no se ven afectados: el capítulo 02 verificó que esas claves son únicas.
 
+**Corregido (13/10/2026):** bureau lee siempre la clave de fila —`(case_id, num_group1)` en las tablas de profundidad 1 y `(case_id, num_group1, num_group2)` en las hijas— y rechaza con `ValueError` cualquier clave repetida, dentro de un lote o entre lotes del mismo shard. La prueba dejó de ser un fallo esperado. Reconstruidas desde los shards reales con caché vacía, las seis piezas de bureau no tienen claves repetidas y su contenido es igual al publicado. Límite: una clave repetida entre dos shards distintos no se detecta.
+
 ## F6 — Revisión de Andre al frente de bureau (Mathias)
 
 **Lo que está bien:** el adaptador lee por grupos de filas con memoria acotada, fusiona parciales con una fórmula estable de varianza, valida el padre antes que el hijo y publica artefactos con manifiesto y suma de verificación. Sus agregados están probados contra valores calculados a mano.
@@ -58,7 +60,7 @@ La regla usa `lastupdate_*`, la fecha de **última actualización** del registro
 
 **Otros puntos:**
 
-- La clave repetida de F1.
+- La clave repetida de F1 (corregida el 13/10/2026, ver arriba).
 - `credit_bureau_a_2` se omite por falta de ancla aprobada; queda documentado en C4-C5.
 
 ## F6 — Revisión adicional de integración y documentación (13/10/2026)
@@ -74,5 +76,5 @@ Revisión independiente del ensamblado E5 (`e5.py`, `assembly.py`, `schema.py`, 
 
 1. F3 completada: conservar y revisar la evidencia de la ejecución E7 local (29/29 controles y 11 hashes verificados).
 2. F6: las revisiones cruzadas de Nick, Giancarlo, Mathias y Gabriel; resolver o documentar los hallazgos de la revisión adicional.
-3. Los arreglos pendientes: columnas constantes (Gabriel), `pl.concat` en `views.py` (Giancarlo) y claves repetidas en bureau (Mathias).
+3. Los arreglos pendientes: columnas constantes (Gabriel) y `pl.concat` en `views.py` (Giancarlo). Las claves repetidas en bureau (Mathias) ya están corregidas.
 4. Decidir si se excluyen o justifican temporalmente los indicadores de cobertura de productos y registros sin as-of (riesgo F7); luego verificar la suite completa y `git diff --check` para G4. Los Parquet grandes de train E5/E6 no están presentes actualmente; F3 registra una validación pasada, no una nueva validación local.

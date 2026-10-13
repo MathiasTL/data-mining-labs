@@ -125,12 +125,16 @@ class TablePlan:
         return tuple(c for a in self.anchors for c in a.columns)
 
     @property
+    def row_key(self) -> tuple[str, ...]:
+        """Columns that identify one source row; always read so that repeated keys can be rejected."""
+        return (*PARENT_KEY, "num_group2") if self.parent else PARENT_KEY
+
+    @property
     def columns(self) -> list[str]:
-        keys = [KEY, "num_group1"] if (self.parent or self.has_children) else [KEY]
-        return list(dict.fromkeys([*keys, *self.anchor_columns, *self.numeric, *self.bools, *self.dates, *self.categories]))
+        return list(dict.fromkeys([*self.row_key, *self.anchor_columns, *self.numeric, *self.bools, *self.dates, *self.categories]))
 
     def schema(self) -> dict[str, str]:
-        out = {c: "int" for c in (KEY, "num_group1") if c in self.columns}
+        out = {c: "int" for c in self.row_key}
         for a in self.anchors:
             out.update({c: "date" if a.kind == "day" else "float" for c in a.columns})
         out.update({c: "float" for c in self.numeric})
@@ -421,19 +425,37 @@ def _add(total: dict[str, int], counts: Mapping[str, int]) -> None:
         total[k] = total.get(k, 0) + int(v)
 
 
+def _require_unique_row_keys(keys: list[pl.DataFrame], plan: TablePlan) -> None:
+    """A repeated row key would be counted twice by every aggregate: fail instead of aggregating it."""
+    if not keys:
+        return
+    seen = pl.concat(keys)
+    repeated = seen.filter(seen.is_duplicated()).unique().sort(plan.row_key)
+    if repeated.height:
+        raise ValueError(
+            f"{plan.table}: {repeated.height} repeated row keys {plan.row_key}, e.g. {repeated.head(5).rows()}"
+        )
+
+
 def process_batches(
     batches: Iterable[pl.DataFrame], plan: TablePlan, decision: pl.DataFrame, parent_keys: pl.DataFrame | None
 ) -> TableState:
-    """Stream batches: filter, aggregate to a partial and merge, keeping memory bounded by the cases seen."""
+    """Stream batches: filter, aggregate to a partial and merge, keeping memory bounded by the cases seen.
+
+    The raw row keys of every batch are kept until the end to reject repeated keys across batches.
+    """
     partial = empty_partial(plan)
     exclusions: dict[str, int] = {}
     keys: list[pl.DataFrame] = []
+    row_keys: list[pl.DataFrame] = []
     for batch in batches:
+        row_keys.append(batch.select(pl.col(c).cast(pl.Int64) for c in plan.row_key))
         rows, counts = _prepare_batch(batch, plan, decision, parent_keys)
         _add(exclusions, counts)
         partial = merge_partials([partial, partial_aggregate(rows, plan)], plan)
         if plan.has_children:
             keys.append(rows.select(PARENT_KEY))
+    _require_unique_row_keys(row_keys, plan)
     if not exclusions:  # no batch at all: report zeros, not missing keys
         _, exclusions = _prepare_batch(pl.DataFrame(schema={c: pl.Null for c in plan.columns}), plan, decision, parent_keys)
     parent = pl.concat(keys).unique() if keys else pl.DataFrame(schema={KEY: pl.Int64, "num_group1": pl.Int64})

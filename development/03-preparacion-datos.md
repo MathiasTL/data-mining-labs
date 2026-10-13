@@ -183,7 +183,6 @@ Las columnas de control (`case_id`, `WEEK_NUM`, `date_decision`, `MONTH` y `targ
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | En la salida limpia de solicitudes y personas, 23 de 204 columnas son constantes en train; el preprocesador no las descarta todavía.                             | Gabriel (D1)   |
 | `views.py` usa una forma de `pl.concat` que polars va a cambiar en una versión mayor.                                                                            | Giancarlo (D7) |
-| Bureau no rechaza claves `(case_id, num_group1)` repetidas: las cuenta dos veces. No afecta a los datos reales, que tienen claves únicas, pero falta la defensa. | Mathias (C4)   |
 
 ### Resultado de la fase
 
