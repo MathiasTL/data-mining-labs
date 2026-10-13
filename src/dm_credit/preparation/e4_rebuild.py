@@ -86,16 +86,21 @@ def select_jobs(audit: dict) -> list[tuple[str, str]]:
     )
 
 
-def build_one(family: str, split: str, output: Path) -> None:
+def build_one(family: str, split: str, output: Path, batch_size: int = 100_000) -> None:
     require(
         family in ap.TABLES and split in EXPECTED_ROWS, "Solo C2/C3 y splits conocidos"
     )
     parts = partition_base(io.load_base("train"), io.load_base("test"), cutoff_week=74)
     base = getattr(parts, split)
     require(base.height == EXPECTED_ROWS[split], "Conteo base incorrecto")
-    artifact = build_family_features(
-        family, base, split, cutoff_week=74, output_dir=output
-    )
+    if family == "applprev":
+        artifact = ap.build_applprev_features_batched(
+            base, split, cutoff_week=74, output_dir=output, batch_size=batch_size
+        )
+    else:
+        artifact = build_family_features(
+            family, base, split, cutoff_week=74, output_dir=output
+        )
     require(artifact.case_count == base.height, "El builder perdió casos")
 
 
@@ -118,7 +123,12 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
     records = json.loads(records_path.read_text()) if records_path.exists() else []
     for family, split in jobs:
         prior = [r for r in records if (r["family"], r["split"]) == (family, split)]
-        if prior and prior[-1]["status"] == "blocked":
+        strategy = "applprev_case_batches_v1" if family == "applprev" else "standard"
+        if (
+            prior
+            and prior[-1]["status"] == "blocked"
+            and prior[-1].get("builder") == strategy
+        ):
             print(
                 f"{family}/{split}: bloqueo anterior conservado; no reintentar",
                 flush=True,
@@ -138,6 +148,8 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
             manifest=str(manifest),
             max_rss_mib=max_rss_mib,
             timeout_seconds=timeout_seconds,
+            builder=strategy,
+            batch_size=100_000 if family == "applprev" else None,
         )
         records.append(record)
         try:
@@ -171,6 +183,8 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
                 split,
                 "--output",
                 str(output),
+                "--batch-size",
+                "100000",
             ]
             record.update(
                 command=command, log=str(log), metrics=str(metrics), status="running"
@@ -233,6 +247,13 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int) -> list[di
     return records
 
 
+def latest_builds_blocked(records: list[dict]) -> bool:
+    latest: dict[tuple[str, str], dict] = {}
+    for record in records:
+        latest[(record["family"], record["split"])] = record
+    return any(record["status"] == "blocked" for record in latest.values())
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -244,16 +265,21 @@ def main() -> None:
         "--worker", nargs=2, metavar=("FAMILY", "SPLIT"), help=argparse.SUPPRESS
     )
     parser.add_argument("--output", type=Path, help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--batch-size", type=int, default=100_000, help=argparse.SUPPRESS
+    )
     args = parser.parse_args()
     require(
         os.environ.get("POLARS_MAX_THREADS") == "1", "POLARS_MAX_THREADS=1 obligatorio"
     )
     if args.worker:
         require(args.output is not None, "worker requiere output")
-        build_one(*args.worker, args.output)
+        build_one(
+            args.worker[0], args.worker[1], args.output, batch_size=args.batch_size
+        )
     else:
         records = rebuild(args.audit, args.max_rss_mib, args.timeout_seconds)
-        if any(r["status"] == "blocked" for r in records):
+        if latest_builds_blocked(records):
             raise SystemExit(1)
 
 

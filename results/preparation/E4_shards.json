@@ -201,8 +201,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0018344560012337752,
-      "audit_process_ru_maxrss_kib": 197248
+      "audit_seconds": 0.0016106910043163225,
+      "audit_process_ru_maxrss_kib": 197216
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_1.83fc3230afd325af765863a0.json",
@@ -231,8 +231,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0009346879960503429,
-      "audit_process_ru_maxrss_kib": 197248
+      "audit_seconds": 0.0009476129998802207,
+      "audit_process_ru_maxrss_kib": 197216
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_2.82ff5ed82d638c3f18752265.json",
@@ -261,8 +261,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0008049230018514208,
-      "audit_process_ru_maxrss_kib": 197248
+      "audit_seconds": 0.0007854399955249391,
+      "audit_process_ru_maxrss_kib": 197216
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_3.662906aa6b7cc03dac5f6dbb.json",
@@ -291,8 +291,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0008377489939448424,
-      "audit_process_ru_maxrss_kib": 197248
+      "audit_seconds": 0.0008632439930806868,
+      "audit_process_ru_maxrss_kib": 197216
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_4.8c783c067ad4a158ead2eb74.json",
@@ -321,8 +321,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0007952159940032288,
-      "audit_process_ru_maxrss_kib": 197384
+      "audit_seconds": 0.0006865440009278245,
+      "audit_process_ru_maxrss_kib": 197352
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_0.bdada247d5009ddb34d5e0e1.json",
@@ -351,8 +351,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.030736820001038723,
-      "audit_process_ru_maxrss_kib": 223132
+      "audit_seconds": 0.02626986500399653,
+      "audit_process_ru_maxrss_kib": 222892
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_0.c54384227140453e71e73be5.json",
@@ -381,8 +381,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0013458450048347004,
-      "audit_process_ru_maxrss_kib": 223132
+      "audit_seconds": 0.0013157490029698238,
+      "audit_process_ru_maxrss_kib": 222892
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_1.02a93bc3bbbd9cd8e915d087.json",
@@ -411,8 +411,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.07670495200000005,
-      "audit_process_ru_maxrss_kib": 284332
+      "audit_seconds": 0.07086320600501494,
+      "audit_process_ru_maxrss_kib": 284168
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_1.0d8d6a2fe6ae454a41e4dd32.json",
@@ -441,8 +441,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0014283280033851042,
-      "audit_process_ru_maxrss_kib": 284332
+      "audit_seconds": 0.001339843998721335,
+      "audit_process_ru_maxrss_kib": 284168
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_2.a57e592cab19c3bd96b9853b.json",
@@ -471,8 +471,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.01809997999953339,
-      "audit_process_ru_maxrss_kib": 284332
+      "audit_seconds": 0.01603238800453255,
+      "audit_process_ru_maxrss_kib": 284168
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_2.ac5eb0bfe1d3fe0dda67c15d.json",
@@ -501,8 +501,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0024120449961628765,
-      "audit_process_ru_maxrss_kib": 284332
+      "audit_seconds": 0.0024878339972929098,
+      "audit_process_ru_maxrss_kib": 284168
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_3.611e38f4ed4d487cdc4045e9.json",
@@ -531,8 +531,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.022884751997480635,
-      "audit_process_ru_maxrss_kib": 297004
+      "audit_seconds": 0.019511067002895288,
+      "audit_process_ru_maxrss_kib": 296584
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_3.8c6275b38ee1e1a6cd136730.json",
@@ -561,8 +561,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0012968169976375066,
-      "audit_process_ru_maxrss_kib": 297004
+      "audit_seconds": 0.00130136200459674,
+      "audit_process_ru_maxrss_kib": 296584
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_b_1/test_credit_bureau_b_1.3e9a769f885ec2b844e237cd.json",
@@ -591,8 +591,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0008084150031208992,
-      "audit_process_ru_maxrss_kib": 297004
+      "audit_seconds": 0.0008533270010957494,
+      "audit_process_ru_maxrss_kib": 296584
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_b_1/train_credit_bureau_b_1.0d5cf38f3904f330d808fd7b.json",
@@ -621,8 +621,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0017881520034279674,
-      "audit_process_ru_maxrss_kib": 297260
+      "audit_seconds": 0.0016553900059079751,
+      "audit_process_ru_maxrss_kib": 296840
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_b_1/train_credit_bureau_b_1.a5269a947c96bc967160d828.json",
@@ -651,8 +651,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.001170543000625912,
-      "audit_process_ru_maxrss_kib": 297260
+      "audit_seconds": 0.0011117409958387725,
+      "audit_process_ru_maxrss_kib": 296968
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_b_2/test_credit_bureau_b_2.da5ce3cb16d1f9d4343d9378.json",
@@ -682,8 +682,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0006908720024512149,
-      "audit_process_ru_maxrss_kib": 297260
+      "audit_seconds": 0.0006235469991224818,
+      "audit_process_ru_maxrss_kib": 296968
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_b_2/train_credit_bureau_b_2.e4f364ad0c072359885db2e0.json",
@@ -713,8 +713,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0014073759957682341,
-      "audit_process_ru_maxrss_kib": 297516
+      "audit_seconds": 0.001158605002274271,
+      "audit_process_ru_maxrss_kib": 297096
     },
     {
       "checkpoint": "/home/daminin/Documents/Repositorios/data-mining-labs/data/artifacts/preparation/C4-C5-v2/checkpoints/credit_bureau_b_2/train_credit_bureau_b_2.ea5b32ee8b7e053fb34185b4.json",
@@ -744,10 +744,10 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0009959390008589253,
-      "audit_process_ru_maxrss_kib": 297516
+      "audit_seconds": 0.0013495530001819134,
+      "audit_process_ru_maxrss_kib": 297224
     }
   ],
-  "audit_seconds": 0.1883759740012465,
-  "audit_process_ru_maxrss_kib": 297516
+  "audit_seconds": 0.1698263409998617,
+  "audit_process_ru_maxrss_kib": 297224
 }
