@@ -60,7 +60,8 @@ def _read_csv(path: Path) -> pl.DataFrame:
 def shard_paths(split: str, source: str) -> list[Path]:
     """Shards de una fuente física, ordenados por índice numérico (``_2`` antes que ``_10``).
 
-    Acepta ``{split}_{source}.parquet`` y ``{split}_{source}_{n}.parquet``. ``split`` es el de los
+    Acepta ``{split}_{source}.parquet`` y ``{split}_{source}_{n}.parquet`` (``source`` debe ser el nombre
+    físico completo, p. ej. ``applprev_1``; un nombre parcial puede coincidir con otra fuente). ``split`` es el de los
     archivos (``train`` o ``test``); la partición OOT se separa después con la tabla base.
     """
     if split not in SPLITS:
@@ -78,6 +79,9 @@ def shard_paths(split: str, source: str) -> list[Path]:
             f"no shards for source {source!r} in {folder}. Data lives outside git; "
             f"check {DATA_DIR_ENV} or place the files under <repo>/data."
         )
+    unindexed = [p for idx, p in found if idx == -1]
+    if unindexed and len(found) > 1:
+        raise ValueError(f"ambiguous shards for source {source!r}: an unindexed file coexists with indexed ones")
     return [p for _, p in sorted(found, key=lambda item: item[0])]
 
 

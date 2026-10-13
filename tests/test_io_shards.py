@@ -91,3 +91,10 @@ def test_iter_row_groups_yields_one_group_at_a_time(data_dir):
 def test_iter_row_groups_missing_file_is_actionable(data_dir):
     with pytest.raises(FileNotFoundError, match="DM_DATA_DIR"):
         list(io.iter_row_groups(data_dir / "nope.parquet"))
+
+
+def test_mixing_unindexed_and_indexed_files_of_one_source_is_ambiguous(data_dir):
+    write(data_dir, "train", "train_applprev_1.parquet", {"case_id": [1], "x": [1.0]})
+    write(data_dir, "train", "train_applprev_1_0.parquet", {"case_id": [2], "x": [1.0]})
+    with pytest.raises(ValueError, match="ambiguous"):
+        io.shard_paths("train", "applprev_1")
