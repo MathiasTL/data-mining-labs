@@ -1,6 +1,6 @@
 # 3. Preparación de datos
 
-> **Estado (13/10/2026):** pipeline implementado y validado. La ejecución real (E4) y las tablas maestras (E5) están cerradas; quedan el ajuste final del preprocesador (E6) y el comando único de reproducción (E7). El reparto del trabajo está en el [backlog del capítulo 03](../context/03-preparacion-datos-backlog.md).
+> **Estado (13/10/2026):** pipeline implementado y validado. La ejecución real (E4), las tablas maestras (E5) y el ajuste del preprocesador y las vistas (E6) están cerrados; queda el comando único de reproducción (E7). El reparto del trabajo está en el [backlog del capítulo 03](../context/03-preparacion-datos-backlog.md).
 
 ## Resumen
 
@@ -194,6 +194,7 @@ uv run -m dm_credit.preparation.families.products_registry --splits train oot te
 uv run -m dm_credit.preparation.c8_catalog
 uv run -m dm_credit.preparation.validation
 uv run -m dm_credit.preparation.e5   # tablas maestras (E5)
+uv run -m dm_credit.preparation.e6   # preprocesador y vistas (E6)
 ```
 
 Los artefactos quedan en `data/artifacts/preparation/` (`C1-v1`, `C2-C3-v1`, `C4-C5-v2` y `C6-v1`), cada uno con su manifiesto y su suma de verificación. La integración completa sobre datos sintéticos se prueba en `tests/test_preparation_g3_integration.py`.
