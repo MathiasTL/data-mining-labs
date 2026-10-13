@@ -23,6 +23,7 @@ import polars as pl
 from dm_credit import io
 from dm_credit.preparation import contracts
 from dm_credit.preparation.families import applications_people as ap
+from dm_credit.preparation.families import applications_people_g2
 from dm_credit.preparation.split import partition_base
 
 SPLITS = ("train", "oot", "test")
@@ -68,6 +69,10 @@ def run_real_data(
         raise ValueError(f"split must be one of {SPLITS}, got {bad}")
     if len(set(splits)) != len(splits):
         raise ValueError(f"splits has repeated entries: {list(splits)}")
+    if applications_config is None or people_config is None:
+        approved = applications_people_g2.load_g2_configs()  # por defecto, solo lo aprobado en G2
+        applications_config = applications_config or approved[0]
+        people_config = people_config or approved[1]
     parts = partition_base(io.load_base("train"), io.load_base("test"), cutoff_week=cutoff_week)
     bases = {"train": parts.train, "oot": parts.oot, "test": parts.test}
 
