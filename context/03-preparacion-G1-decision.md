@@ -1,7 +1,6 @@
 # G1 — Decisión propuesta para congelar interfaces
 
-> **Estado:** decisión redactada por Andre (P3), con el voto que delegó en Claude. **Pendiente de ratificación del equipo**: G1 es una compuerta conjunta (Nick, Giancarlo, Andre, Mathias y Gabriel) y esta decisión no se considera aprobada hasta que los demás la acepten.
-> **Regla de ratificación propuesta:** si nadie objeta por escrito antes del **jue 15/10 a las 21:00**, se considera aprobada; cualquier objeción se resuelve en la reunión del **vie 16/10**.
+> **Estado:** decisión **vigente** de Andre (P3), tomada el 12/10/2026 con apoyo de Claude, y aplicada desde ya a sus propios módulos. Los demás integrantes pueden objetar por escrito; una objeción se resuelve en la reunión del **vie 16/10** y, si prospera, se corrige este documento. G1 la había dejado abierta el acta de Nick; este documento cierra los puntos para que nadie quede bloqueado.
 > **Insumos:** [acta de Nick](03-preparacion-G1-acta.md) y su [revisión](03-preparacion-G1-acta.md#revisión-de-andre-p3-12102026), [A1/A2](03-preparation-A1-A2-contracts.md), [A3/A7](<politica-agregaciones-y-ventanas(A3-A7).md>), [A4](03-preparacion-A4-solicitudes-personas.md), [A5](03-preparacion-A5-bureau-streaming.md) y [A6](03-preparacion-A6-faltantes-categorias.md).
 > **Qué no decide:** qué columnas entran (B3–B6, G2) ni la aprobación de ningún predictor.
 
