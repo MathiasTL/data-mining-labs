@@ -1,0 +1,20 @@
+{
+  "exclusions": {
+    "credit_bureau_a_1_dateofcredstart_181D_values_after_decision": 0,
+    "credit_bureau_a_1_dateofcredstart_739D_values_after_decision": 0,
+    "credit_bureau_a_1_dateofrealrepmt_138D_values_after_decision": 0,
+    "credit_bureau_a_1_refreshdate_3813885D_values_after_decision": 0,
+    "credit_bureau_a_1_rows_after_decision": 0,
+    "credit_bureau_a_1_rows_null_anchor": 0
+  },
+  "key": {
+    "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961",
+    "cutoff_week": "74",
+    "parent_shards": "",
+    "plan": "8fe82620d30e179a20e74c1feddb8e05b3891ec4890daa2fed4e5268c0b4e8c2",
+    "rules_version": "C4-C5-v1",
+    "shard": "train_credit_bureau_a_1_3.parquet:71774171:1790997776865062709"
+  },
+  "keys_sha256": null,
+  "partial_sha256": "f55373c95fe152c7d5ca7759f065ef7f99bf1d9d271170bf02982b6f0f5f58c2"
+}

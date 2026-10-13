@@ -1,0 +1,1098 @@
+{
+  "format_version": 1,
+  "rules_version": "C4-C5-v1",
+  "family": "credit_bureau_a",
+  "split": "train",
+  "data_path": "credit_bureau_a__train.parquet",
+  "data_sha256": "7862a6de7611a8f2eed8133d1f23cebd4c172a4a15206e759bee790d36cec566",
+  "row_count": 1332001,
+  "case_count": 1332001,
+  "features": [
+    {
+      "name": "credit_bureau_a_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "n_records en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "source_present en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_230a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_230A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de credlmt_230a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_230a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_230A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de credlmt_230a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_230a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_230A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de credlmt_230a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_230a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_230A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de credlmt_230a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_230a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_230A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de credlmt_230a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_230a__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_230A"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de credlmt_230a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_935a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_935A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de credlmt_935a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_935a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_935A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de credlmt_935a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_935a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_935A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de credlmt_935a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_935a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_935A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de credlmt_935a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_935a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_935A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de credlmt_935a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__credlmt_935a__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "credlmt_935A"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de credlmt_935a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__instlamount_768a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "instlamount_768A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de instlamount_768a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__instlamount_768a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "instlamount_768A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de instlamount_768a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__instlamount_768a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "instlamount_768A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de instlamount_768a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__instlamount_768a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "instlamount_768A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de instlamount_768a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__instlamount_768a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "instlamount_768A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de instlamount_768a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__instlamount_768a__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "instlamount_768A"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de instlamount_768a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__monthlyinstlamount_332a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "monthlyinstlamount_332A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de monthlyinstlamount_332a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__monthlyinstlamount_332a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "monthlyinstlamount_332A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de monthlyinstlamount_332a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__monthlyinstlamount_332a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "monthlyinstlamount_332A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de monthlyinstlamount_332a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__monthlyinstlamount_332a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "monthlyinstlamount_332A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de monthlyinstlamount_332a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__monthlyinstlamount_332a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "monthlyinstlamount_332A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de monthlyinstlamount_332a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__monthlyinstlamount_332a__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "monthlyinstlamount_332A"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de monthlyinstlamount_332a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_281l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_281L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de nominalrate_281l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_281l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_281L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de nominalrate_281l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_281l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_281L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de nominalrate_281l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_281l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_281L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de nominalrate_281l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_281l__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_281L"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de nominalrate_281l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_281l__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_281L"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de nominalrate_281l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_498l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_498L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de nominalrate_498l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_498l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_498L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de nominalrate_498l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_498l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_498L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de nominalrate_498l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_498l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_498L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de nominalrate_498l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_498l__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_498L"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de nominalrate_498l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__nominalrate_498l__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "nominalrate_498L"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de nominalrate_498l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_229l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_229L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de numberofinstls_229l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_229l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_229L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de numberofinstls_229l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_229l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_229L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de numberofinstls_229l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_229l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_229L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de numberofinstls_229l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_229l__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_229L"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de numberofinstls_229l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_229l__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_229L"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de numberofinstls_229l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_320l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_320L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de numberofinstls_320l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_320l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_320L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de numberofinstls_320l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_320l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_320L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de numberofinstls_320l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_320l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_320L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de numberofinstls_320l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_320l__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_320L"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de numberofinstls_320l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__numberofinstls_320l__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "numberofinstls_320L"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de numberofinstls_320l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_1102l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_1102L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de periodicityofpmts_1102l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_1102l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_1102L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de periodicityofpmts_1102l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_1102l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_1102L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de periodicityofpmts_1102l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_1102l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_1102L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de periodicityofpmts_1102l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_1102l__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_1102L"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de periodicityofpmts_1102l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_1102l__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_1102L"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de periodicityofpmts_1102l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_837l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_837L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de periodicityofpmts_837l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_837l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_837L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de periodicityofpmts_837l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_837l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_837L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de periodicityofpmts_837l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_837l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_837L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de periodicityofpmts_837l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_837l__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_837L"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de periodicityofpmts_837l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__periodicityofpmts_837l__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "periodicityofpmts_837L"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de periodicityofpmts_837l en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_6a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_6A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de totalamount_6a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_6a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_6A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de totalamount_6a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_6a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_6A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de totalamount_6a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_6a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_6A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de totalamount_6a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_6a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_6A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de totalamount_6a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_6a__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_6A"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de totalamount_6a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_996a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_996A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "count de totalamount_996a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_996a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_996A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "min de totalamount_996a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_996a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_996A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "max de totalamount_996a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_996a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_996A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "mean de totalamount_996a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_996a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_996A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "sum de totalamount_996a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__totalamount_996a__std__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "totalamount_996A"
+      ],
+      "aggregation": "std",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "std de totalamount_996a en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__dateofcredstart_181d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "dateofcredstart_181D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_last de dateofcredstart_181d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__dateofcredstart_181d__days_since_first__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "dateofcredstart_181D"
+      ],
+      "aggregation": "days_since_first",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_first de dateofcredstart_181d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__dateofcredstart_739d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "dateofcredstart_739D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_last de dateofcredstart_739d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__dateofcredstart_739d__days_since_first__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "dateofcredstart_739D"
+      ],
+      "aggregation": "days_since_first",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_first de dateofcredstart_739d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__dateofrealrepmt_138d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "dateofrealrepmt_138D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_last de dateofrealrepmt_138d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__dateofrealrepmt_138d__days_since_first__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "dateofrealrepmt_138D"
+      ],
+      "aggregation": "days_since_first",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_first de dateofrealrepmt_138d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__refreshdate_3813885d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "refreshdate_3813885D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_last de refreshdate_3813885d en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__refreshdate_3813885d__days_since_first__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [
+        "refreshdate_3813885D"
+      ],
+      "aggregation": "days_since_first",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "days_since_first de refreshdate_3813885d en credit_bureau_a_1 (ventana all)"
+    }
+  ],
+  "exclusions": {
+    "credit_bureau_a_1_dateofcredstart_181D_values_after_decision": 0,
+    "credit_bureau_a_1_dateofcredstart_739D_values_after_decision": 0,
+    "credit_bureau_a_1_dateofrealrepmt_138D_values_after_decision": 337,
+    "credit_bureau_a_1_refreshdate_3813885D_values_after_decision": 1700863,
+    "credit_bureau_a_1_rows_after_decision": 1583190,
+    "credit_bureau_a_1_rows_null_anchor": 7528249
+  },
+  "inputs": {
+    "cutoff_week": "74",
+    "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961",
+    "shards": "train_credit_bureau_a_1_0.parquet:64863053:1790997776429063364;train_credit_bureau_a_1_1.parquet:183293106:1790997776573063148;train_credit_bureau_a_1_2.parquet:123506425:1790997776492063270;train_credit_bureau_a_1_3.parquet:71774171:1790997776865062709",
+    "selection_manifest": "B5_bureau_columns.csv",
+    "plan_sha256": "8fe82620d30e179a20e74c1feddb8e05b3891ec4890daa2fed4e5268c0b4e8c2",
+    "skipped_table:credit_bureau_a_2": "sin ancla temporal aprobada (referencia_as_of) en B5: la tabla no se lee",
+    "categorical_without_vocabulary": "credit_bureau_a_1.classificationofcontr_13M;credit_bureau_a_1.classificationofcontr_400M;credit_bureau_a_1.description_351M;credit_bureau_a_1.purposeofcred_426M;credit_bureau_a_1.purposeofcred_874M;credit_bureau_a_1.subjectrole_182M;credit_bureau_a_1.subjectrole_93M"
+  },
+  "validations": [
+    "case_id no nulo",
+    "case_id único",
+    "sin columnas reservadas",
+    "esquema igual a las definiciones y en el mismo orden",
+    "ordenado por case_id"
+  ]
+}
