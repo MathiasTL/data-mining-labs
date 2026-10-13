@@ -1,0 +1,1581 @@
+{
+  "format_version": 1,
+  "split": "train",
+  "data_path": "feature_matrix__train.parquet",
+  "data_sha256": "b4f0840851bf413a232343d78e4b9050fa1363d3e73d86366c1b811a6d7a0114",
+  "row_count": 1332001,
+  "control_columns": [
+    "case_id",
+    "date_decision",
+    "MONTH",
+    "WEEK_NUM",
+    "target"
+  ],
+  "feature_schema": [
+    {
+      "name": "static_0__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "static_0",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "n_records en static_0 (ventana all)"
+    },
+    {
+      "name": "static_0__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "static_0",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "source_present en static_0 (ventana all)"
+    },
+    {
+      "name": "static_cb_0__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "static_cb_0",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "n_records en static_cb_0 (ventana all)"
+    },
+    {
+      "name": "static_cb_0__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "static_cb_0",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Ventana all de G1. Valor identidad de la única fila estática por case_id; solo columnas aprobadas explícitamente en G2, cuya política exige revisión temporal y filtro de fuga en train; sin fecha individual por columna.",
+      "description": "source_present en static_cb_0 (ventana all)"
+    },
+    {
+      "name": "debitcard_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "debitcard_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en debitcard_1 (ventana all)"
+    },
+    {
+      "name": "debitcard_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "debitcard_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en debitcard_1 (ventana all)"
+    },
+    {
+      "name": "deposit_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "deposit_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en deposit_1 (ventana all)"
+    },
+    {
+      "name": "deposit_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "deposit_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en deposit_1 (ventana all)"
+    },
+    {
+      "name": "other_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "other_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en other_1 (ventana all)"
+    },
+    {
+      "name": "other_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "other_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en other_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_records en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "applprev_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "source_present en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__creationdate_885d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "creationdate_885D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de creationdate_885d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__creationdate_885d__days_since_first__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "creationdate_885D"
+      ],
+      "aggregation": "days_since_first",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_first de creationdate_885d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__annuity_853a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "annuity_853A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de annuity_853a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__byoccupationinc_3656910l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "byoccupationinc_3656910L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de byoccupationinc_3656910l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__childnum_21l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "childnum_21L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de childnum_21l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credacc_credlmt_575a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credacc_credlmt_575A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de credacc_credlmt_575a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credamount_590a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credamount_590A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de credamount_590a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__mainoccupationinc_437a__sum__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "mainoccupationinc_437A"
+      ],
+      "aggregation": "sum",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "sum de mainoccupationinc_437a en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__count__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "count",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "count de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__min__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "min",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "min de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__max__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "max de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__tenor_203l__mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "tenor_203L"
+      ],
+      "aggregation": "mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "mean de tenor_203l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__profession_152m__n_distinct__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "profession_152M"
+      ],
+      "aggregation": "n_distinct",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_distinct de profession_152m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__share_col__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "share_col",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_col de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__share_cal__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "share_cal",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_cal de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__credtype_587l__share_rel__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "credtype_587L"
+      ],
+      "aggregation": "share_rel",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_rel de credtype_587l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__share_a55475b1__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "share_a55475b1",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_a55475b1 de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__share_p97_36_170__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "share_p97_36_170",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_p97_36_170 de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__education_1138m__share_p33_146_175__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "education_1138M"
+      ],
+      "aggregation": "share_p33_146_175",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_p33_146_175 de education_1138m en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_married__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_married",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_married de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_single__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_single",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_single de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_widowed__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_widowed",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_widowed de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_divorced__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_divorced",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_divorced de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__familystate_726l__share_living_with_partner__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "familystate_726L"
+      ],
+      "aggregation": "share_living_with_partner",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_living_with_partner de familystate_726l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__share_pos__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "share_pos",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_pos de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__share_cash__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "share_cash",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_cash de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__inittransactioncode_279l__share_ndf__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "inittransactioncode_279L"
+      ],
+      "aggregation": "share_ndf",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_ndf de inittransactioncode_279l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__isbidproduct_390l__share_true__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "isbidproduct_390L"
+      ],
+      "aggregation": "share_true",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_true de isbidproduct_390l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__isdebitcard_527l__share_true__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "isdebitcard_527L"
+      ],
+      "aggregation": "share_true",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "share_true de isdebitcard_527l en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__approvaldate_319d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "approvaldate_319D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de approvaldate_319d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__dateactivated_425d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "dateactivated_425D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de dateactivated_425d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__dtlastpmt_581d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "dtlastpmt_581D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de dtlastpmt_581d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_1__employedfrom_700d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_1",
+      "source_columns": [
+        "employedfrom_700D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "days_since_last de employedfrom_700d en applprev_1 (ventana all)"
+    },
+    {
+      "name": "applprev_2__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "n_records en applprev_2 (ventana all)"
+    },
+    {
+      "name": "applprev_2__children_per_parent_mean__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "children_per_parent_mean",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "children_per_parent_mean en applprev_2 (ventana all)"
+    },
+    {
+      "name": "applprev_2__children_per_parent_max__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "children_per_parent_max",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "children_per_parent_max en applprev_2 (ventana all)"
+    },
+    {
+      "name": "applprev_2__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "applprev_2",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "creationdate_885D <= date_decision; hijos solo con padre válido",
+      "description": "source_present en applprev_2 (ventana all)"
+    },
+    {
+      "name": "person_1__mainoccupationinc_384a__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "mainoccupationinc_384A"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de mainoccupationinc_384a en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__personindex_1023l__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "personindex_1023L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de personindex_1023l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__persontype_1072l__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "persontype_1072L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de persontype_1072l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__persontype_792l__main__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "persontype_792L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de persontype_792l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__education_927m__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "education_927M"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de education_927m en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__empl_employedtotal_800l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "empl_employedtotal_800L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de empl_employedtotal_800l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__empl_industry_691l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "empl_industry_691L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de empl_industry_691l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__familystate_447l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "familystate_447L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de familystate_447l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__incometype_1044t__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "incometype_1044T"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de incometype_1044t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__language1_981m__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "language1_981M"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de language1_981m en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__role_1084l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "role_1084L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de role_1084l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__type_25l__main__all",
+      "role": "predictor",
+      "logical_type": "string",
+      "source_table": "person_1",
+      "source_columns": [
+        "type_25L"
+      ],
+      "aggregation": "main",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "main de type_25l en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__birth_259d__age_years__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [
+        "birth_259D"
+      ],
+      "aggregation": "age_years",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "age_years de birth_259d en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__empl_employedfrom_271d__days_since_last__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [
+        "empl_employedfrom_271D"
+      ],
+      "aggregation": "days_since_last",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "days_since_last de empl_employedfrom_271d en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "n_records en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__n_contacts__all",
+      "role": "predictor",
+      "logical_type": "int",
+      "source_table": "person_1",
+      "source_columns": [],
+      "aggregation": "n_contacts",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "n_contacts en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "person_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "source_present en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_sibling__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_sibling",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_sibling de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_spouse__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_spouse",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_spouse de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_child__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_child",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_child de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_other_relative__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_other_relative",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other_relative de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_friend__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_friend",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_friend de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_parent__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_parent",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_parent de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_colleague__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_colleague",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_colleague de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_other__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_other",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_415t__share_neighbor__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_415T"
+      ],
+      "aggregation": "share_neighbor",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_neighbor de relationshiptoclient_415t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_sibling__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_sibling",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_sibling de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_spouse__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_spouse",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_spouse de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_child__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_child",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_child de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_other_relative__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_other_relative",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other_relative de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_friend__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_friend",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_friend de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_parent__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_parent",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_parent de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_colleague__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_colleague",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_colleague de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_other__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_other",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_other de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_1__relationshiptoclient_642t__share_neighbor__all",
+      "role": "predictor",
+      "logical_type": "float",
+      "source_table": "person_1",
+      "source_columns": [
+        "relationshiptoclient_642T"
+      ],
+      "aggregation": "share_neighbor",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "share_neighbor de relationshiptoclient_642t en person_1 (ventana all)"
+    },
+    {
+      "name": "person_2__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "person_2",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "n_records en person_2 (ventana all)"
+    },
+    {
+      "name": "person_2__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "person_2",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "atributos de la solicitud actual; fechas internas <= date_decision",
+      "description": "source_present en person_2 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_b_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "credit_bureau_b_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "lastupdate_260D <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "n_records en credit_bureau_b_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_b_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "credit_bureau_b_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "lastupdate_260D <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "source_present en credit_bureau_b_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_b_2__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "credit_bureau_b_2",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "pmts_date_1107D <= date_decision y padre (case_id, num_group1) válido en credit_bureau_b_1; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada",
+      "description": "n_records en credit_bureau_b_2 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_b_2__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "credit_bureau_b_2",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "pmts_date_1107D <= date_decision y padre (case_id, num_group1) válido en credit_bureau_b_1; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada",
+      "description": "source_present en credit_bureau_b_2 (ventana all)"
+    },
+    {
+      "name": "tax_registry_a_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "tax_registry_a_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en tax_registry_a_1 (ventana all)"
+    },
+    {
+      "name": "tax_registry_a_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "tax_registry_a_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en tax_registry_a_1 (ventana all)"
+    },
+    {
+      "name": "tax_registry_b_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "tax_registry_b_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en tax_registry_b_1 (ventana all)"
+    },
+    {
+      "name": "tax_registry_b_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "tax_registry_b_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en tax_registry_b_1 (ventana all)"
+    },
+    {
+      "name": "tax_registry_c_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "tax_registry_c_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "n_records en tax_registry_c_1 (ventana all)"
+    },
+    {
+      "name": "tax_registry_c_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "tax_registry_c_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "description": "source_present en tax_registry_c_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__n_records",
+      "role": "cobertura",
+      "logical_type": "int",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [],
+      "aggregation": "n_records",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "n_records en credit_bureau_a_1 (ventana all)"
+    },
+    {
+      "name": "credit_bureau_a_1__source_present",
+      "role": "cobertura",
+      "logical_type": "bool",
+      "source_table": "credit_bureau_a_1",
+      "source_columns": [],
+      "aggregation": "source_present",
+      "window": "all",
+      "temporal_rule": "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada; fechas internas posteriores a la decisión se anulan",
+      "description": "source_present en credit_bureau_a_1 (ventana all)"
+    }
+  ],
+  "input_manifests": [
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_0/train/static_0__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/static_cb_0/train/static_cb_0__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/debitcard_1/train/debitcard_1__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/deposit_1/train/deposit_1__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/other_1/train/other_1__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/applprev/train/applprev__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/person/train/person__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_b/train/credit_bureau_b__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_a_1/train/tax_registry_a_1__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_b_1/train/tax_registry_b_1__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/tax_registry_c_1/train/tax_registry_c_1__train.manifest.json",
+    "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/credit_bureau_a/train/credit_bureau_a__train.manifest.json"
+  ],
+  "validations": [
+    "base case_id no nulo/único",
+    "joins 1:1",
+    "filas y orden de casos preservados"
+  ]
+}
