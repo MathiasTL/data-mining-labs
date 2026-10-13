@@ -1,7 +1,7 @@
 split,family,base_cases,cases_with_source,cases_without_source,valid_rows_table_1,valid_rows_table_2,predictor_features,coverage_features
-oot,applprev,194658,165900,28758,1048471,2313559,41,4
-oot,person,194658,194658,0,302983,146080,6,4
-test,applprev,10,2,8,20,10,41,4
-test,person,10,6,4,10,10,6,4
-train,applprev,1332001,1042139,289862,5337402,11548716,41,4
-train,person,1332001,1332001,0,2671008,1497330,6,4
+oot,applprev,194658,165900,28758,1048471,2313559,61,4
+oot,person,194658,194658,0,302983,146080,33,4
+test,applprev,10,2,8,20,10,61,4
+test,person,10,6,4,10,10,33,4
+train,applprev,1332001,1042139,289862,5337402,11548716,61,4
+train,person,1332001,1332001,0,2671008,1497330,33,4

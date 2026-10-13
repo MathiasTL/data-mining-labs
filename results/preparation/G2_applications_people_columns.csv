@@ -1,0 +1,96 @@
+family,column,dtype,b4_action,g2_decision,core_role,reason
+applprev_1,actualdpd_943P,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,annuity_853A,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 5 características (|Gini| máximo 0.074)
+applprev_1,approvaldate_319D,String,transformar_as_of,aprobada,date,pasa el filtro de fuga en 1 características (|Gini| máximo 0.003)
+applprev_1,byoccupationinc_3656910L,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 4 características (|Gini| máximo 0.034)
+applprev_1,cancelreason_3545846M,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,case_id,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+applprev_1,childnum_21L,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 4 características (|Gini| máximo 0.047)
+applprev_1,creationdate_885D,String,referencia_as_of,aprobada,reference,fecha de referencia: decide qué filas existían al decidir; no es característica
+applprev_1,credacc_actualbalance_314A,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,credacc_credlmt_575A,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 5 características (|Gini| máximo 0.072)
+applprev_1,credacc_maxhisbal_375A,Float64,candidato_G2,excluida,none,cobertura insuficiente (4.7 % de valores; mínimo 5 %)
+applprev_1,credacc_minhisbal_90A,Float64,candidato_G2,excluida,none,cobertura insuficiente (4.7 % de valores; mínimo 5 %)
+applprev_1,credacc_status_367L,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,credacc_transactions_402L,Float64,candidato_G2,excluida,none,cobertura insuficiente (4.7 % de valores; mínimo 5 %)
+applprev_1,credamount_590A,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 5 características (|Gini| máximo 0.081)
+applprev_1,credtype_587L,String,candidato_G2,aprobada,distinct_and_shares,pasa el filtro de fuga en 4 características (|Gini| máximo 0.101)
+applprev_1,currdebt_94A,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,dateactivated_425D,String,transformar_as_of,aprobada,date,pasa el filtro de fuga en 1 características (|Gini| máximo 0.001)
+applprev_1,district_544M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+applprev_1,downpmt_134A,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,dtlastpmt_581D,String,transformar_as_of,aprobada,date,pasa el filtro de fuga en 1 características (|Gini| máximo 0.007)
+applprev_1,dtlastpmtallstes_3545839D,String,transformar_as_of,bloqueada,none,"fecha de último pago posterior a la decisión en 5,4 % de las filas válidas: parece calendario o proyección, no un hecho ocurrido (futuro)"
+applprev_1,education_1138M,String,candidato_G2,aprobada,distinct_and_shares,pasa el filtro de fuga en 4 características (|Gini| máximo 0.124)
+applprev_1,employedfrom_700D,String,transformar_as_of,aprobada,date,pasa el filtro de fuga en 1 características (|Gini| máximo 0.184)
+applprev_1,familystate_726L,String,candidato_G2,aprobada,distinct_and_shares,pasa el filtro de fuga en 6 características (|Gini| máximo 0.067)
+applprev_1,firstnonzeroinstldate_307D,String,transformar_as_of,bloqueada,none,"fecha de primera cuota posterior a la decisión en 3,3 % de las filas: calendario contractual, no prueba disponibilidad (futuro)"
+applprev_1,inittransactioncode_279L,String,candidato_G2,aprobada,distinct_and_shares,pasa el filtro de fuga en 4 características (|Gini| máximo 0.101)
+applprev_1,isbidproduct_390L,Boolean,candidato_G2,aprobada,bool,pasa el filtro de fuga en 1 características (|Gini| máximo 0.019)
+applprev_1,isdebitcard_527L,Boolean,candidato_G2,aprobada,bool,pasa el filtro de fuga en 1 características (|Gini| máximo 0.044)
+applprev_1,mainoccupationinc_437A,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 5 características (|Gini| máximo 0.075)
+applprev_1,maxdpdtolerance_577P,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,num_group1,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+applprev_1,outstandingdebt_522A,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,pmtnum_8L,Float64,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,postype_4733339M,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,profession_152M,String,candidato_G2,aprobada,distinct,pasa el filtro de fuga en 1 características (|Gini| máximo 0.004)
+applprev_1,rejectreason_755M,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,rejectreasonclient_4145042M,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,revolvingaccount_394A,Float64,candidato_G2,excluida,none,cobertura insuficiente (4.3 % de valores; mínimo 5 %)
+applprev_1,status_219L,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_1,tenor_203L,Float64,candidato_G2,aprobada,numeric,pasa el filtro de fuga en 4 características (|Gini| máximo 0.153)
+applprev_2,cacccardblochreas_147M,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_2,case_id,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+applprev_2,conts_type_509L,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+applprev_2,credacc_cards_status_52L,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+applprev_2,num_group1,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+applprev_2,num_group2,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,birth_259D,String,transformar_as_of,aprobada,birth,pasa el filtro de fuga en 1 características (|Gini| máximo 0.168)
+person_1,birthdate_87D,String,transformar_as_of,excluida,none,cobertura insuficiente (99 % nulo) y duplica birth_259D
+person_1,case_id,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,childnum_185L,Float64,candidato_G2,excluida,none,"cobertura insuficiente (principal 0.0 %, contactos 0.7 %)"
+person_1,contaddr_district_15M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,contaddr_matchlist_1032L,Boolean,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+person_1,contaddr_smempladdr_334L,Boolean,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+person_1,contaddr_zipcode_807M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,education_927M,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,empl_employedfrom_271D,String,transformar_as_of,aprobada,employment,pasa el filtro de fuga en 1 características (|Gini| máximo 0.177)
+person_1,empl_employedtotal_800L,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,empl_industry_691L,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,empladdr_district_926M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,empladdr_zipcode_114M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,familystate_447L,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,gender_992L,String,candidato_G2,excluida,none,"atributo sensible: excluido por defecto, decisión de equidad pendiente"
+person_1,housetype_905L,String,candidato_G2,excluida,none,"cobertura insuficiente (principal 0.0 %, contactos 0.0 %)"
+person_1,housingtype_772L,String,candidato_G2,excluida,none,"cobertura insuficiente (principal 0.0 %, contactos 0.6 %)"
+person_1,incometype_1044T,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,isreference_387L,Boolean,candidato_G2,excluida,none,"cobertura insuficiente (principal 0.8 %, contactos 0.8 %)"
+person_1,language1_981M,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,mainoccupationinc_384A,Float64,candidato_G2,aprobada,main_numeric,pasa el filtro de fuga en 1 características (|Gini| máximo 0.012)
+person_1,maritalst_703L,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+person_1,num_group1,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,personindex_1023L,Float64,candidato_G2,aprobada,main_numeric,pasa el filtro de fuga en 1 características (|Gini| máximo 0.000)
+person_1,persontype_1072L,Float64,candidato_G2,aprobada,main_numeric,pasa el filtro de fuga en 1 características (|Gini| máximo 0.000)
+person_1,persontype_792L,Float64,candidato_G2,aprobada,main_numeric,pasa el filtro de fuga en 1 características (|Gini| máximo 0.000)
+person_1,registaddr_district_1083M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,registaddr_zipcode_184M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_1,relationshiptoclient_415T,String,candidato_G2,aprobada,contact_shares,pasa el filtro de fuga en 9 características (|Gini| máximo 0.092)
+person_1,relationshiptoclient_642T,String,candidato_G2,aprobada,contact_shares,pasa el filtro de fuga en 9 características (|Gini| máximo 0.092)
+person_1,remitter_829L,Boolean,candidato_G2,aplazada,none,el núcleo aún no agrega este tipo de columna de persona
+person_1,role_1084L,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_1,role_993L,String,candidato_G2,excluida,none,"cobertura insuficiente (principal 0.8 %, contactos 0.8 %)"
+person_1,safeguarantyflag_411L,Boolean,candidato_G2,aplazada,none,el núcleo aún no agrega este tipo de columna de persona
+person_1,sex_738L,String,candidato_G2,excluida,none,"atributo sensible: excluido por defecto, decisión de equidad pendiente"
+person_1,type_25L,String,candidato_G2,aprobada,main_categorical,"pasa el filtro de fuga en 1 características (texto: el Gini no se midió; se aprueba por regla, sin evidencia empírica)"
+person_2,addres_district_368M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,addres_role_871L,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,addres_zip_823M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,case_id,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,conts_role_79M,String,candidato_G2,aplazada,none,sin datos de train para evaluar la columna
+person_2,empls_economicalst_849M,String,bloquear_hasta_G2,bloqueada,none,exclusión preventiva: sin evidencia de disponibilidad al decidir; se reevalúa en la segunda iteración
+person_2,empls_employedfrom_796D,String,transformar_as_of,aplazada,none,el núcleo aún no agrega esta fecha
+person_2,empls_employer_name_740M,String,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,num_group1,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,num_group2,Int64,excluir,excluida,none,"excluida desde B4: clave, cuasi-identificador o estado sin trazabilidad"
+person_2,relatedpersons_role_762T,String,candidato_G2,aplazada,none,sin datos de train para evaluar la columna
