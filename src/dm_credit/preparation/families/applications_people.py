@@ -270,7 +270,10 @@ def aggregate_applications_with_exclusions(
     share_exprs = _share_exprs(f2, cfg.children_category_shares)
     if share_exprs:
         child_features = child_features.join(children.group_by(KEY).agg(share_exprs), on=KEY, how="left")
-    features = features.join(child_features, on=KEY, how="left").with_columns(pl.col(f"{f2}__n_records").fill_null(0))
+    features = features.join(child_features, on=KEY, how="left").with_columns(
+        pl.col(f"{f2}__n_records").fill_null(0)
+    )
+    features = features.with_columns((pl.col(f"{f2}__n_records") > 0).alias(f"{f2}__source_present"))  # cobertura por tabla física
 
     features = features.sort(KEY)
     _check_names(features)
@@ -345,7 +348,10 @@ def aggregate_people_with_exclusions(
         features = features.join(contacts, on=KEY, how="left")
 
     child_aggs = [pl.len().alias(f"{f2}__n_records"), *_share_exprs(f2, cfg.child_category_shares)]
-    features = features.join(p2.group_by(KEY).agg(child_aggs), on=KEY, how="left").with_columns(pl.col(f"{f2}__n_records").fill_null(0))
+    features = features.join(p2.group_by(KEY).agg(child_aggs), on=KEY, how="left").with_columns(
+        pl.col(f"{f2}__n_records").fill_null(0)
+    )
+    features = features.with_columns((pl.col(f"{f2}__n_records") > 0).alias(f"{f2}__source_present"))  # cobertura por tabla física
 
     features = features.sort(KEY)
     _check_names(features)

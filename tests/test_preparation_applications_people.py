@@ -263,3 +263,12 @@ def test_null_decision_date_is_counted_in_exclusions():
     assert res.exclusions["applprev_1_rows_null_decision"] == 2  # las dos filas del caso 2
     pres = ap.aggregate_people_with_exclusions(base, fx.person_1(), fx.person_2(), PEOPLE_CONFIG)
     assert pres.exclusions["person_1_rows_null_decision"] == 1
+
+
+def test_child_tables_have_their_own_source_present(apps, people):
+    # cobertura por fuente física: un padre válido sin hijos no tiene cobertura en la tabla hija
+    assert apps["applprev_2__source_present"].to_list() == [True, True, True]
+    no_kids = ap.aggregate_applications(fx.base(), fx.applprev_1(), fx.applprev_2().filter(pl.col("case_id") != 2), APP_CONFIG)
+    assert get(no_kids, 2, "applprev_2__source_present") is False
+    assert get(no_kids, 1, "applprev_2__source_present") is True
+    assert [get(people, c, "person_2__source_present") for c in (1, 2, 3, 4, 5)] == [True, False, True, False, False]

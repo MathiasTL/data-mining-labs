@@ -54,3 +54,51 @@
 ## Para cerrar G1 tras esta revisión
 
 Claude y el equipo deben validar o corregir estas doce recomendaciones, especialmente **firma con base**, **familias padre-hijo**, **dueño/seam IO**, **gramática de nombres**, **cache de parciales** y **manejo conservador de personas/snapshots**. Después, P1 congela la propuesta revisada de A2 en el contrato canónico y se acuerdan formato exacto de `FeatureDefinition`/manifiestos, errores y mapa de archivos. La lista/semántica de columnas sigue B3–B6/G2: esta acta no autoriza su inclusión ni declara G1 aprobada.
+
+## Revisión de Andre (P3), 12/10/2026
+
+Revisión técnica de las doce recomendaciones contra el código y los datos. **Este apartado no aprueba G1**: la aprobación es conjunta (Nick, Giancarlo, Mathias, Gabriel y Andre).
+
+### Afirmaciones del acta verificadas
+
+- `baseline.validate_contract` exige `case_id` y `WEEK_NUM`, y `target` solo si `require_target=True`: **no** exige `date_decision` ni comprueba que `target` falte en test. Correcto; D6 debe verificar ambos.
+- `CoercionError` y `DomainViolationError` heredan de `ValueError`; `RangeWarning` de `UserWarning`. Correcto.
+- `fit_range_policy` solo aplica la guarda de semana 74 si la tabla trae `WEEK_NUM`. Correcto; D1 debe exigirlo antes de `fit`.
+- `io.load_parquet` usa `pl.read_parquet` y materializa la tabla completa. Correcto: no sirve para `credit_bureau_a_2`.
+- `data/` está en `.gitignore`. Correcto.
+
+### Veredicto por decisión
+
+| # | Decisión | Veredicto | Nota |
+| -: | --- | --- | --- |
+| 1 | Familia padre-hijo y firma con `base` | De acuerdo | Es lo que necesita `applprev` y `person` (A4 §8). El núcleo de C2/C3 ya recibe tablas y `base`, sin leer disco, y se envolverá cuando P1 congele las dataclasses. |
+| 2 | Gramática de nombres | De acuerdo, con dos ajustes | Ver "Ajustes" 1 y 2. |
+| 3 | Catálogo y manifiesto | De acuerdo | El núcleo ya devuelve los totales de exclusión por separado (`exclusions`) para el manifiesto. |
+| 4 | Agregaciones iniciales | De acuerdo | `n_distinct` en `applprev` es barato (el núcleo completo tarda 11 s); la cautela para bureau es correcta. |
+| 5 | Tipos, nulos y categorías | De acuerdo | El núcleo anula fechas internas futuras y no las cuenta por caso. |
+| 6 | Errores y advertencias | De acuerdo | |
+| 7 | Rutas | De acuerdo, con un ajuste | Ver "Ajustes" 3. |
+| 8 | Comando reproducible | De acuerdo | |
+| 9 | Orden y presupuesto | De acuerdo, con una medición | Ver "Ajustes" 4. |
+| 10 | Propiedad | De acuerdo | P3 envolverá el núcleo en `build_family_features`; no habrá lector privado. |
+| 11 | Ventana común | De acuerdo | Coincide con el borrador de A4 (`all`). |
+| 12 | Controles y vistas | De acuerdo | El núcleo no emite `num_group1` ni `num_group2`. |
+
+### Ajustes propuestos
+
+1. **Nombre de recencia.** La gramática del acta (§2) manda `days_since_last` como agregación: `applprev_1__creationdate_885d__days_since_last__all`. El núcleo y A6 usan `applprev_1__days_since_last_creationdate_885d__all`. Es un renombrado mecánico; se hace cuando G1 fije la gramática.
+2. **Expresión regular de A6.** `^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,3}$` no admite `<feature>__missing` cuando la característica ya tiene cuatro segmentos (`applprev_1__credamount_590a__mean__all__missing` tiene cuatro tras el prefijo). Ampliar a `{1,4}` o permitir un sufijo opcional `__missing`.
+3. **Ruta de artefactos.** Derivarla de `io.data_dir() / "artifacts" / "preparation"` y no de un `data/` literal, porque `DM_DATA_DIR` puede apuntar fuera del repositorio.
+4. **Presupuesto de memoria.** Medido con datos reales, un hilo y lectura completa en memoria: `applprev_1` + `applprev_2` + `person_1` + `person_2` tardan 11 s y alcanzan un pico de unos 5,1 GB. Cabe en 16 GB pero supera los 2 GB de A5. Para `applprev` y `person` es aceptable mientras llega el lector por lotes de P1; no debe tomarse como medida válida para bureau.
+
+### Brecha corregida en el núcleo
+
+El acta pide cobertura "por fuente física". El núcleo solo emitía `source_present` para `applprev_1` y `person_1`; ahora también lo emite para `applprev_2` y `person_2` (verdadero si hay al menos un hijo). Tiene prueba propia.
+
+### Hallazgo de datos para G2
+
+`dtlastpmtallstes_3545839D` tiene 351 803 filas ya válidas (5,4 %) con fecha posterior a la decisión, frente a 41 684 de `dtlastpmt_581D`. Parece un calendario, no un hecho ocurrido. Propuesta: bloquearla hasta G2.
+
+### Qué falta para cerrar G1
+
+Reunión conjunta para un sí o no sobre cada uno de estos puntos del acta: firma con `base`, familias padre-hijo, dueño del lector por lotes en `io`, gramática de nombres (con los ajustes 1 y 2), caché de parciales y manejo de personas y snapshots. Después, P1 congela A2 en el contrato canónico y se acuerdan el formato de `FeatureDefinition` y los manifiestos. G1 sigue sin estar aprobada.
