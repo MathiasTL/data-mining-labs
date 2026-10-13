@@ -12,9 +12,9 @@ from pathlib import Path
 import polars as pl
 
 from dm_credit.preparation.contracts import FamilyFeatureArtifact
-from dm_credit.preparation.families import applications_people, applications_people_g2
+from dm_credit.preparation.families import applications_people, applications_people_g2, bureau
 
-BUILDERS = {**applications_people.BUILDERS}
+BUILDERS = {**applications_people.BUILDERS, **bureau.BUILDERS}
 G2_CONFIG_INDEX = {"applprev": 0, "person": 1}  # posición de la familia en load_g2_configs()
 
 
