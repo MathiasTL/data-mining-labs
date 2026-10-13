@@ -36,7 +36,7 @@ from dm_credit import io
 
 KEY, WEEK, TARGET = "case_id", "WEEK_NUM", "target"
 # Columnas técnicas/temporales que nunca son predictores en el baseline.
-RESERVED = (KEY, WEEK, TARGET, "date_decision", "MONTH")
+RESERVED = (KEY, WEEK, TARGET, "date_decision", "MONTH", "num_group1", "num_group2")
 MISSING = "__missing__"
 STABILITY_FALLING_RATE_PENALTY = 88.0
 STABILITY_RESIDUAL_PENALTY = 0.5
