@@ -2,6 +2,8 @@
 
 ## Objetivo de la fase
 
+**Objetivos cubiertos:** OM1 (score de riesgo), OM2 (validación OOT), OM3 (importancia de variables) y OM4 (umbral, FPR a recall fijo y calibración).
+
 Construir modelos comparables y reproducibles para estimar la probabilidad de incumplimiento, usando el mismo protocolo de validación fuera de tiempo.
 
 ## Diseño mínimo de experimentos
@@ -39,9 +41,11 @@ La elección concreta debe considerar tamaño de datos, memoria, soporte para va
 
 ## Métricas a registrar
 
-- Gini y ROC-AUC globales.
+- Gini Stability, métrica de la competición (OM2).
+- Gini y ROC-AUC globales (OM1).
 - PR-AUC cuando el evento sea minoritario.
 - Precisión, recall y matriz de confusión para umbrales justificados.
+- Tasa de falsos positivos (FPR) a recall fijo (OM4); el punto de operación es un *supuesto por acordar*.
 - Curva o medida de calibración cuando el uso de probabilidades lo requiera.
 - Gini/AUC por semana o bloque temporal de validación.
 

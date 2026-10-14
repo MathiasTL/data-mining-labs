@@ -2,6 +2,8 @@
 
 ## Objetivo de la fase
 
+**Objetivo cubierto:** OM5 (regla de alerta sobre el Gini semanal y su tendencia), que decide en operación lo que el OM2 evalúa en diseño.
+
 Entregar un prototipo académico funcional que aplique el pipeline seleccionado, genere probabilidades de riesgo y demuestre cómo se utilizaría el modelo sin conectarse a sistemas financieros reales.
 
 ## Tareas
@@ -28,7 +30,7 @@ El prototipo debe dejar claro que es demostrativo. No debe presentar decisiones 
 
 Documentar una propuesta para un escenario real, sin implementarlo como producción:
 
-- seguimiento de Gini/AUC por semana;
+- seguimiento de Gini/AUC por semana y regla de alerta sobre su tendencia (OM5);
 - distribución de puntuaciones y de variables;
 - porcentaje de faltantes;
 - PSI o indicadores de *drift*;

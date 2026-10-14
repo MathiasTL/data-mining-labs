@@ -2,6 +2,8 @@
 
 ## Objetivo
 
+**Objetivos cubiertos:** ON1-ON5 / OM1-OM5. Las conclusiones y los resultados del informe se estructuran por par ON/OM.
+
 Consolidar el trabajo técnico y las decisiones del proyecto en un informe coherente con el índice entregado por el profesor, respaldado por código, métricas y artefactos reproducibles.
 
 ## Índice que debe respetarse
@@ -67,6 +69,7 @@ Consolidar el trabajo técnico y las decisiones del proyecto en un informe coher
 - [ ] Se comparó una línea base y al menos dos modelos candidatos.
 - [ ] Se utilizó validación OOT con `WEEK_NUM`.
 - [ ] Se reportaron Gini/AUC globales y por periodo.
+- [ ] Se reportó la Gini Stability y un resultado por cada par ON/OM (ON1-ON5).
 - [ ] La selección del modelo considera estabilidad, no solo desempeño global.
 - [ ] Se documentaron limitaciones, errores y riesgos de fuga de información.
 

@@ -12,7 +12,7 @@ El proyecto aborda la predicción del incumplimiento crediticio en solicitudes d
 
 ## Resultados principales
 
-<!-- Completar con: Gini/AUC global, resultado por WEEK_NUM, hallazgos de estabilidad y comparación con baseline. -->
+<!-- Completar por par ON/OM: ON1/OM1 Gini/AUC global; ON2/OM2 Gini Stability (métrica de la competición) y resultado por WEEK_NUM; ON3/OM3 ranking de importancia; ON4/OM4 FPR a recall fijo; ON5/OM5 detección de degradación por la regla de alerta; y comparación con baseline. -->
 
 ## Conclusión y recomendación
 

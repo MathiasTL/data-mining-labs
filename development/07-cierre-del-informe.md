@@ -2,11 +2,14 @@
 
 ## Conclusiones
 
+Estructurar las conclusiones por par ON/OM (ON1-ON5 / OM1-OM5), indicando para cada uno la medida de éxito y el resultado obtenido.
+
 <!-- Responder con evidencia:
 1. ¿El modelo logró diferenciar solicitantes con mayor y menor riesgo?
 2. ¿Cómo se comportó en periodos posteriores según WEEK_NUM?
 3. ¿Qué fuentes o variables aportaron mayor valor?
 4. ¿Se alcanzaron los criterios de éxito definidos?
+5. Por par: ON1/OM1 (Gini/AUC), ON2/OM2 (Gini Stability), ON3/OM3 (importancia), ON4/OM4 (FPR a recall fijo) y ON5/OM5 (regla de alerta).
 --> 
 
 ## Recomendaciones
@@ -23,6 +26,8 @@
 |---|---|
 | AUC | Área bajo la curva ROC; mide capacidad de ordenación. |
 | Gini | Transformación del AUC usada para evaluar poder discriminatorio. |
+| Gini Stability | Métrica de la competición: media del Gini semanal penalizada por su tendencia negativa y su variabilidad. |
+| ON / OM | Objetivo de negocio / objetivo de minería de datos; cada ON1-ON5 se asocia con un OM1-OM5. |
 | CRISP-DM | Metodología de minería de datos usada en el proyecto. |
 | OOT | Validación fuera de tiempo (*out-of-time*). |
 | `WEEK_NUM` | Variable de semana de observación utilizada para evaluación temporal. |

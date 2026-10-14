@@ -2,13 +2,15 @@
 
 ## Objetivo de la fase
 
+**Objetivos cubiertos:** OM1 a OM5. Cada resultado se reporta contra su objetivo (ON/OM); la Gini Stability (OM2) es la métrica de la competición y el Gini/AUC global (OM1) la complementa.
+
 Decidir si el modelo satisface el objetivo del proyecto: distinguir riesgo de incumplimiento y mantener un desempeño razonablemente estable en periodos posteriores.
 
 ## Tareas
 
 ### 5.1 Evaluar desempeño predictivo
 
-1. Comparar candidatos contra la referencia y entre sí con Gini/AUC.
+1. Comparar candidatos contra la referencia y entre sí con Gini Stability (métrica de la competición) y con Gini/AUC global.
 2. Reportar métricas complementarias relevantes para la clase positiva: PR-AUC, recall, precisión y calibración.
 3. Analizar distribución de puntuaciones y errores para evitar conclusiones basadas en una sola métrica.
 4. Evaluar si la mejora frente al baseline justifica el aumento de complejidad.
@@ -29,6 +31,8 @@ Decidir si el modelo satisface el objetivo del proyecto: distinguir riesgo de in
 4. Documentar limitaciones: datos de competición, falta de variables operativas reales y ausencia de validación externa.
 
 ### 5.4 Selección del modelo
+
+Antes de seleccionar, verificar la regla de alerta del OM5 sobre las semanas OOT: debe detectar la degradación observada (tamaño de la caída y número de semanas k: *supuesto por acordar*).
 
 El modelo final se selecciona por un balance explícito de:
 

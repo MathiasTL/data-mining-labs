@@ -38,9 +38,17 @@
 
 ## 4.4 Evaluar el modelo
 
-| Modelo | Gini | ROC-AUC | PR-AUC | Recall | Observaciones |
-|---|---:|---:|---:|---:|---|
-| <!-- Completar --> |  |  |  |  |  |
+| Modelo | Gini Stability (OM2) | Gini / ROC-AUC (OM1) | PR-AUC | Recall | FPR a recall fijo (OM4) | Calibración (OM4) | Observaciones |
+|---|---:|---:|---:|---:|---:|---|---|
+| <!-- Completar --> |  |  |  |  |  |  |  |
+
+El punto de operación para el FPR a recall fijo (por ejemplo, TPR = 0,80) es un *supuesto por acordar*.
+
+### Importancia de variables (OM3)
+
+| Variable o grupo | Método (ganancia, permutación o SHAP) | Importancia | Coherencia temporal |
+|---|---|---:|---|
+| <!-- Completar --> |  |  |  |
 
 ### Interpretación
 

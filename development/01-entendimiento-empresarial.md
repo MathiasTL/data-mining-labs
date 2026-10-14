@@ -10,9 +10,17 @@ En el crédito de consumo dirigido a personas con historial crediticio limitado 
 
 El proyecto estudia este problema en un entorno académico con el dataset **Home Credit – Credit Risk Model Stability** de Kaggle, que reúne más de 30 tablas de distintas granularidades y permite analizar el desempeño por semana de observación. El proyecto no representa una evaluación ni una solución desplegada en una entidad financiera real.
 
-### Objetivo de negocio
+### Objetivos de negocio
 
-Aplicar CRISP-DM para preparar los datos de la competición, desarrollar y comparar modelos que estimen la probabilidad de incumplimiento crediticio y evaluar cómo se mantiene su desempeño a través del tiempo.
+| ID | Objetivo de negocio |
+|---|---|
+| ON1 | Estimar el riesgo de incumplimiento de cada solicitante para respaldar la decisión de crédito. |
+| ON2 | Lograr que el criterio de riesgo no pierda validez con el paso del tiempo. |
+| ON3 | Comprender qué factores explican el riesgo. |
+| ON4 | No rechazar por error a solicitantes solventes. |
+| ON5 | Saber a tiempo cuándo el criterio de riesgo deja de ser confiable. |
+
+El ON5 no figura entre los cuatro objetivos oficiales del caso de negocio. Se justifica por la sección «Eficiencia» (*Efficiency*) del *Business Case* y por la Resolución SBS N° 00053-2023.
 
 ### Beneficio esperado
 
@@ -60,13 +68,25 @@ El proyecto utilizará el tiempo y la capacidad de cómputo disponibles del equi
 
 ## 1.3 Determinar los objetivos de la minería de datos
 
-### Definición técnica
+### Objetivos de minería de datos y trazabilidad
 
-Se construirá un modelo predictivo que estime, para cada caso identificado por case_id, un score continuo de probabilidad de incumplimiento entre 0 y 1. La variable WEEK_NUM se utilizará para evaluar la estabilidad temporal de las predicciones y del desempeño del modelo.
+Cada objetivo de negocio (ON) se traduce en exactamente un objetivo de minería de datos (OM) con su medida de éxito.
+
+| ON | OM | Objetivo de minería de datos | Medida de éxito |
+|---|---|---|---|
+| ON1 | OM1 | Clasificación binaria: score de probabilidad de incumplimiento entre 0 y 1 para cada `case_id`. | Gini/AUC global en validación OOT. |
+| ON2 | OM2 | Validación fuera de tiempo (OOT) por `WEEK_NUM` para verificar que el desempeño se mantiene. | **Gini Stability** (métrica de la competición). |
+| ON3 | OM3 | Identificar las variables o grupos de variables más influyentes. | Ranking de importancia reproducible. |
+| ON4 | OM4 | Optimizar el umbral de decisión y evaluar falsos positivos, precisión, recall y calibración. | Tasa de falsos positivos (FPR) a recall fijo. Punto de operación (por ejemplo, TPR = 0,80): *supuesto por acordar*. |
+| ON5 | OM5 | Regla de alerta sobre el Gini semanal y su tendencia. | Detecta la degradación en las semanas OOT. Tamaño de la caída y número de semanas k: *supuesto por acordar*. |
+
+Nota: el OM2 evalúa en tiempo de diseño, mientras que el OM5 decide en operación. La Gini Stability sigue siendo la métrica de la competición; el Gini/AUC global (OM1) no la reemplaza.
+
+La variable `WEEK_NUM` se utilizará para evaluar la estabilidad temporal de las predicciones y del desempeño del modelo.
 
 ### Métricas
 
-La métrica principal será la **Gini Stability Metric** de la competición. Para el análisis temporal se calculará el Gini por `WEEK_NUM`:
+La métrica de la competición, y la que determina la estabilidad temporal (OM2), es la **Gini Stability Metric**. El Gini/AUC global corresponde al OM1. Para el análisis temporal se calculará el Gini por `WEEK_NUM`:
 
 ```text
 Gini semanal = 2 × ROC-AUC semanal − 1

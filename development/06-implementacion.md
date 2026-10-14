@@ -27,7 +27,7 @@ En un escenario real se propone monitorear:
 
 | Indicador | Frecuencia propuesta | Señal de alerta | Acción sugerida |
 |---|---|---|---|
-| Gini/AUC por periodo | <!-- Completar --> | <!-- Completar --> | Investigación/recalibración/reentrenamiento |
+| Gini semanal y su tendencia (OM5) | Semanal | Caída del Gini semanal mayor que un umbral durante k semanas consecutivas, o tendencia negativa sostenida (umbral y k: *supuesto por acordar*) | Investigación/recalibración/reentrenamiento |
 | Distribución de variables / PSI | <!-- Completar --> | <!-- Completar --> | Revisar drift y calidad de datos |
 | Porcentaje de faltantes | <!-- Completar --> | <!-- Completar --> | Revisar fuente y pipeline |
 | Calibración / tasa de eventos | <!-- Completar --> | <!-- Completar --> | Recalibrar o revisar modelo |

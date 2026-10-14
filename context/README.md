@@ -2,6 +2,10 @@
 
 Esta carpeta contiene la guía operativa del proyecto. Cada archivo corresponde a una fase de CRISP-DM y define qué hacer, qué dejar documentado y cuándo se puede avanzar. Debe leerse junto con los documentos vigentes del equipo en `../docs/us/`.
 
+## Trazabilidad de objetivos
+
+Los cinco pares de objetivos de negocio y de minería de datos (ON1-ON5 y OM1-OM5) se encuentran en la tabla de trazabilidad de [`../development/01-entendimiento-empresarial.md`](../development/01-entendimiento-empresarial.md), sección 1.3, y se resumen en [Entendimiento empresarial](01-entendimiento-empresarial.md).
+
 ## Orden de trabajo
 
 | Orden | Guía                                                                                                    | Resultado que habilita                                                      |

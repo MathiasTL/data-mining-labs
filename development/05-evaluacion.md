@@ -4,6 +4,16 @@
 
 ## 5.1 Evaluar resultados
 
+### Resultados por objetivo (ON/OM)
+
+| ON | OM | Medida de éxito | Resultado | Cumple |
+|---|---|---|---|---|
+| ON1 | OM1 | Gini/AUC global en OOT | <!-- Completar --> |  |
+| ON2 | OM2 | Gini Stability (métrica de la competición) | <!-- Completar --> |  |
+| ON3 | OM3 | Ranking de importancia reproducible | <!-- Completar --> |  |
+| ON4 | OM4 | FPR a recall fijo (punto de operación: *supuesto por acordar*) | <!-- Completar --> |  |
+| ON5 | OM5 | Regla de alerta detecta la degradación en semanas OOT (caída y k semanas: *supuesto por acordar*) | <!-- Completar --> |  |
+
 ### Comparación global
 
 <!-- Insertar tabla final de modelos y explicación de su desempeño frente a la línea base. -->
@@ -15,6 +25,10 @@
 | <!-- Completar --> |  |  |  |  |  |
 
 <!-- Insertar gráfico temporal, tendencia, variabilidad, peor periodo y posibles causas de degradación. -->
+
+### Regla de alerta sobre las semanas OOT (OM5)
+
+<!-- Aplicar la regla de alerta (caída del Gini semanal y/o tendencia durante k semanas; parámetros: supuesto por acordar) a las semanas OOT y documentar si detecta la degradación observada. -->
 
 ### Análisis complementario
 
