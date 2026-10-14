@@ -1,6 +1,6 @@
 # 3. Preparación de datos
 
-> **Estado (13/10/2026):** F5 consolidada con las evidencias finales de E4–E7 y F3/F4/F7; F6 registra la revisión técnica y sus límites en [validación F](../context/03-preparacion-F-validacion.md). Los riesgos de 3.3 y 3.5 se resolvieron en el cierre ([G4](../context/03-preparacion-G4-cierre.md)): la cobertura de productos y registros ahora se filtra por fecha y las columnas constantes se descartan. Todas las cifras salen de una reconstrucción desde cero posterior a esos cambios. Criterios: [backlog](../context/03-preparacion-datos-backlog.md).
+> **Estado (13/10/2026): capítulo cerrado (G4).** F5 consolidada con las evidencias finales de E4–E7 y F3/F4/F7; F6 registra la revisión técnica y sus límites en [validación F](../context/03-preparacion-F-validacion.md). Los riesgos de 3.3 y 3.5 se resolvieron en el cierre ([G4](../context/03-preparacion-G4-cierre.md)): la cobertura de productos y registros ahora se filtra por fecha y las columnas constantes se descartan. Todas las cifras salen de una reconstrucción desde cero posterior a esos cambios. Criterios: [backlog](../context/03-preparacion-datos-backlog.md).
 
 ## Resumen
 
