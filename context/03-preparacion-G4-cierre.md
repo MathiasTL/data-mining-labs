@@ -1,6 +1,6 @@
 # G4 — Cierre del capítulo 03
 
-**Resultado:** los 15 puntos de la definición de terminado se cumplen sobre los datos reales. Toda la preparación se reconstruye desde cero con un solo comando, la suite completa pasa sin fallos esperados y `git diff --check` está limpio. Solo queda un paso humano: las revisiones cruzadas de F6 de Nick, Giancarlo, Mathias y Gabriel.
+**Resultado:** los 15 puntos de la definición de terminado se cumplen sobre los datos reales. Toda la preparación se reconstruye desde cero con un solo comando, la suite completa pasa sin fallos esperados y `git diff --check` está limpio. F6 quedó cerrada con revisiones técnicas trazables, sin exigir confirmaciones personales ([validación F](03-preparacion-F-validacion.md)); sus hallazgos se resolvieron o documentaron aquí.
 
 ## Ruta rápida
 
@@ -11,14 +11,14 @@ git diff --check
 ```
 
 1. La reconstrucción corre 7 pasos: E4, sus checkpoints, las dos auditorías, E5, E6 y la validación de F3.
-2. La suite completa pasa: 695 pruebas, sin fallos esperados (13/10/2026).
+2. La suite completa pasa: 706 pruebas, sin fallos esperados (13/10/2026).
 3. Las sumas SHA-256 de cada salida quedan en `results/preparation/E7_manifest.json`.
 
 ## Definición de terminado
 
 | # | Criterio | Evidencia |
 | ---: | --- | --- |
-| 1 | Un único comando reconstruye las matrices desde los Parquet | `build.py --from-scratch`: 7 de 7 pasos ok; `E7_manifest.json` |
+| 1 | Un único comando reconstruye las matrices desde los Parquet | `build.py --from-scratch`: 7 de 7 pasos ok en 101,7 s; 29 de 29 controles; `E7_manifest.json` |
 | 2 | Train `WEEK_NUM < 74`, OOT `>= 74` | control `train_oot_partition` (`integration_checks.csv`) |
 | 3 | Ninguna transformación aprende de OOT o test | control `views_fit_on_train_only`; `fit_matrix_views` exige `WEEK_NUM < 74` |
 | 4 | Una fila por `case_id` en cada agregado y matriz | controles `artifacts_cover_base` y `assembled_matrix` |
@@ -41,8 +41,10 @@ git diff --check
 | Productos y registros filtran por fecha (`products-v2`) | Punto 5: el 100 % de `tax_registry_a_1` era posterior a la decisión | `tax_registry_a_1` y `other_1` quedan en cero; la ablación confirma que la ganancia restante es legítima ([F7](03-preparacion-F7-informe-fuga.md)) |
 | Columnas constantes en train se descartan | Pedido de G2 (D1) | 10 características y 43 salidas lineales registradas con `role = dropped` |
 | `hstack` en lugar de `pl.concat(how="horizontal")` | Comportamiento obsoleto en polars (D7) | Exige además la misma altura |
-| Bureau rechaza claves `(case_id, num_group1)` repetidas | Hallazgo de F1 (C4) | Ya no quedan pruebas con fallo esperado |
+| Bureau rechaza claves repetidas (lo resolvió Mathias, C4) | Hallazgo de F1 | Ya no quedan pruebas con fallo esperado |
 | E5 publica los tres splits como unidad | Hallazgo de F6 | Un fallo tardío no deja tablas que parezcan válidas |
+| E7 propaga corte, resultados y catálogo | Hallazgo de F6 | Rechaza configuraciones que E4 no puede respetar |
+| Productos: G2 por familia y claves del archivo completo | Hallazgos de F6 | Una familia sin decisión G2 o una clave nula fuera de la base son error |
 
 ## Entregables del backlog (§10) y sus equivalentes
 
@@ -62,7 +64,8 @@ Las matrices grandes de train (E5 y E6) quedan fuera de git; su ruta, suma y com
 ## Limitaciones documentadas
 
 - **Rutas absolutas informativas:** los campos `inputs` de los manifiestos y algunos informes de E4/E7 guardan rutas de la computadora donde se generaron. La carga usa la ruta relativa al manifiesto y la suma SHA-256, así que los artefactos funcionan en otra computadora.
-- **Validación de claves en bureau:** se comprueba dentro de cada lote leído. En los datos reales, `credit_bureau_a_1` y `credit_bureau_b_1` no tienen claves repetidas (verificado el 13/10/2026 sobre train y test).
+- **Validación de claves en bureau:** cubre lotes y shards de un mismo archivo; una clave repetida entre dos shards distintos no se detecta (ver F1). En los datos reales no hay claves repetidas.
+- **Coberturas de profundidad 0:** no tienen fecha as-of; son una fila estática de la solicitud actual (regla G1). Se aceptan como riesgo bajo.
 - **Deriva de registros fiscales:** aun filtrados, `tax_registry_b_1` (1,8 % → 64,7 %) y `tax_registry_c_1` (30,3 % → 0 %) cambian de cobertura entre train y OOT, porque las fuentes se reemplazan en el tiempo. No es fuga; el capítulo 04 debe vigilar su estabilidad semanal.
 - **Test local:** solo 10 casos; la validación sobre test es estructural.
 
@@ -70,8 +73,8 @@ Las matrices grandes de train (E5 y E6) quedan fuera de git; su ruta, suma y com
 
 - [x] Definición de terminado: 15 de 15
 - [x] Reconstrucción desde cero con el comando único
-- [x] Suite completa: 695 pruebas, sin fallos ni fallos esperados
+- [x] Suite completa: 706 pruebas, sin fallos ni fallos esperados
 - [x] `git diff --check` limpio
 - [x] F7 consolidado y riesgo de productos resuelto
-- [x] Hallazgos de F1, G3 y F6 (Andre) resueltos o documentados
-- [ ] F6: revisión cruzada de Nick, Giancarlo, Mathias y Gabriel (paso humano)
+- [x] Hallazgos de F1, G3 y F6 (revisión de Andre y revisiones técnicas de Nick) resueltos o documentados
+- [x] F6 cerrada con revisiones técnicas trazables (ver validación F, §Resolución en G4)
