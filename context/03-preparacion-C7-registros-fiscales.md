@@ -7,7 +7,7 @@
 
 ## 1. Qué entrega
 
-Tres constructores (`build_tax_registry_{a,b,c}_1_features`) con la firma G1. Reutilizan `_build_source_features` y `_selected_columns` de C6: cobertura física (`n_records` int64, `source_present` bool), una fila por `case_id`, manifiesto con B6/G2 como procedencia y cero predictores (un G2 futuro que apruebe columnas falla explícito hasta definir su agregación).
+Tres constructores (`build_tax_registry_{a,b,c}_1_features`) con la firma G1. Reutilizan `_build_source_features` y `_selected_columns` de C6: cobertura (`n_records` int64, `source_present` bool; desde `products-v2` solo filas con fecha `<= date_decision`, ver [F7](03-preparacion-F7-informe-fuga.md)), una fila por `case_id`, manifiesto con B6/G2 como procedencia y cero predictores (un G2 futuro que apruebe columnas falla explícito hasta definir su agregación).
 
 ## 2. Cardinalidad y lectura
 

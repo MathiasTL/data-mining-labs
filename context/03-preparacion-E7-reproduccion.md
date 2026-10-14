@@ -41,4 +41,4 @@ Las tablas y vistas de train no se versionan en git por su tamaño (93, 132 y 10
 
 `e4_rebuild` terminaba con código 1 aunque todas las piezas se generaran: revisaba todo el historial de `E4_builds.json`, que incluye el bloqueo antiguo de `applprev/train`. Ahora solo cuenta el último registro de cada pieza (`any_blocked`).
 
-Con E7 cerrada, para G4 faltan las revisiones cruzadas (F6) y los tres arreglos menores pendientes.
+Con E7 cerrada, para G4 faltaban las revisiones cruzadas (F6) y los tres arreglos menores. Estado final en [G4 — cierre](03-preparacion-G4-cierre.md).

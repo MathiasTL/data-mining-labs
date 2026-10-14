@@ -65,8 +65,8 @@ No bloquean G3, pero tienen responsable:
 
 | Hallazgo | Impacto | Responsable |
 | --- | --- | --- |
-| 23 de 204 columnas del preprocesador son constantes en train (19 indicadores `__missing` de columnas que nunca faltan y 4 características como `persontype_1072L`). | No rompe nada: la vista lineal las deja en cero y los árboles las ignoran, pero inflan la matriz. G2 ya pedía descartarlas. | Gabriel (D1) |
-| `views.py` usa `pl.concat(..., how="horizontal")`, que polars marca como obsoleto: cambiará de comportamiento en una versión mayor. | Hoy funciona porque `uv.lock` fija la versión; romperá al actualizar polars. | Giancarlo (D7) |
+| 23 de 204 columnas del preprocesador son constantes en train (19 indicadores `__missing` de columnas que nunca faltan y 4 características como `persontype_1072L`). | No rompe nada: la vista lineal las deja en cero y los árboles las ignoran, pero inflan la matriz. G2 ya pedía descartarlas. | Gabriel (D1) — **resuelto en G4** |
+| `views.py` usa `pl.concat(..., how="horizontal")`, que polars marca como obsoleto: cambiará de comportamiento en una versión mayor. | Hoy funciona porque `uv.lock` fija la versión; romperá al actualizar polars. | Giancarlo (D7) — **resuelto en G4** (`hstack`) |
 | `RangeWarning` en OOT y test por valores fuera del rango de train. | Esperado: es la política de D5 (avisar sin recortar). | Ninguno |
 
 ## 6. Reproducir

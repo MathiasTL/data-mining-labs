@@ -16,7 +16,9 @@ Cero predictores: G2 no aprueba ninguna columna de estas fuentes en el primer co
 
 ## 2. Semántica de cobertura (decisión deliberada)
 
-`n_records` cuenta presencia física **sin filtro temporal**. Ninguna regla `as-of` está aprobada para estas fuentes, así que filtrar sería presumir disponibilidad (invariante A1.5). El `temporal_rule` del manifiesto lo declara. Cardinalidades reales (`family_cardinality.csv`): `debitcard_1` y `deposit_1` son 1:N (máx. 66/65 filas por caso; se valida unicidad de `(case_id, num_group1)`); `other_1` es 1:0..1 (51 109 filas, ~3,3 %; se valida unicidad de `case_id`). Filas de casos fuera de la base se ignoran (semi-join). Fuente vacía → ceros, sin error (caso `tax_registry_c_1` de C7, misma vía).
+> **Actualizado en el cierre (13/10/2026, `products-v2`):** la versión original contaba presencia física sin filtro. F7 midió que el 100 % de las filas de `tax_registry_a_1` era posterior a la decisión, así que ahora `n_records` solo cuenta filas con su fecha de disponibilidad (`ANCHORS`: `openingdate` en productos, `recorddate`/`deductiondate`/`processingdate` en registros) anterior o igual a `date_decision`; una fecha nula descarta la fila. `other_1` no tiene fecha: todas sus filas se descartan y su cobertura es 0. Detalle y ablación en [F7](03-preparacion-F7-informe-fuga.md).
+
+Texto original: `n_records` cuenta presencia física **sin filtro temporal**. Ninguna regla `as-of` está aprobada para estas fuentes, así que filtrar sería presumir disponibilidad (invariante A1.5). El `temporal_rule` del manifiesto lo declara. Cardinalidades reales (`family_cardinality.csv`): `debitcard_1` y `deposit_1` son 1:N (máx. 66/65 filas por caso; se valida unicidad de `(case_id, num_group1)`); `other_1` es 1:0..1 (51 109 filas, ~3,3 %; se valida unicidad de `case_id`). Filas de casos fuera de la base se ignoran (semi-join). Fuente vacía → ceros, sin error (caso `tax_registry_c_1` de C7, misma vía).
 
 ## 3. other_1
 
