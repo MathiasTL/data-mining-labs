@@ -1,10 +1,10 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "tax_registry_a_1",
   "split": "test",
   "data_path": "tax_registry_a_1__test.parquet",
-  "data_sha256": "aef2165cc9b8507d9b07d188c3c64850d03ef0c0113f10a7089ba350adeb5c39",
+  "data_sha256": "e4be3b5a35505985c549bd164d9f8c89be610b7785b28058900ae8f3303ea7cd",
   "row_count": 10,
   "case_count": 10,
   "features": [
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "recorddate_4527225D <= date_decision; fila con recorddate_4527225D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en tax_registry_a_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "recorddate_4527225D <= date_decision; fila con recorddate_4527225D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en tax_registry_a_1 (ventana all)"
     }
   ],
@@ -37,14 +37,16 @@
     "b6_candidates": 0,
     "b6_transform_as_of": 1,
     "g2_approved": 0,
+    "tax_registry_a_1_rows_after_decision": 0,
+    "tax_registry_a_1_rows_null_anchor": 0,
     "source_rows_outside_base": 0
   },
   "inputs": {
     "cutoff_week": "74",
     "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
-    "shards": "test_tax_registry_a_1.parquet:4158:1790997776402772721",
-    "selection_manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
-    "g2_decision": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
+    "shards": "test_tax_registry_a_1.parquet:4158:sha256:3c4d2e5a262ea04bda3c8f7959e9bcb80026f4d75578c169e923e162ffd6146d",
+    "selection_manifest": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
+    "g2_decision": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
   },
   "validations": [
     "case_id no nulo",

@@ -1,10 +1,10 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "tax_registry_b_1",
   "split": "train",
   "data_path": "tax_registry_b_1__train.parquet",
-  "data_sha256": "df5de77bbadb3d1419471eec8f354ff8eac912da5356affafcd7d53aed284ca4",
+  "data_sha256": "8c36a18587157b2901d6cd773a562b8c66faa5c30b553e17c637eba1a1aef4bb",
   "row_count": 1332001,
   "case_count": 1332001,
   "features": [
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "deductiondate_4917603D <= date_decision; fila con deductiondate_4917603D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en tax_registry_b_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "deductiondate_4917603D <= date_decision; fila con deductiondate_4917603D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en tax_registry_b_1 (ventana all)"
     }
   ],
@@ -37,6 +37,8 @@
     "b6_candidates": 0,
     "b6_transform_as_of": 1,
     "g2_approved": 0,
+    "tax_registry_b_1_rows_after_decision": 14236,
+    "tax_registry_b_1_rows_null_anchor": 0,
     "source_rows_outside_base": 0
   },
   "inputs": {

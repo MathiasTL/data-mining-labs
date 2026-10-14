@@ -24,4 +24,4 @@ no_reserved_predictors,test,ok,ninguna columna reservada es característica
 train_oot_partition,all,ok,"train 1332001 + OOT 194658 = 1526659 casos, sin solapamiento, corte 74"
 schema_parity,all,ok,"mismos controles (salvo target) y mismas características, orden y tipos en train, OOT y test"
 baseline_contract,all,ok,la matriz entra sin cambios a dm_credit.baseline: 1332001 de train y 194658 de OOT
-views_fit_on_train_only,all,ok,vistas ajustadas con train; OOT y test no cambian el estado; 303 predictores lineales sin nulos
+views_fit_on_train_only,all,ok,vistas ajustadas con train; OOT y test no cambian el estado; 234 predictores lineales sin nulos

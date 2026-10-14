@@ -1,10 +1,10 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "deposit_1",
   "split": "train",
   "data_path": "deposit_1__train.parquet",
-  "data_sha256": "8e8c23dcbd0b1d60c80c4ae9b49b28016932fe07e9d1a5c54205ba5ff8b0e658",
+  "data_sha256": "a09e1f5b70e9ea4168538680a9bee113a1d8f104ac3a0232e246236639450a70",
   "row_count": 1332001,
   "case_count": 1332001,
   "features": [
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_313D <= date_decision; fila con openingdate_313D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en deposit_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_313D <= date_decision; fila con openingdate_313D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en deposit_1 (ventana all)"
     }
   ],
@@ -37,14 +37,16 @@
     "b6_candidates": 0,
     "b6_transform_as_of": 2,
     "g2_approved": 0,
+    "deposit_1_rows_after_decision": 0,
+    "deposit_1_rows_null_anchor": 0,
     "source_rows_outside_base": 0
   },
   "inputs": {
     "cutoff_week": "74",
     "base_sha256": "f1caf2beb258c0cba68d6cf99c4959998c9c547980c3766947471b3b4e2b2961",
-    "shards": "train_deposit_1.parquet:1598148:1790997776807535208",
-    "selection_manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
-    "g2_decision": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
+    "shards": "train_deposit_1.parquet:1598148:sha256:845fa0b14c3614b4f4c37891ede924414b035e5d6c04a2a6d50a5976dcdd6996",
+    "selection_manifest": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
+    "g2_decision": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
   },
   "validations": [
     "case_id no nulo",
