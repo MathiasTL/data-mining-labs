@@ -37,9 +37,14 @@ def test_row_and_value_exclusions_are_summed_per_split(published):
     assert r["as_of_row_filter"] is True
 
 
-def test_coverage_only_families_without_a_row_rule_are_flagged(published):
-    r = row(summary(published), "tax_registry_a_1")
-    assert r["as_of_row_filter"] is False and r["predictors"] == 0
+def test_families_without_a_row_rule_are_flagged(published):
+    s = summary(published)
+    assert row(s, "static_0")["as_of_row_filter"] is False
+    tax = row(s, "tax_registry_a_1")
+    assert tax["as_of_row_filter"] is True and tax["predictors"] == 0
+    assert "recorddate_4527225D <= date_decision" in tax["temporal_rule"]
+    # other_1 no tiene fecha: todas sus filas se descartan (train: casos 1 y 2 aportaban 1 fila)
+    assert row(s, "other_1")["rows_excluded_train"] == 1
 
 
 def test_g2_columns_are_counted_per_family_including_child_tables(published):

@@ -16,9 +16,10 @@ pytestmark = pytest.mark.filterwarnings(
 )
 
 CONTROLS = ["case_id", "WEEK_NUM", "date_decision", "MONTH", "target"]
+# sin "const" (vale 0 en todo train tras imputar) ni "flag__is____UNKNOWN__" (train nunca lo ve):
+# las salidas lineales constantes en train se descartan (D1)
 LINEAR_PREDICTORS = [
     "amt",
-    "const",
     "amt__missing",
     "const__missing",
     "cat__is__x",
@@ -28,7 +29,6 @@ LINEAR_PREDICTORS = [
     "flag__is__false",
     "flag__is__true",
     f"flag__is__{MISSING}",
-    f"flag__is__{UNKNOWN}",
 ]
 TREE_PREDICTORS = ["amt", "const", "cat", "flag"]
 
@@ -41,7 +41,7 @@ def spec() -> PreprocessingSpec:
 
 def train_df() -> pl.DataFrame:
     # amt: mediana 3.0; imputada [1,2,3,4,5,3,3,3] -> media 3.0, desviación sqrt(10/8)
-    # const: varianza cero; cat: x e y frecuentes (3/7), 'rare' rara (1/7 < 0.25)
+    # const: un nulo y el resto 0.1 (varianza cero tras imputar); cat: x e y frecuentes (3/7), 'rare' rara (1/7 < 0.25)
     return pl.DataFrame(
         {
             "case_id": [8, 3, 5, 1, 7, 2, 6, 4],
@@ -50,7 +50,7 @@ def train_df() -> pl.DataFrame:
             "MONTH": [202005] * 8,
             "target": [0, 1, 0, 0, 1, 0, 0, 0],
             "amt": [1.0, 2.0, 3.0, 4.0, 5.0, None, None, None],
-            "const": [0.1] * 8,
+            "const": [0.1] * 7 + [None],
             "cat": ["x", "x", "x", "y", "y", "y", "rare", None],
             "flag": [True, False, True, False, True, False, True, None],
         }
@@ -109,12 +109,14 @@ def test_linear_scales_with_train_statistics_and_has_no_nulls_or_infinities():
         assert all(predictors[c].cast(pl.Float64).is_finite().all() for c in predictors.columns)
 
 
-def test_linear_zero_variance_column_is_centered_without_division():
+def test_linear_zero_variance_column_is_centered_without_division_and_dropped():
     state = fitted()
     assert state.means["const"] == 0.1 and state.scales["const"] == 1.0
-    assert state.linear(train_df(), "train")["const"].to_list() == [0.0] * 8
-    # OOT: 7.0 se centra con escala 1.0; el nulo se imputa con la mediana de train
-    assert state.linear(oot_df(), "oot")["const"].to_list() == pytest.approx([0.0, 6.9, 0.0])
+    # imputada vale 0 en todo train: sale de la vista lineal, pero su indicador de nulo varía y queda
+    assert "const" in state.dropped_linear and "const" not in state.linear(oot_df(), "oot").columns
+    assert state.linear(train_df(), "train")["const__missing"].to_list() == [0] * 7 + [1]
+    # la característica no es constante en bruto: los árboles la conservan
+    assert state.dropped_features == () and "const" in state.tree(oot_df(), "oot").columns
 
 
 def test_transform_does_not_change_fitted_state():
@@ -268,10 +270,64 @@ def test_matrix_views_spec_covers_every_output_column_once(tmp_path):
     by_output = {
         (r["view"], r["output_column"]): r for r in table.iter_rows(named=True)
     }
-    assert by_output[("linear", "const")]["transformation"].endswith("zero_variance")
+    assert by_output[("none", "const")]["transformation"] == "dropped_constant_in_train"
     assert json.loads(by_output[("linear", "amt")]["parameters"])["median"] == 3.0
     assert json.loads(by_output[("tree", "cat")]["parameters"])["categories"] == ["x", "y", UNKNOWN]
     assert by_output[("linear", f"cat__is__{UNKNOWN}")]["source_feature"] == "cat"
 
     path = vw.write_matrix_views_spec(state, tmp_path / "preparation" / "matrix_views.csv")
     assert pl.read_csv(path).equals(table)
+
+
+# ------------------------------------------------- D1 (G2): columnas constantes en train
+def constant_spec() -> PreprocessingSpec:
+    return PreprocessingSpec(numeric=("amt", "dead"), categorical=("cat", "same"), min_frequency=0.25)
+
+
+def with_constants(frame: pl.DataFrame, dead, same) -> pl.DataFrame:
+    return frame.drop("const", "flag").with_columns(dead=pl.Series(dead, dtype=pl.Float64), same=pl.Series(same, dtype=pl.String))
+
+
+def constant_state() -> vw.FittedMatrixViews:
+    return vw.fit_matrix_views(with_constants(train_df(), [5.0] * 8, ["a"] * 8), constant_spec())
+
+
+def test_features_constant_in_train_are_dropped_from_both_views_and_recorded():
+    state = constant_state()
+    assert state.dropped_features == ("dead", "same")
+    oot = with_constants(oot_df(), [1.0, 2.0, None], ["a", "b", None])  # en OOT varían: igual se descartan
+    for view in vw.VIEWS:
+        out = getattr(state, view)(oot, "oot")
+        assert not any(c == "dead" or c.startswith(("dead__", "same__")) or c == "same" for c in out.columns)
+    table = vw.matrix_views_spec(state)
+    dropped = table.filter(pl.col("role") == "dropped")
+    assert set(dropped["source_feature"]) >= {"dead", "same"}
+    assert set(dropped["transformation"]) == {"dropped_constant_in_train"}
+
+
+def test_linear_outputs_constant_in_train_are_dropped():
+    state = constant_state()
+    train = with_constants(train_df(), [5.0] * 8, ["a"] * 8)
+    linear = state.linear(train, "train")
+    predictors = [c for c in linear.columns if c not in CONTROLS]
+    assert predictors == list(state.predictor_columns("linear"))
+    assert all(linear[c].n_unique() > 1 for c in predictors)
+    assert "amt__missing" in predictors  # amt tiene nulos en train: su indicador sí varía
+    assert f"cat__is__{UNKNOWN}" in predictors  # 'rare' cae en __UNKNOWN__ en train
+
+
+def test_dropped_columns_roundtrip_and_are_not_rejected_as_undeclared(tmp_path):
+    state = constant_state()
+    loaded = vw.load_matrix_views(vw.save_matrix_views(state, tmp_path / "s.json"))
+    assert loaded.to_dict() == state.to_dict()
+    assert loaded.dropped_features == ("dead", "same")
+    test = with_constants(unlabeled_df(), [9.0, 9.0, 9.0], ["z", "z", "z"])
+    assert loaded.tree(test, "test").equals(state.tree(test, "test"))
+
+
+def test_loading_a_state_with_inconsistent_drops_fails_clearly():
+    data = constant_state().to_dict()
+    with pytest.raises(ValueError, match="dropped_linear"):
+        vw.FittedMatrixViews.from_dict({**data, "dropped_linear": ["not_an_output"]})
+    with pytest.raises(ValueError, match="dropped_features"):
+        vw.FittedMatrixViews.from_dict({**data, "dropped_features": ["amt"]})

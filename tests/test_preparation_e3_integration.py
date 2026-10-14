@@ -47,9 +47,13 @@ def _write_product_sources(root: Path, ids: list[int]) -> None:
         folder.mkdir(parents=True, exist_ok=True)
         for source in products_registry.SOURCES:
             source_ids = split_ids[::2]
-            pl.DataFrame(
+            frame = pl.DataFrame(
                 {"case_id": source_ids, "num_group1": list(range(len(source_ids)))}
-            ).write_parquet(folder / f"{split}_{source}.parquet")
+            )
+            anchor = products_registry.ANCHORS[source]
+            if anchor:  # fecha de disponibilidad anterior a toda decisión
+                frame = frame.with_columns(pl.lit("2019-01-01").alias(anchor))
+            frame.write_parquet(folder / f"{split}_{source}.parquet")
 
 
 def _write_bureau_sources(root: Path, fixture, ids: list[int]) -> None:

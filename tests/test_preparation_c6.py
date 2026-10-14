@@ -23,10 +23,10 @@ def product_data(tmp_path, monkeypatch):
     train = root / "parquet_files" / "train"
     # debitcard_1 1:N: caso 1 con 3 filas (una duplicada en num_group1 distinto), caso 2 con 1
     pl.DataFrame(
-        {"case_id": [1, 1, 1, 2, 99], "num_group1": [0, 1, 2, 0, 0]}
+        {"case_id": [1, 1, 1, 2, 99], "num_group1": [0, 1, 2, 0, 0], "openingdate_857D": ["2019-01-01"] * 5}
     ).write_parquet(train / "train_debitcard_1.parquet")
     # deposit_1 1:N: caso 1 con 2 filas, caso 3 con 1
-    pl.DataFrame({"case_id": [1, 1, 3], "num_group1": [0, 1, 0]}).write_parquet(
+    pl.DataFrame({"case_id": [1, 1, 3], "num_group1": [0, 1, 0], "openingdate_313D": ["2019-01-01"] * 3}).write_parquet(
         train / "train_deposit_1.parquet"
     )
     # other_1 1:0..1: solo caso 2
@@ -35,10 +35,10 @@ def product_data(tmp_path, monkeypatch):
     )
 
     test = root / "parquet_files" / "test"
-    pl.DataFrame({"case_id": [10, 10], "num_group1": [0, 1]}).write_parquet(
+    pl.DataFrame({"case_id": [10, 10], "num_group1": [0, 1], "openingdate_857D": ["2019-01-01"] * 2}).write_parquet(
         test / "test_debitcard_1.parquet"
     )
-    pl.DataFrame({"case_id": [10], "num_group1": [0]}).write_parquet(
+    pl.DataFrame({"case_id": [10], "num_group1": [0], "openingdate_313D": ["2019-01-01"]}).write_parquet(
         test / "test_deposit_1.parquet"
     )
     pl.DataFrame({"case_id": [], "num_group1": []}, schema={"case_id": pl.Int64, "num_group1": pl.Int64}).write_parquet(
@@ -100,7 +100,7 @@ def _build(builder, split, tmp_path, b6_selection, g2_decision, **kw):
     [
         (pr.build_debitcard_1_features, "debitcard_1", [3, 1, 0], [2]),
         (pr.build_deposit_1_features, "deposit_1", [2, 0, 1], [1]),
-        (pr.build_other_1_features, "other_1", [0, 1, 0], [0]),
+        (pr.build_other_1_features, "other_1", [0, 0, 0], [0]),  # sin fecha: todo descartado
     ],
 )
 def test_coverage_is_one_row_per_base_case(

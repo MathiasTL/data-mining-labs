@@ -31,21 +31,21 @@ def tax_data(tmp_path, monkeypatch):
 
     train = root / "parquet_files" / "train"
     # tax_a 1:N: caso 1 con 3 filas, caso 2 con 1, caso 3 sin cobertura
-    pl.DataFrame({"case_id": [1, 1, 1, 2], "num_group1": [0, 1, 2, 0]}).write_parquet(
+    pl.DataFrame({"case_id": [1, 1, 1, 2], "num_group1": [0, 1, 2, 0], "recorddate_4527225D": ["2019-01-01"] * 4}).write_parquet(
         train / "train_tax_registry_a_1.parquet"
     )
-    pl.DataFrame({"case_id": [2], "num_group1": [0]}).write_parquet(
+    pl.DataFrame({"case_id": [2], "num_group1": [0], "deductiondate_4917603D": ["2019-01-01"]}).write_parquet(
         train / "train_tax_registry_b_1.parquet"
     )
-    pl.DataFrame({"case_id": [1, 3], "num_group1": [0, 0]}).write_parquet(
+    pl.DataFrame({"case_id": [1, 3], "num_group1": [0, 0], "processingdate_168D": ["2019-01-01"] * 2}).write_parquet(
         train / "train_tax_registry_c_1.parquet"
     )
 
     test = root / "parquet_files" / "test"
-    pl.DataFrame({"case_id": [10], "num_group1": [0]}).write_parquet(
+    pl.DataFrame({"case_id": [10], "num_group1": [0], "recorddate_4527225D": ["2019-01-01"]}).write_parquet(
         test / "test_tax_registry_a_1.parquet"
     )
-    pl.DataFrame({"case_id": [10], "num_group1": [0]}).write_parquet(
+    pl.DataFrame({"case_id": [10], "num_group1": [0], "deductiondate_4917603D": ["2019-01-01"]}).write_parquet(
         test / "test_tax_registry_b_1.parquet"
     )
     # como el real: vacío con columnas físicas Null (0 filas, 5 columnas)
