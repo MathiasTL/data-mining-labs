@@ -1,0 +1,8 @@
+key,value
+rows_train,1332001
+sample_rows,200000
+seed,0
+matrix,E5-v1/feature_matrix__train.parquet
+linear_view,E6-v1/linear__train.parquet
+numeric_predictors,86
+categorical_predictors,8
