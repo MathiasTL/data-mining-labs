@@ -34,7 +34,33 @@ def test_steps_reuse_e4_by_default_and_rebuild_from_scratch():
     assert reuse == ["e4_audit", "e4_checkpoint_audit", "e5", "e6", "validation"]
     assert scratch == ["e4_rebuild", "e4_checkpoints", "e4_audit", "e4_checkpoint_audit", "e5", "e6", "validation"]
     validation = build.plan_steps(cfg, from_scratch=False)[-1]
-    assert validation.args == ["--artifacts", str(build._dirs(cfg)["e4"]), "--matrix-dir", str(build._dirs(cfg)["e5"])]
+    assert validation.args[:4] == ["--artifacts", str(build._dirs(cfg)["e4"]), "--matrix-dir", str(build._dirs(cfg)["e5"])]
+
+
+def test_configured_cutoff_results_dir_and_catalog_reach_every_step():
+    # F6: antes E5, E6 y validation usaban sus valores por defecto aunque la configuración dijera otra cosa
+    cfg = build.load_config(CONFIG)
+    steps = {s.name: s.args for s in build.plan_steps(cfg, from_scratch=False)}
+    results = str(build.ROOT / cfg["results_dir"])
+    for name in ("e5", "e6", "validation"):
+        args = steps[name]
+        assert args[args.index("--cutoff-week") + 1] == str(cfg["cutoff_week"])
+    assert steps["e5"][steps["e5"].index("--report") + 1] == f"{results}/E5_master_tables.csv"
+    assert steps["e6"][steps["e6"].index("--report") + 1] == f"{results}/E6_views.csv"
+    assert steps["e6"][steps["e6"].index("--catalog") + 1] == str(build.ROOT / cfg["catalog"])
+    assert steps["validation"][steps["validation"].index("--out") + 1] == results
+    assert steps["e4_audit"][steps["e4_audit"].index("--results-dir") + 1] == results
+
+
+@pytest.mark.parametrize(("key", "value"), [("cutoff_week", 70), ("results_dir", "otros/resultados")])
+def test_values_that_e4_cannot_honour_are_rejected(tmp_path, key, value):
+    # E4 reconstruye y audita con el corte 74 y escribe en results/preparation: otro valor sería ignorado en silencio
+    cfg = json.loads(CONFIG.read_text())
+    cfg[key] = value
+    path = tmp_path / "cfg.json"
+    path.write_text(json.dumps(cfg))
+    with pytest.raises(ValueError, match=key):
+        build.load_config(path)
 
 
 def test_module_steps_run_serially_with_one_thread_and_stop_on_failure(tmp_path):

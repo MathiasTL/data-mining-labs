@@ -118,6 +118,9 @@ def _selected_columns(
             f"G2 products decision is missing columns {sorted(required_g2 - set(decisions.columns))}"
         )
     family_decisions = decisions.filter(pl.col("family") == source)
+    if family_decisions.is_empty():
+        # sin filas no hay decisión: no se interpreta como "cero aprobadas" (F6)
+        raise ValueError(f"G2 products decision contains no rows for {source!r}")
     names = family_decisions["column"].to_list()
     if len(names) != len(set(names)) or any(name is None for name in names):
         raise ValueError(
@@ -151,13 +154,18 @@ def _selected_columns(
     return sorted(approved), counts
 
 
-def _validate_source_keys(source_rows: pl.DataFrame, source: str) -> None:
-    """Claves de la fuente: sin nulos y sin duplicados en su granularidad."""
+def _validate_source_keys(source_rows: pl.DataFrame, source: str, *, one_row_per_case: bool = True) -> None:
+    """Claves de la fuente: sin nulos y sin duplicados en su granularidad.
+
+    ``one_row_per_case=False`` valida solo la clave de la tabla (``case_id`` y
+    ``num_group1``): se usa sobre el archivo completo, donde ``other_1`` puede
+    traer más de una fila para casos ajenos a la base (muestra real de test).
+    """
     _require(source_rows, [KEY], source)
     keys = source_rows[KEY]
     if keys.null_count() or (keys.dtype.is_float() and keys.is_nan().any()):
         raise ValueError(f"source {source!r}: {KEY} contains nulls")
-    if source in SINGLE_ROW_SOURCES:
+    if source in SINGLE_ROW_SOURCES and one_row_per_case:
         if keys.n_unique() != source_rows.height:
             raise ValueError(
                 f"source {source!r}: {KEY} is not unique (expected 1:0..1)"
@@ -237,8 +245,11 @@ def _shard_fingerprint(file_split: str, source: str) -> str:
     return io.shards_fingerprint(file_split, [source])  # contenido, no fecha: portable entre computadoras
 
 
-def _read_source(file_split: str, source: str, cases: pl.DataFrame) -> pl.DataFrame:
-    """Lee una fuente con proyección mínima y solo los casos de la base.
+def _read_source(file_split: str, source: str) -> pl.DataFrame:
+    """Lee la fuente completa con proyección mínima (clave, ``num_group1`` y ancla).
+
+    Se lee entera para validar las claves de todas las filas, también las de casos
+    que no están en la base del split (F6); el filtro por casos lo hace el constructor.
 
     Un shard vacío con columnas físicas ``Null`` (caso ``test_tax_registry_c_1``)
     se convierte a ``Int64`` antes del join: la conversión es exacta porque una
@@ -263,7 +274,7 @@ def _read_source(file_split: str, source: str, cases: pl.DataFrame) -> pl.DataFr
         raise ValueError(
             f"source {source!r}: {KEY} has non-integer dtype {key_schema[KEY]}"
         )
-    frame = scan.join(cases.lazy(), on=KEY, how="semi").collect()
+    frame = scan.collect()
     schema = {KEY: "int"}
     if "num_group1" in frame.columns:
         schema["num_group1"] = "int"
@@ -290,10 +301,14 @@ def _build_source_features(
         )
     file_split = "test" if split == "test" else "train"
     cases = base.select(KEY)
-    source_rows = _read_source(file_split, source, cases)
-    _validate_source_keys(source_rows, source)  # antes del filtro: una clave inválida es error aunque se descarte
+    raw = _read_source(file_split, source)
+    # todas las filas: una clave inválida es error aunque su caso no esté en la base
+    _validate_source_keys(raw, source, one_row_per_case=False)
+    source_rows = raw.join(cases, on=KEY, how="semi")
+    _validate_source_keys(source_rows, source)  # 1:0..1 de other_1 sobre los casos de la base
     valid, as_of = filter_as_of(source, base, source_rows)
     result = aggregate_coverage(source, cases, valid)
+    result.exclusions["source_rows_outside_base"] = raw.height - source_rows.height
     definitions = contracts.describe_features(
         result.features, temporal_rule=temporal_rule(source), source_columns={}
     )
