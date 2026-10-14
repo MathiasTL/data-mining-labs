@@ -2,7 +2,7 @@
   "format_version": 1,
   "split": "train",
   "data_path": "feature_matrix__train.parquet",
-  "data_sha256": "b4f0840851bf413a232343d78e4b9050fa1363d3e73d86366c1b811a6d7a0114",
+  "data_sha256": "bc073c99d8f78489cdc31c1442a5999fbcc1da25346b2a20bcc8796bfead22ac",
   "row_count": 1332001,
   "control_columns": [
     "case_id",
@@ -64,7 +64,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_857D <= date_decision; fila con openingdate_857D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en debitcard_1 (ventana all)"
     },
     {
@@ -75,7 +75,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_857D <= date_decision; fila con openingdate_857D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en debitcard_1 (ventana all)"
     },
     {
@@ -86,7 +86,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_313D <= date_decision; fila con openingdate_313D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en deposit_1 (ventana all)"
     },
     {
@@ -97,7 +97,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_313D <= date_decision; fila con openingdate_313D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en deposit_1 (ventana all)"
     },
     {
@@ -108,7 +108,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a date_decision, así que todas se descartan y la cobertura es 0 en todos los casos.",
       "description": "n_records en other_1 (ventana all)"
     },
     {
@@ -119,7 +119,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a date_decision, así que todas se descartan y la cobertura es 0 en todos los casos.",
       "description": "source_present en other_1 (ventana all)"
     },
     {
@@ -1478,7 +1478,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "recorddate_4527225D <= date_decision; fila con recorddate_4527225D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en tax_registry_a_1 (ventana all)"
     },
     {
@@ -1489,7 +1489,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "recorddate_4527225D <= date_decision; fila con recorddate_4527225D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en tax_registry_a_1 (ventana all)"
     },
     {
@@ -1500,7 +1500,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "deductiondate_4917603D <= date_decision; fila con deductiondate_4917603D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en tax_registry_b_1 (ventana all)"
     },
     {
@@ -1511,7 +1511,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "deductiondate_4917603D <= date_decision; fila con deductiondate_4917603D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en tax_registry_b_1 (ventana all)"
     },
     {
@@ -1522,7 +1522,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "processingdate_168D <= date_decision; fila con processingdate_168D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en tax_registry_c_1 (ventana all)"
     },
     {
@@ -1533,7 +1533,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "processingdate_168D <= date_decision; fila con processingdate_168D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en tax_registry_c_1 (ventana all)"
     },
     {

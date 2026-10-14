@@ -57,3 +57,15 @@ def test_assembly_is_deterministic(published):
     a = run(published)["data_sha256"].to_list()
     b = e5.assemble_master_tables(published["bases"], published["artifacts"], output_dir=published["tmp"] / "E5b", cutoff_week=tv.g3.CUTOFF)["data_sha256"].to_list()
     assert a == b
+
+
+def test_a_late_schema_failure_leaves_no_published_master_table(published, monkeypatch):
+    # F6: si falla la paridad de esquemas al final, no deben quedar tablas que parezcan publicadas
+    def fail(*args, **kwargs):
+        raise ValueError("schema differs")
+
+    monkeypatch.setattr(e5, "validate_matrix_schemas", fail)
+    with pytest.raises(ValueError, match="schema differs"):
+        run(published)
+    out = published["tmp"] / "E5"
+    assert not list(out.glob("feature_matrix__*")) if out.exists() else True

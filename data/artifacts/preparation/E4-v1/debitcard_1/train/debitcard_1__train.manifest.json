@@ -1,10 +1,10 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "debitcard_1",
   "split": "train",
   "data_path": "debitcard_1__train.parquet",
-  "data_sha256": "fab1767ce80f67166dcd88ff0841ffe3402dde4622d3e8c2c01ad45e1ee41a41",
+  "data_sha256": "79856c01a376716b3153193010f845fa04017f7673834915387c6cf895aff67e",
   "row_count": 1332001,
   "case_count": 1332001,
   "features": [
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_857D <= date_decision; fila con openingdate_857D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en debitcard_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_857D <= date_decision; fila con openingdate_857D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en debitcard_1 (ventana all)"
     }
   ],
@@ -37,7 +37,9 @@
     "b6_candidates": 3,
     "b6_transform_as_of": 1,
     "g2_approved": 0,
-    "source_rows_outside_base": 0
+    "debitcard_1_rows_after_decision": 0,
+    "debitcard_1_rows_null_anchor": 10823,
+    "source_rows_outside_base": 23289
   },
   "inputs": {
     "cutoff_week": "74",

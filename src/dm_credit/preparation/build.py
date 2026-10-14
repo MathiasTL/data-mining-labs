@@ -67,6 +67,8 @@ def build_family_features(
 
 # ------------------------------------------------------------------------------- E7
 ROOT = Path(__file__).resolve().parents[3]
+E4_CUTOFF_WEEK = 74  # fijo en e4_rebuild, e4 y e4_shards
+E4_RESULTS_DIR = "results/preparation"
 REQUIRED_CONFIG = ("cutoff_week", "polars_max_threads", "artifact_root", "versions", "e4", "catalog", "decisions", "results_dir")
 CONTROLS = ("case_id", "WEEK_NUM", "date_decision", "MONTH", "target")
 
@@ -79,6 +81,11 @@ def load_config(path: Path) -> dict:
         raise ValueError(f"config {path}: missing keys {missing}")
     if set(cfg["versions"]) != {"e4", "e5", "e6"}:
         raise ValueError("config: versions must define e4, e5 and e6")
+    # E4 reconstruye y audita con valores fijos; aceptar otros sería ignorarlos en silencio
+    if cfg["cutoff_week"] != E4_CUTOFF_WEEK:
+        raise ValueError(f"config: cutoff_week must be {E4_CUTOFF_WEEK} (E4 rebuilds and audits with that cutoff)")
+    if Path(cfg["results_dir"]) != Path(E4_RESULTS_DIR):
+        raise ValueError(f"config: results_dir must be {E4_RESULTS_DIR!r} (E4 audits write there)")
     return cfg
 
 
@@ -113,17 +120,23 @@ class Step:
 def plan_steps(cfg: dict, *, from_scratch: bool) -> list[Step]:
     d = _dirs(cfg)
     env = {"POLARS_MAX_THREADS": str(cfg["polars_max_threads"])}
+    results = ROOT / cfg["results_dir"]
+    cutoff = ["--cutoff-week", str(cfg["cutoff_week"])]
     steps = []
     if from_scratch:
         steps.append(Step("e4_rebuild", "dm_credit.preparation.e4_rebuild",
                           ["--all", "--max-rss-mib", str(cfg["e4"]["max_rss_mib"]), "--timeout-seconds", str(cfg["e4"]["timeout_seconds"])], env))
         steps.append(Step("e4_checkpoints", None, [], env, action=lambda: merge_checkpoints(d["e4"])))
     steps += [
-        Step("e4_audit", "dm_credit.preparation.e4", [], env),
+        Step("e4_audit", "dm_credit.preparation.e4", ["--results-dir", str(results)], env),
         Step("e4_checkpoint_audit", "dm_credit.preparation.e4_shards", ["--checkpoint-dir", str(d["e4"] / "checkpoints")], env),
-        Step("e5", "dm_credit.preparation.e5", ["--artifacts", str(d["e4"]), "--output-dir", str(d["e5"])], env),
-        Step("e6", "dm_credit.preparation.e6", ["--masters", str(d["e5"]), "--output-dir", str(d["e6"])], env),
-        Step("validation", "dm_credit.preparation.validation", ["--artifacts", str(d["e4"]), "--matrix-dir", str(d["e5"])], env),
+        Step("e5", "dm_credit.preparation.e5",
+             ["--artifacts", str(d["e4"]), "--output-dir", str(d["e5"]), "--report", str(results / "E5_master_tables.csv"), *cutoff], env),
+        Step("e6", "dm_credit.preparation.e6",
+             ["--masters", str(d["e5"]), "--output-dir", str(d["e6"]), "--report", str(results / "E6_views.csv"),
+              "--catalog", str(ROOT / cfg["catalog"]), *cutoff], env),
+        Step("validation", "dm_credit.preparation.validation",
+             ["--artifacts", str(d["e4"]), "--matrix-dir", str(d["e5"]), "--out", str(results), *cutoff], env),
     ]
     return steps
 

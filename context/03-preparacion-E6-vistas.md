@@ -41,4 +41,4 @@ POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.e6
 uv run --extra dev pytest -q tests/test_preparation_e6.py
 ```
 
-Pendiente conocido, que no bloquea: el preprocesador todavía no descarta columnas constantes (Gabriel, D1). Siguiente paso: E7, el manifiesto final y el comando único de reproducción.
+**Actualizado en G4:** las columnas constantes en train ya se descartan (pedido de G2): 10 características salen de las dos vistas y 43 salidas lineales constantes salen de la lineal, registradas con `role = dropped` en `matrix_views_spec.csv`. Con eso y el filtro por fecha de productos (`products-v2`), la vista lineal queda en **234** predictores y la de árboles en **114** (`results/preparation/E6_views.csv`). Las cifras de la tabla de arriba son las de la primera ejecución.

@@ -38,7 +38,7 @@ NULL_TEST_COLUMNS = ("case_id", "employername_160M", "num_group1", "pmtamount_36
 EXPECTED_N_RECORDS = {
     "debitcard_1": [3, 1, 0, 1, 0, 0],
     "deposit_1": [2, 0, 1, 0, 0, 0],
-    "other_1": [0, 1, 0, 0, 1, 0],
+    "other_1": [0, 0, 0, 0, 0, 0],  # sin fecha de disponibilidad: todo descartado
     "tax_registry_a_1": [3, 1, 0, 0, 0, 1],
     "tax_registry_b_1": [0, 1, 1, 0, 0, 0],
     "tax_registry_c_1": [1, 0, 1, 1, 0, 0],
@@ -50,7 +50,10 @@ def shifted(df: pl.DataFrame, offset: int) -> pl.DataFrame:
 
 
 def source(name: str) -> pl.DataFrame:
-    return pl.DataFrame(ROWS[name], schema={"case_id": pl.Int64, "num_group1": pl.Int64}, orient="row")
+    """Filas de la fuente; el ancla de disponibilidad es anterior a la decisión, así que todas cuentan."""
+    df = pl.DataFrame(ROWS[name], schema={"case_id": pl.Int64, "num_group1": pl.Int64}, orient="row")
+    anchor = pr.ANCHORS[name]
+    return df.with_columns(pl.lit("2019-01-01").alias(anchor)) if anchor else df
 
 
 def write_selection(path: Path) -> Path:

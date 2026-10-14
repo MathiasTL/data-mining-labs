@@ -73,15 +73,11 @@
         "credit_bureau_b_2__n_records",
         "debitcard_1__n_records",
         "deposit_1__n_records",
-        "other_1__n_records",
         "person_1__birth_259d__age_years__all",
         "person_1__empl_employedfrom_271d__days_since_last__all",
         "person_1__mainoccupationinc_384a__main__all",
         "person_1__n_contacts__all",
         "person_1__n_records",
-        "person_1__personindex_1023l__main__all",
-        "person_1__persontype_1072l__main__all",
-        "person_1__persontype_792l__main__all",
         "person_1__relationshiptoclient_415t__share_child__all",
         "person_1__relationshiptoclient_415t__share_colleague__all",
         "person_1__relationshiptoclient_415t__share_friend__all",
@@ -101,9 +97,7 @@
         "person_1__relationshiptoclient_642t__share_sibling__all",
         "person_1__relationshiptoclient_642t__share_spouse__all",
         "person_2__n_records",
-        "static_0__n_records",
         "static_cb_0__n_records",
-        "tax_registry_a_1__n_records",
         "tax_registry_b_1__n_records",
         "tax_registry_c_1__n_records"
       ],
@@ -115,7 +109,6 @@
         "credit_bureau_b_2__source_present",
         "debitcard_1__source_present",
         "deposit_1__source_present",
-        "other_1__source_present",
         "person_1__education_927m__main__all",
         "person_1__empl_employedtotal_800l__main__all",
         "person_1__empl_industry_691l__main__all",
@@ -123,12 +116,9 @@
         "person_1__incometype_1044t__main__all",
         "person_1__language1_981m__main__all",
         "person_1__role_1084l__main__all",
-        "person_1__source_present",
         "person_1__type_25l__main__all",
         "person_2__source_present",
-        "static_0__source_present",
         "static_cb_0__source_present",
-        "tax_registry_a_1__source_present",
         "tax_registry_b_1__source_present",
         "tax_registry_c_1__source_present"
       ],
@@ -209,15 +199,11 @@
       "credit_bureau_b_2__n_records": 0.0,
       "debitcard_1__n_records": 0.0,
       "deposit_1__n_records": 0.0,
-      "other_1__n_records": 0.0,
       "person_1__birth_259d__age_years__all": 42.0,
       "person_1__empl_employedfrom_271d__days_since_last__all": 1371.0,
       "person_1__mainoccupationinc_384a__main__all": 50000.0,
       "person_1__n_contacts__all": 1.0,
       "person_1__n_records": 2.0,
-      "person_1__personindex_1023l__main__all": 0.0,
-      "person_1__persontype_1072l__main__all": 1.0,
-      "person_1__persontype_792l__main__all": 1.0,
       "person_1__relationshiptoclient_415t__share_child__all": 0.0,
       "person_1__relationshiptoclient_415t__share_colleague__all": 0.0,
       "person_1__relationshiptoclient_415t__share_friend__all": 0.0,
@@ -237,9 +223,7 @@
       "person_1__relationshiptoclient_642t__share_sibling__all": 0.0,
       "person_1__relationshiptoclient_642t__share_spouse__all": 0.0,
       "person_2__n_records": 1.0,
-      "static_0__n_records": 1.0,
       "static_cb_0__n_records": 1.0,
-      "tax_registry_a_1__n_records": 0.0,
       "tax_registry_b_1__n_records": 0.0,
       "tax_registry_c_1__n_records": 0.0
     },
@@ -267,10 +251,6 @@
         "true"
       ],
       "deposit_1__source_present": [
-        "false",
-        "true"
-      ],
-      "other_1__source_present": [
         "false",
         "true"
       ],
@@ -315,9 +295,6 @@
         "CL",
         "EM"
       ],
-      "person_1__source_present": [
-        "true"
-      ],
       "person_1__type_25l__main__all": [
         "HOME_PHONE",
         "PRIMARY_MOBILE"
@@ -326,14 +303,7 @@
         "false",
         "true"
       ],
-      "static_0__source_present": [
-        "true"
-      ],
       "static_cb_0__source_present": [
-        "false",
-        "true"
-      ],
-      "tax_registry_a_1__source_present": [
         "false",
         "true"
       ],
@@ -613,15 +583,11 @@
       ],
       "debitcard_1__n_records": [
         0.0,
-        66.0
+        65.0
       ],
       "deposit_1__n_records": [
         0.0,
         65.0
-      ],
-      "other_1__n_records": [
-        0.0,
-        1.0
       ],
       "person_1__birth_259d__age_years__all": [
         20.0,
@@ -642,18 +608,6 @@
       "person_1__n_records": [
         1.0,
         10.0
-      ],
-      "person_1__personindex_1023l__main__all": [
-        0.0,
-        0.0
-      ],
-      "person_1__persontype_1072l__main__all": [
-        1.0,
-        1.0
-      ],
-      "person_1__persontype_792l__main__all": [
-        1.0,
-        1.0
       ],
       "person_1__relationshiptoclient_415t__share_child__all": [
         0.0,
@@ -731,17 +685,9 @@
         0.0,
         34.0
       ],
-      "static_0__n_records": [
-        1.0,
-        1.0
-      ],
       "static_cb_0__n_records": [
         0.0,
         1.0
-      ],
-      "tax_registry_a_1__n_records": [
-        0.0,
-        99.0
       ],
       "tax_registry_b_1__n_records": [
         0.0,
@@ -822,17 +768,13 @@
     "credit_bureau_a_1__n_records": 3.4709350818805693,
     "credit_bureau_b_1__n_records": 0.005242488556690273,
     "credit_bureau_b_2__n_records": 0.06503373495965843,
-    "debitcard_1__n_records": 0.1006102848271135,
+    "debitcard_1__n_records": 0.09248491555186521,
     "deposit_1__n_records": 0.09283401438887809,
-    "other_1__n_records": 0.019413649088852035,
     "person_1__birth_259d__age_years__all": 43.52334194944298,
     "person_1__empl_employedfrom_271d__days_since_last__all": 1669.0011148640278,
     "person_1__mainoccupationinc_384a__main__all": 57899.91934004779,
     "person_1__n_contacts__all": 1.0052597558109941,
     "person_1__n_records": 2.005259755810994,
-    "person_1__personindex_1023l__main__all": 0.0,
-    "person_1__persontype_1072l__main__all": 1.0,
-    "person_1__persontype_792l__main__all": 1.0,
     "person_1__relationshiptoclient_415t__share_child__all": 0.06300658432939114,
     "person_1__relationshiptoclient_415t__share_colleague__all": 0.022102761184113223,
     "person_1__relationshiptoclient_415t__share_friend__all": 0.0489943325868374,
@@ -852,11 +794,9 @@
     "person_1__relationshiptoclient_642t__share_sibling__all": 0.07167723597805108,
     "person_1__relationshiptoclient_642t__share_spouse__all": 0.07748482671309306,
     "person_2__n_records": 1.1241207776871038,
-    "static_0__n_records": 1.0,
     "static_cb_0__n_records": 0.9805593239044115,
-    "tax_registry_a_1__n_records": 2.448163327204709,
-    "tax_registry_b_1__n_records": 0.13759974654673682,
-    "tax_registry_c_1__n_records": 2.51035847570685
+    "tax_registry_b_1__n_records": 0.12691206688283266,
+    "tax_registry_c_1__n_records": 1.9650473235380455
   },
   "scales": {
     "applprev_1__annuity_853a__count__all": 3.783489717503167,
@@ -925,17 +865,13 @@
     "credit_bureau_a_1__n_records": 5.140008719549064,
     "credit_bureau_b_1__n_records": 0.08760400951693394,
     "credit_bureau_b_2__n_records": 1.3299923467879893,
-    "debitcard_1__n_records": 0.4512076806797775,
+    "debitcard_1__n_records": 0.4240309597694798,
     "deposit_1__n_records": 0.4285279523459874,
-    "other_1__n_records": 0.137973763150488,
     "person_1__birth_259d__age_years__all": 13.852190789279666,
     "person_1__empl_employedfrom_271d__days_since_last__all": 1445.8743529811409,
     "person_1__mainoccupationinc_384a__main__all": 33378.29827693609,
     "person_1__n_contacts__all": 1.1566921785662987,
     "person_1__n_records": 1.1566921785662991,
-    "person_1__personindex_1023l__main__all": 1.0,
-    "person_1__persontype_1072l__main__all": 1.0,
-    "person_1__persontype_792l__main__all": 1.0,
     "person_1__relationshiptoclient_415t__share_child__all": 0.22617508849204185,
     "person_1__relationshiptoclient_415t__share_colleague__all": 0.1345309547435404,
     "person_1__relationshiptoclient_415t__share_friend__all": 0.20165258334209632,
@@ -955,11 +891,9 @@
     "person_1__relationshiptoclient_642t__share_sibling__all": 0.23713845789477328,
     "person_1__relationshiptoclient_642t__share_spouse__all": 0.24748202616711992,
     "person_2__n_records": 0.6614638185053896,
-    "static_0__n_records": 1.0,
     "static_cb_0__n_records": 0.13806786812482807,
-    "tax_registry_a_1__n_records": 4.063109561597367,
-    "tax_registry_b_1__n_records": 1.1325699677883672,
-    "tax_registry_c_1__n_records": 3.969218988674484
+    "tax_registry_b_1__n_records": 1.0531925533898552,
+    "tax_registry_c_1__n_records": 3.511830004634398
   },
   "control_columns": [
     "case_id",
@@ -967,5 +901,62 @@
     "MONTH",
     "WEEK_NUM",
     "target"
+  ],
+  "dropped_features": [
+    "other_1__n_records",
+    "person_1__personindex_1023l__main__all",
+    "person_1__persontype_1072l__main__all",
+    "person_1__persontype_792l__main__all",
+    "static_0__n_records",
+    "tax_registry_a_1__n_records",
+    "other_1__source_present",
+    "person_1__source_present",
+    "static_0__source_present",
+    "tax_registry_a_1__source_present"
+  ],
+  "dropped_linear": [
+    "applprev_1__n_records__missing",
+    "applprev_2__n_records__missing",
+    "credit_bureau_a_1__n_records__missing",
+    "credit_bureau_b_1__n_records__missing",
+    "credit_bureau_b_2__n_records__missing",
+    "debitcard_1__n_records__missing",
+    "deposit_1__n_records__missing",
+    "person_1__birth_259d__age_years__all__missing",
+    "person_1__mainoccupationinc_384a__main__all__missing",
+    "person_1__n_contacts__all__missing",
+    "person_1__n_records__missing",
+    "person_2__n_records__missing",
+    "static_cb_0__n_records__missing",
+    "tax_registry_b_1__n_records__missing",
+    "tax_registry_c_1__n_records__missing",
+    "applprev_1__source_present__is____missing__",
+    "applprev_1__source_present__is____UNKNOWN__",
+    "applprev_2__source_present__is____missing__",
+    "applprev_2__source_present__is____UNKNOWN__",
+    "credit_bureau_a_1__source_present__is____missing__",
+    "credit_bureau_a_1__source_present__is____UNKNOWN__",
+    "credit_bureau_b_1__source_present__is____missing__",
+    "credit_bureau_b_2__source_present__is____missing__",
+    "debitcard_1__source_present__is____missing__",
+    "debitcard_1__source_present__is____UNKNOWN__",
+    "deposit_1__source_present__is____missing__",
+    "deposit_1__source_present__is____UNKNOWN__",
+    "person_1__education_927m__main__all__is____missing__",
+    "person_1__empl_employedtotal_800l__main__all__is____UNKNOWN__",
+    "person_1__familystate_447l__main__all__is____UNKNOWN__",
+    "person_1__incometype_1044t__main__all__is____missing__",
+    "person_1__language1_981m__main__all__is____missing__",
+    "person_1__role_1084l__main__all__is____missing__",
+    "person_1__role_1084l__main__all__is____UNKNOWN__",
+    "person_1__type_25l__main__all__is____missing__",
+    "person_2__source_present__is____missing__",
+    "person_2__source_present__is____UNKNOWN__",
+    "static_cb_0__source_present__is____missing__",
+    "static_cb_0__source_present__is____UNKNOWN__",
+    "tax_registry_b_1__source_present__is____missing__",
+    "tax_registry_b_1__source_present__is____UNKNOWN__",
+    "tax_registry_c_1__source_present__is____missing__",
+    "tax_registry_c_1__source_present__is____UNKNOWN__"
   ]
 }

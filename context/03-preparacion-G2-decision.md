@@ -62,7 +62,7 @@ El filtro evaluó 102 características de train (94 numéricas o booleanas y 8 d
 
 Con solo lo aprobado, la ejecución real de train, OOT y test produce **65 características de `applprev` y 37 de `person`**, idénticas en los tres splits (`results/preparation/applications_people_feature_catalog.csv`, 102 filas). Tarda 17 s y alcanza un pico de unos 4,6 GB de memoria.
 
-Algunas características aprobadas casi no varían (por ejemplo `persontype_1072L` y `role_1084L` de la persona principal): el preprocesador (D1) debe descartar las constantes.
+Algunas características aprobadas casi no varían (por ejemplo `persontype_1072L` y `role_1084L` de la persona principal): el preprocesador (D1) debe descartar las constantes. (Implementado en G4: `views.fit_matrix_views` descarta y registra toda columna constante en train.)
 
 ## 3. Regla para las demás familias
 

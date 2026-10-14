@@ -122,6 +122,7 @@ documentados. Por ejemplo, fiscal A = 457.934 casos (29,9958 %), fiscal B = 150.
 fiscal C = 482.265. Fiscal C tiene cero cobertura OOT y test; fiscal B tiene 24.424
 casos train y 126.308 OOT. No se corrige este cambio de cobertura ni se interpreta
 como disponibilidad temporal: los productos/fiscales aportan **solo cobertura física**.
+(Superado en G4: desde `products-v2` la cobertura de productos y registros se filtra por fecha; ver [F7](03-preparacion-F7-informe-fuga.md).)
 `other_1` no aporta sus importes como predictores. Para A2, los ceros del informe
 significan **omitida**, no medición de ausencia de registros.
 
@@ -230,7 +231,7 @@ Las 12 piezas de test tardaron menos de 1 s cada una. Total: **55,6 s** para las
 | `uv run -m dm_credit.preparation.e4` | **ok**: 36 de 36 piezas `generated_validated`, salida 0 |
 | `uv run -m dm_credit.preparation.e4_shards --checkpoint-dir data/artifacts/preparation/E4-v1/checkpoints` | **ok**: 26 controles y 19 checkpoints vigentes |
 | `uv run -m dm_credit.preparation.validation` (F3, ahora sobre `E4-v1`) | **26 de 26** controles correctos |
-| Suite completa | 645 pruebas correctas y 1 fallo esperado (claves repetidas en bureau, ver F1) |
+| Suite completa | 645 pruebas correctas y 1 fallo esperado (claves repetidas en bureau, ver F1; resuelto en G4) |
 
 ### Reproducir
 

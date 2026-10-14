@@ -272,7 +272,7 @@ def test_linear_view_has_no_nulls_and_finite_numbers(pipeline):
     for split in SPLITS:
         pred = _predictors(v.linear(pipeline["matrices"][split], split), split, v)
         assert sum(pred[c].null_count() for c in pred.columns) == 0
-        assert all(pred[c].is_finite().all() for c in v.spec.numeric)
+        assert all(pred[c].is_finite().all() for c in v.spec.numeric if c in pred.columns)
 
 
 def test_tree_view_keeps_native_nulls(pipeline):
@@ -284,16 +284,21 @@ def test_tree_view_keeps_native_nulls(pipeline):
 
 
 def test_unseen_category_in_test_becomes_unknown_in_both_views(pipeline):
-    v = pipeline["views"]
     col = "person_1__role_1084l__main__all"
+    # en los dos casos de train el rol es el mismo: la columna es constante y D1 la descarta
+    assert col in pipeline["views"].dropped_features
+    # con dos roles en train la columna queda, y el rol nuevo de test llega como __UNKNOWN__
+    train = pipeline["matrices"]["train"]
+    varied = train.with_columns(pl.when(pl.col("case_id") == train["case_id"].max()).then(pl.lit("OTHER")).otherwise(pl.col(col)).alias(col))
+    v = fit_matrix_views(varied, pipeline["spec"], cutoff_week=CUTOFF)
     tree = v.tree(pipeline["matrices"]["test"], "test")
     assert tree.filter(pl.col("case_id") == 101)[col].cast(pl.String).item() == UNKNOWN
     linear = v.linear(pipeline["matrices"]["test"], "test")
-    onehot = [c for c in linear.columns if c.startswith(col) and c.endswith(UNKNOWN)]
-    assert (
-        len(onehot) == 1
-        and linear.filter(pl.col("case_id") == 101)[onehot[0]].item() == 1
-    )
+    # lineal: train nunca vio __UNKNOWN__, así que ese nivel es constante y se descarta (D1);
+    # el rol nuevo queda con todos los niveles conocidos en cero, sin ampliar el vocabulario
+    assert f"{col}__is__{UNKNOWN}" in v.dropped_linear
+    onehot = [c for c in linear.columns if c.startswith(f"{col}__is__")]
+    assert onehot and linear.filter(pl.col("case_id") == 101).select(onehot).sum_horizontal().item() == 0
 
 
 def test_fitting_rejects_oot_and_transforming_oot_and_test_learns_nothing(pipeline):

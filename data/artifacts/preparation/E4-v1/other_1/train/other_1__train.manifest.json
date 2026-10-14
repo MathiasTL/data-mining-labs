@@ -1,10 +1,10 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "other_1",
   "split": "train",
   "data_path": "other_1__train.parquet",
-  "data_sha256": "06eb9db2ab6cc9cd4eb509015e61ac7be437850d85596af05eecb5a8abe1dbb5",
+  "data_sha256": "f8e3677734f167772957ba443b5be3fec2c7b5010c84773f8304229a1715018f",
   "row_count": 1332001,
   "case_count": 1332001,
   "features": [
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a date_decision, así que todas se descartan y la cobertura es 0 en todos los casos.",
       "description": "n_records en other_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a date_decision, así que todas se descartan y la cobertura es 0 en todos los casos.",
       "description": "source_present en other_1 (ventana all)"
     }
   ],
@@ -37,7 +37,8 @@
     "b6_candidates": 0,
     "b6_transform_as_of": 0,
     "g2_approved": 0,
-    "source_rows_outside_base": 0
+    "other_1_rows_no_anchor": 25859,
+    "source_rows_outside_base": 25250
   },
   "inputs": {
     "cutoff_week": "74",

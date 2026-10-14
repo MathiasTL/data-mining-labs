@@ -75,7 +75,7 @@ El esquema lógico se deriva de train y las definiciones, nunca de test. `target
 POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
 ```
 
-Reconstruye desde los Parquet originales las piezas de familia, las tablas maestras y las vistas, y escribe el manifiesto final en `results/preparation/E7_manifest.json`. Detalle: [`context/03-preparacion-E7-reproduccion.md`](context/03-preparacion-E7-reproduccion.md).
+Reconstruye desde los Parquet originales las piezas de familia, las tablas maestras y las vistas, y escribe el manifiesto final en `results/preparation/E7_manifest.json`. Detalle: [`context/03-preparacion-E7-reproduccion.md`](context/03-preparacion-E7-reproduccion.md). El capítulo 03 está cerrado; su resumen está en [`development/03-preparacion-datos.md`](development/03-preparacion-datos.md) y el cierre en [`context/03-preparacion-G4-cierre.md`](context/03-preparacion-G4-cierre.md).
 
 ## Alcance
 

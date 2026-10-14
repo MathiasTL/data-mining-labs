@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "deposit_1",
   "split": "test",
   "data_path": "deposit_1__test.parquet",
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_313D <= date_decision; fila con openingdate_313D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "n_records en deposit_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "openingdate_313D <= date_decision; fila con openingdate_313D nula descartada. n_records cuenta las filas válidas del caso y source_present indica si hay al menos una.",
       "description": "source_present en deposit_1 (ventana all)"
     }
   ],
@@ -37,7 +37,9 @@
     "b6_candidates": 0,
     "b6_transform_as_of": 2,
     "g2_approved": 0,
-    "source_rows_outside_base": 0
+    "deposit_1_rows_after_decision": 0,
+    "deposit_1_rows_null_anchor": 0,
+    "source_rows_outside_base": 10
   },
   "inputs": {
     "cutoff_week": "74",

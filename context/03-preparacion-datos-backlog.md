@@ -213,7 +213,7 @@ D1–D7 pueden desarrollarse con tablas sintéticas mientras se implementan los 
 | E6  | `[S] [R]` | P5                                    | Ajustar preprocesador con train `< 74` y transformar train/OOT/test.        | E5                       | Esquemas idénticos; OOT/test no alteran estado ajustado.                      |
 | E7  | `[S]`     | P1                                    | Escribir manifiesto final y comando único de reproducción.                  | E6                       | Rutas, hash/configuración, columnas, particiones y artefactos registrados.    |
 
-**Avance E4 (13/10/2026): parcial, no habilita E5.** Auditoría real de 36 artefactos: 30 reutilizados, 5 regenerados y validados, `applprev/train` obsoleto y bloqueado tras superar el presupuesto de 5.120 MiB. Bureau A2 sigue omitida por B5/G2. Recursos históricos no medidos de las ejecuciones reutilizadas quedan explícitamente como desconocidos. Evidencia, limitaciones y reproducción en [E4 — ejecución secuencial](03-preparacion-E4-ejecucion.md) y `results/preparation/E4_*`.
+**Avance E4 (13/10/2026, histórico; superado: E4 cerrada con 36/36 piezas, ver su documento):** parcial, no habilitaba E5. Auditoría real de 36 artefactos: 30 reutilizados, 5 regenerados y validados, `applprev/train` obsoleto y bloqueado tras superar el presupuesto de 5.120 MiB. Bureau A2 sigue omitida por B5/G2. Recursos históricos no medidos de las ejecuciones reutilizadas quedan explícitamente como desconocidos. Evidencia, limitaciones y reproducción en [E4 — ejecución secuencial](03-preparacion-E4-ejecucion.md) y `results/preparation/E4_*`.
 
 ### Épica F — Validación, documentación y cierre
 
@@ -227,6 +227,8 @@ D1–D7 pueden desarrollarse con tablas sintéticas mientras se implementan los 
 | F6  | `[S]` | Equipo                          | Revisión cruzada: cada persona revisa un frente ajeno.                       | F5           | Hallazgos resueltos o documentados como limitación.                                                       |
 | F7  | `[S]` | P2 consolida; P3–P5 aportan     | Informe de fuga temporal por familia (`temporal_leakage_report.csv`).        | B3–B6, E4    | Por familia: regla de disponibilidad, columnas excluidas, filas descartadas por temporalidad y evidencia. |
 | G4  | `[S]` | Equipo                          | Cierre del capítulo 03.                                                      | F1–F7        | Suite completa, `git diff --check`, comando reproducible y definición de terminado satisfecha.            |
+
+**Cierre G4 (13/10/2026): hecho.** Definición de terminado 15/15, reconstrucción desde cero con el comando único (29/29 controles), suite completa sin fallos esperados y `git diff --check` limpio. Cambios, entregables equivalentes y riesgos aceptados en [G4 — cierre](03-preparacion-G4-cierre.md).
 
 ## 6. Plan de arranque simultáneo
 

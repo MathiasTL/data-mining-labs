@@ -17,12 +17,19 @@ exige ``WEEK_NUM < corte``; ``linear`` y ``tree`` no aprenden nada. Las
 columnas de control pasan sin cambios y nunca son predictores. Una columna de
 la matriz que no está en el spec ni es de control es un error: ninguna
 característica se descarta en silencio.
+
+Columnas constantes (D1, pedido de G2): una característica con un solo valor en
+train (el nulo cuenta como valor) sale de ambas vistas, y en la vista lineal sale
+además toda columna de salida constante en train (indicadores ``__missing`` y
+niveles one-hot que train nunca vio). Ningún modelo ajustado con train puede
+aprender de ellas. Se decide en ``fit`` y se registra en el estado y en la
+especificación (``role = dropped``).
 """
 
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -66,9 +73,9 @@ def _controls(columns: list[str], split: str) -> tuple[str, ...]:
 
 
 def _reject_undeclared(
-    columns: list[str], controls: tuple[str, ...], spec: PreprocessingSpec, split: str
+    columns: list[str], controls: tuple[str, ...], spec: PreprocessingSpec, split: str, dropped: tuple[str, ...] = ()
 ) -> None:
-    declared = {*controls, *spec.columns}
+    declared = {*controls, *spec.columns, *dropped}
     undeclared = [c for c in columns if c not in declared]
     if undeclared:
         raise ValueError(
@@ -84,6 +91,8 @@ class FittedMatrixViews:
     means: dict[str, float]
     scales: dict[str, float]  # 1.0 en columnas de varianza cero
     control_columns: tuple[str, ...]  # controles de train, en su orden
+    dropped_features: tuple[str, ...] = ()  # constantes en train: fuera de ambas vistas
+    dropped_linear: tuple[str, ...] = ()  # salidas lineales constantes en train
 
     @property
     def spec(self) -> PreprocessingSpec:
@@ -101,6 +110,10 @@ class FittedMatrixViews:
             raise ValueError(f"view must be one of {VIEWS}, got {view!r}")
         if view == "tree":
             return self.spec.columns
+        dropped = set(self.dropped_linear)
+        return tuple(c for c in self._linear_outputs() if c not in dropped)
+
+    def _linear_outputs(self) -> tuple[str, ...]:
         return (
             *self.spec.numeric,
             *(f"{c}__missing" for c in self.spec.numeric),
@@ -113,7 +126,7 @@ class FittedMatrixViews:
 
     def _control_frame(self, matrix: pl.DataFrame, split: str) -> pl.DataFrame:
         present = _controls(matrix.columns, split)
-        _reject_undeclared(matrix.columns, present, self.spec, split)
+        _reject_undeclared(matrix.columns, present, self.spec, split, self.dropped_features)
         expected = tuple(
             c for c in self.control_columns if not (split == "test" and c == TARGET)
         )
@@ -142,9 +155,10 @@ class FittedMatrixViews:
         not_finite = [
             c for c in self.spec.numeric if not predictors[c].is_finite().all()
         ]
+        predictors = predictors.drop(list(self.dropped_linear))
         if not_finite:
             raise ValueError(f"{split}: scaled values are not finite in {not_finite}")
-        return pl.concat([controls, predictors], how="horizontal")
+        return controls.hstack(predictors)  # misma altura obligatoria: falla si se pierden filas
 
     def tree(self, matrix: pl.DataFrame, split: str) -> pl.DataFrame:
         """Vista de árboles: nulos nativos y categóricas ``pl.Enum`` congeladas."""
@@ -167,7 +181,7 @@ class FittedMatrixViews:
                 for c in self.spec.categorical
             ]
         )
-        return pl.concat([controls, predictors], how="horizontal")
+        return controls.hstack(predictors)  # misma altura obligatoria: falla si se pierden filas
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -176,6 +190,8 @@ class FittedMatrixViews:
             "means": dict(self.means),
             "scales": dict(self.scales),
             "control_columns": list(self.control_columns),
+            "dropped_features": list(self.dropped_features),
+            "dropped_linear": list(self.dropped_linear),
         }
 
     @staticmethod
@@ -188,12 +204,19 @@ class FittedMatrixViews:
         numeric = set(preprocessor.spec.numeric)
         if set(means) != numeric or set(scales) != numeric:
             raise ValueError("matrix views state: means and scales must cover the numeric columns")
-        return FittedMatrixViews(
+        fitted = FittedMatrixViews(
             preprocessor=preprocessor,
             means=means,
             scales=scales,
             control_columns=tuple(data["control_columns"]),
+            dropped_features=tuple(data.get("dropped_features", ())),
+            dropped_linear=tuple(data.get("dropped_linear", ())),
         )
+        if set(fitted.dropped_features) & set(preprocessor.spec.columns):
+            raise ValueError("matrix views state: dropped_features overlap the fitted spec")
+        if set(fitted.dropped_linear) - set(fitted._linear_outputs()):
+            raise ValueError("matrix views state: dropped_linear names unknown linear outputs")
+        return fitted
 
 
 def fit_matrix_views(
@@ -215,6 +238,8 @@ def fit_matrix_views(
     controls = _controls(train_matrix.columns, "train")
     validate_predictor_columns(spec.columns, available_columns=train_matrix.columns)
     _reject_undeclared(train_matrix.columns, controls, spec, "train")
+    dropped = tuple(c for c in spec.columns if train_matrix[c].n_unique() <= 1)
+    spec = _without(spec, dropped)
     preprocessor = fit_preprocessor(train_matrix, spec, cutoff_week=cutoff_week)
 
     clean = preprocessor.transform(train_matrix)
@@ -227,14 +252,29 @@ def fit_matrix_views(
         means[col], scales[col] = float(values.mean()), float(values.std(ddof=0))
 
     fitted = FittedMatrixViews(
-        preprocessor=preprocessor, means=means, scales=scales, control_columns=controls
+        preprocessor=preprocessor, means=means, scales=scales, control_columns=controls,
+        dropped_features=dropped,
     )
     for col in spec.categorical:
         levels = fitted._levels(col)
         if len(set(levels)) != len(levels):
             raise ValueError(f"fit: column {col!r} has a category equal to a reserved token")
+    linear = fitted.linear(train_matrix, "train")
+    flat = tuple(c for c in fitted._linear_outputs() if linear[c].n_unique() <= 1)
+    fitted = replace(fitted, dropped_linear=flat)
     validate_predictor_columns(fitted.predictor_columns("linear"))
     return fitted
+
+
+def _without(spec: PreprocessingSpec, dropped: tuple[str, ...]) -> PreprocessingSpec:
+    gone = set(dropped)
+    return replace(
+        spec,
+        numeric=tuple(c for c in spec.numeric if c not in gone),
+        categorical=tuple(c for c in spec.categorical if c not in gone),
+        clip_columns=tuple(c for c in spec.clip_columns if c not in gone),
+        domain={c: v for c, v in spec.domain.items() if c not in gone},
+    )
 
 
 def matrix_views_spec(fitted: FittedMatrixViews) -> pl.DataFrame:
@@ -265,7 +305,10 @@ def matrix_views_spec(fitted: FittedMatrixViews) -> pl.DataFrame:
             logical = "int" if col in INTEGER_COLUMNS else "date"
             add(view, "control", col, col, logical, "passthrough", {}, "not fitted")
 
+    skip = set(fitted.dropped_linear)
     for col in spec.numeric:
+        if col in skip:
+            continue
         low, high = fitted.preprocessor.ranges.train_range[col]
         constant = low == high
         add(
@@ -283,9 +326,12 @@ def matrix_views_spec(fitted: FittedMatrixViews) -> pl.DataFrame:
             fitted_on,
         )
     for col in spec.numeric:
-        add("linear", "predictor", f"{col}__missing", col, "int", "missing_indicator", {}, "not fitted")
+        if f"{col}__missing" not in skip:
+            add("linear", "predictor", f"{col}__missing", col, "int", "missing_indicator", {}, "not fitted")
     for col in spec.categorical:
         for level in fitted._levels(col):
+            if f"{col}{ONEHOT_SEPARATOR}{level}" in skip:
+                continue
             add(
                 "linear",
                 "predictor",
@@ -313,6 +359,11 @@ def matrix_views_spec(fitted: FittedMatrixViews) -> pl.DataFrame:
             },
             fitted_on,
         )
+    for col in fitted.dropped_features:
+        add("none", "dropped", col, col, "", "dropped_constant_in_train", {"views": list(VIEWS)}, fitted_on)
+    for out in fitted.dropped_linear:
+        source = out.removesuffix("__missing").split(ONEHOT_SEPARATOR)[0]
+        add("none", "dropped", out, source, "", "dropped_constant_in_train", {"views": ["linear"]}, fitted_on)
     return pl.DataFrame(rows, schema=SPEC_SCHEMA, orient="row")
 
 

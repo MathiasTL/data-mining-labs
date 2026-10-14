@@ -5,12 +5,15 @@ Primer corte autorizado por G2: solo métricas de cobertura (`n_records`,
 no aprueba ninguna columna). Las funciones puras trabajan sobre tablas ya
 leídas; los constructores leen por el seam compartido ``dm_credit.io``.
 
-Semántica de cobertura (declarada también en el manifiesto): presencia física
-de filas para los casos de la base, **sin filtro temporal**. Ninguna regla
-`as-of` está aprobada para estas fuentes en el primer corte, así que filtrar
-sería inventar disponibilidad. `other_1` queda cubierto por la misma vía:
-si G2 nunca confirma su linaje, C6 exige excluirlo con evidencia y este
-módulo solo aporta su presencia física para auditarla.
+Semántica de cobertura (declarada también en el manifiesto): filas de la fuente
+**disponibles a ``date_decision``** para los casos de la base. Cada fuente tiene
+un ancla de disponibilidad (``ANCHORS``); una fila cuenta si su ancla no es nula
+y es anterior o igual a la decisión, como en bureau. ``other_1`` no tiene fecha:
+no se puede comprobar su disponibilidad y todas sus filas se descartan.
+
+Motivo (F7, 13/10/2026): en ``products-v1`` la cobertura era física, sin filtro,
+y el 100 % de las filas de ``tax_registry_a_1`` tenía ``recorddate`` posterior a
+la decisión (mediana +14 días); ``tax_registry_c_1`` tenía el 21,7 %.
 """
 
 from __future__ import annotations
@@ -30,7 +33,7 @@ from dm_credit.preparation.coercion import coerce_to_logical
 from dm_credit.preparation.split import partition_base
 
 KEY = contracts.KEY
-RULES_VERSION = "products-v1"
+RULES_VERSION = "products-v2"
 SOURCES = (
     "debitcard_1",
     "deposit_1",
@@ -42,12 +45,29 @@ SOURCES = (
 # debitcard_1 y deposit_1 son 1:N (clave candidata case_id+num_group1);
 # other_1 es 1:0..1 (como máximo una fila por caso).
 SINGLE_ROW_SOURCES = ("other_1",)
-TEMPORAL_RULE = (
-    "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente "
-    "para los casos de la base y source_present indica si hay al menos una. "
-    "Ninguna regla temporal está aprobada para estas fuentes en el primer corte "
-    "(G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal."
-)
+# ancla de disponibilidad de cada fuente; None = sin fecha, no se puede comprobar
+ANCHORS = {
+    "debitcard_1": "openingdate_857D",
+    "deposit_1": "openingdate_313D",
+    "other_1": None,
+    "tax_registry_a_1": "recorddate_4527225D",
+    "tax_registry_b_1": "deductiondate_4917603D",
+    "tax_registry_c_1": "processingdate_168D",
+}
+
+
+def temporal_rule(source: str) -> str:
+    """Regla de disponibilidad declarada en el manifiesto de cada fuente."""
+    anchor = ANCHORS[source]
+    if anchor is None:
+        return (
+            "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a "
+            "date_decision, así que todas se descartan y la cobertura es 0 en todos los casos."
+        )
+    return (
+        f"{anchor} <= date_decision; fila con {anchor} nula descartada. n_records cuenta "
+        "las filas válidas del caso y source_present indica si hay al menos una."
+    )
 DEFAULT_SELECTION_PATH = (
     Path(__file__).resolve().parents[4]
     / "results"
@@ -98,6 +118,9 @@ def _selected_columns(
             f"G2 products decision is missing columns {sorted(required_g2 - set(decisions.columns))}"
         )
     family_decisions = decisions.filter(pl.col("family") == source)
+    if family_decisions.is_empty():
+        # sin filas no hay decisión: no se interpreta como "cero aprobadas" (F6)
+        raise ValueError(f"G2 products decision contains no rows for {source!r}")
     names = family_decisions["column"].to_list()
     if len(names) != len(set(names)) or any(name is None for name in names):
         raise ValueError(
@@ -131,13 +154,18 @@ def _selected_columns(
     return sorted(approved), counts
 
 
-def _validate_source_keys(source_rows: pl.DataFrame, source: str) -> None:
-    """Claves de la fuente: sin nulos y sin duplicados en su granularidad."""
+def _validate_source_keys(source_rows: pl.DataFrame, source: str, *, one_row_per_case: bool = True) -> None:
+    """Claves de la fuente: sin nulos y sin duplicados en su granularidad.
+
+    ``one_row_per_case=False`` valida solo la clave de la tabla (``case_id`` y
+    ``num_group1``): se usa sobre el archivo completo, donde ``other_1`` puede
+    traer más de una fila para casos ajenos a la base (muestra real de test).
+    """
     _require(source_rows, [KEY], source)
     keys = source_rows[KEY]
     if keys.null_count() or (keys.dtype.is_float() and keys.is_nan().any()):
         raise ValueError(f"source {source!r}: {KEY} contains nulls")
-    if source in SINGLE_ROW_SOURCES:
+    if source in SINGLE_ROW_SOURCES and one_row_per_case:
         if keys.n_unique() != source_rows.height:
             raise ValueError(
                 f"source {source!r}: {KEY} is not unique (expected 1:0..1)"
@@ -150,6 +178,28 @@ def _validate_source_keys(source_rows: pl.DataFrame, source: str) -> None:
             )
 
 
+def filter_as_of(
+    source: str, base: pl.DataFrame, source_rows: pl.DataFrame
+) -> tuple[pl.DataFrame, dict[str, int]]:
+    """Filas de la fuente disponibles a ``date_decision`` y conteo de las descartadas por regla."""
+    if source not in SOURCES:
+        raise ValueError(f"unknown C6 source {source!r}; expected one of {list(SOURCES)}")
+    _require(base, [KEY, "date_decision"], "base")
+    anchor = ANCHORS[source]
+    if anchor is None:
+        return source_rows.clear(), {f"{source}_rows_no_anchor": source_rows.height}
+    _require(source_rows, [KEY, anchor], source)
+    decisions = coerce_to_logical(base.select(KEY, "date_decision"), {"date_decision": "date"})
+    joined = coerce_to_logical(source_rows, {anchor: "date"}).join(decisions, on=KEY, how="left")
+    null_anchor = joined[anchor].is_null()
+    after = ~null_anchor & (joined[anchor] > joined["date_decision"])
+    valid = joined.filter(~null_anchor & ~after).drop("date_decision")
+    return valid, {
+        f"{source}_rows_after_decision": int(after.sum()),
+        f"{source}_rows_null_anchor": int(null_anchor.sum()),
+    }
+
+
 def aggregate_coverage(
     source: str,
     base_cases: pl.DataFrame,
@@ -158,7 +208,7 @@ def aggregate_coverage(
     """Cobertura física por caso: una fila por ``case_id`` de la base.
 
     Las filas de la fuente de casos fuera de la base se ignoran (semi-join).
-    No aplica ningún filtro temporal: ver ``TEMPORAL_RULE``.
+    No filtra por fecha: recibe filas ya filtradas por ``filter_as_of``.
     """
     if source not in SOURCES:
         raise ValueError(f"unknown C6 source {source!r}; expected one of {list(SOURCES)}")
@@ -195,8 +245,11 @@ def _shard_fingerprint(file_split: str, source: str) -> str:
     return io.shards_fingerprint(file_split, [source])  # contenido, no fecha: portable entre computadoras
 
 
-def _read_source(file_split: str, source: str, cases: pl.DataFrame) -> pl.DataFrame:
-    """Lee una fuente con proyección mínima y solo los casos de la base.
+def _read_source(file_split: str, source: str) -> pl.DataFrame:
+    """Lee la fuente completa con proyección mínima (clave, ``num_group1`` y ancla).
+
+    Se lee entera para validar las claves de todas las filas, también las de casos
+    que no están en la base del split (F6); el filtro por casos lo hace el constructor.
 
     Un shard vacío con columnas físicas ``Null`` (caso ``test_tax_registry_c_1``)
     se convierte a ``Int64`` antes del join: la conversión es exacta porque una
@@ -207,7 +260,10 @@ def _read_source(file_split: str, source: str, cases: pl.DataFrame) -> pl.DataFr
     )
     if KEY not in available:
         raise ValueError(f"source {source!r}: missing required column {KEY!r}")
-    columns = [KEY] + (["num_group1"] if "num_group1" in available else [])
+    anchor = ANCHORS[source]
+    if anchor is not None and anchor not in available:
+        raise ValueError(f"source {source!r}: missing availability date {anchor!r}")
+    columns = [KEY] + (["num_group1"] if "num_group1" in available else []) + ([anchor] if anchor else [])
     scan = io.scan_parquet_shards(file_split, source, columns=columns)
     key_schema = scan.collect_schema()
     if key_schema[KEY] == pl.Null:
@@ -218,7 +274,7 @@ def _read_source(file_split: str, source: str, cases: pl.DataFrame) -> pl.DataFr
         raise ValueError(
             f"source {source!r}: {KEY} has non-integer dtype {key_schema[KEY]}"
         )
-    frame = scan.join(cases.lazy(), on=KEY, how="semi").collect()
+    frame = scan.collect()
     schema = {KEY: "int"}
     if "num_group1" in frame.columns:
         schema["num_group1"] = "int"
@@ -240,17 +296,23 @@ def _build_source_features(
     if approved:
         raise ValueError(
             f"{source}: G2 approves predictors {approved} but this coverage-only "
-            "cut (products-v1) emits no predictors; a follow-up implementation must "
+            "cut (products-v2) emits no predictors; a follow-up implementation must "
             "define their aggregation first"
         )
     file_split = "test" if split == "test" else "train"
     cases = base.select(KEY)
-    source_rows = _read_source(file_split, source, cases)
-    result = aggregate_coverage(source, cases, source_rows)
+    raw = _read_source(file_split, source)
+    # todas las filas: una clave inválida es error aunque su caso no esté en la base
+    _validate_source_keys(raw, source, one_row_per_case=False)
+    source_rows = raw.join(cases, on=KEY, how="semi")
+    _validate_source_keys(source_rows, source)  # 1:0..1 de other_1 sobre los casos de la base
+    valid, as_of = filter_as_of(source, base, source_rows)
+    result = aggregate_coverage(source, cases, valid)
+    result.exclusions["source_rows_outside_base"] = raw.height - source_rows.height
     definitions = contracts.describe_features(
-        result.features, temporal_rule=TEMPORAL_RULE, source_columns={}
+        result.features, temporal_rule=temporal_rule(source), source_columns={}
     )
-    exclusions = {**counts, **result.exclusions}
+    exclusions = {**counts, **as_of, **result.exclusions}
     return contracts.write_family_features(
         result.features,
         definitions,

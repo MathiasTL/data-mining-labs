@@ -1,14 +1,14 @@
 {
   "format_version": 1,
-  "generated_at_utc": "2026-10-13T23:18:06+00:00",
-  "git_commit": "64be025f4bcdf023079885ad27b4b8c642e93f3b",
+  "generated_at_utc": "2026-10-14T00:35:18+00:00",
+  "git_commit": "de9ad7ea76dc751838969272e63bbce42c01850f",
   "python": "3.11.14",
   "polars": "1.44.2",
   "config": "configs/preparation.json",
   "config_sha256": "1a9554144bf19cb479e6351d1b34a82e143a675e82bffb34cc4297c846ed5056",
   "cutoff_week": 74,
   "inputs": {
-    "results/preparation/C8_feature_catalog.csv": "2a31a39e2addf623d191aa5ec0849612ebcec42652a55719f57b8b4e5e85074b",
+    "results/preparation/C8_feature_catalog.csv": "ec8ad22475a6383a071f1a8e827db02f9d7f77ff59f59cf22ee9c6e6a9d0be8c",
     "results/preparation/G2_applications_people_columns.csv": "2a2f1b920636cc4a9099ba70136d8f36abac1300ab15d20f022bec4369a3e023",
     "results/preparation/G2_applications_people_vocabulary.csv": "4e64216af35edf1c21c6536734dcb3d9c6cd8c59e9708acf9d5ba35c60cee549",
     "results/preparation/G2_depth0_columns.csv": "79d21a8594deda5a0d03e7982bb96d4a5de951f2f26135f62fd61c11eb490102",
@@ -68,15 +68,15 @@
         "family": "debitcard_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/train/debitcard_1__train.manifest.json",
-        "manifest_sha256": "af109a789732c65774ffa7248f478344081b3e66e9c5c112beb6983144407756",
-        "data_sha256": "fab1767ce80f67166dcd88ff0841ffe3402dde4622d3e8c2c01ad45e1ee41a41",
+        "manifest_sha256": "da6850b970c62d95106f511db96699179de7c623937bb5cb5c3fc151069383ad",
+        "data_sha256": "79856c01a376716b3153193010f845fa04017f7673834915387c6cf895aff67e",
         "rows": 1332001
       },
       {
         "family": "deposit_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/deposit_1/train/deposit_1__train.manifest.json",
-        "manifest_sha256": "87e162e6d659e874118baed114c4155e68bc0ed94a43a9c4e917d5026178a68c",
+        "manifest_sha256": "4c546b4ca6117670bd4565b57f7029a63b9ba4eaff46566ad541d3ffd8819146",
         "data_sha256": "a09e1f5b70e9ea4168538680a9bee113a1d8f104ac3a0232e246236639450a70",
         "rows": 1332001
       },
@@ -84,8 +84,8 @@
         "family": "other_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/other_1/train/other_1__train.manifest.json",
-        "manifest_sha256": "80261a71df7089c7dfefcd5eda4b2ff9bc9ef384101e73dfa20d846c18ab094b",
-        "data_sha256": "06eb9db2ab6cc9cd4eb509015e61ac7be437850d85596af05eecb5a8abe1dbb5",
+        "manifest_sha256": "320b2aeedae46eb84eaf788d3d4e60e65d3abe13c5cb863e4db9a13585faa878",
+        "data_sha256": "f8e3677734f167772957ba443b5be3fec2c7b5010c84773f8304229a1715018f",
         "rows": 1332001
       },
       {
@@ -116,24 +116,24 @@
         "family": "tax_registry_a_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/train/tax_registry_a_1__train.manifest.json",
-        "manifest_sha256": "0d592384ae76755cd753c9ca87d451e67f511b04984d24a177150f5d1eb13c77",
-        "data_sha256": "19d4d981d3dbe16c3c91d29810e1363dd757544a1578bfcbdf465de143cf4e6f",
+        "manifest_sha256": "68944d3441a32ffb3d0e941773bc17b2f2d9673112761abe572af4c97588b227",
+        "data_sha256": "cf9a2f65431b38f280eca5711707075ada3f7d1437290629924158f89d2298b0",
         "rows": 1332001
       },
       {
         "family": "tax_registry_b_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/train/tax_registry_b_1__train.manifest.json",
-        "manifest_sha256": "af8a0fd26645d63eb0b97423c7af6a7fac684948b1049bd236f19ab35a534cfc",
-        "data_sha256": "df5de77bbadb3d1419471eec8f354ff8eac912da5356affafcd7d53aed284ca4",
+        "manifest_sha256": "2516f5bc9c2694c1b6e69e2b779d417f687bcdac3bfb66d75b8d51e03130893c",
+        "data_sha256": "8c36a18587157b2901d6cd773a562b8c66faa5c30b553e17c637eba1a1aef4bb",
         "rows": 1332001
       },
       {
         "family": "tax_registry_c_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/train/tax_registry_c_1__train.manifest.json",
-        "manifest_sha256": "fe6bf121e45b7100d4aec2c575b1b74d09e774c8aab3f3658f77c353309ca73a",
-        "data_sha256": "4b774d34436cc63c8094c104699847bba30d48838efaa4c1a1cf35dfbda1d363",
+        "manifest_sha256": "1ecbf7123f6a9b59deb2c912fbbe18787b6bbc4c9d786ad9af1eb7d00720e214",
+        "data_sha256": "83b1937970b57b5a9d95534136840b4f6fb8edf258d693c60baf1eff96b48260",
         "rows": 1332001
       },
       {
@@ -164,15 +164,15 @@
         "family": "debitcard_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/oot/debitcard_1__oot.manifest.json",
-        "manifest_sha256": "151bafe511d38373d1664cf5ef3eeaa8117c69de8a9d44bc054602e55dfabc2c",
-        "data_sha256": "79eca8b667f23da27ea8ea206f1a34f64fe8997cd462a867902c30eee7aba0ae",
+        "manifest_sha256": "3b83573f28899b699ee34f37ecae11b714dcd89428f3af47f6146eaa55098148",
+        "data_sha256": "5891bfbe193f41eadbbf9a317d91ff839d17304d5ed66d22571c50cec9a19ab8",
         "rows": 194658
       },
       {
         "family": "deposit_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/deposit_1/oot/deposit_1__oot.manifest.json",
-        "manifest_sha256": "3d5b2dae9fb036ac0e937fd65bb5ac4c06fe7f209a158763011b953868dd11d0",
+        "manifest_sha256": "bed5b20905fc8e8ac0a82b1cd9ae2ceebe3d51ba6c11b90d28f861db6347aa1d",
         "data_sha256": "4e95fc4aebd0b997e7a15fe4ee9bfc680d850faf67c7f4ebfe4341c4faeb99ff",
         "rows": 194658
       },
@@ -180,8 +180,8 @@
         "family": "other_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/other_1/oot/other_1__oot.manifest.json",
-        "manifest_sha256": "5c8c3b7f77ba1e3c81d1ec90ee1916fa2a54582605c101b14a59a962988a50a6",
-        "data_sha256": "b6b8797acd52dcd58433fc3f30964ced374685fc67b4da3bcfdcfe87643c267c",
+        "manifest_sha256": "666fe6f3a7b1f70a1d978608252087eb38419e8a17998468dcc2fa1bc7ee6fc9",
+        "data_sha256": "773d81621a35b78f9fda07e9e52d99bbf13d6ff4cd0f99b986e2c591fd36404d",
         "rows": 194658
       },
       {
@@ -212,23 +212,23 @@
         "family": "tax_registry_a_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/oot/tax_registry_a_1__oot.manifest.json",
-        "manifest_sha256": "f4f1588da77d2ce0da1365fa1704e11f48dc708f8bf30ad5f7eb4ebae0f6ac0a",
-        "data_sha256": "6f12a3169dbe8fa983e22c262310dda4b33a39a9cf3bc3138cc27d85b5a7708d",
+        "manifest_sha256": "8bbda3f92d3132911a79badcfbab3f92cfc0e73654882ceec5a5c769826abe84",
+        "data_sha256": "cbefe79e4a918bbbec35e68ce54269a2de699f5a1d162b46b747516a503fc4e1",
         "rows": 194658
       },
       {
         "family": "tax_registry_b_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/oot/tax_registry_b_1__oot.manifest.json",
-        "manifest_sha256": "9cfb66ec09df4fc12c7d3898bfd0cd631245a0cd331fac286fc0ef3708899982",
-        "data_sha256": "ec84fdf0d06523c351a1ab223d7c01cea9533ef0ad82a47717dcb3fc0d95babb",
+        "manifest_sha256": "c512c85eeca2ee6f13413dfd9a68857217758c2649bf983365b175f0c007c6a2",
+        "data_sha256": "f73259df5822249a4220906a4da21bfaeb8587aec3085c6e22e7a4c4673af79c",
         "rows": 194658
       },
       {
         "family": "tax_registry_c_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/oot/tax_registry_c_1__oot.manifest.json",
-        "manifest_sha256": "8589d8301246bf64ee21839304c6d33789cff5a70501ec33684629c9485efd61",
+        "manifest_sha256": "dee54c247ecf1a7ae5175f99d043cdecd7c2b10d87b8df5b074492ddcae5ae11",
         "data_sha256": "b080e53d3ba8c86fe76bc3bdf131b8b7d31a0062bf033847d107eec0e34ce18c",
         "rows": 194658
       },
@@ -260,7 +260,7 @@
         "family": "debitcard_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/test/debitcard_1__test.manifest.json",
-        "manifest_sha256": "dcb0fba845708c25472984ff9aa5682e528b15f6563fec21a26e2fb943493052",
+        "manifest_sha256": "1fdd1145b726a14d3411a2ace7f9e8d54bd473c0adeefc7f7199393c34692621",
         "data_sha256": "4f023a3c6ec1451b6157b5fa324f5b6c2a3f7ebeeeebc947dfe947663c022f67",
         "rows": 10
       },
@@ -268,7 +268,7 @@
         "family": "deposit_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/deposit_1/test/deposit_1__test.manifest.json",
-        "manifest_sha256": "7368c8c5ac0294086e9caa74ce16c001c24de0e978aa0b2f18b76d50ed9a4ccc",
+        "manifest_sha256": "33bb61d860d478da61ba9a8b275f266b6dc32ea2caec558a166465dc1da84945",
         "data_sha256": "68ee0664d7ced18576f9ddf34f98906b7094ed5e9301ae61e897b73995cbf39a",
         "rows": 10
       },
@@ -276,8 +276,8 @@
         "family": "other_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/other_1/test/other_1__test.manifest.json",
-        "manifest_sha256": "bda986263075fd9f8138a7c04b00f61fed5ec4d9dd4770c441292fe204e63271",
-        "data_sha256": "8561ce35c06567575ddc9d19626210f6a453b1fc83fd1a26d541fcfe27dc4570",
+        "manifest_sha256": "8fc8381bf20ae72bbd945b31e33e99abdf6af4e308fe161c0556d4bac8eae4ad",
+        "data_sha256": "10d7228e814eec0988edfe0da491ce28f1c1bfcb722461d90c9f4559e2e6058f",
         "rows": 10
       },
       {
@@ -308,7 +308,7 @@
         "family": "tax_registry_a_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/test/tax_registry_a_1__test.manifest.json",
-        "manifest_sha256": "96fbbc3823f9aa32216ac78d7f7fbfaf4303650290ef67de73c37fd3f387adcc",
+        "manifest_sha256": "10595b6e04a408f7769772d30f70a7dae602a56b45410b791c5a62a5970ea836",
         "data_sha256": "e4be3b5a35505985c549bd164d9f8c89be610b7785b28058900ae8f3303ea7cd",
         "rows": 10
       },
@@ -316,15 +316,15 @@
         "family": "tax_registry_b_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/test/tax_registry_b_1__test.manifest.json",
-        "manifest_sha256": "37d9beba948e3b974356aeac2476d4a44af567fdd4d7b62c61219ee1bb09323f",
-        "data_sha256": "50aee079331206cc79b4e6aeaab4a330aedce13369e28a3dc9e2010345975321",
+        "manifest_sha256": "398481e53836ba82cb0ebf903a0267e90f41627411dd19ea3473d0504a2551a9",
+        "data_sha256": "2d8a519cfbd4afdd58340f1bef62c3ff05a188fddadc8b150818ec298b4825e8",
         "rows": 10
       },
       {
         "family": "tax_registry_c_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/test/tax_registry_c_1__test.manifest.json",
-        "manifest_sha256": "723b7a392931ce83d0dc2bd405707305ae4281d59810d24519f55bc4e58a58d6",
+        "manifest_sha256": "4cc0d4d123c5b5f854aecab85e94a9b4b564f5fa38942920f74957da9226266c",
         "data_sha256": "892ba7110f1e6e8b6e1c1c351a1a90762857f9742eb3eaf1bd549f0532b18b95",
         "rows": 10
       }
@@ -335,7 +335,7 @@
         "rows": 1332001,
         "columns": 129,
         "features": 124,
-        "data_sha256": "b4f0840851bf413a232343d78e4b9050fa1363d3e73d86366c1b811a6d7a0114",
+        "data_sha256": "bc073c99d8f78489cdc31c1442a5999fbcc1da25346b2a20bcc8796bfead22ac",
         "data_path": "data/artifacts/preparation/E5-v1/feature_matrix__train.parquet"
       },
       {
@@ -343,7 +343,7 @@
         "rows": 194658,
         "columns": 129,
         "features": 124,
-        "data_sha256": "aa5423dbf4167634781c69f91b3543d17d66894a935d8eeb7f24f48436eef7d6",
+        "data_sha256": "5d4b090b7a7b6be362de1ef62d942f14f1fd49c99b8322dcaa2364dcdb07b58f",
         "data_path": "data/artifacts/preparation/E5-v1/feature_matrix__oot.parquet"
       },
       {
@@ -351,7 +351,7 @@
         "rows": 10,
         "columns": 128,
         "features": 124,
-        "data_sha256": "e6a52876ce74777be6faf438c4ceb1986279ab0bea32c33742e6aa8caa34de46",
+        "data_sha256": "f93c1bd313a9cb06abfee8c980b44bca9821902c223610909c8c88f7bf9501c2",
         "data_path": "data/artifacts/preparation/E5-v1/feature_matrix__test.parquet"
       }
     ],
@@ -361,59 +361,59 @@
           "view": "linear",
           "split": "train",
           "rows": 1332001,
-          "predictors": 303,
+          "predictors": 234,
           "predictor_nulls": 0,
-          "data_sha256": "e503b09a1fb69efee1cf1273cb7e6661f432ffd1382883abb04d603def3d329b",
+          "data_sha256": "a1a670fe28422dcef2a7bc7ca63d69b23573d2c9baacb1155acdd667f2aa0d98",
           "data_path": "data/artifacts/preparation/E6-v1/linear__train.parquet"
         },
         {
           "view": "tree",
           "split": "train",
           "rows": 1332001,
-          "predictors": 124,
+          "predictors": 114,
           "predictor_nulls": 39734211,
-          "data_sha256": "0bfa48021c37347a8474be44e463b04c09585630441daad440588a7d2e2636bd",
+          "data_sha256": "8d0b37f9a1351f17e4f06f105f37fb6407a38f2ff02922a4595b8d9405518ceb",
           "data_path": "data/artifacts/preparation/E6-v1/tree__train.parquet"
         },
         {
           "view": "linear",
           "split": "oot",
           "rows": 194658,
-          "predictors": 303,
+          "predictors": 234,
           "predictor_nulls": 0,
-          "data_sha256": "ad1e57dccd5e325c1cce6556ca70d04f40d949f9735c4bd33f85474f095e2125",
+          "data_sha256": "4f30ecda6afe6fb9d43f3a82816e3b46a6dec527d01dd7153312c92ebe40aa21",
           "data_path": "data/artifacts/preparation/E6-v1/linear__oot.parquet"
         },
         {
           "view": "tree",
           "split": "oot",
           "rows": 194658,
-          "predictors": 124,
+          "predictors": 114,
           "predictor_nulls": 5069844,
-          "data_sha256": "87905d3034174471b1637e200ec73a67c44bb1eb62b2fbbf35309e7485049e99",
+          "data_sha256": "6e70744a696ec15a7792ac8d697eaca0668c593b3a0d5983d3745f90623690de",
           "data_path": "data/artifacts/preparation/E6-v1/tree__oot.parquet"
         },
         {
           "view": "linear",
           "split": "test",
           "rows": 10,
-          "predictors": 303,
+          "predictors": 234,
           "predictor_nulls": 0,
-          "data_sha256": "f4fdb11a7ffd8e9380e2cb4026ff6920588ad95a2f712cdda028d5eb1bbc6bd7",
+          "data_sha256": "22490b966a8fc94f33bf5b996389603a962d7216cd3568cd21f7a4c19bf8e673",
           "data_path": "data/artifacts/preparation/E6-v1/linear__test.parquet"
         },
         {
           "view": "tree",
           "split": "test",
           "rows": 10,
-          "predictors": 124,
-          "predictor_nulls": 676,
-          "data_sha256": "02a654a8f949996a0531bbd635aa89a173c9025c97fdda0d3f159a84c490c81f",
+          "predictors": 114,
+          "predictor_nulls": 664,
+          "data_sha256": "351c01907773d05fbd0e7af17603d2613d27805677b82a31804f974f21cb609d",
           "data_path": "data/artifacts/preparation/E6-v1/tree__test.parquet"
         }
       ],
-      "state_sha256": "53dbdf6a1d148aff9e1a5f74a0face289e5ae421fcb14d3d479240f6a82c5ab5",
-      "spec_sha256": "e11d5bade10b7a47aef2dd21d12f90e694d673199bff186a45c6ce1c6c671719"
+      "state_sha256": "cb369f50ec20157859f92f480836f56b72481562399f12d1b758790ae694b6c1",
+      "spec_sha256": "0684ec61d31d16dff776a9b8ad0b2a128ad163cb0420d5a0837fed39c7a851fb"
     }
   },
   "steps": [
@@ -430,7 +430,7 @@
         "900"
       ],
       "returncode": 0,
-      "seconds": 65.35,
+      "seconds": 66.85,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_rebuild.log"
     },
     {
@@ -447,10 +447,12 @@
       "command": [
         "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
         "-m",
-        "dm_credit.preparation.e4"
+        "dm_credit.preparation.e4",
+        "--results-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation"
       ],
       "returncode": 0,
-      "seconds": 2.67,
+      "seconds": 2.58,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_audit.log"
     },
     {
@@ -463,7 +465,7 @@
         "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints"
       ],
       "returncode": 0,
-      "seconds": 1.19,
+      "seconds": 1.15,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_checkpoint_audit.log"
     },
     {
@@ -475,10 +477,14 @@
         "--artifacts",
         "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1",
         "--output-dir",
-        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1"
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
+        "--report",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/E5_master_tables.csv",
+        "--cutoff-week",
+        "74"
       ],
       "returncode": 0,
-      "seconds": 5.9,
+      "seconds": 5.64,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e5.log"
     },
     {
@@ -490,10 +496,16 @@
         "--masters",
         "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
         "--output-dir",
-        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1"
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1",
+        "--report",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/E6_views.csv",
+        "--catalog",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C8_feature_catalog.csv",
+        "--cutoff-week",
+        "74"
       ],
       "returncode": 0,
-      "seconds": 11.49,
+      "seconds": 12.35,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e6.log"
     },
     {
@@ -503,10 +515,16 @@
         "-m",
         "dm_credit.preparation.validation",
         "--artifacts",
-        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1"
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1",
+        "--matrix-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
+        "--out",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation",
+        "--cutoff-week",
+        "74"
       ],
       "returncode": 0,
-      "seconds": 10.32,
+      "seconds": 13.13,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/validation.log"
     }
   ],

@@ -1,10 +1,10 @@
 {
   "format_version": 1,
-  "rules_version": "products-v1",
+  "rules_version": "products-v2",
   "family": "other_1",
   "split": "test",
   "data_path": "other_1__test.parquet",
-  "data_sha256": "3935032f613eef7856463f67657ee005fe58b75a7a194d5ea362db9700bbfcaa",
+  "data_sha256": "10d7228e814eec0988edfe0da491ce28f1c1bfcb722461d90c9f4559e2e6058f",
   "row_count": 10,
   "case_count": 10,
   "features": [
@@ -16,7 +16,7 @@
       "source_columns": [],
       "aggregation": "n_records",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a date_decision, así que todas se descartan y la cobertura es 0 en todos los casos.",
       "description": "n_records en other_1 (ventana all)"
     },
     {
@@ -27,7 +27,7 @@
       "source_columns": [],
       "aggregation": "source_present",
       "window": "all",
-      "temporal_rule": "Cobertura física sin filtro as-of: n_records cuenta las filas de la fuente para los casos de la base y source_present indica si hay al menos una. Ninguna regla temporal está aprobada para estas fuentes en el primer corte (G2: 0 aprobadas); esta cobertura no valida disponibilidad temporal.",
+      "temporal_rule": "Sin fecha de disponibilidad: no se puede comprobar que alguna fila exista a date_decision, así que todas se descartan y la cobertura es 0 en todos los casos.",
       "description": "source_present en other_1 (ventana all)"
     }
   ],
@@ -37,14 +37,15 @@
     "b6_candidates": 0,
     "b6_transform_as_of": 0,
     "g2_approved": 0,
-    "source_rows_outside_base": 0
+    "other_1_rows_no_anchor": 2,
+    "source_rows_outside_base": 8
   },
   "inputs": {
     "cutoff_week": "74",
     "base_sha256": "ebaebd4a35351a2c5286a1a15946fc0df5af6c286cb6a6435a60b572366b45ef",
-    "shards": "test_other_1.parquet:6247:1790997776400687796",
-    "selection_manifest": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
-    "g2_decision": "/home/daminin/Documents/Repositorios/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
+    "shards": "test_other_1.parquet:6247:sha256:19103742766d01379804f1f37ab079f03ca9eda728294a52387433f7b0ee0dfd",
+    "selection_manifest": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/B6_products_registry_columns.csv",
+    "g2_decision": "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/G2_products_registry_columns.csv"
   },
   "validations": [
     "case_id no nulo",

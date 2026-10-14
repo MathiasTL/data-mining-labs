@@ -1,6 +1,6 @@
 # Épica F — Validación, documentación y cierre
 
-> **Estado (13/10/2026):** E4–E7 y F1–F7 están documentadas; F3 conserva 29/29 controles archivados. F6 se cierra con revisión técnica de frentes ajenos, pruebas y hallazgos trazables documentados como límites. No se presupone aprobación o confirmación de otras personas. G4 sigue pendiente: allí se decidirá y comprobará el tratamiento de los riesgos identificados, en particular la cobertura sin as-of.
+> **Estado (13/10/2026):** E4–E7 y F1–F7 están documentadas; F3 conserva 29/29 controles archivados. F6 se cierra con revisión técnica de frentes ajenos, pruebas y hallazgos trazables documentados como límites. No se presupone aprobación o confirmación de otras personas. Los riesgos identificados se resolvieron en el cierre: ver [Resolución en G4](#resolución-en-g4) y [G4 — cierre](03-preparacion-G4-cierre.md).
 
 ## Resumen
 
@@ -10,9 +10,9 @@
 | **F2** Pruebas end-to-end sintéticas        | Hecho                        | `tests/test_preparation_g3_integration.py` comprueba partición, descartes y agregados contra valores conocidos, join, ajuste/transformación y manifiestos de familias y matrices                                                                                             |
 | **F3** Validaciones sobre artefactos reales | Hecho                        | E7 ejecutado localmente: 29/29 controles, incluidos los 3 cotejos E5; evidencia archivada en `F3_final_checks.csv` y `F3_final_run_manifest.json`                                                                                                                            |
 | **F4** Resultados por fuente                | Hecho                        | `results/preparation/family_results.csv` reúne casos, cobertura y roles por familia y split, con comando, informe y fecha por fuente; ver `context/03-preparacion-F4-resultados.md`                                                                                          |
-| **F5** Capítulo del informe                 | Hecho (G4 pendiente)         | `development/03-preparacion-datos.md`, 3.1–3.5: cifras con informes E4–E7 y F3/F4/F7, distinción E7 26/26 frente a F3 29/29 y límites de disponibilidad temporal y artefactos train ausentes                                                                                 |
+| **F5** Capítulo del informe                 | Hecho                        | `development/03-preparacion-datos.md`, 3.1–3.5: cifras con informes E4–E7 y F3/F4/F7, distinción E7 26/26 frente a F3 29/29 y límites de disponibilidad temporal y artefactos train ausentes                                                                                 |
 | **F6** Revisión cruzada                     | Hecho (límites documentados) | Revisión registrada de bureau y revisión técnica de integración, profundidad 0/vistas y productos/preprocesador (abajo); pruebas focalizadas y hallazgos trazables, sin atribuir revisiones nuevas a integrantes concretos. Las decisiones y correcciones se verifican en G4 |
-| **F7** Informe de fuga temporal             | Hecho (riesgo abierto)       | `context/03-preparacion-F7-informe-fuga.md`, `results/preparation/F7_temporal_leakage_by_family.csv`, `temporal_leakage_report.csv` y hojas G2: 12 reglas, decisiones y descartes por split; falta decidir el uso de cobertura sin as-of antes de modelar                    |
+| **F7** Informe de fuga temporal             | Hecho                        | `context/03-preparacion-F7-informe-fuga.md`, `results/preparation/F7_temporal_leakage_by_family.csv`, `temporal_leakage_report.csv` y hojas G2: 12 reglas, decisiones y descartes por split; la cobertura de productos y registros se filtra por fecha desde `products-v2`                    |
 
 ## F3 — Validación real tras E7
 
@@ -25,6 +25,8 @@ POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/prep
 E4 y sus checkpoints pasaron la auditoría; E5 regeneró las matrices de train, OOT y test y E6 generó las seis vistas y el estado ajustado. El paso `validation` de E7 pasó **29 de 29 controles**, incluidos los tres nuevos `published_matrix`, y el contrato de entrada al baseline. Evidencia conservada: `results/preparation/F3_final_checks.csv` y `results/preparation/F3_final_run_manifest.json`. Mientras los artefactos locales aún estaban presentes, se cotejaron los SHA-256 de las tres matrices E5, seis vistas E6, estado y especificación con los 11 registros del manifiesto: todos coincidieron.
 
 Para no incorporar a Git hashes y rutas absolutos específicos de esta máquina, se archivaron **solo los dos informes F3** y se restauró el conjunto versionado E5/E6/E7. Se retiraron las tres salidas de train regeneradas, que se pueden volver a producir con el comando de arriba. `F3_final_run_manifest.json` documenta la ejecución local pasada y referencia esos archivos ya retirados; **no debe usarse como manifiesto de los artefactos actualmente presentes**. `E7_manifest.json` vuelve a ser el manifiesto histórico de la ejecución desde cero (26 controles), coherente con los artefactos versionados.
+
+**Actualización en G4 (13/10/2026):** tras las correcciones del cierre se ejecutó el comando **con** `--from-scratch` (101,7 s). E4 se reconstruyó entero, E5 y E6 se regeneraron y `validation` pasó **29 de 29 controles**. `F3_final_checks.csv` y `F3_final_run_manifest.json` son ahora copias de `integration_checks.csv` y `E7_manifest.json` de esa corrida, coherentes con los artefactos versionados.
 
 ## F1 — Huecos cubiertos
 
@@ -86,7 +88,21 @@ Revisión independiente del ensamblado E5 (`e5.py`, `assembly.py`, `schema.py`, 
 
 **Aspectos correctos:** profundidad 0 valida claves y partición de base; el ensamblador verifica sumas, esquema y orden por join; las vistas reutilizan el ajuste de train; productos/registros rechaza predictores G2 aprobados que no sabe agregar. Estos controles no resuelven los riesgos de disponibilidad temporal. Los hallazgos de cobertura, publicación y configuración son problemas de contrato/seguridad de salida, no evidencia de que la ejecución histórica E7 o F3 fallase con la configuración versionada.
 
-## Qué falta para G4
+## Resolución en G4
+
+| Hallazgo | Resolución |
+| --- | --- |
+| Cobertura de productos y registros sin as-of (E6 y cobertura, F7) | `products-v2`: solo cuentan filas con fecha `<= date_decision`; `other_1`, sin fecha, queda en cero. La ablación de F7 muestra que la ganancia restante es legítima. |
+| Coberturas de profundidad 0 sin fecha as-of | Aceptado y documentado: son una fila estática por caso, que describe la solicitud actual (regla G1). `static_0__source_present` es constante y se descarta; `static_cb_0` (98,1 % / 99,9 %) se conserva. |
+| E5 publica antes de la validación global | Los tres splits se publican como unidad; prueba de fallo tardío en `tests/test_preparation_e5.py`. |
+| E7 no propaga `cutoff_week` ni `results_dir` | `plan_steps` pasa corte, directorio de resultados y catálogo a E4, E5, E6 y validation; la configuración rechaza valores que E4 no puede respetar (corte distinto de 74 u otro `results_dir`). |
+| Productos: G2 sin filas de una familia | Es un error, ya no equivale a cero aprobadas. |
+| Productos: semi-join antes de validar claves | Se validan nulos y la clave `(case_id, num_group1)` del archivo completo, y 1:0..1 de `other_1` sobre los casos de la base; `source_rows_outside_base` cuenta las filas ajenas al split. La muestra real de test trae un caso ajeno a la base con dos filas en `other_1`. |
+| Columnas constantes en las vistas | Se descartan y se registran con `role = dropped`. |
+| `pl.concat(how="horizontal")` en `views.py` | Comprobado: polars emitía `DeprecationWarning`; reemplazado por `hstack`. |
+| Rutas absolutas en informes | Documentado: solo en campos informativos; la carga usa rutas relativas y SHA-256. |
+
+## Qué faltaba para G4 (antes del cierre)
 
 1. F3 completada: conservar y revisar la evidencia de la ejecución E7 local (29/29 controles y 11 hashes verificados).
 2. F6 cerrada con hallazgos trazables; en G4 decidir y comprobar las correcciones de contrato y disponibilidad temporal identificadas arriba, o registrar una aceptación explícita del riesgo. No quedan confirmaciones personales como condición de F6.

@@ -50,10 +50,23 @@ def assemble_master_tables(
 ) -> pl.DataFrame:
     """Ensambla las tres tablas maestras y devuelve el informe de E5 (una fila por split)."""
     ordered = {s: _ordered(artifacts[s], s) for s in SPLITS}  # todo se comprueba antes de escribir
-    rows, matrices = [], {}
+    rows, matrices, written = [], {}, []
+    try:
+        _assemble(bases, ordered, Path(output_dir), rows, matrices, written)
+        validate_matrix_schemas(matrices["train"], matrices["oot"], matrices["test"], cutoff_week=cutoff_week)
+    except Exception:
+        # los tres splits se publican como unidad: un fallo tardío no deja tablas que parezcan válidas
+        for path in written:
+            Path(path).unlink(missing_ok=True)
+        raise
+    return pl.DataFrame(rows)
+
+
+def _assemble(bases, ordered, output_dir: Path, rows: list, matrices: dict, written: list) -> None:
     for split in SPLITS:
         started = time.perf_counter()
-        art = assemble_feature_matrix(bases[split], ordered[split], split, output_dir=Path(output_dir))
+        art = assemble_feature_matrix(bases[split], ordered[split], split, output_dir=output_dir)
+        written += [art.data_path, art.manifest_path]
         matrix = pl.read_parquet(art.data_path)
         matrices[split] = matrix
         definitions = [d for a in ordered[split] for d in a.feature_schema]
@@ -74,8 +87,6 @@ def assemble_master_tables(
                 "manifest_path": str(art.manifest_path),
             }
         )
-    validate_matrix_schemas(matrices["train"], matrices["oot"], matrices["test"], cutoff_week=cutoff_week)
-    return pl.DataFrame(rows)
 
 
 def main() -> None:

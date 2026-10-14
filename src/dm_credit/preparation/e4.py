@@ -265,7 +265,7 @@ def validate_definitions(
             rule = (
                 depth0.TEMPORAL_RULE
                 if spec.family in depth0.SOURCES
-                else products.TEMPORAL_RULE
+                else products.temporal_rule(spec.family)
             )
         template = contracts.describe_features(
             pl.DataFrame(schema={d.name: schema[d.name]}),
@@ -373,9 +373,11 @@ def reconcile_cardinality(
                 continue
             require(all(r["status"] == "ok" for r in rows), "cobertura no comprobada")
             kept, cases = sum(r["rows"] for r in rows), sum(r["cases"] for r in rows)
-            temporal = table.startswith(("applprev_", "credit_bureau_"))
+            temporal = table.startswith(("applprev_", "credit_bureau_")) or table in products.SOURCES
             suffixes = (
-                ("null_creation", "after_decision")
+                (("null_anchor", "after_decision") if products.ANCHORS[table] else ("no_anchor",))
+                if table in products.SOURCES
+                else ("null_creation", "after_decision")
                 if table == "applprev_1"
                 else (
                     ("invalid_parent",)
@@ -527,7 +529,7 @@ def compare_reports(
 
 def _write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
     with path.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows({k: r.get(k) for k in fields} for r in rows)
 

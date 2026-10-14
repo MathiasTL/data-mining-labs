@@ -137,7 +137,7 @@ def run_audit(*, root: Path = ROOT, checkpoint_dir: Path | None = None) -> dict:
     report.update( ok=all(c["status"] == "ok" for c in checks.rows), checks=checks.rows, checkpoints=rows, audit_seconds=time.perf_counter() - started, audit_process_ru_maxrss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, )
     output.mkdir(parents=True, exist_ok=True)
     with (output / "E4_shards.csv").open("w", newline="") as stream:
-        writer = csv.DictWriter( stream, fieldnames=list(rows[0]) if rows else ["checkpoint", "status", "error"], )
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]) if rows else ["checkpoint", "status", "error"], lineterminator="\n")
         writer.writeheader()
         writer.writerows( { k: json.dumps(v, sort_keys=True) if isinstance(v, dict) else v for k, v in row.items() } for row in rows )
     (output / "E4_shards.json").write_text( json.dumps(report, indent=2, ensure_ascii=False) )
