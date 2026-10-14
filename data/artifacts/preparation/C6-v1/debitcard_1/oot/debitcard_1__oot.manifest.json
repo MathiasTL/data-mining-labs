@@ -39,7 +39,7 @@
     "g2_approved": 0,
     "debitcard_1_rows_after_decision": 0,
     "debitcard_1_rows_null_anchor": 1888,
-    "source_rows_outside_base": 0
+    "source_rows_outside_base": 134013
   },
   "inputs": {
     "cutoff_week": "74",

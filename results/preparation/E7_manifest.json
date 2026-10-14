@@ -1,7 +1,7 @@
 {
   "format_version": 1,
-  "generated_at_utc": "2026-10-14T00:25:16+00:00",
-  "git_commit": "4909093f568551405f04268ca395e7a8465e16f4",
+  "generated_at_utc": "2026-10-14T00:35:18+00:00",
+  "git_commit": "de9ad7ea76dc751838969272e63bbce42c01850f",
   "python": "3.11.14",
   "polars": "1.44.2",
   "config": "configs/preparation.json",
@@ -68,7 +68,7 @@
         "family": "debitcard_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/train/debitcard_1__train.manifest.json",
-        "manifest_sha256": "86e5e20bd004616ea4d47e9538176e540ff7e797ebdcac46cd8e14535534ad5a",
+        "manifest_sha256": "da6850b970c62d95106f511db96699179de7c623937bb5cb5c3fc151069383ad",
         "data_sha256": "79856c01a376716b3153193010f845fa04017f7673834915387c6cf895aff67e",
         "rows": 1332001
       },
@@ -76,7 +76,7 @@
         "family": "deposit_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/deposit_1/train/deposit_1__train.manifest.json",
-        "manifest_sha256": "457cee79e36a6a3ca0c6788ec97c983f96cb87d28dfaff0a61a04ebe25beea91",
+        "manifest_sha256": "4c546b4ca6117670bd4565b57f7029a63b9ba4eaff46566ad541d3ffd8819146",
         "data_sha256": "a09e1f5b70e9ea4168538680a9bee113a1d8f104ac3a0232e246236639450a70",
         "rows": 1332001
       },
@@ -84,7 +84,7 @@
         "family": "other_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/other_1/train/other_1__train.manifest.json",
-        "manifest_sha256": "aea63080265df05b94b2dabca38152f2934ed9f77afd20da30d0683c10717e68",
+        "manifest_sha256": "320b2aeedae46eb84eaf788d3d4e60e65d3abe13c5cb863e4db9a13585faa878",
         "data_sha256": "f8e3677734f167772957ba443b5be3fec2c7b5010c84773f8304229a1715018f",
         "rows": 1332001
       },
@@ -116,7 +116,7 @@
         "family": "tax_registry_a_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/train/tax_registry_a_1__train.manifest.json",
-        "manifest_sha256": "b348890906594d9d3bb4fed63d82be07c1fc735f09b57a6a84251c964599537f",
+        "manifest_sha256": "68944d3441a32ffb3d0e941773bc17b2f2d9673112761abe572af4c97588b227",
         "data_sha256": "cf9a2f65431b38f280eca5711707075ada3f7d1437290629924158f89d2298b0",
         "rows": 1332001
       },
@@ -124,7 +124,7 @@
         "family": "tax_registry_b_1",
         "split": "train",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/train/tax_registry_b_1__train.manifest.json",
-        "manifest_sha256": "83d80efaf80da29930eed7cab4dbb085180c1f8639361b4091ec9b15270a43f4",
+        "manifest_sha256": "2516f5bc9c2694c1b6e69e2b779d417f687bcdac3bfb66d75b8d51e03130893c",
         "data_sha256": "8c36a18587157b2901d6cd773a562b8c66faa5c30b553e17c637eba1a1aef4bb",
         "rows": 1332001
       },
@@ -164,7 +164,7 @@
         "family": "debitcard_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/oot/debitcard_1__oot.manifest.json",
-        "manifest_sha256": "9e080a4629271a6043d128a93430a0c6b36f10484fcc2af6fe656a90846a2365",
+        "manifest_sha256": "3b83573f28899b699ee34f37ecae11b714dcd89428f3af47f6146eaa55098148",
         "data_sha256": "5891bfbe193f41eadbbf9a317d91ff839d17304d5ed66d22571c50cec9a19ab8",
         "rows": 194658
       },
@@ -172,7 +172,7 @@
         "family": "deposit_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/deposit_1/oot/deposit_1__oot.manifest.json",
-        "manifest_sha256": "0d5fcbd2b365caa6091fb3ffe1ce15dce6b1dfe1f35124f1c4845881fc54a649",
+        "manifest_sha256": "bed5b20905fc8e8ac0a82b1cd9ae2ceebe3d51ba6c11b90d28f861db6347aa1d",
         "data_sha256": "4e95fc4aebd0b997e7a15fe4ee9bfc680d850faf67c7f4ebfe4341c4faeb99ff",
         "rows": 194658
       },
@@ -180,7 +180,7 @@
         "family": "other_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/other_1/oot/other_1__oot.manifest.json",
-        "manifest_sha256": "85a1360144c425c22dc6aef5f1a94775b40fd83ef6bcba175b909a3baac1e41c",
+        "manifest_sha256": "666fe6f3a7b1f70a1d978608252087eb38419e8a17998468dcc2fa1bc7ee6fc9",
         "data_sha256": "773d81621a35b78f9fda07e9e52d99bbf13d6ff4cd0f99b986e2c591fd36404d",
         "rows": 194658
       },
@@ -212,7 +212,7 @@
         "family": "tax_registry_a_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/oot/tax_registry_a_1__oot.manifest.json",
-        "manifest_sha256": "ba845029e2ad18bdd9fb1531c0f05d89731e88ccd636b8fb67dd35c7e41df7c6",
+        "manifest_sha256": "8bbda3f92d3132911a79badcfbab3f92cfc0e73654882ceec5a5c769826abe84",
         "data_sha256": "cbefe79e4a918bbbec35e68ce54269a2de699f5a1d162b46b747516a503fc4e1",
         "rows": 194658
       },
@@ -220,7 +220,7 @@
         "family": "tax_registry_b_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_b_1/oot/tax_registry_b_1__oot.manifest.json",
-        "manifest_sha256": "287f156e9edee1cbb5748fef63e9526b9a9a79e4a2558c648c91cf04f1a9e504",
+        "manifest_sha256": "c512c85eeca2ee6f13413dfd9a68857217758c2649bf983365b175f0c007c6a2",
         "data_sha256": "f73259df5822249a4220906a4da21bfaeb8587aec3085c6e22e7a4c4673af79c",
         "rows": 194658
       },
@@ -228,7 +228,7 @@
         "family": "tax_registry_c_1",
         "split": "oot",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_c_1/oot/tax_registry_c_1__oot.manifest.json",
-        "manifest_sha256": "41276d929249a91af98441d886848a03b8f35ecafd0b547a437a703bfe992133",
+        "manifest_sha256": "dee54c247ecf1a7ae5175f99d043cdecd7c2b10d87b8df5b074492ddcae5ae11",
         "data_sha256": "b080e53d3ba8c86fe76bc3bdf131b8b7d31a0062bf033847d107eec0e34ce18c",
         "rows": 194658
       },
@@ -260,7 +260,7 @@
         "family": "debitcard_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/debitcard_1/test/debitcard_1__test.manifest.json",
-        "manifest_sha256": "d8c630ebb3e73749d848447640c94762ea829aad802bf9f89f5a08dabef1218a",
+        "manifest_sha256": "1fdd1145b726a14d3411a2ace7f9e8d54bd473c0adeefc7f7199393c34692621",
         "data_sha256": "4f023a3c6ec1451b6157b5fa324f5b6c2a3f7ebeeeebc947dfe947663c022f67",
         "rows": 10
       },
@@ -268,7 +268,7 @@
         "family": "deposit_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/deposit_1/test/deposit_1__test.manifest.json",
-        "manifest_sha256": "a9fe497b9f01ce852c44b173f91c50a9ffc1660fcc489dcd7b8e7be30cf7574f",
+        "manifest_sha256": "33bb61d860d478da61ba9a8b275f266b6dc32ea2caec558a166465dc1da84945",
         "data_sha256": "68ee0664d7ced18576f9ddf34f98906b7094ed5e9301ae61e897b73995cbf39a",
         "rows": 10
       },
@@ -276,7 +276,7 @@
         "family": "other_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/other_1/test/other_1__test.manifest.json",
-        "manifest_sha256": "c83a22b763ea1a644f3b9105fc32e8d44d0ad5665179430cb86d252deda862f7",
+        "manifest_sha256": "8fc8381bf20ae72bbd945b31e33e99abdf6af4e308fe161c0556d4bac8eae4ad",
         "data_sha256": "10d7228e814eec0988edfe0da491ce28f1c1bfcb722461d90c9f4559e2e6058f",
         "rows": 10
       },
@@ -308,7 +308,7 @@
         "family": "tax_registry_a_1",
         "split": "test",
         "manifest": "data/artifacts/preparation/E4-v1/tax_registry_a_1/test/tax_registry_a_1__test.manifest.json",
-        "manifest_sha256": "862da7ef8050e77ceb0f02214f311d9e1b0c2abc81da1a154deb18f69814d2af",
+        "manifest_sha256": "10595b6e04a408f7769772d30f70a7dae602a56b45410b791c5a62a5970ea836",
         "data_sha256": "e4be3b5a35505985c549bd164d9f8c89be610b7785b28058900ae8f3303ea7cd",
         "rows": 10
       },
@@ -430,7 +430,7 @@
         "900"
       ],
       "returncode": 0,
-      "seconds": 64.14,
+      "seconds": 66.85,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_rebuild.log"
     },
     {
@@ -439,7 +439,7 @@
         "<interno: e4_checkpoints>"
       ],
       "returncode": 0,
-      "seconds": 0.02,
+      "seconds": 0.01,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_checkpoints.log"
     },
     {
@@ -447,10 +447,12 @@
       "command": [
         "/Users/andre/Projects/Universidad/data-mining-labs/.venv/bin/python",
         "-m",
-        "dm_credit.preparation.e4"
+        "dm_credit.preparation.e4",
+        "--results-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation"
       ],
       "returncode": 0,
-      "seconds": 2.54,
+      "seconds": 2.58,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_audit.log"
     },
     {
@@ -463,7 +465,7 @@
         "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints"
       ],
       "returncode": 0,
-      "seconds": 1.18,
+      "seconds": 1.15,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e4_checkpoint_audit.log"
     },
     {
@@ -475,10 +477,14 @@
         "--artifacts",
         "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1",
         "--output-dir",
-        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1"
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
+        "--report",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/E5_master_tables.csv",
+        "--cutoff-week",
+        "74"
       ],
       "returncode": 0,
-      "seconds": 5.51,
+      "seconds": 5.64,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e5.log"
     },
     {
@@ -490,10 +496,16 @@
         "--masters",
         "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
         "--output-dir",
-        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1"
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1",
+        "--report",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/E6_views.csv",
+        "--catalog",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation/C8_feature_catalog.csv",
+        "--cutoff-week",
+        "74"
       ],
       "returncode": 0,
-      "seconds": 12.22,
+      "seconds": 12.35,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/e6.log"
     },
     {
@@ -503,10 +515,16 @@
         "-m",
         "dm_credit.preparation.validation",
         "--artifacts",
-        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1"
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1",
+        "--matrix-dir",
+        "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E5-v1",
+        "--out",
+        "/Users/andre/Projects/Universidad/data-mining-labs/results/preparation",
+        "--cutoff-week",
+        "74"
       ],
       "returncode": 0,
-      "seconds": 12.0,
+      "seconds": 13.13,
       "log": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E7-logs/validation.log"
     }
   ],

@@ -201,8 +201,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.000963917002081871,
-      "audit_process_ru_maxrss_kib": 194625536
+      "audit_seconds": 0.0009613750007702038,
+      "audit_process_ru_maxrss_kib": 194297856
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_1.6d314b2af87439e7995ef17e.json",
@@ -231,8 +231,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.000407750005251728,
-      "audit_process_ru_maxrss_kib": 194658304
+      "audit_seconds": 0.00040704199636820704,
+      "audit_process_ru_maxrss_kib": 194330624
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_2.b3a066c70ee0340c27ce0384.json",
@@ -261,8 +261,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00034883399348473176,
-      "audit_process_ru_maxrss_kib": 194658304
+      "audit_seconds": 0.00033687500399537385,
+      "audit_process_ru_maxrss_kib": 194330624
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_3.8d96773f7c813bcff610ff24.json",
@@ -291,8 +291,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00032416699832538143,
-      "audit_process_ru_maxrss_kib": 194658304
+      "audit_seconds": 0.00030612500268034637,
+      "audit_process_ru_maxrss_kib": 194330624
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/test_credit_bureau_a_1_4.99632efdedefdc3d15260f24.json",
@@ -321,8 +321,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00029066699789837003,
-      "audit_process_ru_maxrss_kib": 194658304
+      "audit_seconds": 0.000270040996838361,
+      "audit_process_ru_maxrss_kib": 194330624
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_0.870c0cd62fc5a8f96b99e8a3.json",
@@ -351,8 +351,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00027591700199991465,
-      "audit_process_ru_maxrss_kib": 194658304
+      "audit_seconds": 0.0003157500032102689,
+      "audit_process_ru_maxrss_kib": 194330624
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_0.da93596516f7d4e86e3119ea.json",
@@ -381,8 +381,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.007262666993483435,
-      "audit_process_ru_maxrss_kib": 220987392
+      "audit_seconds": 0.007338624993280973,
+      "audit_process_ru_maxrss_kib": 220708864
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_1.6105727b8532eaefafdde532.json",
@@ -411,8 +411,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.01820725000288803,
-      "audit_process_ru_maxrss_kib": 295714816
+      "audit_seconds": 0.01817670799937332,
+      "audit_process_ru_maxrss_kib": 295436288
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_1.f25868417d3aa03381cfca91.json",
@@ -441,8 +441,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0005888329978915863,
-      "audit_process_ru_maxrss_kib": 295731200
+      "audit_seconds": 0.0005917500020586886,
+      "audit_process_ru_maxrss_kib": 295452672
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_2.770e0d4d39f677dc072baf3b.json",
@@ -471,8 +471,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0006717920041410252,
-      "audit_process_ru_maxrss_kib": 296042496
+      "audit_seconds": 0.000636417003988754,
+      "audit_process_ru_maxrss_kib": 295796736
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_2.b23f4ae701ac5117f7f13d70.json",
@@ -501,8 +501,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.006503707998490427,
-      "audit_process_ru_maxrss_kib": 305348608
+      "audit_seconds": 0.006556291999004316,
+      "audit_process_ru_maxrss_kib": 305102848
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_3.5cce4ac28c62a19721494809.json",
@@ -531,8 +531,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00036041700514033437,
-      "audit_process_ru_maxrss_kib": 305364992
+      "audit_seconds": 0.0002856659993994981,
+      "audit_process_ru_maxrss_kib": 305119232
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_a_1/train_credit_bureau_a_1_3.d9cb4fcfb299d8a10532dace.json",
@@ -561,8 +561,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00501037499634549,
-      "audit_process_ru_maxrss_kib": 310493184
+      "audit_seconds": 0.005121540998516139,
+      "audit_process_ru_maxrss_kib": 310247424
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_b_1/test_credit_bureau_b_1.ca9574f5a86354bae039cabe.json",
@@ -591,8 +591,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0003754999997909181,
-      "audit_process_ru_maxrss_kib": 310509568
+      "audit_seconds": 0.00037266699655447155,
+      "audit_process_ru_maxrss_kib": 310263808
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_b_1/train_credit_bureau_b_1.37652e88fbba42373e5bd6da.json",
@@ -611,7 +611,7 @@
       "current_parent_shards": "",
       "cutoff_week": "74",
       "partial_sha256": "1a7d876f54050c8350be22233c704179801a78bb74f898dbb9787b4ac10bb32e",
-      "keys_sha256": "b917985e8497385ee46459c24b1be7105d8b9bb6ea5c08374d1a850087643bae",
+      "keys_sha256": "98ea61d2585cfee3f267be3512633256f0dba18d05004b4214d75c32e37fc518",
       "rows": 2163,
       "cases": 1733,
       "exclusions": {
@@ -621,8 +621,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00042475000373087823,
-      "audit_process_ru_maxrss_kib": 310575104
+      "audit_seconds": 0.0004328340000938624,
+      "audit_process_ru_maxrss_kib": 310362112
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_b_1/train_credit_bureau_b_1.ed04833be9eb01aa27db54d3.json",
@@ -641,7 +641,7 @@
       "current_parent_shards": "",
       "cutoff_week": "74",
       "partial_sha256": "e1c68db542180107b522bb1bf77416528c46036c8ecd0c942ff20c595960da4f",
-      "keys_sha256": "3e1ff32ea7e05a8cc4aae5467db161499b526f4e7d5410af88509b36181360ab",
+      "keys_sha256": "4ab664d5e48ca9250c614348f04f0df665c13d9436121ca5475838a720fb17f1",
       "rows": 6983,
       "cases": 5651,
       "exclusions": {
@@ -651,8 +651,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0006062080065021291,
-      "audit_process_ru_maxrss_kib": 310771712
+      "audit_seconds": 0.0005719579930882901,
+      "audit_process_ru_maxrss_kib": 310607872
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_b_2/test_credit_bureau_b_2.8d7608b76e509a776c3de228.json",
@@ -682,8 +682,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.00034529199911048636,
-      "audit_process_ru_maxrss_kib": 310788096
+      "audit_seconds": 0.0002827499993145466,
+      "audit_process_ru_maxrss_kib": 310624256
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_b_2/train_credit_bureau_b_2.67167d7d72d95f98cd76e201.json",
@@ -713,8 +713,8 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0005365830002119765,
-      "audit_process_ru_maxrss_kib": 310984704
+      "audit_seconds": 0.000473000000056345,
+      "audit_process_ru_maxrss_kib": 310837248
     },
     {
       "checkpoint": "/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E4-v1/checkpoints/credit_bureau_b_2/train_credit_bureau_b_2.71eb843abe6cb42cfd710b6f.json",
@@ -744,10 +744,10 @@
       "build_seconds": null,
       "build_ru_maxrss_kib": null,
       "raw_rows_read": null,
-      "audit_seconds": 0.0003788329995586537,
-      "audit_process_ru_maxrss_kib": 311164928
+      "audit_seconds": 0.0003488329966785386,
+      "audit_process_ru_maxrss_kib": 311017472
     }
   ],
-  "audit_seconds": 0.38871849999850383,
-  "audit_process_ru_maxrss_kib": 311181312
+  "audit_seconds": 0.3863274579998688,
+  "audit_process_ru_maxrss_kib": 311050240
 }

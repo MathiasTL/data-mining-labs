@@ -1,7 +1,7 @@
 view,split,rows,columns,predictors,predictor_nulls,range_warnings,seconds,data_sha256,data_path
-linear,train,1332001,239,234,0,0,3.28,a1a670fe28422dcef2a7bc7ca63d69b23573d2c9baacb1155acdd667f2aa0d98,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__train.parquet
+linear,train,1332001,239,234,0,0,3.18,a1a670fe28422dcef2a7bc7ca63d69b23573d2c9baacb1155acdd667f2aa0d98,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__train.parquet
 tree,train,1332001,119,114,39734211,0,2.2,8d0b37f9a1351f17e4f06f105f37fb6407a38f2ff02922a4595b8d9405518ceb,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__train.parquet
-linear,oot,194658,239,234,0,1,0.51,4f30ecda6afe6fb9d43f3a82816e3b46a6dec527d01dd7153312c92ebe40aa21,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__oot.parquet
-tree,oot,194658,119,114,5069844,0,0.35,6e70744a696ec15a7792ac8d697eaca0668c593b3a0d5983d3745f90623690de,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__oot.parquet
-linear,test,10,238,234,0,1,0.03,22490b966a8fc94f33bf5b996389603a962d7216cd3568cd21f7a4c19bf8e673,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__test.parquet
+linear,oot,194658,239,234,0,1,0.54,4f30ecda6afe6fb9d43f3a82816e3b46a6dec527d01dd7153312c92ebe40aa21,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__oot.parquet
+tree,oot,194658,119,114,5069844,0,0.37,6e70744a696ec15a7792ac8d697eaca0668c593b3a0d5983d3745f90623690de,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__oot.parquet
+linear,test,10,238,234,0,1,0.02,22490b966a8fc94f33bf5b996389603a962d7216cd3568cd21f7a4c19bf8e673,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/linear__test.parquet
 tree,test,10,118,114,664,0,0.01,351c01907773d05fbd0e7af17603d2613d27805677b82a31804f974f21cb609d,/Users/andre/Projects/Universidad/data-mining-labs/data/artifacts/preparation/E6-v1/tree__test.parquet

@@ -39,7 +39,7 @@
     "g2_approved": 0,
     "deposit_1_rows_after_decision": 0,
     "deposit_1_rows_null_anchor": 0,
-    "source_rows_outside_base": 0
+    "source_rows_outside_base": 10
   },
   "inputs": {
     "cutoff_week": "74",

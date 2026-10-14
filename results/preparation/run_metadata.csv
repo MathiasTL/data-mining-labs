@@ -1,7 +1,7 @@
 key,value
 config,configs/preparation.json
 config_sha256,1a9554144bf19cb479e6351d1b34a82e143a675e82bffb34cc4297c846ed5056
-git_commit,4909093f568551405f04268ca395e7a8465e16f4
+git_commit,de9ad7ea76dc751838969272e63bbce42c01850f
 polars,1.44.2
 cutoff_week,74
 regenerate,POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
@@ -34,10 +34,10 @@ e6.tree.test.path,data/artifacts/preparation/E6-v1/tree__test.parquet
 e6.tree.test.sha256,351c01907773d05fbd0e7af17603d2613d27805677b82a31804f974f21cb609d
 e6.state_sha256,cb369f50ec20157859f92f480836f56b72481562399f12d1b758790ae694b6c1
 e4.artifacts,36
-step.e4_rebuild.seconds,64.14
-step.e4_checkpoints.seconds,0.02
-step.e4_audit.seconds,2.54
-step.e4_checkpoint_audit.seconds,1.18
-step.e5.seconds,5.51
-step.e6.seconds,12.22
-step.validation.seconds,12.0
+step.e4_rebuild.seconds,66.85
+step.e4_checkpoints.seconds,0.01
+step.e4_audit.seconds,2.58
+step.e4_checkpoint_audit.seconds,1.15
+step.e5.seconds,5.64
+step.e6.seconds,12.35
+step.validation.seconds,13.13

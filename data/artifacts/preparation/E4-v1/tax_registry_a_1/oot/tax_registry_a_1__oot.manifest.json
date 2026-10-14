@@ -39,7 +39,7 @@
     "g2_approved": 0,
     "tax_registry_a_1_rows_after_decision": 14814,
     "tax_registry_a_1_rows_null_anchor": 0,
-    "source_rows_outside_base": 0
+    "source_rows_outside_base": 3260956
   },
   "inputs": {
     "cutoff_week": "74",
