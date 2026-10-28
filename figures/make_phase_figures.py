@@ -118,14 +118,14 @@ leak_rows = sorted(
 fig, ax = plt.subplots(figsize=(8, 3))
 barh(ax, [f for f, _ in leak_rows], [v for _, v in leak_rows], color=RED)
 ax.set_xlabel("Filas de la fuente excluidas por la regla de disponibilidad temporal (train)")
-ax.set_title("Filtro de fuga temporal (F7)")
+ax.set_title("Filtro de fuga temporal")
 save(fig, "03_temporal_exclusions.png")
 
 by_sec = sorted(runs.items(), key=lambda x: -x[1])
 fig, ax = plt.subplots(figsize=(8, 5))
 barh(ax, [f for f, _ in by_sec], [s for _, s in by_sec], fmt="{:.1f} s")
 ax.set_xlabel("Tiempo de construcción (segundos, train)")
-ax.set_title("Tiempo de construcción de agregados por familia (E4)")
+ax.set_title("Tiempo de construcción de agregados por familia")
 save(fig, "03_build_seconds.png")
 
 # --- 03: final matrices -----------------------------------------------------
@@ -166,3 +166,88 @@ for i, r in enumerate((lin, tree)):
 ax.set_ylabel("Columnas")
 ax.set_title("Vistas de la matriz final (mismas filas)")
 save(fig, "03_matrix_views.png")
+
+# --- 02: parquet files per family (2.1) -------------------------------------
+import re
+from collections import Counter
+
+files = Counter()
+for r in read(RES / "parquet_inventory.csv"):
+    name = re.sub(r"^(train|test)_", "", r["file"].removesuffix(".parquet"))
+    if re.search(r"_\d+_\d+$", name):
+        name = re.sub(r"_\d+$", "", name)
+    files[(name, r["split"])] += 1
+fams = sorted({f for f, _ in files}, key=lambda f: -(files[(f, "train")] + files[(f, "test")]))
+n_train = sum(v for (f, s), v in files.items() if s == "train")
+n_test = sum(v for (f, s), v in files.items() if s == "test")
+fig, ax = plt.subplots(figsize=(8, 5.5))
+ypos = list(range(len(fams)))
+h = 0.38
+ax.barh([y - h / 2 for y in ypos], [files[(f, "train")] for f in fams], height=h, color=BLUE, label="Train")
+ax.barh([y + h / 2 for y in ypos], [files[(f, "test")] for f in fams], height=h, color=LIGHT, label="Test")
+ax.set_yticks(ypos, fams)
+ax.invert_yaxis()
+ax.grid(axis="y", visible=False)
+ax.set_xlabel("Archivos Parquet")
+ax.legend(frameon=False, loc="lower right")
+ax.set_title(f"{n_train} archivos de train y {n_test} de test; cuatro familias en varios fragmentos")
+save(fig, "02_parquet_files_by_family.png")
+
+# --- 02: null rate by family (2.4) ------------------------------------------
+qs = read(RES / "quality_catalog_summary.csv")
+rows = sorted(
+    ((r["family"], 100 * int(r["columns_50pct_null_or_more"]) / int(r["columns"]), r) for r in qs),
+    key=lambda x: -x[1],
+)
+fig, ax = plt.subplots(figsize=(8, 5.5))
+vals = [v for _, v, _ in rows]
+barh(ax, [f for f, _, _ in rows], vals, fmt="{:.1f}%")
+for y, (_, _, r) in enumerate(rows):
+    ax.text(
+        1.01,
+        y,
+        f'{r["columns_50pct_null_or_more"]} de {r["columns"]}',
+        va="center",
+        ha="left",
+        fontsize=8,
+        color="#555",
+        transform=ax.get_yaxis_transform(),
+    )
+ax.set_xlabel("% de columnas con al menos 50 % de nulos (columnas afectadas de columnas totales, a la derecha)")
+ax.set_title("credit_bureau_a_1 tiene 65 de 79 columnas con al menos 50 % de nulos")
+save(fig, "02_null_columns_by_family.png")
+
+# --- 02: join multiplication factor (2.4) -----------------------------------
+jr = [r for r in read(RES / "integration_analysis" / "join_risk.csv") if float(r["mean_expansion_all_base"]) > 1]
+jr.sort(key=lambda r: -float(r["mean_expansion_all_base"]))
+fig, ax = plt.subplots(figsize=(8, 5))
+barh(ax, [r["family"] for r in jr], [float(r["mean_expansion_all_base"]) for r in jr], color=RED, fmt="{:.2f}×")
+ax.set_xlabel("Filas tras un left join directo / filas de la base (factor medio)")
+ax.set_title("Un join directo de credit_bureau_a_2 multiplica la base por 123,43")
+save(fig, "02_join_multiplication.png")
+
+# --- 03: rows excluded by temporal rule, train vs OOT (3.2) -----------------
+leak_all = [
+    r
+    for r in read(RES / "preparation" / "F7_temporal_leakage_by_family.csv")
+    if int(r["rows_excluded_train"]) + int(r["rows_excluded_oot"]) > 0
+]
+leak_all.sort(key=lambda r: -int(r["rows_excluded_train"]))
+fig, ax = plt.subplots(figsize=(8, 4.5))
+ypos = list(range(len(leak_all)))
+ax.barh([y - h / 2 for y in ypos], [int(r["rows_excluded_train"]) for r in leak_all], height=h, color=BLUE, label="Train")
+ax.barh([y + h / 2 for y in ypos], [int(r["rows_excluded_oot"]) for r in leak_all], height=h, color=LIGHT, label="OOT")
+ax.set_xscale("symlog", linthresh=1)
+ax.set_yticks(ypos, [r["family"] for r in leak_all])
+ax.invert_yaxis()
+ax.grid(axis="y", visible=False)
+es = str.maketrans({",": ".", ".": ","})
+for y, r in zip(ypos, leak_all):
+    for dy, k in ((-h / 2, "rows_excluded_train"), (h / 2, "rows_excluded_oot")):
+        v = int(r[k])
+        ax.text(max(v, 1) * 1.15, y + dy, f"{v:,}".translate(es), va="center", fontsize=8)
+ax.set_xlim(1, 1e8)
+ax.set_xlabel("Filas excluidas por la regla de disponibilidad temporal (escala logarítmica)")
+ax.legend(frameon=False, loc="lower right")
+ax.set_title("El filtro temporal excluye 9,1 millones de filas de bureau A en train")
+save(fig, "03_exclusions_train_vs_oot.png")
