@@ -50,16 +50,27 @@ El proyecto se desarrolla en un entorno academico y no representa una solucion d
 
 #### Definicion de los objetivos de negocio
 
-El objetivo principal es aplicar la metodologia CRISP-DM para sentar las bases de un modelo de riesgo crediticio que sea preciso y estable en el tiempo. Este objetivo general se concreta en las cuatro metas del caso de negocio (fuente: `IT Business Case Template G3 MD.docx.pdf`):
+**Objetivo general:** contar con una evaluacion del riesgo crediticio para la originacion que sea precisa, explicable y que avise cuando deja de ser confiable ante cambios en la poblacion de solicitantes.
 
-- Identificar las variables con mayor influencia en el riesgo crediticio y documentarlas.
-- Disponer de al menos un modelo predictivo de incumplimiento entrenado y documentado.
-- Reducir el riesgo de perdida de validez del modelo en el tiempo, evaluandolo con validacion fuera de tiempo por WEEK_NUM.
-- Evitar el rechazo indebido de clientes con historial limitado pero buen comportamiento, controlando los falsos positivos.
+| ON | Objetivo de negocio |
+|---|---|
+| ON1 | Reducir las perdidas asociadas al incumplimiento, mejorando la identificacion de solicitudes con mayor riesgo. |
+| ON2 | Favorecer el acceso al credito de solicitantes solventes, incluidos quienes tienen historial limitado, reduciendo el riesgo de rechazarlos indebidamente. |
+| ON3 | Mantener confiable la evaluacion de riesgo a lo largo del tiempo y saber cuando es necesario reentrenarla. |
+
+Los objetivos de negocio expresan lo que una entidad querria conseguir; los objetivos de mineria de datos (seccion 1.3) describen los resultados analiticos que aportan evidencia para esos fines. No necesitan corresponder uno a uno.
 
 Fuente: `development/01-entendimiento-empresarial.md`.
 
 #### Criterios de rendimiento del negocio
+
+| ON | Criterio de exito |
+|---|---|
+| ON1 | El modelo ordena el riesgo mejor que una referencia simple en un periodo posterior al entrenamiento. |
+| ON2 | Menos solventes rechazados que con la referencia, a igual deteccion de incumplimientos. |
+| ON3 | Las perdidas de confiabilidad se detectan ubicadas en el tiempo y se explican por los factores que cambiaron. |
+
+Como proyecto academico, ademas se considera terminado al:
 
 - Completar las seis fases de CRISP-DM y documentar el proceso de forma reproducible.
 - Obtener al menos un modelo funcional y comparar modelos de clasificacion.
@@ -197,20 +208,14 @@ El siguiente analisis corresponde a un escenario hipotetico de adopcion real del
 
 #### Objetivos de mineria de datos
 
-Siguiendo la declaracion de alcance del caso de negocio (fuente: `IT Business Case Template G3 MD.docx.pdf`):
+| OM | Objetivo de mineria de datos | Sirve a | Criterio de exito |
+|---|---|---|---|
+| OM1 | Clasificacion binaria supervisada que estime la probabilidad de incumplimiento de cada solicitud, validada fuera de tiempo en periodos posteriores al entrenamiento. | ON1, ON3 | Gini Stability fuera de tiempo superior a la del modelo de referencia; probabilidades calibradas. |
+| OM2 | Identificar las variables que mas contribuyen a las predicciones, global y por caso, sin asumir que esa influencia implica causalidad, comparando el periodo de entrenamiento con el posterior. | ON3, ON1 | Ranking de factores reproducible y cambios entre periodos identificados. |
+| OM3 | Evaluar, para distintos umbrales, la relacion entre detectar incumplimientos y clasificar como riesgosos a clientes que si pagan. | ON2, ON1 | Menos falsos positivos que el modelo de referencia a igual deteccion de incumplimientos. |
+| OM4 | Detectar los momentos en que cambian el desempeno del modelo o la poblacion de solicitantes, para definir ventanas de reentrenamiento. | ON3 | Alertas ubicadas en el tiempo y contrastadas con el desempeno de cada periodo. |
 
-1. Integrar las tablas disponibles del dataset Home Credit - Credit Risk Model Stability respetando sus distintas granularidades.
-2. Tratar los valores faltantes y atipicos de cada fuente.
-3. Disenar variables de comportamiento de pago y de riesgo a partir de las fuentes integradas.
-4. Entrenar y comparar clasificadores binarios sobre la etiqueta de incumplimiento.
-5. Aplicar validacion fuera de tiempo por WEEK_NUM.
-6. Evaluar el desempeno con Gini y su estabilidad temporal.
-
-Fuente: `development/01-entendimiento-empresarial.md`.
-
-#### Definicion tecnica
-
-Se construira un modelo predictivo que estime, para cada caso identificado por case_id, un score continuo de probabilidad de incumplimiento entre 0 y 1. La variable WEEK_NUM se utilizara para evaluar la estabilidad temporal de las predicciones y del desempeno del modelo.
+Las tecnicas concretas para cada objetivo se eligen y justifican en la fase de modelado.
 
 Fuente: `development/01-entendimiento-empresarial.md`.
 

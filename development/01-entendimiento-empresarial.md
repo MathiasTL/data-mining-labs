@@ -10,20 +10,27 @@ En el crédito de consumo dirigido a personas con historial crediticio limitado 
 
 El proyecto estudia este problema en un entorno académico con el dataset **Home Credit – Credit Risk Model Stability** de Kaggle, que reúne más de 30 tablas de distintas granularidades y permite analizar el desempeño por semana de observación. El proyecto no representa una evaluación ni una solución desplegada en una entidad financiera real.
 
-### Objetivo de negocio
+### Objetivo general de negocio
 
-Aplicar CRISP-DM para preparar los datos de la competición, desarrollar y comparar modelos que estimen la probabilidad de incumplimiento crediticio y evaluar cómo se mantiene su desempeño a través del tiempo. Este objetivo general se concreta en las cuatro metas del caso de negocio (`docs/us/IT Business Case Template G3 MD.docx.pdf`):
+Contar con una evaluación del riesgo crediticio para la originación que sea precisa, explicable y que avise cuándo deja de ser confiable ante cambios en la población de solicitantes.
 
-- Identificar las variables con mayor influencia en el riesgo crediticio y documentarlas.
-- Disponer de al menos un modelo predictivo de incumplimiento entrenado y documentado.
-- Reducir el riesgo de pérdida de validez del modelo en el tiempo, evaluándolo con validación fuera de tiempo por `WEEK_NUM`.
-- Evitar el rechazo indebido de clientes con historial limitado pero buen comportamiento, controlando los falsos positivos.
+### Objetivos de negocio
+
+| ON  | Objetivo de negocio                                                                                                                                                  | Criterio de éxito de negocio                                                                                                  |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| ON1 | Reducir las pérdidas asociadas al incumplimiento, mejorando la identificación de solicitudes con mayor riesgo.                                                       | El modelo ordena el riesgo mejor que una referencia simple en un periodo posterior al entrenamiento.                          |
+| ON2 | Favorecer el acceso al crédito de solicitantes solventes, incluidos quienes tienen historial limitado, reduciendo el riesgo de rechazarlos indebidamente.              | Menos solventes rechazados que con la referencia, a igual detección de incumplimientos.                                       |
+| ON3 | Mantener confiable la evaluación de riesgo a lo largo del tiempo y saber cuándo es necesario reentrenarla.                                                            | Las pérdidas de confiabilidad se detectan ubicadas en el tiempo y se explican por los factores que cambiaron.                 |
+
+Los objetivos de negocio expresan lo que una entidad querría conseguir; los objetivos de minería de datos (sección 1.3) describen los resultados analíticos que aportan evidencia para esos fines. No necesitan corresponder uno a uno: un objetivo de minería puede servir a varios objetivos de negocio.
 
 ### Beneficio esperado
 
 En un escenario hipotético de adopción financiera, una estimación de riesgo estable podría aportar evidencia para priorizar la revisión de solicitudes y monitorear la pérdida de validez de un modelo. En este proyecto académico, el beneficio directo es experimental: estudiar el problema, documentar resultados reproducibles y construir un prototipo demostrativo; no se tomarán decisiones crediticias reales.
 
-### Criterios de éxito
+### Criterios de finalización del proyecto
+
+Los criterios de éxito de cada objetivo de negocio están en la tabla anterior. Como proyecto académico, además se considera terminado al:
 
 - Completar las seis fases de CRISP-DM y documentar el proceso de forma reproducible.
 - Obtener al menos un modelo funcional y comparar modelos de clasificación.
@@ -67,18 +74,14 @@ El proyecto utilizará el tiempo y la capacidad de cómputo disponibles del equi
 
 ### Objetivos de minería de datos
 
-Siguiendo la declaración de alcance del caso de negocio (`docs/us/IT Business Case Template G3 MD.docx.pdf`):
+| OM  | Objetivo de minería de datos                                                                                                                                                                 | Sirve a  | Criterio de éxito de minería                                                                       |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------- |
+| OM1 | Clasificación binaria supervisada que estime la probabilidad de incumplimiento de cada solicitud, validada fuera de tiempo en periodos posteriores al entrenamiento.                            | ON1, ON3 | Gini Stability fuera de tiempo superior a la del modelo de referencia; probabilidades calibradas.  |
+| OM2 | Identificar las variables que más contribuyen a las predicciones, global y por caso, sin asumir que esa influencia implica causalidad, comparando el periodo de entrenamiento con el posterior. | ON3, ON1 | Ranking de factores reproducible y cambios entre periodos identificados.                           |
+| OM3 | Evaluar, para distintos umbrales, la relación entre detectar incumplimientos y clasificar como riesgosos a clientes que sí pagan.                                                             | ON2, ON1 | Menos falsos positivos que el modelo de referencia a igual detección de incumplimientos.           |
+| OM4 | Detectar los momentos en que cambian el desempeño del modelo o la población de solicitantes, para definir ventanas de reentrenamiento.                                                        | ON3      | Alertas ubicadas en el tiempo y contrastadas con el desempeño de cada periodo.                     |
 
-1. Integrar las tablas disponibles del dataset Home Credit – Credit Risk Model Stability respetando sus distintas granularidades.
-2. Tratar los valores faltantes y atípicos de cada fuente.
-3. Diseñar variables de comportamiento de pago y de riesgo a partir de las fuentes integradas.
-4. Entrenar y comparar clasificadores binarios sobre la etiqueta de incumplimiento.
-5. Aplicar validación fuera de tiempo por `WEEK_NUM`.
-6. Evaluar el desempeño con Gini y su estabilidad temporal.
-
-### Definición técnica
-
-Se construirá un modelo predictivo que estime, para cada caso identificado por case_id, un score continuo de probabilidad de incumplimiento entre 0 y 1. La variable WEEK_NUM se utilizará para evaluar la estabilidad temporal de las predicciones y del desempeño del modelo.
+Las técnicas concretas para cada objetivo se eligen y justifican en la fase de modelado (sección 4.1).
 
 ### Métricas
 
@@ -98,7 +101,7 @@ Donde `a` representa la tendencia temporal del Gini y los residuos corresponden 
 
 ### Criterio de selección
 
-El modelo final se elegirá por el equilibrio entre desempeño global, estabilidad temporal, interpretabilidad, coste computacional y reproducibilidad.
+El modelo final se elegirá por mayor Gini Stability fuera de tiempo. Interpretabilidad, coste computacional y reproducibilidad se usan como criterios secundarios.
 
 ## 1.4 Producir el plan del proyecto
 
