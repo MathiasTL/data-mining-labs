@@ -195,6 +195,19 @@ El siguiente analisis corresponde a un escenario hipotetico de adopcion real del
 
 ### 1.3 Determinar los objetivos de la mineria de datos
 
+#### Objetivos de mineria de datos
+
+Siguiendo la declaracion de alcance del caso de negocio (fuente: `IT Business Case Template G3 MD.docx.pdf`):
+
+1. Integrar las tablas disponibles del dataset Home Credit - Credit Risk Model Stability respetando sus distintas granularidades.
+2. Tratar los valores faltantes y atipicos de cada fuente.
+3. Disenar variables de comportamiento de pago y de riesgo a partir de las fuentes integradas.
+4. Entrenar y comparar clasificadores binarios sobre la etiqueta de incumplimiento.
+5. Aplicar validacion fuera de tiempo por WEEK_NUM.
+6. Evaluar el desempeno con Gini y su estabilidad temporal.
+
+Fuente: `development/01-entendimiento-empresarial.md`.
+
 #### Definicion tecnica
 
 Se construira un modelo predictivo que estime, para cada caso identificado por case_id, un score continuo de probabilidad de incumplimiento entre 0 y 1. La variable WEEK_NUM se utilizara para evaluar la estabilidad temporal de las predicciones y del desempeno del modelo.

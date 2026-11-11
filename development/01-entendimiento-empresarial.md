@@ -65,6 +65,17 @@ El proyecto utilizará el tiempo y la capacidad de cómputo disponibles del equi
 
 ## 1.3 Determinar los objetivos de la minería de datos
 
+### Objetivos de minería de datos
+
+Siguiendo la declaración de alcance del caso de negocio (`docs/us/IT Business Case Template G3 MD.docx.pdf`):
+
+1. Integrar las tablas disponibles del dataset Home Credit – Credit Risk Model Stability respetando sus distintas granularidades.
+2. Tratar los valores faltantes y atípicos de cada fuente.
+3. Diseñar variables de comportamiento de pago y de riesgo a partir de las fuentes integradas.
+4. Entrenar y comparar clasificadores binarios sobre la etiqueta de incumplimiento.
+5. Aplicar validación fuera de tiempo por `WEEK_NUM`.
+6. Evaluar el desempeño con Gini y su estabilidad temporal.
+
 ### Definición técnica
 
 Se construirá un modelo predictivo que estime, para cada caso identificado por case_id, un score continuo de probabilidad de incumplimiento entre 0 y 1. La variable WEEK_NUM se utilizará para evaluar la estabilidad temporal de las predicciones y del desempeño del modelo.
