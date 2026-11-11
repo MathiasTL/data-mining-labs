@@ -50,7 +50,12 @@ El proyecto se desarrolla en un entorno academico y no representa una solucion d
 
 #### Definicion de los objetivos de negocio
 
-El objetivo principal es aplicar la metodologia CRISP-DM para sentar las bases de un modelo de riesgo crediticio que sea preciso y estable en el tiempo.
+El objetivo principal es aplicar la metodologia CRISP-DM para sentar las bases de un modelo de riesgo crediticio que sea preciso y estable en el tiempo. Este objetivo general se concreta en las cuatro metas del caso de negocio (fuente: `IT Business Case Template G3 MD.docx.pdf`):
+
+- Identificar las variables con mayor influencia en el riesgo crediticio y documentarlas.
+- Disponer de al menos un modelo predictivo de incumplimiento entrenado y documentado.
+- Reducir el riesgo de perdida de validez del modelo en el tiempo, evaluandolo con validacion fuera de tiempo por WEEK_NUM.
+- Evitar el rechazo indebido de clientes con historial limitado pero buen comportamiento, controlando los falsos positivos.
 
 Fuente: `development/01-entendimiento-empresarial.md`.
 

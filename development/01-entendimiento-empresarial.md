@@ -12,7 +12,12 @@ El proyecto estudia este problema en un entorno académico con el dataset **Home
 
 ### Objetivo de negocio
 
-Aplicar CRISP-DM para preparar los datos de la competición, desarrollar y comparar modelos que estimen la probabilidad de incumplimiento crediticio y evaluar cómo se mantiene su desempeño a través del tiempo.
+Aplicar CRISP-DM para preparar los datos de la competición, desarrollar y comparar modelos que estimen la probabilidad de incumplimiento crediticio y evaluar cómo se mantiene su desempeño a través del tiempo. Este objetivo general se concreta en las cuatro metas del caso de negocio (`docs/us/IT Business Case Template G3 MD.docx.pdf`):
+
+- Identificar las variables con mayor influencia en el riesgo crediticio y documentarlas.
+- Disponer de al menos un modelo predictivo de incumplimiento entrenado y documentado.
+- Reducir el riesgo de pérdida de validez del modelo en el tiempo, evaluándolo con validación fuera de tiempo por `WEEK_NUM`.
+- Evitar el rechazo indebido de clientes con historial limitado pero buen comportamiento, controlando los falsos positivos.
 
 ### Beneficio esperado
 
