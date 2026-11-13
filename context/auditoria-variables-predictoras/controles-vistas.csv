@@ -1,0 +1,43 @@
+scope,check,status,detail
+linear,unique_active_outputs,ok,239
+linear,catalog_origins,ok,"{""missing"": [], ""unknown"": []}"
+linear,no_reserved_predictors,ok,234
+linear,valid_parameters_json,ok,Parámetros JSON interpretables; no valida su ajuste estadístico
+linear,control_set,ok,Controles declarados
+tree,unique_active_outputs,ok,119
+tree,catalog_origins,ok,"{""missing"": [], ""unknown"": []}"
+tree,no_reserved_predictors,ok,114
+tree,valid_parameters_json,ok,Parámetros JSON interpretables; no valida su ajuste estadístico
+tree,control_set,ok,Controles declarados
+master/train,matrix_content,no_ejecutado,Archivo ausente: data/artifacts/preparation/E5-v1/feature_matrix__train.parquet
+master/oot,schema_columns,ok,"{""missing"": [], ""unexpected"": []}"
+master/oot,shape,ok,"194658 filas, 129 columnas"
+master/oot,unique_cases,ok,Unicidad y no nulos de case_id
+master/oot,oot_weeks,ok,WEEK_NUM >= 74
+master/oot,target_binary,ok,Etiqueta binaria no nula
+master/oot,controls_match_master,ok,"Mismos casos, orden, etiquetas y controles"
+master/test,schema_columns,ok,"{""missing"": [], ""unexpected"": []}"
+master/test,shape,ok,"10 filas, 128 columnas"
+master/test,unique_cases,ok,Unicidad y no nulos de case_id
+linear/train,matrix_content,no_ejecutado,Archivo ausente: data/artifacts/preparation/E6-v1/linear__train.parquet
+tree/train,matrix_content,no_ejecutado,Archivo ausente: data/artifacts/preparation/E6-v1/tree__train.parquet
+linear/oot,schema_columns,ok,"{""missing"": [], ""unexpected"": []}"
+linear/oot,shape,ok,"194658 filas, 239 columnas"
+linear/oot,unique_cases,ok,Unicidad y no nulos de case_id
+linear/oot,oot_weeks,ok,WEEK_NUM >= 74
+linear/oot,target_binary,ok,Etiqueta binaria no nula
+linear/oot,controls_match_master,ok,"Mismos casos, orden, etiquetas y controles"
+linear/oot,no_null_predictors,ok,Ausencia de nulos en predictores lineales
+tree/oot,schema_columns,ok,"{""missing"": [], ""unexpected"": []}"
+tree/oot,shape,ok,"194658 filas, 119 columnas"
+tree/oot,unique_cases,ok,Unicidad y no nulos de case_id
+tree/oot,oot_weeks,ok,WEEK_NUM >= 74
+tree/oot,target_binary,ok,Etiqueta binaria no nula
+tree/oot,controls_match_master,ok,"Mismos casos, orden, etiquetas y controles"
+linear/test,schema_columns,ok,"{""missing"": [], ""unexpected"": []}"
+linear/test,shape,ok,"10 filas, 238 columnas"
+linear/test,unique_cases,ok,Unicidad y no nulos de case_id
+linear/test,no_null_predictors,ok,Ausencia de nulos en predictores lineales
+tree/test,schema_columns,ok,"{""missing"": [], ""unexpected"": []}"
+tree/test,shape,ok,"10 filas, 118 columnas"
+tree/test,unique_cases,ok,Unicidad y no nulos de case_id

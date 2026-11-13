@@ -1,0 +1,46 @@
+{
+  "generated_at_utc": "2026-11-13T17:26:19.126468+00:00",
+  "statuses": {
+    "ok": 39,
+    "no_ejecutado": 3
+  },
+  "matrices": [
+    {
+      "scope": "master/oot",
+      "rows": 194658,
+      "columns": 129
+    },
+    {
+      "scope": "master/test",
+      "rows": 10,
+      "columns": 128
+    },
+    {
+      "scope": "linear/oot",
+      "rows": 194658,
+      "columns": 239
+    },
+    {
+      "scope": "tree/oot",
+      "rows": 194658,
+      "columns": 119
+    },
+    {
+      "scope": "linear/test",
+      "rows": 10,
+      "columns": 238
+    },
+    {
+      "scope": "tree/test",
+      "rows": 10,
+      "columns": 118
+    }
+  ],
+  "spec_sha256": "0684ec61d31d16dff776a9b8ad0b2a128ad163cb0420d5a0837fed39c7a851fb",
+  "catalog_sha256": "ec8ad22475a6383a071f1a8e827db02f9d7f77ff59f59cf22ee9c6e6a9d0be8c",
+  "limitations": [
+    "Sin entrenamiento local: no se verifican parámetros contra sus datos de ajuste.",
+    "Sin validación de semántica temporal ni prueba de ausencia de fuga.",
+    "Los controles ejecutados no equivalen a repetir F3 completo."
+  ]
+}

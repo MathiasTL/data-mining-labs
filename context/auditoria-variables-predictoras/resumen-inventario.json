@@ -1,0 +1,46 @@
+{
+  "generated_at_utc": "2026-11-13T17:15:59.583126+00:00",
+  "scope": "Inventario, integridad documental y SHA-256; sin entrenar ni regenerar matrices",
+  "evidence_files": 194,
+  "features": 124,
+  "roles": {
+    "predictor": 94,
+    "cobertura": 30
+  },
+  "sources": {
+    "applprev_1": 61,
+    "applprev_2": 4,
+    "credit_bureau_a_1": 2,
+    "credit_bureau_b_1": 2,
+    "credit_bureau_b_2": 2,
+    "debitcard_1": 2,
+    "deposit_1": 2,
+    "other_1": 2,
+    "person_1": 35,
+    "person_2": 2,
+    "static_0": 2,
+    "static_cb_0": 2,
+    "tax_registry_a_1": 2,
+    "tax_registry_b_1": 2,
+    "tax_registry_c_1": 2
+  },
+  "duplicate_feature_names": [],
+  "empty_catalog_fields": {
+    "source_table": 0,
+    "source_columns": 33,
+    "aggregation": 0,
+    "window": 0,
+    "temporal_rule": 0,
+    "description": 0
+  },
+  "archived_checks": {
+    "ok": 29
+  },
+  "matrix_availability": {
+    "ausente": 3,
+    "coincide": 6
+  },
+  "manifest_inputs": {
+    "coincide": 12
+  }
+}
