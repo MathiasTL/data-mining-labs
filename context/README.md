@@ -15,6 +15,8 @@ Esta carpeta contiene la guía operativa del proyecto. Cada archivo corresponde 
 |     7 | [Implementación](06-implementacion.md)                                                                  | Predicciones, prototipo demostrativo y propuesta de monitoreo.              |
 |     8 | [Informe y cierre](07-informe-y-cierre.md)                                                              | Informe final y evidencias de reproducibilidad listos para entrega.         |
 
+Para el trabajo pendiente desde la auditoría de variables hasta el cierre, seguir el [plan de trabajo vigente](plan-trabajo-modelado-a-cierre.md).
+
 ## Reglas transversales
 
 - La unidad final de modelado debe tener **una fila por caso** de la tabla base.
@@ -26,11 +28,4 @@ Esta carpeta contiene la guía operativa del proyecto. Cada archivo corresponde 
 
 ## Hitos
 
-| Fase                                   | Fecha límite |
-| -------------------------------------- | -----------: |
-| Entendimiento empresarial              |   03/10/2026 |
-| Comprensión de datos                   |   24/10/2026 |
-| Preparación de datos                   |   14/11/2026 |
-| Modelado                               |   28/11/2026 |
-| Evaluación                             |   05/12/2026 |
-| Implementación, informe y presentación |   19/12/2026 |
+El [plan de negocio revisado](../development/01-entendimiento-empresarial.md#14-producir-el-plan-del-proyecto) fija el **05/12/2026** como fecha límite común para las seis fases. Las metas intermedias y los criterios de salida están en el [plan de trabajo vigente](plan-trabajo-modelado-a-cierre.md#hitos-y-responsables).
