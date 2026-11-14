@@ -152,13 +152,19 @@ Añadir filas según se realice la revisión.
 
 | Variable o grupo | Hallazgo | Evidencia | Decisión y motivo | Responsable | Estado    |
 | ---------------- | -------- | --------- | ----------------- | ----------- | --------- |
-| Por registrar    | —        | —         | —                 | —           | Pendiente |
+| `applprev_2__*` | Sin fecha propia; conteo compatible con corte en `date_decision` | [04](04-evidencia-disponibilidad-temporal.md), D01 | Condicionada: se usa con el supuesto registrado | Andre (G2) | Decidida |
+| `person_1` valores del solicitante, `person_2__*` | Datos del formulario de la solicitud actual | [04](04-evidencia-disponibilidad-temporal.md), D02 | Aprobada para valores; `person_2` entra en ablación de cobertura por su caída en OOT | Andre (G2) | Decidida |
+| `person_1__n_contacts__all` | Cuenta canales (`PE`, `CL`, `EM`), no personas; su caída en OOT viene de `CL` y `EM` | [04](04-evidencia-disponibilidad-temporal.md), D02 | Reemplazar por conteo de rol `PE`; motivo: semántica correcta y estabilidad temporal | Andre (G2) | Decidida, por implementar |
+| `static_cb_0__n_records`, `static_cb_0__source_present` | Presencia solo varía en semanas 0 a 30: indicador de época | [04](04-evidencia-disponibilidad-temporal.md), D03 | Excluir; motivo: no describe al cliente y degrada la estabilidad | Andre (G2) | Decidida, por implementar |
+| `static_0__*`, `other_1__*` | Constantes en train; `other_1` sin fecha y aparece desde semana 31 | [04](04-evidencia-disponibilidad-temporal.md), D03 | Se mantienen fuera del modelo | Andre (G2) | Decidida |
 
 ## Registro de correcciones
 
 | Incidencia    | Corrección requerida | Artefactos afectados | Prueba o validación | Responsable | Estado    |
 | ------------- | -------------------- | -------------------- | ------------------- | ----------- | --------- |
-| Por registrar | —                    | —                    | —                   | —           | Pendiente |
+| `n_contacts` mal definido | Conteo de filas `num_group1 >= 1` con rol `PE` | `families/applications_people.py`, catálogo C8, E4 a E6 | Prueba unitaria por rol; regenerar con el protocolo temporal | Andre | Pendiente |
+| Cobertura de `static_cb_0` | Retirar de la selección G2 | Selección G2, catálogo C8, E5 y E6 | Prueba de ausencia en vistas; ablación confirmatoria | Andre | Pendiente |
+| Catálogo incompleto | Denominador de `applprev_2` y supuestos de disponibilidad | `C8_feature_catalog.csv` | Revisión del catálogo regenerado | Andre | Pendiente |
 
 ## Criterio final de aceptación
 

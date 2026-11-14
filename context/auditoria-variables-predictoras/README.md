@@ -22,6 +22,8 @@ Auditoría iniciada el 13/11/2026. Inventario, revisión focalizada de linaje y 
 | [Resumen de vistas](resumen-vistas.json)                          | Conteos, matrices examinadas y huellas.                                                                                             |
 | [Script de vistas](auditar_vistas.py)                             | Reconciliación del catálogo, especificación y matrices locales.                                                                     |
 | [Salida de pruebas](pruebas-segunda-evaluacion.txt)               | Registro de 159 pruebas aprobadas.                                                                                                  |
+| [Disponibilidad temporal](04-evidencia-disponibilidad-temporal.md) | Evidencia empírica para applprev_2, person_1/2 y cobertura estática; corrección de A01.                                            |
+| [Script de disponibilidad](auditar_disponibilidad.py)             | Genera los cuatro CSV `disponibilidad-*.csv` desde los parquet crudos de train.                                                     |
 
 ## Convenciones
 

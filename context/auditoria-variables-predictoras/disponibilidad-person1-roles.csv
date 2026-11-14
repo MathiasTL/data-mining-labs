@@ -1,0 +1,7 @@
+group,role_1084L,rows,type_25L_mode,relationship_non_null,birth_non_null,income_non_null
+num_group1=0,CL,1280160,PRIMARY_MOBILE,0.0,1.0,1.0
+num_group1=0,EM,246499,PRIMARY_MOBILE,0.0,1.0,1.0
+num_group1>=1,PE,805942,PHONE,0.4444,0.0,0.0
+num_group1>=1,CL,345529,PRIMARY_MOBILE,0.6695,0.0,0.0
+num_group1>=1,EM,289744,PHONE,0.7441,0.0,0.0
+num_group1>=1,,6117,,0.0,0.0,0.0
