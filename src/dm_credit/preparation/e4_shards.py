@@ -18,11 +18,11 @@ import polars as pl
 
 from dm_credit import io
 from dm_credit.preparation import contracts
-from dm_credit.preparation.e4 import ( ROOT, Checks, check_equal, require, shard_fingerprint, )
+from dm_credit.preparation.e4 import ( E4_DEFAULT_VERSION, ROOT, Checks, check_equal, require, shard_fingerprint, )
 from dm_credit.preparation.families import bureau
 
 
-def run_audit(*, root: Path = ROOT, checkpoint_dir: Path | None = None) -> dict:
+def run_audit(*, root: Path = ROOT, checkpoint_dir: Path | None = None, e4_version: str = E4_DEFAULT_VERSION) -> dict:
     """Publica CSV/JSON incluso con fallos; lanza ValueError si la auditoría falla."""
     require( os.environ.get("POLARS_MAX_THREADS") == "1", "POLARS_MAX_THREADS=1 obligatorio" )
     check_equal(pl.thread_pool_size(), 1, "pool Polars (iniciar un proceso nuevo)")
@@ -112,7 +112,7 @@ def run_audit(*, root: Path = ROOT, checkpoint_dir: Path | None = None) -> dict:
             if (f, s) == (family, split):
                 check_equal( seen[identity], 1, f"checkpoint vigente requerido {identity}" )
         manifest = artifacts / family / split / f"{family}__{split}.manifest.json"
-        replacement = artifacts.parent / "E4-v1" / family / split / manifest.name
+        replacement = artifacts.parent / e4_version / family / split / manifest.name
         if replacement.exists():  # igual que el auditor E4: el reemplazo vigente tiene prioridad
             manifest = replacement
         m = json.loads(manifest.read_text())
@@ -149,6 +149,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--checkpoint-dir", type=Path)
+    parser.add_argument("--e4-version", default=E4_DEFAULT_VERSION)
     run_audit(**vars(parser.parse_args()))
 
 

@@ -1,5 +1,7 @@
 # A4 — Propuesta de agregaciones: solicitudes previas y personas
 
+> **Nota v2.** Este registro es histórico (v1: 124 = 94 + 30; vistas 234/114). La reconstrucción vigente `E4-v2`/`E5-v2`/`E6-v2` (`configs/preparation-v2.json`) tiene **122 = 94 + 28** características en la matriz y vistas de **231/112** predictores; reemplaza `person_1__n_contacts__all` por `person_1__n_contact_persons__all` (solo rol `PE`) y excluye la cobertura de `static_cb_0`. Motivo: [evidencia de disponibilidad temporal](../context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md).
+
 > **Responsable:** Andre (P3). **Estado:** propuesta para G1/G2; nada de esto está aprobado todavía.
 > **Alcance:** `applprev_1`, `applprev_2`, `person_1`, `person_2`, según el [backlog del capítulo 03](03-preparacion-datos-backlog.md).
 > **Complementos:** fixtures `tests/preparation_fixtures.py`, selección de columnas B4 en `results/preparation/B4_applications_people_columns.csv`, coerción D4 y extremos D5 en `src/dm_credit/preparation/`.

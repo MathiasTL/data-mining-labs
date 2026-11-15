@@ -32,8 +32,10 @@ from dm_credit.preparation.coercion import coerce_to_logical
 
 KEY = "case_id"
 WINDOW = "all"
-RULES_VERSION = "A4-v1"
+RULES_VERSION = "A4-v2"
 CREATION = "creationdate_885D"
+ROLE_COL = "role_1084L"  # rol de cada fila de person_1: PE (persona de contacto), CL (otro teléfono del cliente), EM (empleador)
+CONTACT_PERSON_ROLE = "PE"
 AGGREGATIONS = ("count", "min", "max", "mean", "sum", "std")
 NAME_RE = re.compile(r"^[a-z][a-z0-9_]*(__[a-z0-9_]+){1,4}$")  # gramática de G1: hasta 4 segmentos tras la fuente
 
@@ -186,7 +188,7 @@ def _applications_columns(cfg: "ApplicationsConfig") -> tuple[list[str], list[st
 
 def _people_columns(cfg: "PeopleConfig") -> tuple[list[str], list[str]]:
     dates = [c for c in (cfg.birth_col, cfg.employment_col) if c]
-    p1 = [KEY, "num_group1", *cfg.main_numeric, *cfg.main_categorical, *dates, *cfg.contact_category_shares]
+    p1 = [KEY, "num_group1", ROLE_COL, *cfg.main_numeric, *cfg.main_categorical, *dates, *cfg.contact_category_shares]
     return list(dict.fromkeys(p1)), [KEY, "num_group1", "num_group2", *cfg.child_category_shares]
 
 
@@ -320,7 +322,7 @@ def aggregate_people_with_exclusions(
 
     schema = {KEY: "int", "num_group1": "int"}
     schema.update({c: "float" for c in cfg.main_numeric})
-    schema.update({c: "string" for c in (*cfg.main_categorical, *cfg.contact_category_shares)})
+    schema.update({c: "string" for c in (ROLE_COL, *cfg.main_categorical, *cfg.contact_category_shares)})
     schema.update({c: "date" for c in dates})
     p1 = coerce_to_logical(person_1.select(p1_cols), schema)
     p2 = coerce_to_logical(
@@ -354,7 +356,8 @@ def aggregate_people_with_exclusions(
 
     totals = p1.group_by(KEY).agg(
         pl.len().alias(f"{f1}__n_records"),
-        (pl.col("num_group1") >= 1).sum().alias(f"{f1}__n_contacts__{WINDOW}"),
+        # solo filas PE: num_group1 >= 1 mezcla personas de contacto con teléfonos del cliente (CL) y del empleador (EM)
+        ((pl.col("num_group1") >= 1) & (pl.col(ROLE_COL) == CONTACT_PERSON_ROLE)).sum().alias(f"{f1}__n_contact_persons__{WINDOW}"),
     )
     features = features.join(totals, on=KEY, how="left").with_columns(pl.lit(True).alias(f"{f1}__source_present"))
     contact_shares = _share_exprs(f1, cfg.contact_category_shares)
@@ -429,8 +432,40 @@ def _read(file_split: str, source: str, columns: list[str], cases: pl.LazyFrame)
     return io.scan_parquet_shards(file_split, source, columns=columns).join(cases, on=KEY, how="semi").collect()
 
 
+_APPLPREV_2_DENOMINATOR = (
+    "Denominador: todas las solicitudes previas de applprev_1 con creationdate_885D <= date_decision "
+    "(padres válidos); en los datos cada padre válido tiene >= 1 hijo en applprev_2. "
+    "Supuesto: el proveedor corta applprev_2 en date_decision (evidencia indirecta D01 en "
+    "context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md)."
+)
+# Descripciones precisas (catálogo C8) de las características cuyo significado depende del denominador o del rol.
+FEATURE_DESCRIPTIONS = {
+    "person_1__n_contact_persons__all": (
+        "Número de filas de person_1 con num_group1 >= 1 y role_1084L = PE (persona de contacto); "
+        "un rol nulo no cuenta como PE y se excluyen la persona principal (num_group1 = 0) y los teléfonos "
+        "CL (del cliente) y EM (del empleador). Datos declarados en la solicitud actual."
+    ),
+    "applprev_2__children_per_parent_max__all": (
+        f"Máximo de hijos de applprev_2 por solicitud previa válida. {_APPLPREV_2_DENOMINATOR}"
+    ),
+    "applprev_2__children_per_parent_mean__all": (
+        f"Media de hijos de applprev_2 por solicitud previa válida. {_APPLPREV_2_DENOMINATOR}"
+    ),
+    "applprev_2__n_records": (
+        f"Número de filas válidas de applprev_2 (cobertura: una por hijo de una solicitud previa válida). {_APPLPREV_2_DENOMINATOR}"
+    ),
+}
+
+
+def describe_family_features(frame: pl.DataFrame, *, temporal_rule: str, source_columns=None):
+    """``contracts.describe_features`` con las descripciones precisas de ``FEATURE_DESCRIPTIONS``."""
+    return contracts.describe_features(
+        frame, temporal_rule=temporal_rule, source_columns=source_columns, descriptions=FEATURE_DESCRIPTIONS
+    )
+
+
 def _publish(family, base, split, cutoff_week, output_dir, result, sources, file_split, columns, temporal_rule):
-    definitions = contracts.describe_features(
+    definitions = describe_family_features(
         result.features,
         temporal_rule=temporal_rule,
         source_columns={c.lower(): c for c in columns},

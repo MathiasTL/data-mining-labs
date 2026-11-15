@@ -1,5 +1,7 @@
 # G4 — Cierre del capítulo 03
 
+> **Nota v2.** Este registro es histórico (v1: 124 = 94 + 30; vistas 234/114). La reconstrucción vigente `E4-v2`/`E5-v2`/`E6-v2` (`configs/preparation-v2.json`) tiene **122 = 94 + 28** características en la matriz y vistas de **231/112** predictores; reemplaza `person_1__n_contacts__all` por `person_1__n_contact_persons__all` (solo rol `PE`) y excluye la cobertura de `static_cb_0`. Motivo: [evidencia de disponibilidad temporal](../context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md).
+
 **Resultado:** los 15 puntos de la definición de terminado se cumplen sobre los datos reales. Toda la preparación se reconstruye desde cero con un solo comando, la suite completa pasa sin fallos esperados y `git diff --check` está limpio. F6 quedó cerrada con revisiones técnicas trazables, sin exigir confirmaciones personales ([validación F](03-preparacion-F-validacion.md)); sus hallazgos se resolvieron o documentaron aquí.
 
 ## Ruta rápida

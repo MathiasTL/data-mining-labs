@@ -1,4 +1,5 @@
 {
+  "protected": true,
   "cutoff_week": 74,
   "polars_max_threads": 1,
   "artifact_root": "artifacts/preparation",

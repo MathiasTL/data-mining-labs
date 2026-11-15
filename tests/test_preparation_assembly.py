@@ -179,3 +179,43 @@ def test_approved_mode_input_is_not_mistaken_for_screening(tmp_path):
         inputs={"g2_mode": "approved"},
     )
     assemble_feature_matrix(base_frame(), [artifact], "train", output_dir=tmp_path / "matrix")
+
+
+def test_excluded_features_never_reach_the_matrix_or_its_schema(tmp_path):
+    # D03: cobertura de static_cb_0 = indicador de era (solo varía en las semanas 0-30); G2 conserva su contenido
+    frame = pl.DataFrame(
+        {
+            "case_id": [1, 2, 3],
+            "static_cb_0__n_records": [1, 0, 1],
+            "static_cb_0__source_present": [True, False, True],
+            "static_cb_0__riskassesment_302t__first__all": ["a", None, "b"],
+        }
+    )
+    cb = ct.write_family_features(
+        frame,
+        ct.describe_features(frame, temporal_rule="available at decision"),
+        family="static_cb_0",
+        split="train",
+        output_dir=tmp_path / "static_cb_0",
+    )
+    other = publish_family(tmp_path, "static_0", [1, 2, 3], [1.0, 2.0, 3.0])
+
+    artifact = assemble_feature_matrix(base_frame(), [cb, other], "train", output_dir=tmp_path / "matrix")
+
+    result = pl.read_parquet(artifact.data_path)
+    assert "static_cb_0__n_records" not in result.columns
+    assert "static_cb_0__source_present" not in result.columns
+    assert "static_cb_0__riskassesment_302t__first__all" in result.columns
+    names = [d.name for d in artifact.feature_schema]
+    assert names == ["static_cb_0__riskassesment_302t__first__all", "static_0__amount__sum__all"]
+    assert [f["name"] for f in json.loads(Path(artifact.manifest_path).read_text())["feature_schema"]] == names
+    # la cobertura sigue disponible en la pieza E4, solo se excluye al ensamblar
+    assert "static_cb_0__n_records" in pl.read_parquet(cb.data_path).columns
+
+
+def test_matrix_exclusions_are_declared_with_reason_and_evidence():
+    from dm_credit.preparation.assembly import MATRIX_EXCLUSIONS
+
+    assert set(MATRIX_EXCLUSIONS) == {"static_cb_0__n_records", "static_cb_0__source_present"}
+    for reason in MATRIX_EXCLUSIONS.values():
+        assert "04-evidencia-disponibilidad-temporal.md" in reason and "D03" in reason

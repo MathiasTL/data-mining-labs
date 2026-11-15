@@ -1,6 +1,10 @@
 """Despacho por familia (decisión G1, punto 1) y comando único de reproducción (E7).
 
-    POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json [--from-scratch]
+    POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation-v2.json [--from-scratch [--force]]
+
+La configuración por defecto es ``configs/preparation-v2.json``. ``configs/preparation.json`` (v1) es evidencia
+histórica y está marcada ``"protected": true``: ``--from-scratch`` nunca la borra. Con otra configuración,
+``--from-scratch`` se niega a borrar carpetas existentes salvo que se pase ``--force``.
 
 Sin ``--from-scratch`` audita las piezas de E4 existentes y regenera E5, E6 y la validación. Con
 ``--from-scratch`` además reconstruye las 36 piezas de E4 desde los Parquet originales. Cada paso
@@ -67,6 +71,7 @@ def build_family_features(
 
 # ------------------------------------------------------------------------------- E7
 ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_CONFIG = ROOT / "configs" / "preparation-v2.json"
 E4_CUTOFF_WEEK = 74  # fijo en e4_rebuild, e4 y e4_shards
 E4_RESULTS_DIR = "results/preparation"
 REQUIRED_CONFIG = ("cutoff_week", "polars_max_threads", "artifact_root", "versions", "e4", "catalog", "decisions", "results_dir")
@@ -123,13 +128,19 @@ def plan_steps(cfg: dict, *, from_scratch: bool) -> list[Step]:
     results = ROOT / cfg["results_dir"]
     cutoff = ["--cutoff-week", str(cfg["cutoff_week"])]
     steps = []
+    e4_version = ["--e4-version", d["e4"].name]  # las piezas E4 vigentes viven en la versión configurada
     if from_scratch:
         steps.append(Step("e4_rebuild", "dm_credit.preparation.e4_rebuild",
-                          ["--all", "--max-rss-mib", str(cfg["e4"]["max_rss_mib"]), "--timeout-seconds", str(cfg["e4"]["timeout_seconds"])], env))
+                          ["--all", "--max-rss-mib", str(cfg["e4"]["max_rss_mib"]), "--timeout-seconds", str(cfg["e4"]["timeout_seconds"]), *e4_version], env))
         steps.append(Step("e4_checkpoints", None, [], env, action=lambda: merge_checkpoints(d["e4"])))
+    # Desde cero el auditor valida las piezas contra las plantillas del código y omite la comparación con el
+    # catálogo (aún no regenerado); el catálogo se deriva de las piezas ya auditadas, después.
+    skip_catalog = ["--skip-catalog-check"] if from_scratch else []
+    steps.append(Step("e4_audit", "dm_credit.preparation.e4", ["--results-dir", str(results), *e4_version, *skip_catalog], env))
+    if from_scratch:
+        steps.append(Step("catalogs", "dm_credit.preparation.catalogs", ["--artifacts", str(d["e4"]), "--results-dir", str(results)], env))
     steps += [
-        Step("e4_audit", "dm_credit.preparation.e4", ["--results-dir", str(results)], env),
-        Step("e4_checkpoint_audit", "dm_credit.preparation.e4_shards", ["--checkpoint-dir", str(d["e4"] / "checkpoints")], env),
+        Step("e4_checkpoint_audit", "dm_credit.preparation.e4_shards", ["--checkpoint-dir", str(d["e4"] / "checkpoints"), *e4_version], env),
         Step("e5", "dm_credit.preparation.e5",
              ["--artifacts", str(d["e4"]), "--output-dir", str(d["e5"]), "--report", str(results / "E5_master_tables.csv"), *cutoff], env),
         Step("e6", "dm_credit.preparation.e6",
@@ -150,14 +161,32 @@ def subprocess_runner(step: Step, log: Path) -> int:
         return subprocess.run(step.command, cwd=ROOT, env={**os.environ, **step.env}, stdout=stream, stderr=subprocess.STDOUT).returncode
 
 
-def run_pipeline(cfg: dict, *, from_scratch: bool, runner=subprocess_runner, log_dir: Path) -> list[dict]:
+def prepare_from_scratch(cfg: dict, *, force: bool) -> None:
+    """Deja libres las carpetas de la configuración para ``e4_rebuild --all``.
+
+    Borrar es irreversible (E4 tarda horas y E5 train no está en git): una configuración ``protected``
+    nunca se borra, ni con ``force``; las demás exigen ``force`` si algo existe.
+    """
+    existing = [p for p in _dirs(cfg).values() if p.exists()]
+    if not existing:
+        return
+    listing = ", ".join(str(p) for p in existing)
+    if cfg.get("protected"):
+        raise SystemExit(f"config is protected (historical evidence): refusing to delete {listing}")
+    if not force:
+        raise SystemExit(f"--from-scratch would delete existing artifacts ({listing}); pass --force to confirm")
+    for path in existing:  # E4 --all exige carpetas sin manifiestos previos
+        shutil.rmtree(path)
+
+
+def run_pipeline(cfg: dict, *, from_scratch: bool, runner=subprocess_runner, log_dir: Path, force: bool = False) -> list[dict]:
     """Ejecuta los pasos en serie y se detiene en el primer fallo."""
     log_dir = Path(log_dir)
-    log_dir.mkdir(parents=True, exist_ok=True)
     if from_scratch and runner is subprocess_runner:
-        for path in _dirs(cfg).values():  # E4 --all exige carpetas sin manifiestos previos
-            if path.exists():
-                shutil.rmtree(path)
+        prepare_from_scratch(cfg, force=force)  # antes de crear nada: un rechazo no deja rastro
+    elif from_scratch and any(p.exists() for p in _dirs(cfg).values()) and cfg.get("protected"):
+        raise SystemExit("config is protected (historical evidence): refusing --from-scratch")
+    log_dir.mkdir(parents=True, exist_ok=True)
     records = []
     for step in plan_steps(cfg, from_scratch=from_scratch):
         log = log_dir / f"{step.name}.log"
@@ -271,12 +300,13 @@ def main() -> None:
     from dm_credit.preparation.validation import load_published
 
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--config", type=Path, default=ROOT / "configs" / "preparation.json")
+    ap.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     ap.add_argument("--from-scratch", action="store_true", help="reconstruir también las 36 piezas de E4")
+    ap.add_argument("--force", action="store_true", help="con --from-scratch, borrar las carpetas existentes de la configuración")
     args = ap.parse_args()
     cfg = load_config(args.config)
     results = ROOT / cfg["results_dir"]
-    steps = run_pipeline(cfg, from_scratch=args.from_scratch, log_dir=io.data_dir() / cfg["artifact_root"] / "E7-logs")
+    steps = run_pipeline(cfg, from_scratch=args.from_scratch, force=args.force, log_dir=io.data_dir() / cfg["artifact_root"] / "E7-logs")
 
     d = _dirs(cfg)
     parts = partition_base(io.load_base("train"), io.load_base("test"), cutoff_week=cfg["cutoff_week"])

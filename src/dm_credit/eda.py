@@ -160,8 +160,8 @@ def pca_variance(x: np.ndarray) -> pl.DataFrame:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     prep = io.data_dir() / "artifacts" / "preparation"
-    ap.add_argument("--matrix", type=Path, default=prep / "E5-v1" / "feature_matrix__train.parquet")
-    ap.add_argument("--linear", type=Path, default=prep / "E6-v1" / "linear__train.parquet")
+    ap.add_argument("--matrix", type=Path, default=prep / "E5-v2" / "feature_matrix__train.parquet")
+    ap.add_argument("--linear", type=Path, default=prep / "E6-v2" / "linear__train.parquet")
     ap.add_argument("--catalog", type=Path, default=RESULTS / "preparation" / "C8_feature_catalog.csv")
     ap.add_argument("--screen", type=Path, default=RESULTS / "preparation" / "G2_applications_people_screen.csv")
     ap.add_argument("--out", type=Path, default=RESULTS / "eda")
@@ -195,7 +195,7 @@ def main() -> None:
     pca_variance(lin.drop([c for c in CONTROLS if c in lin.columns]).to_numpy().astype(float)).write_csv(args.out / "pca_variance.csv")
     pl.DataFrame({
         "key": ["rows_train", "sample_rows", "seed", "matrix", "linear_view", "numeric_predictors", "categorical_predictors"],
-        "value": [str(df.height), str(sample.height), "0", "E5-v1/feature_matrix__train.parquet", "E6-v1/linear__train.parquet",
+        "value": [str(df.height), str(sample.height), "0", "E5-v2/feature_matrix__train.parquet", "E6-v2/linear__train.parquet",
                   str(len(numeric)), str(len(categorical))],
     }).write_csv(args.out / "run_metadata.csv")
     print(f"EDA escrito en {args.out}")

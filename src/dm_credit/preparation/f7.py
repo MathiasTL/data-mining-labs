@@ -97,7 +97,7 @@ def leakage_by_family(artifacts: Mapping[str, Sequence[contracts.FamilyFeatureAr
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--artifacts", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E4-v1")
+    ap.add_argument("--artifacts", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E4-v2")
     ap.add_argument("--out", type=Path, default=RESULTS / "F7_temporal_leakage_by_family.csv")
     args = ap.parse_args()
     report = leakage_by_family(load_published([args.artifacts]), load_g2())

@@ -497,3 +497,11 @@ def test_child_uses_cached_parent_keys_when_a2_is_approved(data, tmp_path, monke
     monkeypatch.setattr(io, "iter_row_groups", no_reads)
     again = build_a("train", tmp_path / "b", sel, g2, cache_dir=cache)
     assert pl.read_parquet(again.data_path).equals(got)
+
+
+def test_temporal_rule_states_exactly_when_a_row_is_discarded():
+    # una ancla nula con otra válida conserva la fila; solo se descarta si todas son nulas o alguna incumple la regla
+    for table, rule in bureau.TEMPORAL_RULES.items():
+        assert "ancla nula: fila descartada" not in rule, table
+        assert "todas sus anclas son nulas" in rule, table
+        assert "posterior a date_decision" in rule, table

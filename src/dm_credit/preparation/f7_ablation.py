@@ -9,6 +9,9 @@ filas posteriores a la decisión; con filtro, la ganancia se mantiene y es legí
 Gradient boosting usa la vista de árboles; la regresión logística, la lineal.
 Los hiperparámetros son fijos y sin búsqueda: es una comparación, no un modelo.
 
+Es evidencia histórica: su valor por defecto sigue apuntando a las vistas E6-v1, con las que se
+tomó esa decisión; para repetirla sobre otra versión use ``--views``.
+
 Uso:
     POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.f7_ablation
 """

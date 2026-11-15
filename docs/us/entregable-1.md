@@ -762,11 +762,11 @@ La fase produce una **matriz de modelado con una fila por caso** para train, OOT
 | Resultado | Valor | Evidencia |
 |---|---|---|
 | Casos | train 1 332 001 - OOT 194 658 - test 10 | `results/preparation/F3_final_checks.csv` |
-| Caracteristicas | 124: 94 predictores y 30 de cobertura | `results/preparation/C8_feature_catalog.csv` |
+| Caracteristicas | 122: 94 predictores y 28 de cobertura | `results/preparation/C8_feature_catalog.csv` |
 | Familias integradas | 12 (con tablas hijas donde procede) | `results/preparation/family_results.csv` |
 | Validacion final F3 | 29/29 correctos, incluidos tres cotejos published_matrix | `results/preparation/integration_checks.csv` |
-| Vista lineal | 234 predictores, sin nulos | `results/preparation/E6_views.csv` |
-| Vista de arboles | 114 predictores, con nulos nativos | `results/preparation/E6_views.csv` |
+| Vista lineal | 231 predictores, sin nulos | `results/preparation/E6_views.csv` |
+| Vista de arboles | 112 predictores, con nulos nativos | `results/preparation/E6_views.csv` |
 
 ### 3.1 Seleccionar datos
 
@@ -886,7 +886,7 @@ Los nombres siguen la gramatica congelada en G1: `<fuente>__<variable>__<agregac
 | Edad en anos cumplidos a la decision | person_1__birth_259d__age_years__all | person |
 | Cobertura | fuente__n_records, fuente__source_present | todas |
 
-El catalogo completo de las 124 caracteristicas esta en `results/preparation/C8_feature_catalog.csv`.
+El catalogo completo (124 filas; 122 llegan a la matriz) de las caracteristicas esta en `results/preparation/C8_feature_catalog.csv`.
 
 #### Prevencion de fuga de informacion
 
@@ -970,8 +970,8 @@ La matriz ensamblada pasa por dos vistas ajustadas exclusivamente con train (fue
 
 | Vista | Tratamiento numerico | Tratamiento categorico | Nulos | Predictores |
 |---|---|---|---|---|
-| Lineal | Imputados con mediana de train, escalados con media y desviacion de train, con indicador __missing | One-hot sobre vocabulario congelado de train; columnas __missing__ y __UNKNOWN__ | Ninguno | 234 |
-| Arboles | Decimales con sus nulos nativos | pl.Enum congelado con __UNKNOWN__ | Nativos (compatibles con LightGBM/XGBoost) | 114 |
+| Lineal | Imputados con mediana de train, escalados con media y desviacion de train, con indicador __missing | One-hot sobre vocabulario congelado de train; columnas __missing__ y __UNKNOWN__ | Ninguno | 231 |
+| Arboles | Decimales con sus nulos nativos | pl.Enum congelado con __UNKNOWN__ | Nativos (compatibles con LightGBM/XGBoost) | 112 |
 
 **Columnas constantes descartadas (resolucion G4):** una caracteristica con un solo valor en train sale de las dos vistas (10 columnas, entre ellas tax_registry_a_1, other_1 y persontype). En la vista lineal salen ademas 43 indicadores __missing o niveles one-hot constantes en train. Quedan registradas con role = dropped en matrix_views_spec.csv.
 
@@ -981,7 +981,7 @@ Las columnas de control (case_id, WEEK_NUM, date_decision, MONTH y target, este 
 
 El comando E7 para reproducir toda la preparacion desde los Parquet originales es (ejecucion desde cero del cierre: 101,7 s segun E7_manifest.json):
 
-    POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
+    POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation-v2.json --from-scratch
 
 Desde cero reconstruyo las 36 piezas E4, las audita, ensambla E5, ajusta E6 con train y pasa 29 de 29 controles. Los artefactos quedan en `data/artifacts/preparation/` con sus manifiestos y sumas de verificacion SHA-256 en `results/preparation/E7_manifest.json`.
 

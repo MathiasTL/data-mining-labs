@@ -219,7 +219,7 @@ def expected_ap_features(family: str, config) -> dict[str, tuple[str, ...]]:
         ):
             if column:
                 add("person_1", column, agg)
-        out["person_1__n_contacts__all"] = ()
+        out["person_1__n_contact_persons__all"] = ()
         shares("person_1", config.contact_category_shares)
         shares("person_2", config.child_category_shares)
     return out
@@ -271,6 +271,7 @@ def validate_definitions(
             pl.DataFrame(schema={d.name: schema[d.name]}),
             temporal_rule=rule,
             source_columns={c.lower(): c for c in d.source_columns},
+            descriptions=ap.FEATURE_DESCRIPTIONS if spec.family in ap.TABLES else None,
         )[0]
         check_equal(d, template, f"FeatureDefinition {d.name}")
 
@@ -534,11 +535,16 @@ def _write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
         writer.writerows({k: r.get(k) for k in fields} for r in rows)
 
 
+E4_DEFAULT_VERSION = "E4-v2"  # igual que la versión E4 de configs/preparation-v2.json (configuración por defecto de build)
+
+
 def run_audit(
     *,
     artifact_root: Path | None = None,
     results_dir: Path | None = None,
     cardinality_path: Path | None = None,
+    e4_version: str = E4_DEFAULT_VERSION,
+    check_catalogs: bool = True,
 ) -> dict:
     """Audita y persiste los cuatro reportes; devuelve el JSON (ok=False si falla).
 
@@ -690,7 +696,7 @@ def run_audit(
                 / split
                 / f"{spec.family}__{split}.manifest.json"
             )
-            replacement = artifact_root / "E4-v1" / spec.family / split / path.name
+            replacement = artifact_root / e4_version / spec.family / split / path.name
             if replacement.exists():
                 path = replacement
             builds = [
@@ -945,7 +951,10 @@ def run_audit(
                     resource.RUSAGE_SELF
                 ).ru_maxrss,
             )
-    if serial:
+    if serial and not check_catalogs:
+        print("e4_audit: comparación contra catálogos omitida (--skip-catalog-check); "
+              "los catálogos se derivan de estas piezas después, en el paso catalogs", flush=True)
+    if serial and check_catalogs:
         for filename in sorted({s.catalog for s in specs}):
             families = {s.family for s in specs if s.catalog == filename}
             checks.run(
@@ -1120,11 +1129,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--artifact-root", type=Path)
     parser.add_argument("--results-dir", type=Path)
     parser.add_argument("--cardinality", type=Path)
+    parser.add_argument("--e4-version", default=E4_DEFAULT_VERSION, help="carpeta de piezas E4 vigentes (reemplaza a las de C1..C6)")
+    parser.add_argument(
+        "--skip-catalog-check", action="store_true",
+        help="no comparar con los catálogos del repositorio (solo build --from-scratch, que los regenera después)",
+    )
     args = parser.parse_args(argv)
     report = run_audit(
         artifact_root=args.artifact_root,
         results_dir=args.results_dir,
         cardinality_path=args.cardinality,
+        e4_version=args.e4_version,
+        check_catalogs=not args.skip_catalog_check,
     )
     print(
         f"E4: {'ok' if report['ok'] else 'invalid/blocked'}; {len(report['runs'])} artefactos auditados"

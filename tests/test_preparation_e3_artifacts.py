@@ -7,7 +7,7 @@ import preparation_depth0_artifacts as d0art
 import preparation_products_artifacts as part
 from dm_credit import io
 from dm_credit.preparation import build
-from dm_credit.preparation.assembly import assemble_feature_matrix
+from dm_credit.preparation.assembly import MATRIX_EXCLUSIONS, assemble_feature_matrix
 from dm_credit.preparation.families import depth0
 from dm_credit.preparation.families import products_registry as pr
 from dm_credit.preparation.split import partition_base
@@ -70,15 +70,19 @@ def test_depth0_artifacts_are_accepted_by_the_assembler(data, tmp_path, depth0_p
     artifacts = d0art.build_small_artifacts(tmp_path / "out", *depth0_paths)
     assert len(artifacts) == 6
     got, base = assemble(artifacts, split, tmp_path)
-    assert set(got.columns) == {*base.columns, *d0art.EXPECTED}
-    for name, values in d0art.EXPECTED.items():
+    # D03: la cobertura de static_cb_0 (indicador de era) no entra a la matriz; su contenido sí
+    expected = {n: v for n, v in d0art.EXPECTED.items() if n not in MATRIX_EXCLUSIONS}
+    assert set(got.columns) == {*base.columns, *expected}
+    for name, values in expected.items():
         assert got[name].to_list() == expected_for(values, split), name
     assert_coverage_never_null(got)
-    # cases without a static_cb_0 row keep zero coverage and a null predictor
-    uncovered = got.filter(~pl.col("static_cb_0__source_present"))
+    # cases without a static_cb_0 row keep a null predictor
+    uncovered = got.filter(pl.col("static_cb_0__static_cb_value__first__all").is_null())
     assert uncovered.height > 0
-    assert uncovered["static_cb_0__n_records"].to_list() == [0] * uncovered.height
-    assert uncovered["static_cb_0__static_cb_value__first__all"].null_count() == uncovered.height
+    # la pieza E4 conserva la cobertura completa
+    cb = next(a for a in artifacts if a.family == "static_cb_0" and a.split == split)
+    piece = pl.read_parquet(cb.data_path)
+    assert piece["static_cb_0__n_records"].to_list() == expected_for(d0art.EXPECTED["static_cb_0__n_records"], split)
 
 
 @pytest.mark.parametrize("split", SPLITS)

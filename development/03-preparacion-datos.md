@@ -1,5 +1,7 @@
 # 3. Preparación de datos
 
+> **Versión vigente (v2).** Las cifras de este capítulo corresponden a la reconstrucción `E4-v2`/`E5-v2`/`E6-v2` (`configs/preparation-v2.json`): **122 características (94 predictores y 28 de cobertura)** y vistas de **231** (lineal) y **112** (árboles) predictores. La versión v1 (124 = 94 + 30; 234/114) se conserva como evidencia histórica. El motivo del cambio está en [la evidencia de disponibilidad temporal](../context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md): `person_1__n_contacts__all` mezclaba roles `PE`, `CL` y `EM` y se reemplazó por `person_1__n_contact_persons__all` (solo `PE`), y la cobertura de `static_cb_0` (`n_records`, `source_present`) se excluye de la matriz porque solo varía en las semanas 0-30 y actúa como indicador de época.
+
 > **Estado (13/10/2026): capítulo cerrado (G4).** F5 consolidada con las evidencias finales de E4–E7 y F3/F4/F7; F6 registra la revisión técnica y sus límites en [validación F](../context/03-preparacion-F-validacion.md). Los riesgos de 3.3 y 3.5 se resolvieron en el cierre ([G4](../context/03-preparacion-G4-cierre.md)): la cobertura de productos y registros ahora se filtra por fecha y las columnas constantes se descartan. Todas las cifras salen de una reconstrucción desde cero posterior a esos cambios. Criterios: [backlog](../context/03-preparacion-datos-backlog.md).
 
 ## Resumen
@@ -9,10 +11,10 @@ La ejecución registrada produjo **una matriz de modelado con una fila por caso*
 | Resultado                                     | Valor                                                                     | Evidencia                                                                                                              |
 | --------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | Casos                                         | train 1 332 001 · OOT 194 658 · test 10                                   | `results/preparation/F3_final_checks.csv` (`base_cases`)                                                               |
-| Características                               | 124: 94 predictores y 30 de cobertura                                     | `results/preparation/E5_master_tables.csv`, `C8_feature_catalog.csv`                                                   |
+| Características                               | 122: 94 predictores y 28 de cobertura                                     | `results/preparation/E5_master_tables.csv`, `C8_feature_catalog.csv`                                                   |
 | Familias integradas                           | 12 (incluidas las tablas hijas donde procede)                             | `results/preparation/family_results.csv` (36 filas), `F3_final_checks.csv` (`family_set`)                              |
-| Validación final F3 (E7 desde cero)           | 29/29 correctos, incluidos tres cotejos `published_matrix`                | `results/preparation/integration_checks.csv` = `F3_final_checks.csv`; `E7_manifest.json` = `F3_final_run_manifest.json` |
-| Vistas para el modelado                       | lineal (234 predictores, sin nulos) y de árboles (114, con nulos nativos); constantes en train descartadas | `results/preparation/E6_views.csv`, `matrix_views_spec.csv`                                          |
+| Validación final F3 (E7 desde cero)           | 29/29 correctos, incluidos tres cotejos `published_matrix`                | `results/preparation/integration_checks.csv`; `E7_manifest.json` (`F3_final_checks.csv` y `F3_final_run_manifest.json` conservan la ejecución v1) |
+| Vistas para el modelado                       | lineal (231 predictores, sin nulos) y de árboles (112, con nulos nativos); constantes en train descartadas | `results/preparation/E6_views.csv`, `matrix_views_spec.csv`                                          |
 
 Las cifras citadas proceden de los informes de `results/preparation/` (rutas relativas a la raíz del repositorio), generados por la reconstrucción desde cero del cierre (G4) con el comando de 3.5. Los Parquet grandes de train de E5/E6 quedan fuera de git; se regeneran con ese comando y sus SHA-256 están en `E7_manifest.json`.
 
@@ -110,7 +112,7 @@ Los nombres siguen la gramática congelada en G1: `<fuente>__<variable>__<agrega
 | Edad en años cumplidos a la decisión | `person_1__birth_259d__age_years__all`                | `person`             |
 | Cobertura                            | `<fuente>__n_records`, `<fuente>__source_present`     | todas                |
 
-El catálogo completo (nombre, rol, tipo lógico, columnas fuente, agregación, ventana, regla temporal y descripción) está en `results/preparation/C8_feature_catalog.csv`, con 124 filas.
+El catálogo completo (nombre, rol, tipo lógico, columnas fuente, agregación, ventana, regla temporal y descripción) está en `results/preparation/C8_feature_catalog.csv`, con 124 filas; 122 llegan a la matriz porque las dos coberturas de `static_cb_0` se excluyen al ensamblar (ver la nota inicial).
 
 ### Prevención de fuga de información
 
@@ -211,7 +213,7 @@ Las columnas de control (`case_id`, `WEEK_NUM`, `date_decision`, `MONTH` y `targ
 El comando E7 para reproducir toda la preparación desde los Parquet originales es (ejecución desde cero del cierre: 101,7 s según `results/preparation/E7_manifest.json`, `steps`):
 
 ```bash
-POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation-v2.json --from-scratch   # con carpetas v2 existentes, añadir --force
 ```
 
 Desde cero reconstruyó las 36 piezas E4, las auditó, ensambló E5, ajustó E6 con train y pasó **29 de 29 controles**, incluidos los tres cotejos `published_matrix` de E5 (`results/preparation/integration_checks.csv`, archivado también como `F3_final_checks.csv`; manifiesto `E7_manifest.json`, archivado como `F3_final_run_manifest.json`). `run_metadata.csv` y `final_schema.csv` conservan metadatos y esquema. Los manifiestos e informes guardan rutas absolutas solo en campos informativos; la carga usa rutas relativas y SHA-256, así que para regenerar hay que usar el comando, no esas rutas. La integración sintética se prueba en `tests/test_preparation_g3_integration.py`. El cierre del capítulo está en [G4](../context/03-preparacion-G4-cierre.md).

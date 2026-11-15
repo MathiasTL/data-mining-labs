@@ -663,7 +663,11 @@ def _build_family(
     )
 
 
-_ROW_RULE = "fila válida si tiene al menos un ancla no nula y toda ancla no nula cumple su regla; ancla nula: fila descartada"
+# Coincide con el filtro de _prepare_batch: una ancla nula junto a otra válida conserva la fila.
+_ROW_RULE = (
+    "fila descartada solo si todas sus anclas son nulas o alguna ancla no nula incumple su regla temporal "
+    "(es posterior a date_decision)"
+)
 TEMPORAL_RULES = {
     "credit_bureau_a_1": (
         "lastupdate_1112D (activos) y lastupdate_388D (cerrados) <= date_decision; " + _ROW_RULE

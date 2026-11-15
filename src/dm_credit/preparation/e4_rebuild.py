@@ -3,7 +3,7 @@
 Por defecto solo repara C2/C3 obsoletos por huella de shards. Con ``--all`` reconstruye las 12
 familias en el orden del backlog (§7): la prueba pequeña de cada familia, profundidad 0, productos,
 solicitudes y personas, bureau B, registros fiscales y bureau A al final. Funciona en Linux (``/proc``
-y GNU time) y en macOS (``ps``, ``vm_stat`` y ``/usr/bin/time -l``). Publica en E4-v1. Nunca ejecuta E5/E6.
+y GNU time) y en macOS (``ps``, ``vm_stat`` y ``/usr/bin/time -l``). Publica en ``E4_DEFAULT_VERSION`` (o en la versión de ``--e4-version``). Nunca ejecuta E5/E6.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ import polars as pl
 
 from dm_credit import io
 from dm_credit.preparation.build import BUILDERS, build_family_features
-from dm_credit.preparation.e4 import EXPECTED_ROWS, ROOT, require, sha256_file
+from dm_credit.preparation.e4 import E4_DEFAULT_VERSION, EXPECTED_ROWS, ROOT, require, sha256_file
 from dm_credit.preparation.families import applications_people as ap
 from dm_credit.preparation.families import bureau
 from dm_credit.preparation.split import partition_base
@@ -166,7 +166,9 @@ def build_one(family: str, split: str, output: Path) -> None:
     require(artifact.case_count == base.height, "El builder perdió casos")
 
 
-def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int, *, everything: bool = False) -> list[dict]:
+def rebuild(
+    audit_path: Path, max_rss_mib: int, timeout_seconds: int, *, everything: bool = False, e4_version: str = E4_DEFAULT_VERSION
+) -> list[dict]:
     require(
         os.environ.get("POLARS_MAX_THREADS") == "1" and pl.thread_pool_size() == 1,
         "POLARS_MAX_THREADS=1 obligatorio",
@@ -178,7 +180,7 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int, *, everyth
     )
     jobs = all_jobs() if everything else select_jobs(json.loads(audit_path.read_text()))
     results = ROOT / "results/preparation"
-    log_root = io.data_dir() / "artifacts/preparation/E4-v1/logs"
+    log_root = io.data_dir() / "artifacts/preparation" / e4_version / "logs"
     log_root.mkdir(parents=True, exist_ok=True)
     records_path = results / "E4_builds.json"
     records = json.loads(records_path.read_text()) if records_path.exists() else []
@@ -190,7 +192,7 @@ def rebuild(audit_path: Path, max_rss_mib: int, timeout_seconds: int, *, everyth
                 flush=True,
             )
             continue
-        output = io.data_dir() / "artifacts/preparation/E4-v1" / family / split
+        output = io.data_dir() / "artifacts/preparation" / e4_version / family / split
         manifest = output / f"{family}__{split}.manifest.json"
         # Una segunda ejecución debe auditar la salida publicada, no sobrescribirla.
         require(
@@ -320,6 +322,7 @@ def main() -> None:
         "--worker", nargs=2, metavar=("FAMILY", "SPLIT"), help=argparse.SUPPRESS
     )
     parser.add_argument("--output", type=Path, help=argparse.SUPPRESS)
+    parser.add_argument("--e4-version", default=E4_DEFAULT_VERSION, help="carpeta de salida bajo data/artifacts/preparation")
     parser.add_argument("--all", action="store_true", help="reconstruir las 36 piezas en el orden del backlog")
     args = parser.parse_args()
     require(
@@ -329,7 +332,7 @@ def main() -> None:
         require(args.output is not None, "worker requiere output")
         build_one(*args.worker, args.output)
     else:
-        records = rebuild(args.audit, args.max_rss_mib, args.timeout_seconds, everything=args.all)
+        records = rebuild(args.audit, args.max_rss_mib, args.timeout_seconds, everything=args.all, e4_version=args.e4_version)
         if any_blocked(records):
             raise SystemExit(1)
 

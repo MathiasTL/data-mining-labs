@@ -1,11 +1,13 @@
 # E7 — Manifiesto final y comando único de reproducción
 
+> **Nota v2.** Las cifras y tiempos de este registro son de la ejecución v1. La reconstrucción vigente `E4-v2`/`E5-v2`/`E6-v2` (`configs/preparation-v2.json`) tiene **122 = 94 + 28** características en la matriz y vistas de **231/112** predictores; reemplaza `person_1__n_contacts__all` por `person_1__n_contact_persons__all` (solo rol `PE`) y excluye la cobertura de `static_cb_0`. Motivo: [evidencia de disponibilidad temporal](../context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md). El paso `catalogs` (solo con `--from-scratch`) regenera los catálogos de familia y C8 desde las piezas E4, de modo que un solo comando reproduce todo. En `--from-scratch` el orden es `e4_rebuild`, `e4_checkpoints`, `e4_audit` (con `--skip-catalog-check`: valida las piezas contra el código sin comparar catálogos), `catalogs` y el resto. La configuración por defecto es `configs/preparation-v2.json`; `--from-scratch` exige `--force` para borrar carpetas existentes, y `configs/preparation.json` (v1) está marcada `protected` y nunca se borra.
+
 > **Estado: cerrada el 13/10/2026** (Andre, P3, en lugar de Nick).
 
 ## El comando
 
 ```bash
-POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch
+POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation-v2.json --from-scratch
 ```
 
 Reconstruye toda la preparación desde los Parquet originales, en serie y cada paso en su propio proceso:

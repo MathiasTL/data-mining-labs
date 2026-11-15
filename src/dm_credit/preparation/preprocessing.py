@@ -28,6 +28,8 @@ from typing import Any, Mapping
 
 import polars as pl
 
+from dm_credit.preparation.assembly import MATRIX_EXCLUSIONS
+
 from dm_credit.preparation.coercion import LOGICAL_TYPES, coerce_to_logical
 from dm_credit.preparation.outliers import RangePolicy, fit_range_policy
 
@@ -72,13 +74,15 @@ def build_spec_from_catalog(
 
     Numéricas: ``int``/``float``. Categóricas: ``string``/``bool``. Las
     ``date`` no entran como predictores directos (en el capítulo 03 solo viven
-    como antigüedad/recencia ya agregada).
+    como antigüedad/recencia ya agregada). Las características de
+    ``assembly.MATRIX_EXCLUSIONS`` no llegan a la matriz y por tanto tampoco al spec.
     """
     required = {"name", "logical_type"}
     if required - set(catalog.columns):
         raise ValueError(
             f"catalog is missing columns {sorted(required - set(catalog.columns))}"
         )
+    catalog = catalog.filter(~pl.col("name").is_in(list(MATRIX_EXCLUSIONS)))
     numeric = tuple(catalog.filter(pl.col("logical_type").is_in(["int", "float"]))["name"].to_list())
     categorical = tuple(catalog.filter(pl.col("logical_type").is_in(["string", "bool"]))["name"].to_list())
     if catalog.filter(pl.col("logical_type") == "date").height:

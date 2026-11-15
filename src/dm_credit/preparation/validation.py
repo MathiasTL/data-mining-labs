@@ -40,7 +40,7 @@ CONTROLS = ("case_id", "WEEK_NUM", "date_decision", "MONTH", "target")
 EXPECTED_REAL = {"train": (1_332_001, 43_734), "oot": (194_658, 4_260)}
 ROOT = Path(__file__).resolve().parents[3]
 RESULTS = ROOT / "results" / "preparation"
-ARTIFACT_SETS = ("E4-v1",)  # piezas oficiales de la ejecución real E4
+ARTIFACT_SETS = ("E4-v2",)  # piezas oficiales de la ejecución real E4
 
 
 def _row(check: str, split: str, ok: bool, detail: str) -> dict:

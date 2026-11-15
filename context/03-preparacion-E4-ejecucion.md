@@ -1,5 +1,7 @@
 # E4 — Auditoría y ejecución real secuencial
 
+> **Nota v2.** Este registro es histórico (v1: 124 = 94 + 30; vistas 234/114). La reconstrucción vigente `E4-v2`/`E5-v2`/`E6-v2` (`configs/preparation-v2.json`) tiene **122 = 94 + 28** características en la matriz y vistas de **231/112** predictores; reemplaza `person_1__n_contacts__all` por `person_1__n_contact_persons__all` (solo rol `PE`) y excluye la cobertura de `static_cb_0`. Motivo: [evidencia de disponibilidad temporal](../context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md).
+
 **Estado: cerrada el 13/10/2026** (Andre, P3): las 36 piezas se reconstruyeron en serie y los dos auditores pasan. Las secciones 1 a 5 conservan el intento anterior de Nick, bloqueado en `applprev/train` por memoria; el cierre está en la **sección 6**.
 Auditoría y reconstrucciones realizadas el 13/10/2026, después de G3 (`d40daba`),
 sobre el checkout `f59d5ac` más los módulos E4 de este cambio. **No se ejecutaron

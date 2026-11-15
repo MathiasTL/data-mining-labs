@@ -91,9 +91,9 @@ def fit_and_transform(
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--masters", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E5-v1")
+    ap.add_argument("--masters", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E5-v2")
     ap.add_argument("--catalog", type=Path, default=RESULTS / "C8_feature_catalog.csv")
-    ap.add_argument("--output-dir", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E6-v1")
+    ap.add_argument("--output-dir", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E6-v2")
     ap.add_argument("--report", type=Path, default=RESULTS / "E6_views.csv")
     ap.add_argument("--cutoff-week", type=int, default=74)
     args = ap.parse_args()

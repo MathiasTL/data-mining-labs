@@ -27,7 +27,7 @@ from dm_credit.preparation.columns import validate_predictor_columns
 KEY = "case_id"
 FORMAT_VERSION = 1
 # Único comando de reproducción del pipeline de preparación (E7); lo usan build y validation.
-REPRODUCE_COMMAND = "POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation.json --from-scratch"
+REPRODUCE_COMMAND = "POLARS_MAX_THREADS=1 uv run -m dm_credit.preparation.build --config configs/preparation-v2.json --from-scratch"
 SPLITS = ("train", "oot", "test")
 ROLES = ("predictor", "cobertura")
 WINDOWS = ("all", "3m", "6m", "12m", "source_defined")
@@ -141,9 +141,15 @@ def describe_features(
     *,
     temporal_rule: str,
     source_columns: Mapping[str, str] | None = None,
+    descriptions: Mapping[str, str] | None = None,
 ) -> tuple[FeatureDefinition, ...]:
-    """Una ``FeatureDefinition`` por columna (sin ``case_id``), en el orden de la tabla."""
+    """Una ``FeatureDefinition`` por columna (sin ``case_id``), en el orden de la tabla.
+
+    ``descriptions`` reemplaza la descripción genérica de las características que la necesitan
+    más precisa (por nombre); el resto conserva ``<agregación> de <variable> en <tabla>``.
+    """
     source_columns = source_columns or {}
+    descriptions = descriptions or {}
     out = []
     for name in (c for c in frame.columns if c != KEY):
         p = parse_feature_name(name)
@@ -166,7 +172,8 @@ def describe_features(
                 aggregation=p["aggregation"],
                 window=p["window"],
                 temporal_rule=temporal_rule,
-                description=f"{what} en {p['source_table']} (ventana {p['window']})",
+                description=descriptions.get(name)
+                or f"{what} en {p['source_table']} (ventana {p['window']})",
             )
         )
     return tuple(out)

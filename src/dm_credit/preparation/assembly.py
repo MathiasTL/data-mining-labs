@@ -28,6 +28,17 @@ from dm_credit.preparation.contracts import (
 
 SCREENING_MARKER = "screening"
 
+_D03 = "context/auditoria-variables-predictoras/04-evidencia-disponibilidad-temporal.md (D03)"
+# Características que existen en las piezas E4 pero nunca entran a la matriz (E5/E6). Declarativo: nombre -> motivo.
+MATRIX_EXCLUSIONS: dict[str, str] = {
+    "static_cb_0__n_records": (
+        f"cobertura de static_cb_0 como indicador de era: la presencia solo varía en las semanas 0-30; ver {_D03}"
+    ),
+    "static_cb_0__source_present": (
+        f"cobertura de static_cb_0 como indicador de era: la presencia solo varía en las semanas 0-30; ver {_D03}"
+    ),
+}
+
 
 def _reject_screening_artifact(artifact: FamilyFeatureArtifact) -> None:
     """Screening artifacts (leakage-screen candidates) never enter a feature matrix.
@@ -126,6 +137,10 @@ def assemble_feature_matrix(
             raise ValueError(f"duplicate family artifact {artifact.family!r}")
         seen_families.add(artifact.family)
         family_frame = _read_verified_artifact(artifact, split)
+        dropped = [c for c in family_frame.columns if c in MATRIX_EXCLUSIONS]
+        if dropped:  # la pieza E4 conserva la columna; solo se excluye de la matriz
+            family_frame = family_frame.drop(dropped)
+        kept_definitions = tuple(d for d in artifact.feature_schema if d.name not in MATRIX_EXCLUSIONS)
         names = family_frame.columns[1:]
         validate_predictor_columns(names)
         collisions = seen_names.intersection(names)
@@ -133,8 +148,8 @@ def assemble_feature_matrix(
             raise ValueError(
                 f"duplicate or reserved feature names: {sorted(collisions)}"
             )
-        if len({definition.name for definition in artifact.feature_schema}) != len(
-            artifact.feature_schema
+        if len({definition.name for definition in kept_definitions}) != len(
+            kept_definitions
         ):
             raise ValueError(
                 f"family {artifact.family!r}: duplicate feature definitions"
@@ -154,7 +169,7 @@ def assemble_feature_matrix(
             )
         result = joined
         seen_names.update(names)
-        definitions.extend(artifact.feature_schema)
+        definitions.extend(kept_definitions)
 
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

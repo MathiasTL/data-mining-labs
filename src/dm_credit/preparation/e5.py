@@ -69,7 +69,7 @@ def _assemble(bases, ordered, output_dir: Path, rows: list, matrices: dict, writ
         written += [art.data_path, art.manifest_path]
         matrix = pl.read_parquet(art.data_path)
         matrices[split] = matrix
-        definitions = [d for a in ordered[split] for d in a.feature_schema]
+        definitions = list(art.feature_schema)  # solo lo que llegó a la matriz (sin MATRIX_EXCLUSIONS)
         predictors = sum(d.role == "predictor" for d in definitions)
         features = matrix.width - sum(c in CONTROLS for c in matrix.columns)
         rows.append(
@@ -91,8 +91,8 @@ def _assemble(bases, ordered, output_dir: Path, rows: list, matrices: dict, writ
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--artifacts", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E4-v1")
-    ap.add_argument("--output-dir", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E5-v1")
+    ap.add_argument("--artifacts", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E4-v2")
+    ap.add_argument("--output-dir", type=Path, default=io.data_dir() / "artifacts" / "preparation" / "E5-v2")
     ap.add_argument("--report", type=Path, default=RESULTS / "E5_master_tables.csv")
     ap.add_argument("--cutoff-week", type=int, default=74)
     args = ap.parse_args()

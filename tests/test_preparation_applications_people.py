@@ -168,9 +168,56 @@ def test_people_one_row_per_covered_case(people):
 
 def test_people_coverage_and_contacts(people):
     assert get(people, 1, "person_1__n_records") == 2
-    assert get(people, 1, "person_1__n_contacts__all") == 1
-    assert get(people, 2, "person_1__n_contacts__all") == 0
+    assert get(people, 1, "person_1__n_contact_persons__all") == 0  # el fixture solo tiene roles AA/BB, ninguno PE
+    assert get(people, 2, "person_1__n_contact_persons__all") == 0
     assert people["person_1__source_present"].to_list() == [True] * 5
+
+
+def _person_1_with_roles(rows):
+    return pl.DataFrame(
+        rows,
+        schema={
+            "case_id": pl.Int64,
+            "num_group1": pl.Int64,
+            "sex_738L": pl.String,
+            "mainoccupationinc_384A": pl.Float64,
+            "empl_employedfrom_271D": pl.String,
+            "birth_259D": pl.String,
+            "role_1084L": pl.String,
+        },
+        orient="row",
+    )
+
+
+def test_n_contact_persons_counts_only_role_pe_beyond_the_main_person():
+    # D02: num_group1 >= 1 mezcla PE (persona de contacto), CL (otro teléfono del cliente) y EM (empleador)
+    custom = _person_1_with_roles(
+        [
+            (1, 0, "M", 1000.0, "2019-01-01", "1985-04-12", "AA"),
+            (1, 1, None, None, None, None, "PE"),
+            (1, 2, None, None, None, None, "PE"),
+            (1, 3, None, None, None, None, "CL"),
+            (1, 4, None, None, None, None, "EM"),
+            (1, 5, None, None, None, None, None),  # rol nulo: no es PE
+            (2, 0, "F", 800.0, "2020-01-01", "1990-01-01", "PE"),  # la persona principal no cuenta
+        ]
+    )
+    person_1 = pl.concat([fx.person_1().filter(~pl.col("case_id").is_in([1, 2])), custom])
+    result = ap.aggregate_people(fx.base(), person_1, fx.person_2(), PEOPLE_CONFIG)
+    assert get(result, 1, "person_1__n_contact_persons__all") == 2
+    assert get(result, 2, "person_1__n_contact_persons__all") == 0
+    assert get(result, 1, "person_1__n_records") == 6  # la cobertura sigue contando todas las filas
+
+
+def test_old_n_contacts_feature_is_gone(people):
+    assert "person_1__n_contacts__all" not in people.columns
+    assert "person_1__n_contact_persons__all" in people.columns
+
+
+def test_person_1_loader_reads_the_role_column_even_without_role_features():
+    cfg = ap.PeopleConfig(main_numeric=("mainoccupationinc_384A",))
+    cols1, _ = ap._people_columns(cfg)
+    assert "role_1084L" in cols1
 
 
 def test_main_person_attributes(people):
@@ -272,3 +319,30 @@ def test_child_tables_have_their_own_source_present(apps, people):
     assert get(no_kids, 2, "applprev_2__source_present") is False
     assert get(no_kids, 1, "applprev_2__source_present") is True
     assert [get(people, c, "person_2__source_present") for c in (1, 2, 3, 4, 5)] == [True, False, True, False, False]
+
+
+# ------------------------------------------------------------- catálogo: descripciones (D01/D02)
+def _described(frame):
+    defs = ap.describe_family_features(frame, temporal_rule="regla")
+    return {d.name: d.description for d in defs}
+
+
+def test_catalog_describes_contact_persons_precisely(people):
+    text = _described(people)["person_1__n_contact_persons__all"]
+    for fragment in ("num_group1 >= 1", "role_1084L", "PE", "solicitud actual"):
+        assert fragment in text
+
+
+def test_catalog_describes_the_applprev_2_denominator(apps):
+    descriptions = _described(apps)
+    for name in (
+        "applprev_2__children_per_parent_max__all",
+        "applprev_2__children_per_parent_mean__all",
+        "applprev_2__n_records",
+    ):
+        text = descriptions[name]
+        for fragment in ("applprev_1", "creationdate_885D <= date_decision", ">= 1", "D01", "date_decision"):
+            assert fragment in text, (name, fragment)
+    assert "corta applprev_2" in descriptions["applprev_2__n_records"]
+    # el resto de características conserva la descripción genérica
+    assert descriptions["applprev_1__n_records"] == "n_records en applprev_1 (ventana all)"
