@@ -8,6 +8,10 @@ dependencies = [
     "pyarrow>=15",
     "numpy>=1.26",
     "scikit-learn>=1.4",
+    "lightgbm>=4.3",
+    "shap>=0.46",
+    "numba>=0.60",
+    "river>=0.21",
 ]
 
 [project.optional-dependencies]
