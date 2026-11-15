@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "timestamp": "2026-11-14T19:55:30",
+  "matrix_sha256": {
+    "train": "8ed7f9a230c5c83e9f2d9a3ace46ca61c002f948bdb11b9ad08a99273924c96a",
+    "oot": "ea6bb316b9480fbd965c2c97b980c73eafe184cba3f4ec559dec756e0b4bb91f"
+  },
+  "selection_sha256": "834fe467d2f5f3faa5f8947b265bcb56c59ead38d3f8bcc76957f7b490374267",
+  "excluded_groups": {
+    "logistic": [],
+    "lightgbm": []
+  }
+}
