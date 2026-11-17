@@ -1,5 +1,7 @@
 # Fuentes bibliográficas para justificar las técnicas del modelo
 
+**Selección para el informe:** Barddal et al. (2020), Chen et al. (2024), Dumitrescu et al. (2022), Hlongwane et al. (2024) y Bellotti y Crook (2013). Los otros artículos del catálogo quedan como fuentes de consulta, no como parte de esta selección.
+
 | Aspecto | Información |
 |---|---|
 | Alcance | Diez referencias mencionadas en la conversación que corresponden a revistas Q1 o Q2 y pueden sustentar las técnicas del proyecto de riesgo crediticio. |
@@ -13,7 +15,7 @@
 |---|---|---|---|---|
 | 1 | **Dumitrescu, E., Hué, S., Hurlin, C. y Tokpavi, S. (2022).** [*Machine learning for credit scoring: Improving logistic regression with non-linear decision-tree effects.*](https://doi.org/10.1016/j.ejor.2021.06.053) | *European Journal of Operational Research*, 297(3), 1178–1192. | **Q1, JCR 2024.** | Regresión logística como referencia interpretable y comparación con técnicas que capturan relaciones no lineales. Su propuesta concreta es una regresión logística enriquecida con efectos de árboles. |
 | 2 | **Bárcena Saavedra, C. A. P., Fachini-Gomes, J. B., Gomes, E. M. de C. y Kimura, H. (2024).** [*Probability of default for lifetime credit loss for IFRS 9 using machine learning competing risks survival analysis models.*](https://doi.org/10.1016/j.eswa.2024.123607) | *Expert Systems with Applications*, 249, 123607. | **Q1, JCR 2024.** | Importancia de estimar la probabilidad de incumplimiento. Estudia supervivencia y PD de vida; su formulación no equivale directamente a nuestra clasificación binaria. |
-| 3 | **Bellotti, A. y Crook, J. (2014).** [*Forecasting and stress testing credit card default using dynamic models.*](https://www.sciencedirect.com/science/article/pii/S0169207013000502) | *International Journal of Forecasting*, 30(1), 143–154. | **Q1, SJR 2024.** | Evaluación temporal del riesgo y consideración de cambios en el comportamiento de pago. No establece nuestro corte específico en la semana 74. |
+| 3 | **Bellotti, A. y Crook, J. (2013).** [*Forecasting and stress testing credit card default using dynamic models.*](https://doi.org/10.1016/j.ijforecast.2013.04.003) | *International Journal of Forecasting*, 29(4), 563–574. | **Q1, SJR 2024.** | Evaluación temporal del riesgo y consideración de cambios en el comportamiento de pago. No establece nuestro corte específico en la semana 74. |
 | 4 | **Ayari, H., Guetari, R. y Kraïem, N. (2026).** [*Machine learning powered financial credit scoring: A systematic literature review.*](https://doi.org/10.1007/s10462-025-11416-2) | *Artificial Intelligence Review*, 59, 13. | **Q1, SJR 2024.** | Marco general para seleccionar y comparar modelos de crédito, incluidos ensambles, y discutir desempeño e interpretabilidad. |
 | 5 | **Chen, Y., Calabrese, R. y Martin-Barragan, B. (2024).** [*Interpretable machine learning for imbalanced credit scoring datasets.*](https://doi.org/10.1016/j.ejor.2023.06.036) | *European Journal of Operational Research*, 312(1), 357–372. | **Q1, JCR 2024.** | Uso y evaluación de **SHAP y LIME bajo desbalance de clases**. Sustenta revisar la estabilidad de las explicaciones cuando hay pocos incumplimientos. |
 | 6 | **Hlongwane, R., Ramaboa, K. y Mongwe, W. (2024).** [*A novel framework for enhancing transparency in credit scoring: Leveraging Shapley values for interpretable credit scorecards.*](https://doi.org/10.1371/journal.pone.0308718) | *PLOS ONE*, 19(8), e0308718. | **Q2, JCR 2024.** | Aplicación de valores de Shapley a **Random Forest, XGBoost, LightGBM y CatBoost** para construir scorecards interpretables. La grafía del segundo apellido se recoge de la [corrección publicada en 2025](https://doi.org/10.1371/journal.pone.0329901). |
@@ -34,14 +36,17 @@
 | *Scientific Reports* | JCR 2024, Q1. | [Universidad Pontificia Comillas, Instituto de Investigación Tecnológica: información de la revista](https://www.iit.comillas.edu/publicacion/info_revista/en/379/Scientific_Reports). |
 | *Neural Computing and Applications* | SJR 2024, Q1. | [Universidad Pontificia Comillas, Instituto de Investigación Tecnológica: información de la revista](https://www.iit.comillas.edu/publicacion/info_revista/es/651/Neural_Computing_and_Applications). |
 
-## Prioridad para justificar la propuesta
+## Selección para justificar el proyecto
 
-| Decisión del proyecto | Referencias prioritarias | Aplicación |
-|---|---|---|
-| Clasificación y comparación de modelos | Dumitrescu et al. (2022) y Ayari et al. (2026). | Justificar una referencia interpretable mediante regresión logística y la comparación con modelos no lineales y ensambles. |
-| Interpretabilidad con SHAP | Chen et al. (2024) y Hlongwane et al. (2024). | Explicar las predicciones de los modelos y evaluar la estabilidad de las explicaciones bajo desbalance de clases. |
-| Evaluación temporal y monitoreo con ADWIN | Bellotti y Crook (2014) y Barddal et al. (2020). | Sustentar la evaluación en el tiempo y el estudio de métodos de monitoreo frente a cambios en datos y desempeño. |
-| Concepto de probabilidad de incumplimiento (PD) | Bárcena Saavedra et al. (2024). | Fundamentar la relevancia de la PD, aclarando la diferencia entre el enfoque de supervivencia del artículo y nuestro clasificador binario. |
+Los números entre corchetes remiten al catálogo anterior y a las citas de los capítulos de modelado y evaluación. El orden siguiente indica relevancia para los resultados actuales del proyecto.
+
+| Prioridad | Artículo | Uso en el proyecto | Alcance de la cita |
+|---:|---|---|---|
+| 1 | Barddal et al. (2020) [10] | Evaluación temporal y monitoreo de cambios en modelos de crédito. | Estudia también aprendizaje adaptativo, que no se implementó aquí; nuestras alertas ADWIN no se activaron. |
+| 2 | Chen et al. (2024) [5] | Estabilidad de explicaciones SHAP ante el desbalance de clases. | Nuestra prueba repite muestras para el ranking SHAP, pero no varía el grado de desbalance como el artículo. |
+| 3 | Dumitrescu et al. (2022) [1] | Comparación de la regresión logística interpretable con métodos que capturan relaciones no lineales. | Propone PLTR; nuestro modelo no lineal es LightGBM. |
+| 4 | Hlongwane et al. (2024) [6] | Explicación de modelos de crédito basados en árboles, incluido LightGBM, mediante valores de Shapley. | Su propuesta construye scorecards; nuestro proyecto todavía no implementa una. |
+| 5 | Bellotti y Crook (2013) [3] | Evaluación de pronósticos y tasas de incumplimiento en periodos posteriores. | Usa supervivencia con cuentas de tarjetas y variables macroeconómicas, no nuestro clasificador ni el mismo protocolo OOT. |
 
 ## Referencias fundacionales complementarias
 

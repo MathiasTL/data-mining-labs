@@ -51,6 +51,8 @@ En LightGBM, el Gini semanal medio es 0,503 y la peor semana es la 77 (0,437). N
 
 El modelo **sobreestima el riesgo en un 62 %**. El Brier apenas mejora al de predecir la tasa base. La causa es temporal: la tasa de incumplimiento observada cae de 4,8 % (semanas 60 a 63) a 2,2 % desde la semana 66, mientras el calibrador isotónico se ajustó con todas las semanas 60 a 73 mezcladas.
 
+Bellotti y Crook [3] comparan tasas de incumplimiento estimadas y observadas en meses posteriores, un antecedente para examinar la escala del riesgo por periodo. Su modelo de supervivencia con cuentas de tarjetas no es equivalente al clasificador utilizado aquí.
+
 | Semanas | Tasa observada | Riesgo predicho, LightGBM calibrado | Predicho / observado |
 |---|---:|---:|---:|
 | 60 a 63 | 4,8 % | 4,0 % | 0,83 |

@@ -8,11 +8,11 @@
 |---|---|---|---|
 | Predicción constante | Referencia mínima | Predice la tasa de incumplimiento del bloque de ajuste; fija el piso (Gini 0) | No aplica |
 | Regresión logística | Referencia interpretable | Estándar en scoring de crédito; coeficientes legibles [1] | Vista lineal: imputación por mediana con indicador de faltante, escalado estándar, codificación one-hot con vocabulario congelado |
-| LightGBM | Candidato no lineal | Captura interacciones y no linealidades en datos tabulares grandes; usado en scoring con explicaciones SHAP [4], [6] | Vista de árboles: nulos nativos y categóricas nativas con vocabulario congelado |
+| LightGBM | Candidato no lineal | Captura interacciones y no linealidades en datos tabulares grandes; usado en scoring con explicaciones SHAP [6] | Vista de árboles: nulos nativos y categóricas nativas con vocabulario congelado |
 
 ### Criterio de elección de técnicas
 
-Los datos son tabulares, con 1,33 millones de solicitudes en desarrollo, 112 a 231 predictores según la vista, muchos faltantes estructurales y una tasa de incumplimiento cercana al 3,4 %. La literatura recomienda comparar una regresión logística interpretable con un modelo que capture efectos no lineales [1], [4]. LightGBM cumple ese papel con bajo costo de cómputo en una máquina de 16 GB. Una red neuronal se descartó para esta versión: aporta poca ventaja esperada en datos tabulares y complica la interpretación [9].
+Los datos son tabulares, con 1,33 millones de solicitudes en desarrollo, 112 a 231 predictores según la vista, muchos faltantes estructurales y una tasa de incumplimiento cercana al 3,4 %. La literatura motiva comparar una regresión logística interpretable con un modelo que capture efectos no lineales [1], [6]. LightGBM cumple ese papel con bajo costo de cómputo en una máquina de 16 GB. Una red neuronal quedó fuera de esta versión por el alcance y los recursos disponibles para entrenar y explicar los modelos.
 
 Las referencias numeradas están en [referencias técnicas](../docs/referencias-tecnicas-modelado.md).
 
