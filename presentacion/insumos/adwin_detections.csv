@@ -1,0 +1,9 @@
+stream,index,WEEK_NUM
+score,18000,67
+score,30000,71
+score,125000,82
+score,151000,85
+score,211500,89
+logloss,44500,73
+logloss,180500,87
+logloss,229500,90

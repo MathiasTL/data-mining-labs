@@ -1,0 +1,10 @@
+{"stage": "select", "model": "Logística L2", "config": "C=0.01", "val_auc": 0.7071111470057717, "iters": 43, "seconds": 2.6}
+{"stage": "select", "model": "Logística L2", "config": "C=0.1", "val_auc": 0.7074409772728545, "iters": 51, "seconds": 2.6}
+{"stage": "select", "model": "Logística L2", "config": "C=1.0", "val_auc": 0.7083827653144692, "iters": 57, "seconds": 2.8}
+{"stage": "refit", "model": "Logística L2", "config": "C=1.0", "seconds": 6.1}
+{"stage": "select", "model": "LightGBM", "config": "leaves=31", "val_auc": 0.7395596873250807, "trees": 479, "seconds": 15.4}
+{"stage": "select", "model": "LightGBM", "config": "leaves=63", "val_auc": 0.7411367203678313, "trees": 173, "seconds": 11.1}
+{"stage": "refit", "model": "LightGBM", "config": "leaves=63, trees=173", "seconds": 8.8}
+{"stage": "select", "model": "Random Forest", "config": "255 hojas, 300 árboles", "val_auc": 0.7261418927620247, "seconds": 29.2}
+{"stage": "refit", "model": "Random Forest", "config": "255 hojas, 300 árboles", "seconds": 29.6}
+{"stage": "shap", "top10_overlap": 8, "spearman_rank": 0.9487979133590383, "example_case_id": 989319, "example_score": 0.37768858643434805}
